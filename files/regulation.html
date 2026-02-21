@@ -7,125 +7,111 @@
 <meta name="description" content="Regulatory news: SEC, FINRA, CFTC, MiFID, NMS plan updates, compliance deadlines and enforcement actions.">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
-    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
-    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--paper); color:var(--ink); font-family:'IBM Plex Sans',sans-serif; min-height:100vh; }
-  .ticker-wrap { background:var(--ink); color:var(--accent); padding:7px 0; overflow:hidden; position:relative; }
-  .ticker-wrap::before,.ticker-wrap::after { content:''; position:absolute; top:0; bottom:0; width:60px; z-index:2; }
-  .ticker-wrap::before { left:0; background:linear-gradient(90deg,var(--ink),transparent); }
-  .ticker-wrap::after  { right:0; background:linear-gradient(-90deg,var(--ink),transparent); }
-  .ticker { display:flex; animation:ticker 40s linear infinite; white-space:nowrap; }
-  .ticker-item { font-family:'IBM Plex Mono',monospace; font-size:11px; padding:0 32px; letter-spacing:0.05em; }
-  .ticker-item .up { color:#00cc66; } .ticker-item .down { color:#ff4444; }
-  @keyframes ticker { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
-  .masthead { background:var(--cream); border-bottom:3px solid var(--ink); }
-  .masthead-top { display:flex; align-items:center; justify-content:space-between; padding:20px 48px 16px; border-bottom:1px solid var(--rule); }
-  .date-line { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
-  .site-title { font-family:'Playfair Display',serif; font-size:clamp(32px,5vw,58px); font-weight:900; letter-spacing:-0.02em; line-height:1; text-align:center; text-decoration:none; color:var(--ink); }
-  .site-title span { color:var(--accent); }
-  .tagline { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); text-align:right; letter-spacing:0.1em; text-transform:uppercase; line-height:1.6; }
-  nav { display:flex; align-items:center; padding:0 48px; border-bottom:1px solid var(--rule); }
-  .nav-item { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; padding:10px 18px; cursor:pointer; transition:background 0.15s,color 0.15s; color:var(--ink); border:none; background:none; font-family:'IBM Plex Sans',sans-serif; border-right:1px solid var(--rule); text-decoration:none; display:inline-block; }
-  .nav-item:first-child { border-left:1px solid var(--rule); }
-  .nav-item.active,.nav-item:hover { background:var(--ink); color:var(--accent); }
-  .nav-right { margin-left:auto; display:flex; align-items:center; gap:16px; }
-  .search-box { background:transparent; border:1px solid var(--rule); padding:5px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink); border-radius:2px; width:180px; }
-  .search-box:focus { outline:none; border-color:var(--accent); }
-  .search-box::placeholder { color:var(--muted); }
-  .page-banner { background:var(--ink); color:var(--cream); padding:20px 48px; border-bottom:3px solid var(--accent); }
-  .page-banner-inner { max-width:1280px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
-  .page-banner-title { font-family:'Playfair Display',serif; font-size:clamp(20px,3vw,32px); font-weight:700; }
-  .page-banner-title span { color:var(--accent); }
-  .page-banner-desc { font-family:'IBM Plex Mono',monospace; font-size:10px; color:#a09880; margin-top:5px; letter-spacing:0.06em; }
-  .page-banner-meta { font-family:'IBM Plex Mono',monospace; font-size:10px; color:#a09880; display:flex; align-items:center; gap:8px; }
-  .live-dot-sm { width:6px; height:6px; border-radius:50%; background:var(--red); animation:pulse 2s infinite; }
-  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
-  .container { max-width:1280px; margin:0 auto; padding:0 48px; }
-  .layout { display:grid; grid-template-columns:1fr 320px; gap:0; border-left:1px solid var(--border); border-right:1px solid var(--border); background:var(--surface); }
-  .main-col { border-right:1px solid var(--border); padding:32px; }
-  .side-col { padding:24px; }
-  .section-head { display:flex; align-items:center; gap:12px; margin-bottom:24px; padding-bottom:10px; border-bottom:2px solid var(--ink); }
-  .section-head h2 { font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.15em; }
-  .section-line { flex:1; height:1px; background:var(--rule); }
-  .live-dot { width:7px; height:7px; border-radius:50%; background:var(--red); animation:pulse 2s infinite; flex-shrink:0; }
-  .hero-card { padding:0 0 24px 0; border-bottom:2px solid var(--ink); margin-bottom:24px; min-height:120px; }
-  .hero-label { display:inline-block; background:var(--red); color:white; font-size:9px; font-weight:600; font-family:'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:0.15em; padding:3px 8px; margin-bottom:10px; }
-  .hero-title { font-family:'Playfair Display',serif; font-size:clamp(24px,3vw,34px); font-weight:900; line-height:1.2; margin-bottom:10px; color:var(--ink); }
-  .hero-desc { font-size:15px; line-height:1.7; color:var(--muted); margin-bottom:12px; }
-  .hero-meta { display:flex; align-items:center; gap:12px; font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); }
-  .news-grid { display:grid; gap:0; }
-  .news-card { padding:20px 0; border-bottom:1px solid var(--border); transition:all 0.15s; text-decoration:none; color:inherit; display:block; }
-  .news-card:hover { background:var(--paper); padding-left:8px; }
-  .news-meta { display:flex; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap; }
-  .news-source { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:500; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-dark); }
-  .news-dot { color:var(--rule); font-size:10px; }
-  .news-time { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); }
-  .news-category { font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; padding:2px 6px; border-radius:2px; background:var(--ink); color:var(--accent); font-family:'IBM Plex Mono',monospace; }
-  .news-title { font-family:'Playfair Display',serif; font-size:19px; font-weight:700; line-height:1.3; margin-bottom:6px; color:var(--ink); }
-  .news-card:hover .news-title { color:var(--accent-dark); }
-  .news-desc { font-size:13px; line-height:1.6; color:var(--muted); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-  .sidebar-section { margin-bottom:32px; }
-  .sidebar-head { font-family:'IBM Plex Sans',sans-serif; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.15em; padding-bottom:8px; border-bottom:2px solid var(--ink); margin-bottom:16px; }
-  .sidebar-item { display:flex; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); text-decoration:none; color:inherit; }
-  .sidebar-item:hover .sidebar-title { color:var(--accent-dark); }
-  .sidebar-num { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; color:var(--rule); line-height:1; min-width:28px; }
-  .sidebar-title { font-family:'Playfair Display',serif; font-size:14px; font-weight:700; line-height:1.3; transition:color 0.15s; }
-  .sidebar-meta { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-top:3px; }
-  .topic-tag { display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:10px; padding:4px 10px; border:1px solid var(--rule); border-radius:2px; color:var(--muted); margin:3px; cursor:pointer; transition:all 0.12s; text-decoration:none; }
-  .topic-tag:hover { background:var(--ink); color:var(--accent); border-color:var(--ink); }
-  .newsletter { background:var(--ink); color:white; padding:20px; border-radius:2px; }
-  .newsletter h3 { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; margin-bottom:6px; }
-  .newsletter p { font-size:12px; color:#aaa; margin-bottom:14px; line-height:1.5; }
-  .newsletter input { width:100%; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:9px 12px; font-family:'IBM Plex Mono',monospace; font-size:12px; margin-bottom:8px; border-radius:2px; }
-  .newsletter input::placeholder { color:#666; }
-  .newsletter input:focus { outline:none; border-color:var(--accent); }
-  .newsletter button { width:100%; background:var(--accent); color:var(--ink); border:none; padding:9px; font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; cursor:pointer; border-radius:2px; transition:background 0.2s; }
-  .newsletter button:hover { background:var(--accent-dark); color:white; }
-  footer { background:var(--ink); color:#aaa; padding:40px 48px; }
-  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; max-width:1280px; margin:0 auto 32px; }
-  .footer-brand { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; color:white; margin-bottom:10px; }
-  .footer-brand span { color:var(--accent); }
-  .footer-desc { font-size:12px; line-height:1.7; max-width:260px; }
-  .footer-col h4 { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; color:white; margin-bottom:12px; font-family:'IBM Plex Sans',sans-serif; }
-  .footer-col a { display:block; font-size:12px; color:#888; text-decoration:none; margin-bottom:7px; transition:color 0.15s; }
-  .footer-col a:hover { color:var(--accent); }
-  .footer-bottom { border-top:1px solid #222; padding-top:20px; font-family:'IBM Plex Mono',monospace; font-size:10px; display:flex; justify-content:space-between; max-width:1280px; margin:0 auto; }
-  @media (max-width:900px) {
-    .layout { grid-template-columns:1fr; }
-    .side-col { border-top:2px solid var(--ink); }
-    .container,nav,.masthead-top,footer,.page-banner { padding-left:20px; padding-right:20px; }
-    .main-col { padding:20px; }
-    .footer-grid { grid-template-columns:1fr 1fr; }
-    .masthead-top { flex-direction:column; gap:12px; text-align:center; }
-    .tagline { text-align:center; }
-  }
-  .fade-in { animation:fadeIn 0.4s ease forwards; }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  :root{--ink:#0d0d0d;--paper:#f5f2eb;--cream:#faf8f3;--rule:#d4c9b0;--accent:#b8860b;--accent-dark:#8b6508;--muted:#6b6555;--red:#c0392b;--surface:#ffffff;--border:#e8e0d0;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",sans-serif;min-height:100vh;}
+  .ticker-wrap{background:var(--ink);color:var(--accent);padding:7px 0;overflow:hidden;position:relative;}
+  .ticker-wrap::before,.ticker-wrap::after{content:"";position:absolute;top:0;bottom:0;width:60px;z-index:2;}
+  .ticker-wrap::before{left:0;background:linear-gradient(90deg,var(--ink),transparent);}
+  .ticker-wrap::after{right:0;background:linear-gradient(-90deg,var(--ink),transparent);}
+  .ticker{display:flex;animation:ticker 40s linear infinite;white-space:nowrap;}
+  .ticker-item{font-family:"IBM Plex Mono",monospace;font-size:11px;padding:0 32px;letter-spacing:0.05em;}
+  .up{color:#00cc66;}.down{color:#ff4444;}
+  @keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+  .masthead{background:var(--cream);border-bottom:3px solid var(--ink);}
+  .masthead-top{display:flex;align-items:center;justify-content:space-between;padding:20px 48px 16px;border-bottom:1px solid var(--rule);}
+  .date-line{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
+  .site-title{font-family:"Playfair Display",serif;font-size:clamp(32px,5vw,58px);font-weight:900;letter-spacing:-0.02em;line-height:1;text-align:center;text-decoration:none;color:var(--ink);}
+  .site-title span{color:var(--accent);}
+  .tagline{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);text-align:right;letter-spacing:0.1em;text-transform:uppercase;line-height:1.6;}
+  nav{display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--rule);}
+  .nav-item{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:10px 18px;cursor:pointer;transition:background 0.15s,color 0.15s;color:var(--ink);border:none;background:none;font-family:"IBM Plex Sans",sans-serif;border-right:1px solid var(--rule);text-decoration:none;display:inline-block;}
+  .nav-item:first-child{border-left:1px solid var(--rule);}
+  .nav-item.active,.nav-item:hover{background:var(--ink);color:var(--accent);}
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;}
+  .search-box{background:transparent;border:1px solid var(--rule);padding:5px 12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink);border-radius:2px;width:180px;}
+  .search-box:focus{outline:none;border-color:var(--accent);}
+  .search-box::placeholder{color:var(--muted);}
+  .page-banner{background:var(--ink);color:var(--cream);padding:20px 48px;border-bottom:3px solid var(--accent);}
+  .page-banner-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+  .page-banner-title{font-family:"Playfair Display",serif;font-size:clamp(20px,3vw,32px);font-weight:700;}
+  .page-banner-title span{color:var(--accent);}
+  .page-banner-desc{font-family:"IBM Plex Mono",monospace;font-size:10px;color:#a09880;margin-top:5px;letter-spacing:0.06em;}
+  .page-banner-meta{font-family:"IBM Plex Mono",monospace;font-size:10px;color:#a09880;display:flex;align-items:center;gap:8px;}
+  .live-dot-sm{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  .container{max-width:1280px;margin:0 auto;padding:0 48px;}
+  .layout{display:grid;grid-template-columns:1fr 320px;gap:0;border-left:1px solid var(--border);border-right:1px solid var(--border);background:var(--surface);}
+  .main-col{border-right:1px solid var(--border);padding:32px;}
+  .side-col{padding:24px;}
+  .section-head{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:10px;border-bottom:2px solid var(--ink);}
+  .section-head h2{font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;}
+  .section-line{flex:1;height:1px;background:var(--rule);}
+  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;flex-shrink:0;}
+  .hero-card{padding:0 0 24px 0;border-bottom:2px solid var(--ink);margin-bottom:24px;min-height:120px;}
+  .hero-label{display:inline-block;background:var(--red);color:white;font-size:9px;font-weight:600;font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:0.15em;padding:3px 8px;margin-bottom:10px;}
+  .hero-title{font-family:"Playfair Display",serif;font-size:clamp(24px,3vw,34px);font-weight:900;line-height:1.2;margin-bottom:10px;color:var(--ink);}
+  .hero-desc{font-size:15px;line-height:1.7;color:var(--muted);margin-bottom:12px;}
+  .hero-meta{display:flex;align-items:center;gap:12px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);flex-wrap:wrap;}
+  .news-grid{display:grid;gap:0;}
+  .news-card{padding:20px 0;border-bottom:1px solid var(--border);transition:all 0.15s;text-decoration:none;color:inherit;display:block;}
+  .news-card:hover{background:var(--paper);padding-left:8px;}
+  .news-meta{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;}
+  .news-source{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent-dark);}
+  .news-dot{color:var(--rule);font-size:10px;}
+  .news-time{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);}
+  .news-category{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;padding:2px 6px;border-radius:2px;background:var(--ink);color:var(--accent);font-family:"IBM Plex Mono",monospace;}
+  .news-title{font-family:"Playfair Display",serif;font-size:19px;font-weight:700;line-height:1.3;margin-bottom:6px;color:var(--ink);}
+  .news-card:hover .news-title{color:var(--accent-dark);}
+  .news-desc{font-size:13px;line-height:1.6;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .sidebar-section{margin-bottom:32px;}
+  .sidebar-head{font-family:"IBM Plex Sans",sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:16px;}
+  .sidebar-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit;}
+  .sidebar-item:hover .sidebar-title{color:var(--accent-dark);}
+  .sidebar-num{font-family:"Playfair Display",serif;font-size:22px;font-weight:900;color:var(--rule);line-height:1;min-width:28px;}
+  .sidebar-title{font-family:"Playfair Display",serif;font-size:14px;font-weight:700;line-height:1.3;transition:color 0.15s;}
+  .sidebar-meta{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+  .topic-tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;padding:4px 10px;border:1px solid var(--rule);border-radius:2px;color:var(--muted);margin:3px;cursor:pointer;transition:all 0.12s;text-decoration:none;}
+  .topic-tag:hover{background:var(--ink);color:var(--accent);border-color:var(--ink);}
+  .newsletter{background:var(--ink);color:white;padding:20px;border-radius:2px;}
+  .newsletter h3{font-family:"Playfair Display",serif;font-size:18px;font-weight:700;margin-bottom:6px;}
+  .newsletter p{font-size:12px;color:#aaa;margin-bottom:14px;line-height:1.5;}
+  .newsletter input{width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:9px 12px;font-family:"IBM Plex Mono",monospace;font-size:12px;margin-bottom:8px;border-radius:2px;}
+  .newsletter input::placeholder{color:#666;}
+  .newsletter input:focus{outline:none;border-color:var(--accent);}
+  .newsletter button{width:100%;background:var(--accent);color:var(--ink);border:none;padding:9px;font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;border-radius:2px;transition:background 0.2s;}
+  .newsletter button:hover{background:var(--accent-dark);color:white;}
+  footer{background:var(--ink);color:#aaa;padding:40px 48px;}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;max-width:1280px;margin:0 auto 32px;}
+  .footer-brand{font-family:"Playfair Display",serif;font-size:22px;font-weight:900;color:white;margin-bottom:10px;}
+  .footer-brand span{color:var(--accent);}
+  .footer-desc{font-size:12px;line-height:1.7;max-width:260px;}
+  .footer-col h4{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:white;margin-bottom:12px;font-family:"IBM Plex Sans",sans-serif;}
+  .footer-col a{display:block;font-size:12px;color:#888;text-decoration:none;margin-bottom:7px;transition:color 0.15s;}
+  .footer-col a:hover{color:var(--accent);}
+  .footer-bottom{border-top:1px solid #222;padding-top:20px;font-family:"IBM Plex Mono",monospace;font-size:10px;display:flex;justify-content:space-between;max-width:1280px;margin:0 auto;}
+  @media(max-width:900px){.layout{grid-template-columns:1fr;}.side-col{border-top:2px solid var(--ink);}.container,nav,.masthead-top,footer,.page-banner{padding-left:20px;padding-right:20px;}.main-col{padding:20px;}.footer-grid{grid-template-columns:1fr 1fr;}.masthead-top{flex-direction:column;gap:12px;text-align:center;}.tagline{text-align:center;}}
+  .fade-in{animation:fadeIn 0.4s ease forwards;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
 <body>
-
 <div class="ticker-wrap"><div class="ticker">
-  <span class="ticker-item">NMS FEEDS &nbsp;·&nbsp; NYSE <span class="up">▲ 0.42%</span></span>
-  <span class="ticker-item">NASDAQ <span class="up">▲ 0.87%</span></span>
-  <span class="ticker-item">S&amp;P 500 <span class="up">▲ 0.31%</span></span>
-  <span class="ticker-item">CBOE <span class="down">▼ 0.12%</span></span>
-  <span class="ticker-item">CME GROUP <span class="up">▲ 0.55%</span></span>
+  <span class="ticker-item">NMS FEEDS &nbsp;&middot;&nbsp; NYSE <span class="up">&#9650; 0.42%</span></span>
+  <span class="ticker-item">NASDAQ <span class="up">&#9650; 0.87%</span></span>
+  <span class="ticker-item">S&amp;P 500 <span class="up">&#9650; 0.31%</span></span>
+  <span class="ticker-item">CBOE <span class="down">&#9660; 0.12%</span></span>
+  <span class="ticker-item">CME GROUP <span class="up">&#9650; 0.55%</span></span>
   <span class="ticker-item">OPRA FEED STATUS: <span class="up">NORMAL</span></span>
   <span class="ticker-item">CTA/SIP: <span class="up">OPERATIONAL</span></span>
-  <span class="ticker-item">NMS FEEDS &nbsp;·&nbsp; NYSE <span class="up">▲ 0.42%</span></span>
-  <span class="ticker-item">NASDAQ <span class="up">▲ 0.87%</span></span>
-  <span class="ticker-item">S&amp;P 500 <span class="up">▲ 0.31%</span></span>
-  <span class="ticker-item">CBOE <span class="down">▼ 0.12%</span></span>
-  <span class="ticker-item">CME GROUP <span class="up">▲ 0.55%</span></span>
+  <span class="ticker-item">NMS FEEDS &nbsp;&middot;&nbsp; NYSE <span class="up">&#9650; 0.42%</span></span>
+  <span class="ticker-item">NASDAQ <span class="up">&#9650; 0.87%</span></span>
+  <span class="ticker-item">S&amp;P 500 <span class="up">&#9650; 0.31%</span></span>
+  <span class="ticker-item">CBOE <span class="down">&#9660; 0.12%</span></span>
+  <span class="ticker-item">CME GROUP <span class="up">&#9650; 0.55%</span></span>
   <span class="ticker-item">OPRA FEED STATUS: <span class="up">NORMAL</span></span>
   <span class="ticker-item">CTA/SIP: <span class="up">OPERATIONAL</span></span>
 </div></div>
-
 <div class="masthead">
   <div class="masthead-top">
     <div class="date-line" id="dateLine">Loading...</div>
@@ -145,41 +131,30 @@
     </div>
   </nav>
 </div>
-
 <div class="page-banner">
   <div class="page-banner-inner">
     <div>
       <div class="page-banner-title">Regulatory <span>Coverage</span></div>
       <div class="page-banner-desc">SEC · FINRA · CFTC · MiFID · NMS Plans · Compliance · Enforcement</div>
     </div>
-    <div class="page-banner-meta">
-      <div class="live-dot-sm"></div>
-      <span id="updateTime">Live feed updating...</span>
-    </div>
+    <div class="page-banner-meta"><div class="live-dot-sm"></div><span id="updateTime">Loading live feed...</span></div>
   </div>
 </div>
-
 <div class="container">
   <div class="layout">
     <div class="main-col">
       <div class="hero-card" id="heroCard"></div>
       <div class="section-head">
         <div class="live-dot"></div>
-        <h2>Regulatory News &amp; Updates</h2>
+        <h2>Regulatory News & Updates</h2>
         <div class="section-line"></div>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)" id="articleCount"></span>
+        <span style="font-family:IBM Plex Mono,monospace;font-size:10px;color:var(--muted)" id="articleCount"></span>
       </div>
       <div class="news-grid" id="newsGrid"></div>
     </div>
     <div class="side-col">
-      <div class="sidebar-section">
-        <div class="sidebar-head">Top Stories</div>
-        <div id="mostRead"></div>
-      </div>
-      <div class="sidebar-section">
-        <div class="sidebar-head">Topics</div>
-        <div id="topicTags" style="line-height:2.2"></div>
-      </div>
+      <div class="sidebar-section"><div class="sidebar-head">Top Stories</div><div id="mostRead"></div></div>
+      <div class="sidebar-section"><div class="sidebar-head">Topics</div><div id="topicTags" style="line-height:2.2"></div></div>
       <div class="sidebar-section">
         <div class="newsletter">
           <h3>Daily Briefing</h3>
@@ -188,227 +163,178 @@
           <button onclick="subscribe()">Subscribe Free</button>
         </div>
       </div>
-      <div class="sidebar-section">
-        <div class="sidebar-head">Related Sections</div>
-        <div id="relatedLinks" style="display:flex;flex-direction:column;gap:6px"></div>
-      </div>
+      <div class="sidebar-section"><div class="sidebar-head">Related Sections</div><div id="relatedLinks" style="display:flex;flex-direction:column;gap:6px"></div></div>
     </div>
   </div>
 </div>
-
 <footer>
   <div class="footer-grid">
-    <div>
-      <div class="footer-brand">Market Data <span>News</span></div>
-      <div class="footer-desc">The authoritative source for market data industry professionals.</div>
-    </div>
-    <div class="footer-col"><h4>Coverage</h4>
-      <a href="exchanges.html">Exchanges</a><a href="regulation.html">Regulation</a>
-      <a href="technology.html">Technology</a><a href="trading.html">Trading</a><a href="fintech.html">FinTech</a>
-    </div>
-    <div class="footer-col"><h4>Resources</h4>
-      <a href="#">NMS Updates</a><a href="#">Feed Status</a>
-      <a href="calendar.html">Industry Calendar</a><a href="#">Archives</a>
-    </div>
-    <div class="footer-col"><h4>Company</h4>
-      <a href="#">About</a><a href="#">Contact</a>
-      <a href="#">Privacy Policy</a><a href="#">Terms of Use</a>
-    </div>
+    <div><div class="footer-brand">Market Data <span>News</span></div><div class="footer-desc">The authoritative source for market data industry professionals.</div></div>
+    <div class="footer-col"><h4>Coverage</h4><a href="exchanges.html">Exchanges</a><a href="regulation.html">Regulation</a><a href="technology.html">Technology</a><a href="trading.html">Trading</a><a href="fintech.html">FinTech</a></div>
+    <div class="footer-col"><h4>Resources</h4><a href="#">NMS Updates</a><a href="#">Feed Status</a><a href="calendar.html">Industry Calendar</a><a href="#">Archives</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 MarketDataNews.com — All rights reserved</span>
-    <span>For market data professionals</span>
-  </div>
+  <div class="footer-bottom"><span>&copy; 2026 MarketDataNews.com &mdash; All rights reserved</span><span>For market data professionals</span></div>
 </footer>
-
 <script>
-const PAGE_CATEGORY = 'Regulation';
-const PAGE_KEYWORDS = ["SEC", "FINRA", "CFTC", "regulation", "regulatory", "rule", "compliance", "enforcement", "NMS", "MiFID", "ESMA", "FCA", "rulemaking", "proposal", "final rule", "SRO", "SIP", "NMS plan", "Reg NMS", "Regulation SCI", "market regulation", "enforcement action", "settlement", "fine", "penalty"];
-const PAGE_TOPICS   = ["SEC", "FINRA", "CFTC", "Reg NMS", "NMS Plans", "MiFID", "Compliance", "Enforcement", "Rulemaking", "SRO"];
-const PAGE_RELATED  = [{"label": "Exchanges", "url": "exchanges.html"}, {"label": "Calendar", "url": "calendar.html"}, {"label": "FinTech", "url": "fintech.html"}];
-const PAGE_FEEDS = ["https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664", "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147", "https://feeds.bloomberg.com/markets/news.rss"];
-const FALLBACK_ARTICLES = [{"title": "SEC Proposes Amendments to Regulation SCI Cybersecurity Requirements", "desc": "The Securities and Exchange Commission proposed updates to Regulation SCI that would expand covered entities to include additional market data providers and tighten incident reporting timelines to four hours.", "link": "https://sec.gov", "source": "SEC"}, {"title": "FINRA Issues Guidance on AI Use in Market Surveillance", "desc": "FINRA published a regulatory notice outlining expectations for member firms using artificial intelligence in trade surveillance systems, emphasizing explainability and human oversight requirements.", "link": "https://finra.org", "source": "FINRA"}, {"title": "NMS Plan Governance Reform: CAT LLC Restructuring Approved", "desc": "The SEC approved a restructuring of the Consolidated Audit Trail governance framework, redistributing voting rights among SRO members and adding institutional investor representation.", "link": "https://sec.gov", "source": "SEC"}, {"title": "CFTC Finalizes Position Reporting Rules for Swaps Dealers", "desc": "The Commodity Futures Trading Commission finalized amendments to swaps position reporting requirements, expanding the universe of reportable products and tightening submission deadlines.", "link": "https://cftc.gov", "source": "CFTC"}, {"title": "MiFID III Clock Synchronisation Rules Take Effect June 2026", "desc": "European regulators confirmed enforcement of tightened clock synchronisation standards under MiFID III, requiring trading venues to maintain plus or minus 50 microsecond accuracy.", "link": "https://esma.europa.eu", "source": "ESMA"}];
+const PAGE_CATEGORY  = "Regulation";
+const PAGE_KEYWORDS  = ["SEC", "FINRA", "CFTC", "regulation", "regulatory", "rule", "compliance", "enforcement", "NMS", "MiFID", "ESMA", "FCA", "rulemaking", "proposal", "final rule", "SRO", "SIP", "Reg NMS", "policy", "law", "legal", "government", "federal", "legislation"];
+const PAGE_TOPICS    = ["SEC", "FINRA", "CFTC", "Reg NMS", "NMS Plans", "MiFID", "Compliance", "Enforcement", "Rulemaking", "SRO"];
+const PAGE_RELATED   = [{"label": "Exchanges", "url": "exchanges.html"}, {"label": "Calendar", "url": "calendar.html"}, {"label": "FinTech", "url": "fintech.html"}];
+const PAGE_FEEDS     = ["https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664", "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147", "https://feeds.bloomberg.com/markets/news.rss"];
+const FALLBACK_ARTICLES = [{"title": "SEC Proposes Amendments to Regulation SCI Cybersecurity Requirements", "desc": "The Securities and Exchange Commission proposed updates to Regulation SCI that would expand covered entities to include additional market data providers and tighten incident reporting timelines.", "link": "#", "source": "SEC"}, {"title": "FINRA Issues Guidance on AI Use in Market Surveillance", "desc": "FINRA published a regulatory notice outlining expectations for member firms using artificial intelligence in trade surveillance systems, emphasizing explainability and human oversight.", "link": "#", "source": "FINRA"}, {"title": "NMS Plan Governance Reform: CAT LLC Restructuring Approved", "desc": "The SEC approved a restructuring of the Consolidated Audit Trail governance framework, redistributing voting rights among SRO members and adding institutional investor representation.", "link": "#", "source": "SEC"}, {"title": "CFTC Finalizes Position Reporting Rules for Swaps Dealers", "desc": "The Commodity Futures Trading Commission finalized amendments to swaps position reporting requirements, expanding the universe of reportable products and tightening submission deadlines.", "link": "#", "source": "CFTC"}, {"title": "MiFID III Clock Synchronisation Rules Take Effect June 2026", "desc": "European regulators confirmed enforcement of tightened clock synchronisation standards under MiFID III, requiring trading venues to maintain plus or minus 50 microsecond accuracy.", "link": "#", "source": "ESMA"}];
+const CACHE_TTL      = 10 * 60 * 1000; // 10 minutes
 
 const CATEGORY_KEYWORDS = {
-  'Exchanges':  ['exchange','NYSE','NASDAQ','CME','CBOE','ICE','LSE','trading venue','bourse','Pillar','Arrowhead','Globex'],
-  'Regulation': ['SEC','FINRA','CFTC','regulation','regulatory','rule','compliance','enforcement','NMS','MiFID','ESMA','FCA'],
-  'Technology': ['technology','data feed','latency','infrastructure','cloud','API','protocol','network','co-location','FPGA','FIX','ITCH','bandwidth'],
-  'Trading':    ['trading','execution','order','liquidity','HFT','high frequency','algo','market maker','dark pool','PFOF','best execution'],
-  'FinTech':    ['fintech','blockchain','crypto','cryptocurrency','digital asset','AI','machine learning','DeFi','tokenization','stablecoin','CBDC'],
+  Exchanges:  ["exchange","NYSE","NASDAQ","CME","CBOE","ICE","LSE","trading venue","bourse","Pillar","Arrowhead","Globex"],
+  Regulation: ["SEC","FINRA","CFTC","regulation","regulatory","rule","compliance","enforcement","NMS","MiFID","ESMA","FCA"],
+  Technology: ["technology","data feed","latency","infrastructure","cloud","API","protocol","network","co-location","FPGA","FIX","ITCH","bandwidth","tech","cyber","semiconductor"],
+  Trading:    ["trading","execution","order","liquidity","HFT","high frequency","algo","market maker","dark pool","PFOF","best execution","stocks","equities","hedge fund"],
+  FinTech:    ["fintech","blockchain","crypto","digital asset","AI","machine learning","DeFi","tokenization","stablecoin","CBDC","web3","bitcoin","ethereum"],
 };
 
 let allArticles = [];
 
 function detectCategory(title, desc) {
-  const text = (title + ' ' + desc).toLowerCase();
+  const text = (title + " " + desc).toLowerCase();
   for (const [cat, kws] of Object.entries(CATEGORY_KEYWORDS)) {
     if (kws.some(k => text.includes(k.toLowerCase()))) return cat;
   }
-  return 'Markets';
+  return "Markets";
 }
 
 function timeAgo(dateStr) {
   const d = new Date(dateStr);
-  if (isNaN(d)) return 'Recently';
+  if (isNaN(d)) return "Recently";
   const mins = Math.floor((Date.now() - d) / 60000);
-  if (mins < 1) return 'Just now';
-  if (mins < 60) return mins + 'm ago';
+  if (mins < 1) return "Just now";
+  if (mins < 60) return mins + "m ago";
   const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return hrs + 'h ago';
-  return Math.floor(hrs/24) + 'd ago';
+  if (hrs < 24) return hrs + "h ago";
+  return Math.floor(hrs/24) + "d ago";
 }
 
-async function parseFeedUrl(feedUrl) {
-  const proxies = [
-    async (u) => {
-      const r = await fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(u) + '&count=12', { signal: AbortSignal.timeout(7000) });
-      const j = await r.json();
-      if (j.status !== 'ok' || !j.items || !j.items.length) throw new Error('empty');
-      return j.items.map(item => ({
-        title: (item.title || '').trim(),
-        desc:  (item.description || item.content || '').replace(/<[^>]+>/g,'').trim(),
-        link:  item.link || '#',
-        pubDate: item.pubDate || '',
-      }));
-    },
-    async (u) => {
-      const r = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(u), { signal: AbortSignal.timeout(7000) });
-      const j = await r.json();
-      if (!j.contents) throw new Error('empty');
-      const xml = new DOMParser().parseFromString(j.contents, 'text/xml');
-      return Array.from(xml.querySelectorAll('item')).slice(0,12).map(item => ({
-        title:   (item.querySelector('title')?.textContent || '').trim(),
-        desc:    (item.querySelector('description')?.textContent || '').replace(/<[^>]+>/g,'').trim(),
-        link:    (item.querySelector('link')?.textContent || '').trim() || '#',
-        pubDate: (item.querySelector('pubDate')?.textContent || ''),
-      }));
-    },
-    async (u) => {
-      const r = await fetch('https://corsproxy.io/?' + encodeURIComponent(u), { signal: AbortSignal.timeout(7000) });
-      const txt = await r.text();
-      const xml = new DOMParser().parseFromString(txt, 'text/xml');
-      return Array.from(xml.querySelectorAll('item')).slice(0,12).map(item => ({
-        title:   (item.querySelector('title')?.textContent || '').trim(),
-        desc:    (item.querySelector('description')?.textContent || '').replace(/<[^>]+>/g,'').trim(),
-        link:    (item.querySelector('link')?.textContent || '').trim() || '#',
-        pubDate: (item.querySelector('pubDate')?.textContent || ''),
-      }));
-    },
-  ];
-  for (const proxy of proxies) {
-    try {
-      const items = await proxy(feedUrl);
-      const valid = items.filter(i => i.title.length > 5);
-      if (valid.length) return valid;
-    } catch(e) {}
-  }
-  return [];
+async function fetchFeed(feedUrl) {
+  const cacheKey = "mdn_" + feedUrl.replace(/[^a-z0-9]/gi,"").slice(-40);
+  try {
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+      const obj = JSON.parse(cached);
+      if (Date.now() - obj.ts < CACHE_TTL) return obj.data;
+    }
+  } catch(e) {}
+  const res = await fetch("/.netlify/functions/rss?url=" + encodeURIComponent(feedUrl), {signal: AbortSignal.timeout(10000)});
+  const json = await res.json();
+  const items = (json.items || []).filter(i => i.title && i.title.length > 5);
+  try { localStorage.setItem(cacheKey, JSON.stringify({data: items, ts: Date.now()})); } catch(e) {}
+  return items;
 }
 
 function isRelevant(a) {
   if (a.category === PAGE_CATEGORY) return true;
-  const text = (a.title + ' ' + a.desc).toLowerCase();
+  const text = (a.title + " " + a.desc).toLowerCase();
   return PAGE_KEYWORDS.some(k => text.includes(k.toLowerCase()));
 }
 
 function renderHero(a) {
-  document.getElementById('heroCard').innerHTML =
-    '<div class="hero-label">&#9679; ' + (a.featured ? 'Featured' : PAGE_CATEGORY) + '</div>' +
-    '<a href="' + a.link + '" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">' +
-    '<div class="hero-title">' + a.title + '</div></a>' +
-    '<div class="hero-desc">' + (a.desc||'').slice(0,240) + ((a.desc||'').length>240?'...':'') + '</div>' +
-    '<div class="hero-meta"><span style="color:var(--accent-dark);font-weight:600">' + (a.source||'') + '</span>' +
-    '<span> · </span><span>' + a.time + '</span><span> · </span><span>' + (a.category||PAGE_CATEGORY) + '</span></div>';
-  document.getElementById('heroCard').classList.add('fade-in');
+  document.getElementById("heroCard").innerHTML =
+    "<div class='hero-label'>&#9679; " + (a.featured ? "Featured" : PAGE_CATEGORY) + "</div>" +
+    "<a href='" + (a.link||"#") + "' target='_blank' rel='noopener' style='text-decoration:none;color:inherit'>" +
+    "<div class='hero-title'>" + a.title + "</div></a>" +
+    "<div class='hero-desc'>" + (a.desc||"").slice(0,260) + ((a.desc||"").length>260?"...":"") + "</div>" +
+    "<div class='hero-meta'><span style='color:var(--accent-dark);font-weight:600'>" + (a.source||"") + "</span>" +
+    " &nbsp;&middot;&nbsp; " + a.time + " &nbsp;&middot;&nbsp; " + (a.category||PAGE_CATEGORY) + "</div>";
+  document.getElementById("heroCard").classList.add("fade-in");
 }
 
 function renderNews(articles) {
-  const grid = document.getElementById('newsGrid');
-  if (!articles.length) { grid.innerHTML = '<p style="font-family:IBM Plex Mono,monospace;font-size:12px;color:var(--muted);padding:20px 0">No additional articles found.</p>'; return; }
+  const grid = document.getElementById("newsGrid");
+  if (!articles.length) { grid.innerHTML = "<p style='font-family:IBM Plex Mono,monospace;font-size:12px;color:var(--muted);padding:20px 0'>No additional articles found.</p>"; return; }
   grid.innerHTML = articles.map(a =>
-    '<a class="news-card fade-in" href="' + a.link + '" target="_blank" rel="noopener">' +
-    '<div class="news-meta"><span class="news-source">' + (a.source||'') + '</span>' +
-    '<span class="news-dot">·</span><span class="news-time">' + a.time + '</span>' +
-    '<span class="news-category">' + (a.category||PAGE_CATEGORY) + '</span></div>' +
-    '<div class="news-title">' + a.title + '</div>' +
-    (a.desc ? '<div class="news-desc">' + a.desc + '</div>' : '') + '</a>'
-  ).join('');
+    "<a class='news-card fade-in' href='" + (a.link||"#") + "' target='_blank' rel='noopener'>" +
+    "<div class='news-meta'><span class='news-source'>" + (a.source||"") + "</span>" +
+    "<span class='news-dot'>·</span><span class='news-time'>" + a.time + "</span>" +
+    "<span class='news-category'>" + (a.category||PAGE_CATEGORY) + "</span></div>" +
+    "<div class='news-title'>" + a.title + "</div>" +
+    (a.desc ? "<div class='news-desc'>" + a.desc + "</div>" : "") + "</a>"
+  ).join("");
 }
 
 function renderMostRead(articles) {
-  document.getElementById('mostRead').innerHTML = articles.map((a,i) =>
-    '<a class="sidebar-item" href="' + a.link + '" target="_blank" rel="noopener">' +
-    '<div class="sidebar-num">0' + (i+1) + '</div><div>' +
-    '<div class="sidebar-title">' + a.title.slice(0,72) + (a.title.length>72?'...':'') + '</div>' +
-    '<div class="sidebar-meta">' + (a.source||'') + ' · ' + a.time + '</div></div></a>'
-  ).join('');
+  document.getElementById("mostRead").innerHTML = articles.map((a,i) =>
+    "<a class='sidebar-item' href='" + (a.link||"#") + "' target='_blank' rel='noopener'>" +
+    "<div class='sidebar-num'>0" + (i+1) + "</div><div>" +
+    "<div class='sidebar-title'>" + a.title.slice(0,72) + (a.title.length>72?"...":"") + "</div>" +
+    "<div class='sidebar-meta'>" + (a.source||"") + " &middot; " + a.time + "</div></div></a>"
+  ).join("");
 }
 
 function showFallback() {
-  const articles = FALLBACK_ARTICLES.map((a,i) => ({...a, category: PAGE_CATEGORY, time: (i===0?'2h ago':i+'h ago'), featured: true}));
+  const articles = FALLBACK_ARTICLES.map((a,i) => ({...a, category: PAGE_CATEGORY, time: (i===0?"2h ago":(i+2)+"h ago"), featured: true}));
   renderHero(articles[0]);
   renderNews(articles.slice(1));
   renderMostRead(articles.slice(0,5));
-  document.getElementById('articleCount').textContent = 'Loading live feed...';
+  document.getElementById("articleCount").textContent = "Loading live feed...";
 }
 
 async function loadFeeds() {
   try {
-    const results = await Promise.allSettled(PAGE_FEEDS.map(parseFeedUrl));
-    const fetched = results.flatMap(r => r.status==='fulfilled' ? r.value : []);
+    const results = await Promise.allSettled(PAGE_FEEDS.map(fetchFeed));
+    const fetched = results.flatMap(r => r.status === "fulfilled" ? r.value : []);
     if (fetched.length) {
       const labeled = fetched.map(a => ({...a, category: detectCategory(a.title, a.desc), time: timeAgo(a.pubDate), timestamp: new Date(a.pubDate).getTime()||0}));
       const relevant = labeled.filter(isRelevant).sort((a,b) => b.timestamp-a.timestamp);
-      const display = relevant.length ? relevant : labeled.sort((a,b)=>b.timestamp-a.timestamp);
+      const display  = relevant.length ? relevant : labeled.sort((a,b) => b.timestamp-a.timestamp);
       if (display.length) {
         allArticles = display;
         renderHero(allArticles[0]);
         renderNews(allArticles.slice(1));
         renderMostRead(allArticles.slice(0,5));
-        document.getElementById('articleCount').textContent = allArticles.length + ' articles';
-        document.getElementById('updateTime').textContent = 'Updated ' + new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+        document.getElementById("articleCount").textContent = allArticles.length + " live articles";
+        document.getElementById("updateTime").textContent = "Updated " + new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
         return;
       }
     }
   } catch(e) {}
-  document.getElementById('updateTime').textContent = 'Showing recent highlights';
+  document.getElementById("updateTime").textContent = "Showing recent highlights";
+  document.getElementById("articleCount").textContent = FALLBACK_ARTICLES.length + " articles";
 }
 
 function filterNews() {
-  const q = document.getElementById('searchBox').value.toLowerCase();
-  const src = allArticles.length ? allArticles : FALLBACK_ARTICLES.map(a=>({...a,category:PAGE_CATEGORY,time:'Recently'}));
+  const q = document.getElementById("searchBox").value.toLowerCase();
+  const src = allArticles.length ? allArticles : FALLBACK_ARTICLES.map(a=>({...a,category:PAGE_CATEGORY,time:"Recently"}));
   if (!q) { renderNews(src.slice(1)); return; }
-  renderNews(src.filter(a => a.title.toLowerCase().includes(q)||(a.desc||'').toLowerCase().includes(q)));
+  renderNews(src.filter(a => a.title.toLowerCase().includes(q)||(a.desc||"").toLowerCase().includes(q)));
 }
 
 function buildTopics() {
-  document.getElementById('topicTags').innerHTML = PAGE_TOPICS.map(t =>
-    '<a class="topic-tag" href="#" onclick="document.getElementById('searchBox').value='' + t + '';filterNews();return false">' + t + '</a>'
-  ).join('');
+  document.getElementById("topicTags").innerHTML = PAGE_TOPICS.map(t =>
+    "<a class='topic-tag' href='#' onclick="document.getElementById('searchBox').value='" + t + "';filterNews();return false">" + t + "</a>"
+  ).join("");
 }
 
 function buildRelated() {
-  document.getElementById('relatedLinks').innerHTML = PAGE_RELATED.map(r =>
-    '<a href="' + r.url + '" class="nav-item" style="border:1px solid var(--rule);padding:8px 14px;border-radius:2px">' + r.label + '</a>'
-  ).join('');
+  document.getElementById("relatedLinks").innerHTML = PAGE_RELATED.map(r =>
+    "<a href='" + r.url + "' class='nav-item' style='border:1px solid var(--rule);padding:8px 14px;border-radius:2px'>" + r.label + "</a>"
+  ).join("");
 }
 
 function subscribe() {
-  const email = document.getElementById('emailInput').value;
-  if (!email||!email.includes('@')) { alert('Please enter a valid email.'); return; }
-  document.querySelector('.newsletter').innerHTML = '<div style="text-align:center;padding:10px"><div style="font-family:Playfair Display,serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px">You're in.</div><div style="font-size:12px;color:#aaa">Daily briefing starts tomorrow morning.</div></div>';
+  const email = document.getElementById("emailInput").value;
+  if (!email||!email.includes("@")) { alert("Please enter a valid email."); return; }
+  document.querySelector(".newsletter").innerHTML = "<div style='text-align:center;padding:10px'><div style='font-family:Playfair Display,serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px'>You\'re in.</div><div style='font-size:12px;color:#aaa'>Daily briefing starts tomorrow morning.</div></div>";
 }
 
 const _d=new Date();
-const _dn=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-const _mn=['January','February','March','April','May','June','July','August','September','October','November','December'];
-document.getElementById('dateLine').textContent=_dn[_d.getDay()]+', '+_mn[_d.getMonth()]+' '+_d.getDate()+', '+_d.getFullYear();
+const _dn=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const _mn=["January","February","March","April","May","June","July","August","September","October","November","December"];
+document.getElementById("dateLine").textContent=_dn[_d.getDay()]+", "+_mn[_d.getMonth()]+" "+_d.getDate()+", "+_d.getFullYear();
 
 buildTopics();
 buildRelated();
 showFallback();
 loadFeeds();
-setInterval(loadFeeds, 600000);
+setInterval(loadFeeds, CACHE_TTL);
 </script>
 </body>
 </html>
