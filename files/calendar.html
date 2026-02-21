@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Industry Calendar — Market Data News</title>
+<meta name="description" content="Authoritative calendar of exchange notices, regulatory deadlines, feed changes, and market structure events for market data professionals.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f2eb;
+    --cream: #faf8f3;
+    --rule: #d4c9b0;
+    --accent: #b8860b;
+    --accent-dark: #8b6508;
+    --muted: #6b6555;
+    --red: #c0392b;
+    --surface: #ffffff;
+    --border: #e8e0d0;
+    --green: #1a7a4a;
+    --orange: #c85a00;
+    --blue: #1a4a8a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── Ticker ── */
+  .ticker-wrap {
+    background: var(--ink);
+    color: var(--accent);
+    padding: 7px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .ticker-wrap::before, .ticker-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 60px;
+    z-index: 2;
+  }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after  { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker {
+    display: flex;
+    animation: ticker 45s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 0 32px;
+    letter-spacing: 0.05em;
+  }
+  @keyframes ticker {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── Masthead ── */
+  .masthead {
+    background: var(--cream);
+    border-bottom: 3px solid var(--ink);
+  }
+  .masthead-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .date-line {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .site-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 58px);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+  }
+  .site-title span { color: var(--accent); }
+  .tagline {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-align: right;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+
+  /* ── Nav ── */
+  nav {
+    display: flex;
+    align-items: center;
+    padding: 0 48px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-item {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    color: var(--ink);
+    border: none;
+    background: none;
+    font-family: 'IBM Plex Sans', sans-serif;
+    border-right: 1px solid var(--rule);
+    text-decoration: none;
+    display: inline-block;
+  }
+  .nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .search-box {
+    background: transparent;
+    border: 1px solid var(--rule);
+    padding: 5px 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink);
+    border-radius: 2px;
+    width: 180px;
+  }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+
+  /* ── Page chrome ── */
+  .page-header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 28px 48px 24px;
+    border-bottom: 3px solid var(--accent);
+  }
+  .page-header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .page-subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #a09880;
+    margin-top: 6px;
+    letter-spacing: 0.06em;
+  }
+  .page-stats {
+    display: flex;
+    gap: 32px;
+    flex-shrink: 0;
+  }
+  .stat-block { text-align: right; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #a09880;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  /* ── Filter bar ── */
+  .filter-bar {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    padding: 0 48px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .filter-bar-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    gap: 12px;
+  }
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-right: 1px solid var(--border);
+    padding-right: 12px;
+  }
+  .filter-group:last-child { border-right: none; }
+  .filter-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .filter-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 4px 10px;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    border-radius: 2px;
+    letter-spacing: 0.04em;
+    transition: all 0.12s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--ink); background: var(--paper); }
+  .filter-btn.active { background: var(--ink); color: var(--accent); border-color: var(--ink); }
+  .filter-btn.critical-active { background: var(--red); color: #fff; border-color: var(--red); }
+  .filter-btn.high-active { background: var(--orange); color: #fff; border-color: var(--orange); }
+  .filter-btn.medium-active { background: var(--accent-dark); color: #fff; border-color: var(--accent-dark); }
+
+  /* ── Main layout ── */
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 0;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    min-height: 70vh;
+  }
+  .main-col {
+    border-right: 1px solid var(--border);
+    padding: 0;
+  }
+  .side-col {
+    padding: 24px 20px;
+  }
+
+  /* ── Section header ── */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 28px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-head h2 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .section-line { flex: 1; height: 1px; background: var(--rule); }
+  .result-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  /* ── Event cards ── */
+  .events-list { padding: 0; }
+
+  .event-card {
+    display: grid;
+    grid-template-columns: 4px 90px 1fr auto;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.12s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .event-card:hover { background: var(--paper); }
+
+  .event-impact-bar {
+    width: 4px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+  .event-impact-bar.critical { background: var(--red); }
+  .event-impact-bar.high     { background: var(--orange); }
+  .event-impact-bar.medium   { background: var(--accent); }
+  .event-impact-bar.low      { background: var(--green); }
+
+  .event-date-col {
+    padding: 16px 12px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border);
+  }
+  .event-date-month {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+  .event-date-day {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .event-date-year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+  }
+  .event-days-out {
+    margin-top: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    text-align: center;
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: var(--paper);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .event-days-out.urgent { background: #fde8e8; color: var(--red); }
+  .event-days-out.soon   { background: #fef3e2; color: var(--orange); }
+
+  .event-body {
+    padding: 16px 20px;
+    min-width: 0;
+  }
+  .event-org-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+  }
+  .event-org {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--accent-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .event-org-type {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 1px 6px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .event-category {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .cat-exchange-notice  { background: #e8f0fe; color: var(--blue); border: 1px solid #c5d5f5; }
+  .cat-feed-change      { background: #fef3e2; color: var(--orange); border: 1px solid #f5ddb0; }
+  .cat-system-migration { background: #fde8e8; color: var(--red); border: 1px solid #f5c5c5; }
+  .cat-regulatory-deadline { background: #e8f5ee; color: var(--green); border: 1px solid #b0d8be; }
+  .cat-spec-update      { background: #f3e8fe; color: #6b35b5; border: 1px solid #d5b0f5; }
+  .cat-holiday          { background: var(--paper); color: var(--muted); border: 1px solid var(--rule); }
+  .cat-infrastructure-maintenance { background: #e8f5ee; color: var(--green); border: 1px solid #b0d8be; }
+  .cat-market-structure { background: #e8f0fe; color: var(--blue); border: 1px solid #c5d5f5; }
+
+  .event-title {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .event-summary {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 8px;
+  }
+  .event-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .event-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 1px 7px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .event-right-col {
+    padding: 16px 20px 16px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+    min-width: 120px;
+  }
+  .impact-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .impact-critical { background: var(--red); color: #fff; }
+  .impact-high     { background: var(--orange); color: #fff; }
+  .impact-medium   { background: var(--accent); color: #fff; }
+  .impact-low      { background: var(--green); color: #fff; }
+
+  .action-required-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 3px 9px;
+    border: 1.5px solid var(--red);
+    border-radius: 2px;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    animation: blink-border 2s ease-in-out infinite;
+  }
+  @keyframes blink-border {
+    0%,100% { border-color: var(--red); }
+    50%      { border-color: transparent; }
+  }
+
+  .event-region {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .verified-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--green);
+    letter-spacing: 0.04em;
+  }
+  .verified-badge::before {
+    content: '✓';
+    font-weight: 700;
+  }
+
+  /* ── Month group header ── */
+  .month-group-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 28px 10px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 52px;
+    z-index: 50;
+  }
+  .month-group-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .month-group-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    padding: 2px 8px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+  }
+  .month-group-line { flex: 1; height: 1px; background: var(--rule); }
+
+  /* ── Sidebar ── */
+  .side-section { margin-bottom: 28px; }
+  .side-head {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 14px;
+  }
+
+  /* Legend */
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .legend-bar {
+    width: 4px;
+    height: 20px;
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
+  .legend-bar.critical { background: var(--red); }
+  .legend-bar.high     { background: var(--orange); }
+  .legend-bar.medium   { background: var(--accent); }
+  .legend-bar.low      { background: var(--green); }
+
+  /* Upcoming critical */
+  .critical-item {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .critical-item:last-child { border-bottom: none; }
+  .critical-item-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--red);
+    margin-bottom: 3px;
+    letter-spacing: 0.04em;
+  }
+  .critical-item-title {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .critical-item-org {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* Category breakdown */
+  .cat-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 7px;
+    font-size: 11px;
+  }
+  .cat-bar-label { flex: 1; color: var(--muted); font-size: 11px; }
+  .cat-bar-track {
+    width: 80px;
+    height: 5px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .cat-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.6s ease;
+  }
+  .cat-bar-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    width: 18px;
+    text-align: right;
+  }
+
+  /* ── Empty / error states ── */
+  .empty-state {
+    padding: 60px 28px;
+    text-align: center;
+    color: var(--muted);
+  }
+  .empty-state-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  .empty-state-desc { font-size: 13px; }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--ink);
+    color: #ccc;
+    padding: 40px 48px 24px;
+    margin-top: 0;
+  }
+  .footer-grid {
+    max-width: 1280px;
+    margin: 0 auto 28px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+  }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 10px;
+  }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; color: #888; line-height: 1.7; }
+  .footer-col h4 {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #aaa;
+    margin-bottom: 14px;
+  }
+  .footer-col a {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    text-decoration: none;
+    margin-bottom: 7px;
+    transition: color 0.15s;
+  }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-top: 20px;
+    border-top: 1px solid #222;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #555;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .masthead-top, nav, .container, .page-header { padding-left: 20px; padding-right: 20px; }
+    .layout { grid-template-columns: 1fr; }
+    .side-col { border-top: 1px solid var(--border); }
+    .event-card { grid-template-columns: 4px 72px 1fr; }
+    .event-right-col { display: none; }
+    .filter-bar { padding: 0 20px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+    .page-stats { display: none; }
+  }
+
+  /* ── Fade in ── */
+  .fade-in { animation: fadeIn 0.3s ease forwards; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">NASDAQ — ITCH Port Migration Phase 2 · Effective Mar 20 2026</span>
+    <span class="ticker-item">NYSE — Pillar Upgrade Complete · Status: Active</span>
+    <span class="ticker-item">SEC — Reg NMS Round Lot Amendments · Compliance Deadline May 31 2026</span>
+    <span class="ticker-item">FINRA — TRACE Phase 5 Expansion · Effective Apr 1 2026</span>
+    <span class="ticker-item">CME — Globex Session Holiday Closure · Apr 18 2026 Good Friday</span>
+    <span class="ticker-item">ICE — SIP Feed Cert Window · Testing Mar 3–14 2026</span>
+    <span class="ticker-item">CBOE — Options Symbol Migration · Effective Mar 7 2026</span>
+    <span class="ticker-item">NASDAQ — ITCH Port Migration Phase 2 · Effective Mar 20 2026</span>
+    <span class="ticker-item">NYSE — Pillar Upgrade Complete · Status: Active</span>
+    <span class="ticker-item">SEC — Reg NMS Round Lot Amendments · Compliance Deadline May 31 2026</span>
+    <span class="ticker-item">FINRA — TRACE Phase 5 Expansion · Effective Apr 1 2026</span>
+    <span class="ticker-item">CME — Globex Session Holiday Closure · Apr 18 2026 Good Friday</span>
+    <span class="ticker-item">ICE — SIP Feed Cert Window · Testing Mar 3–14 2026</span>
+    <span class="ticker-item">CBOE — Options Symbol Migration · Effective Mar 7 2026</span>
+  </div>
+</div>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Saturday, February 21, 2026</div>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry's Source<br>For Market Data Intelligence</div>
+  </div>
+  <nav>
+    <a href="index.html" class="nav-item">Home</a>
+    <a href="#" class="nav-item">Exchanges</a>
+    <a href="#" class="nav-item">Regulation</a>
+    <a href="#" class="nav-item">Technology</a>
+    <a href="#" class="nav-item">Trading</a>
+    <a href="calendar.html" class="nav-item active">Calendar</a>
+    <div class="nav-right">
+      <input class="search-box" type="text" placeholder="Search calendar…" id="searchBox" oninput="applyFilters()">
+    </div>
+  </nav>
+</div>
+
+<!-- Page Header -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <div class="page-title">Industry Event Calendar</div>
+      <div class="page-subtitle">Exchange Notices · Regulatory Deadlines · Feed Changes · Market Structure Events</div>
+    </div>
+    <div class="page-stats" id="pageStats">
+      <div class="stat-block">
+        <div class="stat-num" id="statTotal">—</div>
+        <div class="stat-label">Total Events</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num" id="statAction" style="color:#ff8040">—</div>
+        <div class="stat-label">Action Required</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num" id="statCritical" style="color:#e05050">—</div>
+        <div class="stat-label">Critical</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Bar -->
+<div class="filter-bar">
+  <div class="filter-bar-inner">
+    <div class="filter-group">
+      <span class="filter-label">Impact</span>
+      <button class="filter-btn active" onclick="setFilter('impact','all',this)">All</button>
+      <button class="filter-btn" onclick="setFilter('impact','critical',this)">⬛ Critical</button>
+      <button class="filter-btn" onclick="setFilter('impact','high',this)">🔴 High</button>
+      <button class="filter-btn" onclick="setFilter('impact','medium',this)">🟡 Medium</button>
+      <button class="filter-btn" onclick="setFilter('impact','low',this)">🟢 Low</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Category</span>
+      <button class="filter-btn active" onclick="setFilter('category','all',this)">All</button>
+      <button class="filter-btn" onclick="setFilter('category','exchange-notice',this)">Exchange Notice</button>
+      <button class="filter-btn" onclick="setFilter('category','feed-change',this)">Feed Change</button>
+      <button class="filter-btn" onclick="setFilter('category','regulatory-deadline',this)">Regulatory</button>
+      <button class="filter-btn" onclick="setFilter('category','system-migration',this)">Migration</button>
+      <button class="filter-btn" onclick="setFilter('category','holiday',this)">Holiday</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Region</span>
+      <button class="filter-btn active" onclick="setFilter('region','all',this)">All</button>
+      <button class="filter-btn" onclick="setFilter('region','US',this)">US</button>
+      <button class="filter-btn" onclick="setFilter('region','EU',this)">EU</button>
+      <button class="filter-btn" onclick="setFilter('region','UK',this)">UK</button>
+      <button class="filter-btn" onclick="setFilter('region','APAC',this)">APAC</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Action</span>
+      <button class="filter-btn" id="actionFilterBtn" onclick="toggleActionFilter(this)">Action Required Only</button>
+    </div>
+  </div>
+</div>
+
+<!-- Main content -->
+<div class="container">
+  <div class="layout">
+
+    <!-- Events list -->
+    <div class="main-col">
+      <div class="section-head">
+        <h2>Upcoming Events</h2>
+        <div class="section-line"></div>
+        <div class="result-count" id="resultCount">Loading…</div>
+      </div>
+      <div class="events-list" id="eventsList"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="side-col">
+
+      <div class="side-section">
+        <div class="side-head">Impact Legend</div>
+        <div class="legend-item"><div class="legend-bar critical"></div><div><strong>Critical</strong> — Immediate action, possible disruption</div></div>
+        <div class="legend-item"><div class="legend-bar high"></div><div><strong>High</strong> — Significant changes, plan accordingly</div></div>
+        <div class="legend-item"><div class="legend-bar medium"></div><div><strong>Medium</strong> — Moderate changes, review needed</div></div>
+        <div class="legend-item"><div class="legend-bar low"></div><div><strong>Low</strong> — Informational, minimal action</div></div>
+      </div>
+
+      <div class="side-section">
+        <div class="side-head">Urgent — Next 30 Days</div>
+        <div id="urgentList"></div>
+      </div>
+
+      <div class="side-section">
+        <div class="side-head">By Category</div>
+        <div id="catBreakdown"></div>
+      </div>
+
+      <div class="side-section">
+        <div class="side-head">Data Sources</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.8">
+          All entries verified against primary sources. Last updated: <span style="font-family:'IBM Plex Mono',monospace;color:var(--ink)" id="lastUpdated">—</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:10px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;background:var(--paper);border:1px solid var(--border);border-radius:2px">NASDAQ</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;background:var(--paper);border:1px solid var(--border);border-radius:2px">NYSE</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;background:var(--paper);border:1px solid var(--border);border-radius:2px">CME</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;background:var(--paper);border:1px solid var(--border);border-radius:2px">CBOE</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;background:var(--paper);border:1px solid var(--border);border-radius:2px">ICE</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;background:var(--paper);border:1px solid var(--border);border-radius:2px">SEC.gov</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;background:var(--paper);border:1px solid var(--border);border-radius:2px">FINRA</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notifications, regulatory updates, and financial technology news.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Coverage</h4>
+      <a href="#">Exchanges</a>
+      <a href="#">Regulation</a>
+      <a href="#">Technology</a>
+      <a href="#">Trading</a>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <a href="#">NMS Updates</a>
+      <a href="#">Feed Status</a>
+      <a href="calendar.html">Industry Calendar</a>
+      <a href="#">Archives</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+// ── Date line ──────────────────────────────────────────────────────────
+const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now    = new Date();
+document.getElementById('dateLine').textContent =
+  days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+document.getElementById('lastUpdated').textContent =
+  months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+
+// ── Calendar Data ──────────────────────────────────────────────────────
+// Production schema — swap this array with your backend fetch
+const EVENTS = [
+  {
+    id: "nasdaq-itch-port-migration-2026-03",
+    title: "NASDAQ ITCH Port Migration Phase 2",
+    organization: "NASDAQ",
+    organization_type: "exchange",
+    category: "feed-change",
+    tags: ["ITCH", "port migration", "multicast", "connectivity"],
+    region: "US",
+    announcement_date: "2026-02-15",
+    effective_date: "2026-03-20",
+    impact_level: "high",
+    impact_type: "connectivity",
+    summary: "NASDAQ will migrate select ITCH 5.0 data feed ports to new multicast ranges. Participants using legacy port configurations will lose connectivity post-cutover.",
+    action_required: true,
+    action_summary: "Update firewall rules and multicast group subscriptions before Mar 20.",
+    source_url: "#",
+    source_title: "NASDAQ Trader Notice #2026-18",
+    status: "upcoming",
+    verified: true,
+  },
+  {
+    id: "sec-regnms-roundlot-2026-05",
+    title: "SEC Reg NMS Round Lot & Odd Lot Amendments — Compliance Deadline",
+    organization: "SEC",
+    organization_type: "regulator",
+    category: "regulatory-deadline",
+    tags: ["Reg NMS", "round lot", "odd lot", "compliance", "NMS Plan"],
+    region: "US",
+    announcement_date: "2022-09-01",
+    effective_date: "2026-05-31",
+    impact_level: "critical",
+    impact_type: "compliance",
+    summary: "Final compliance deadline for broker-dealers and SIPs to implement Reg NMS amendments on round lot definitions and odd lot information publication. Non-compliance may result in enforcement action.",
+    action_required: true,
+    action_summary: "All affected systems must be in production compliance by May 31, 2026. File documentation with legal.",
+    source_url: "#",
+    source_title: "SEC Release 34-90610",
+    status: "upcoming",
+    verified: true,
+  },
+  {
+    id: "cboe-options-symbol-migration-2026-03",
+    title: "CBOE Options Symbol Migration — Phase 1",
+    organization: "CBOE",
+    organization_type: "exchange",
+    category: "system-migration",
+    tags: ["options", "symbol", "OCC", "CBOE"],
+    region: "US",
+    announcement_date: "2026-01-10",
+    effective_date: "2026-03-07",
+    impact_level: "high",
+    impact_type: "symbol-change",
+    summary: "CBOE Global Markets will update option root symbols for approximately 340 equity options as part of alignment with OCC's symbol standardization project.",
+    action_required: true,
+    action_summary: "Update symbol mapping tables and downstream analytics before Mar 7. Test in cert environment during Feb 23–Mar 6 window.",
+    source_url: "#",
+    source_title: "CBOE Options Regulatory Circular RG-2026-004",
+    status: "upcoming",
+    verified: true,
+  },
+  {
+    id: "ice-sip-cert-window-2026-03",
+    title: "ICE Consolidated Tape — SIP Feed Certification Window",
+    organization: "ICE",
+    organization_type: "sip",
+    category: "infrastructure-maintenance",
+    tags: ["SIP", "CTA", "UTP", "certification", "testing"],
+    region: "US",
+    announcement_date: "2026-01-28",
+    effective_date: "2026-03-03",
+    impact_level: "medium",
+    impact_type: "infrastructure",
+    summary: "ICE SIP will open a two-week certification testing window for subscribers ahead of the Q2 infrastructure upgrade. All impacted participants should schedule testing during this period.",
+    action_required: false,
+    source_url: "#",
+    source_title: "ICE SIP Technical Notice T-26-003",
+    status: "upcoming",
+    verified: true,
+  },
+  {
+    id: "finra-trace-phase5-2026-04",
+    title: "FINRA TRACE Phase 5 Reporting Expansion",
+    organization: "FINRA",
+    organization_type: "regulator",
+    category: "regulatory-deadline",
+    tags: ["TRACE", "fixed income", "reporting", "FINRA"],
+    region: "US",
+    announcement_date: "2025-10-15",
+    effective_date: "2026-04-01",
+    impact_level: "high",
+    impact_type: "compliance",
+    summary: "FINRA expands TRACE reporting obligations to cover additional categories of debt securities including certain agency securities and structured products not previously captured.",
+    action_required: true,
+    action_summary: "Assess coverage universe for new TRACE-reportable instruments. Update OMS and post-trade reporting workflows.",
+    source_url: "#",
+    source_title: "FINRA Regulatory Notice 25-09",
+    status: "upcoming",
+    verified: true,
+  },
+  {
+    id: "cme-good-friday-2026",
+    title: "CME Globex — Good Friday Early Close & Holiday Schedule",
+    organization: "CME Group",
+    organization_type: "exchange",
+    category: "holiday",
+    tags: ["holiday", "Good Friday", "Globex", "CME", "market close"],
+    region: "US",
+    announcement_date: "2026-01-05",
+    effective_date: "2026-04-03",
+    impact_level: "low",
+    impact_type: "infrastructure",
+    summary: "CME Globex markets will observe modified trading hours on Good Friday, April 3, 2026. Equity index and interest rate futures will close early at 12:00 pm CT.",
+    action_required: false,
+    source_url: "#",
+    source_title: "CME Group Holiday Schedule 2026",
+    status: "upcoming",
+    verified: true,
+  },
+  {
+    id: "nyse-pillar-equities-upgrade-2026-03",
+    title: "NYSE Pillar Platform — Equities Matching Engine Upgrade",
+    organization: "NYSE",
+    organization_type: "exchange",
+    category: "system-migration",
+    tags: ["NYSE", "Pillar", "matching engine", "equities", "latency"],
+    region: "US",
+    announcement_date: "2026-02-01",
+    effective_date: "2026-03-28",
+    impact_level: "critical",
+    impact_type: "infrastructure",
+    summary: "NYSE will deploy an upgraded Pillar matching engine for NYSE-listed equities, introducing a new message sequencing protocol. Drop copy and co-location clients must recertify.",
+    action_required: true,
+    action_summary: "Co-location customers must recertify connections by Mar 21. New FIX session parameters required. Review NYSE Technical Memo 2026-003.",
+    source_url: "#",
+    source_title: "NYSE Trader Update — March Infrastructure",
+    status: "upcoming",
+    verified: true,
+  },
+  {
+    id: "esma-mifid3-clock-sync-2026-06",
+    title: "ESMA MiFID III — Clock Synchronisation Tightening Deadline",
+    organization: "ESMA",
+    organization_type: "regulator",
+    category: "regulatory-deadline",
+    tags: ["ESMA", "MiFID III", "clock sync", "latency", "RTS 25"],
+    region: "EU",
+    announcement_date: "2025-07-01",
+    effective_date: "2026-06-01",
+    impact_level: "high",
+    impact_type: "compliance",
+    summary: "ESMA's revised RTS 25 under MiFID III tightens clock synchronisation requirements for trading venues and systematic internalisers to ±50 microseconds (down from ±100μs). Gateway timestamps must be GPS-locked or equivalent.",
+    action_required: true,
+    action_summary: "Audit time synchronisation infrastructure. Document GPS or PTP compliance. Update record-keeping for NCA submission.",
+    source_url: "#",
+    source_title: "ESMA RTS 25 Amendment — 2025/1192",
+    status: "upcoming",
+    verified: true,
+  },
+  {
+    id: "lseg-millennium-upgrade-2026-05",
+    title: "LSEG Millennium Exchange — Protocol Specification Update v7.1",
+    organization: "LSEG",
+    organization_type: "exchange",
+    category: "spec-update",
+    tags: ["LSEG", "London Stock Exchange", "Millennium", "FIX", "protocol"],
+    region: "UK",
+    announcement_date: "2026-01-20",
+    effective_date: "2026-05-18",
+    impact_level: "medium",
+    impact_type: "protocol",
+    summary: "LSEG will publish updated Millennium Exchange interface specification v7.1 introducing new order type fields and enhanced order audit trail requirements for UK equity markets.",
+    action_required: false,
+    source_url: "#",
+    source_title: "LSEG Technical Notice GEN-2026-007",
+    status: "upcoming",
+    verified: true,
+  },
+  {
+    id: "tse-arrowhead-2026-07",
+    title: "Tokyo Stock Exchange — Arrowhead 5.0 Go-Live",
+    organization: "JPX / TSE",
+    organization_type: "exchange",
+    category: "system-migration",
+    tags: ["TSE", "JPX", "Arrowhead", "matching engine", "APAC"],
+    region: "APAC",
+    announcement_date: "2025-09-10",
+    effective_date: "2026-07-06",
+    impact_level: "high",
+    impact_type: "infrastructure",
+    summary: "Japan Exchange Group will launch Arrowhead 5.0, reducing matching latency to sub-100 microseconds and introducing new market data interface with expanded depth of book.",
+    action_required: true,
+    action_summary: "Recertify market data connections. Review new FLEX Full Order Book specifications. Testing window opens May 2026.",
+    source_url: "#",
+    source_title: "JPX Notice No. 2025-047",
+    status: "upcoming",
+    verified: false,
+  },
+  {
+    id: "us-market-holiday-mlk-2026",
+    title: "US Market Holiday — Presidents' Day",
+    organization: "US Exchanges",
+    organization_type: "exchange",
+    category: "holiday",
+    tags: ["holiday", "Presidents Day", "market close", "US"],
+    region: "US",
+    announcement_date: "2026-01-05",
+    effective_date: "2026-02-16",
+    impact_level: "low",
+    impact_type: "infrastructure",
+    summary: "All US equity, options, and futures markets closed for Presidents' Day federal holiday. Pre-market and after-hours sessions also suspended.",
+    action_required: false,
+    source_url: "#",
+    source_title: "2026 US Market Holiday Schedule",
+    status: "completed",
+    verified: true,
+  },
+  {
+    id: "dtcc-nscc-settlement-upgrade-2026-04",
+    title: "DTCC / NSCC — Real-Time Settlement Infrastructure Upgrade (T+1 Phase 2)",
+    organization: "DTCC",
+    organization_type: "clearing",
+    category: "infrastructure-maintenance",
+    tags: ["DTCC", "NSCC", "T+1", "settlement", "clearing"],
+    region: "US",
+    announcement_date: "2026-01-15",
+    effective_date: "2026-04-20",
+    impact_level: "critical",
+    impact_type: "infrastructure",
+    summary: "DTCC will deploy Phase 2 of its real-time settlement infrastructure to support intraday affirmation matching and position reporting under the T+1 framework. Counterparties must be on affirming platforms.",
+    action_required: true,
+    action_summary: "Confirm affirmation platform compatibility with your prime broker or custodian. File DTCC integration certification by Apr 6.",
+    source_url: "#",
+    source_title: "DTCC Important Notice CC8972",
+    status: "upcoming",
+    verified: true,
+  },
+];
+
+// ── Filter State ───────────────────────────────────────────────────────
+const filters = { impact: 'all', category: 'all', region: 'all' };
+let actionOnly = false;
+
+function setFilter(type, value, btn) {
+  filters[type] = value;
+  btn.closest('.filter-group').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function toggleActionFilter(btn) {
+  actionOnly = !actionOnly;
+  btn.classList.toggle('active', actionOnly);
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = (document.getElementById('searchBox').value || '').toLowerCase();
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  let filtered = EVENTS.filter(e => {
+    const eff = new Date(e.effective_date);
+    if (filters.impact   !== 'all' && e.impact_level   !== filters.impact)   return false;
+    if (filters.category !== 'all' && e.category       !== filters.category) return false;
+    if (filters.region   !== 'all' && e.region         !== filters.region)   return false;
+    if (actionOnly && !e.action_required)                                     return false;
+    if (q && !(
+      e.title.toLowerCase().includes(q) ||
+      e.organization.toLowerCase().includes(q) ||
+      e.summary.toLowerCase().includes(q) ||
+      e.tags.some(t => t.toLowerCase().includes(q))
+    )) return false;
+    return true;
+  });
+
+  // Sort by effective_date ascending (upcoming first)
+  filtered.sort((a, b) => new Date(a.effective_date) - new Date(b.effective_date));
+
+  renderEvents(filtered);
+  updateStats();
+}
+
+// ── Render ─────────────────────────────────────────────────────────────
+function daysOut(dateStr) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d     = new Date(dateStr); d.setHours(0,0,0,0);
+  return Math.round((d - today) / 86400000);
+}
+
+function formatEffDate(dateStr) {
+  const d = new Date(dateStr);
+  return {
+    month: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()],
+    day:   d.getDate(),
+    year:  d.getFullYear(),
+  };
+}
+
+function daysOutLabel(n) {
+  if (n < 0)  return { text: `${Math.abs(n)}d ago`, cls: '' };
+  if (n === 0) return { text: 'Today', cls: 'urgent' };
+  if (n <= 7)  return { text: `${n}d left`, cls: 'urgent' };
+  if (n <= 30) return { text: `${n}d left`, cls: 'soon' };
+  return { text: `${n}d`, cls: '' };
+}
+
+function catClass(cat) {
+  return 'cat-' + cat;
+}
+
+function catLabel(cat) {
+  const map = {
+    'exchange-notice':         'Exchange Notice',
+    'feed-change':             'Feed Change',
+    'system-migration':        'System Migration',
+    'regulatory-deadline':     'Regulatory Deadline',
+    'spec-update':             'Spec Update',
+    'infrastructure-maintenance': 'Infra Maintenance',
+    'market-structure':        'Market Structure',
+    'holiday':                 'Holiday',
+  };
+  return map[cat] || cat;
+}
+
+function renderEvents(events) {
+  const list = document.getElementById('eventsList');
+  document.getElementById('resultCount').textContent = events.length + ' event' + (events.length !== 1 ? 's' : '');
+
+  if (events.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-title">No events match your filters</div>
+        <div class="empty-state-desc">Try adjusting your impact level, category, or region filters.</div>
+      </div>`;
+    return;
+  }
+
+  // Group by month
+  const groups = {};
+  events.forEach(e => {
+    const d   = new Date(e.effective_date);
+    const key = d.getFullYear() + '-' + String(d.getMonth()).padStart(2,'0');
+    const lbl = months[d.getMonth()] + ' ' + d.getFullYear();
+    if (!groups[key]) groups[key] = { label: lbl, events: [] };
+    groups[key].events.push(e);
+  });
+
+  let html = '';
+  Object.values(groups).forEach(group => {
+    html += `
+      <div class="month-group-header">
+        <div class="month-group-label">${group.label}</div>
+        <span class="month-group-count">${group.events.length}</span>
+        <div class="month-group-line"></div>
+      </div>`;
+
+    group.events.forEach(e => {
+      const dt    = formatEffDate(e.effective_date);
+      const n     = daysOut(e.effective_date);
+      const dl    = daysOutLabel(n);
+      const tags  = e.tags.slice(0,4).map(t => `<span class="event-tag">${t}</span>`).join('');
+      const isPast = n < 0;
+
+      html += `
+        <a class="event-card fade-in" href="${e.source_url}" target="_blank" rel="noopener" style="${isPast?'opacity:0.55':''}">
+          <div class="event-impact-bar ${e.impact_level}"></div>
+          <div class="event-date-col">
+            <div class="event-date-month">${dt.month}</div>
+            <div class="event-date-day">${dt.day}</div>
+            <div class="event-date-year">${dt.year}</div>
+            <div class="event-days-out ${dl.cls}">${dl.text}</div>
+          </div>
+          <div class="event-body">
+            <div class="event-org-row">
+              <span class="event-org">${e.organization}</span>
+              <span class="event-org-type">${e.organization_type}</span>
+              <span class="event-category ${catClass(e.category)}">${catLabel(e.category)}</span>
+              ${e.region !== 'Global' ? `<span class="event-tag">${e.region}</span>` : ''}
+            </div>
+            <div class="event-title">${e.title}</div>
+            <div class="event-summary">${e.summary}</div>
+            ${tags ? `<div class="event-tags">${tags}</div>` : ''}
+            ${e.action_required && e.action_summary ? `
+              <div style="margin-top:8px;padding:7px 10px;background:#fef3f3;border-left:3px solid var(--red);font-size:12px;color:#7a2020;line-height:1.5">
+                <strong>Action:</strong> ${e.action_summary}
+              </div>` : ''}
+          </div>
+          <div class="event-right-col">
+            <span class="impact-badge impact-${e.impact_level}">${e.impact_level}</span>
+            ${e.action_required ? `<span class="action-required-badge">Action Req.</span>` : ''}
+            ${e.verified ? `<span class="verified-badge">Verified</span>` : `<span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted)">Unverified</span>`}
+            <span class="event-region">${e.region}</span>
+          </div>
+        </a>`;
+    });
+  });
+
+  list.innerHTML = html;
+}
+
+function updateStats() {
+  const total    = EVENTS.length;
+  const action   = EVENTS.filter(e => e.action_required).length;
+  const critical = EVENTS.filter(e => e.impact_level === 'critical').length;
+  document.getElementById('statTotal').textContent    = total;
+  document.getElementById('statAction').textContent   = action;
+  document.getElementById('statCritical').textContent = critical;
+}
+
+function renderUrgent() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const urgent = EVENTS
+    .filter(e => {
+      const n = daysOut(e.effective_date);
+      return n >= 0 && n <= 30 && (e.impact_level === 'critical' || e.impact_level === 'high');
+    })
+    .sort((a,b) => new Date(a.effective_date) - new Date(b.effective_date))
+    .slice(0,5);
+
+  const el = document.getElementById('urgentList');
+  if (urgent.length === 0) {
+    el.innerHTML = `<div style="font-size:12px;color:var(--muted)">No high-impact events in the next 30 days.</div>`;
+    return;
+  }
+  el.innerHTML = urgent.map(e => {
+    const dt = formatEffDate(e.effective_date);
+    return `
+      <div class="critical-item">
+        <div class="critical-item-date">${dt.month} ${dt.day} — ${daysOut(e.effective_date)}d away</div>
+        <div class="critical-item-title">${e.title}</div>
+        <div class="critical-item-org">${e.organization} · ${e.impact_level.toUpperCase()}</div>
+      </div>`;
+  }).join('');
+}
+
+function renderCatBreakdown() {
+  const counts = {};
+  EVENTS.forEach(e => { counts[e.category] = (counts[e.category] || 0) + 1; });
+  const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+  const max = sorted[0]?.[1] || 1;
+  document.getElementById('catBreakdown').innerHTML = sorted.map(([cat, n]) => `
+    <div class="cat-bar-row">
+      <span class="cat-bar-label">${catLabel(cat)}</span>
+      <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${Math.round(n/max*100)}%"></div></div>
+      <span class="cat-bar-num">${n}</span>
+    </div>`).join('');
+}
+
+// ── Init ───────────────────────────────────────────────────────────────
+applyFilters();
+updateStats();
+renderUrgent();
+renderCatBreakdown();
+</script>
+</body>
+</html>
