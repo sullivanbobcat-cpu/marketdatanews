@@ -733,11 +733,10 @@
   <nav>
     <a href="index.html" class="nav-item active">All News</a>
     <a href="exchanges.html" class="nav-item">Exchanges</a>
-    <a href="technology.html" class="nav-item">Technology</a>
     <a href="regulation.html" class="nav-item">Regulation</a>
-    <a href="trading.html" class="nav-item">Trading</a>
-    <a href="fintech.html" class="nav-item">FinTech</a>
-    <a href="calendar.html" class="nav-item">Calendar</a>
+    <a href="nms.html" class="nav-item">NMS / SIP</a>
+    <a href="feed-status.html" class="nav-item">Feed Status</a>
+    <a href="calendar.html" class="nav-item">FeedWatch</a>
     <div class="nav-right">
       <input class="search-box" type="text" placeholder="Search news..." id="searchBox" oninput="filterNews()">
     </div>
@@ -754,11 +753,10 @@
 <div class="mobile-nav" id="mobileNav">
   <a href="index.html" class="active">All News</a>
   <a href="exchanges.html">Exchanges</a>
-  <a href="technology.html">Technology</a>
   <a href="regulation.html">Regulation</a>
-  <a href="trading.html">Trading</a>
-  <a href="fintech.html">FinTech</a>
-  <a href="calendar.html">Calendar</a>
+  <a href="nms.html">NMS / SIP</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="calendar.html">FeedWatch</a>
   <div class="mobile-search">
     <input type="text" placeholder="Search news..." oninput="document.getElementById('searchBox').value=this.value;filterNews()">
   </div>
@@ -877,9 +875,9 @@
       <h4>Coverage</h4>
       <a href="exchanges.html">Exchanges</a>
       <a href="regulation.html">Regulation</a>
-      <a href="technology.html">Technology</a>
-      <a href="trading.html">Trading</a>
-      <a href="fintech.html">FinTech</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+      <a href="calendar.html">FeedWatch</a>
     </div>
     <div class="footer-col">
       <h4>Resources</h4>
@@ -914,8 +912,7 @@ document.getElementById('dateLine').textContent =
 const FEEDS = [
   { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147', category: 'Markets', label: 'CNBC Markets' },
   { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664', category: 'Markets', label: 'CNBC Finance' },
-  { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839135', category: 'Technology', label: 'CNBC Tech' },
-  { url: 'https://feeds.bloomberg.com/markets/news.rss', category: 'Markets', label: 'Bloomberg' },
+  { url: 'https://feeds.bloomberg.com/markets/news.rss', category: 'Exchanges', label: 'Bloomberg' },
   { url: 'https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines', category: 'Markets', label: 'MarketWatch' },
   { url: 'https://ir.nasdaq.com/rss/news-releases.xml', category: 'Exchanges', label: 'NASDAQ IR' },
 ];
@@ -923,11 +920,10 @@ const CACHE_TTL = 10 * 60 * 1000; // 10 min cache
 
 // Category keywords for auto-tagging
 const CATEGORY_KEYWORDS = {
-  'Exchanges': ['exchange','NYSE','NASDAQ','CME','CBOE','ICE','LSE','trading venue','market center'],
-  'Regulation': ['SEC','FINRA','regulation','regulatory','rule','compliance','enforcement','NMS'],
-  'Technology': ['technology','data feed','latency','infrastructure','cloud','API','system','platform'],
-  'Trading': ['trading','execution','order','liquidity','HFT','algo','market maker','dark pool'],
-  'FinTech': ['fintech','blockchain','crypto','digital','startup','innovation','AI','machine learning'],
+  'Exchanges': ['exchange','NYSE','NASDAQ','CME','CBOE','ICE','LSE','Euronext','BATS','IEX','trading venue','market center','SRO','co-location','port','connectivity'],
+  'Regulation': ['SEC','FINRA','CFTC','regulation','regulatory','rule','compliance','enforcement','NMS','CAT','SLATE','Rule 605','Reg SHO','Reg NMS','Form 13H','no-action'],
+  'NMS / SIP': ['NMS','SIP','OPRA','CTA','UTP','SIP','consolidated tape','national market system','NMS plan','tape plan','market data infrastructure','feed','MDP','iLink','FIX','ITCH','OUCH','SQF'],
+  'Feed Status': ['outage','maintenance','degraded','incident','status','downtime','recovery','operational','disruption','latency spike'],
 };
 
 let allArticles = [];
