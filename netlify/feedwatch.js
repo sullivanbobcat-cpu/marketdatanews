@@ -1,126 +1,104 @@
 // netlify/functions/feedwatch.js
-// FeedWatch structured data API — fetches data from static feedwatch.json
-//
-// Endpoints:
-//   GET /.netlify/functions/feedwatch
-//   GET /.netlify/functions/feedwatch?impact=critical
-//   GET /.netlify/functions/feedwatch?impact=high,critical
-//   GET /.netlify/functions/feedwatch?org=cme+group
-//   GET /.netlify/functions/feedwatch?action_required=true
-//   GET /.netlify/functions/feedwatch?region=US
-//   GET /.netlify/functions/feedwatch?limit=5
-//   GET /.netlify/functions/feedwatch?category=feed+change
+// FeedWatch API - fetches feedwatch.json from static files
 
 exports.handler = async function(event) {
   const headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
     'Cache-Control': 'public, max-age=300, s-maxage=300',
     'X-API-Version': '1.0',
-    'X-Data-Source': 'FeedWatch by Market Data News',
   };
 
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers, body: '' };
   }
 
+  // Build base URL from request headers
+  const host = (event.headers && (event.headers['x-forwarded-host'] || event.headers['host'])) || 'marketdatanews.com';
+  const proto = (event.headers && event.headers['x-forwarded-proto']) || 'https';
+  const dataUrl = `${proto}://${host}/feedwatch.json`;
+
+  let data;
+
+  // Try fetch first (Node 18+), fall back to https module
   try {
-    // Determine the base URL from the incoming request host
-    const host = event.headers && (event.headers['x-forwarded-host'] || event.headers['host']);
-    const proto = (event.headers && event.headers['x-forwarded-proto']) || 'https';
-    const baseUrl = host ? `${proto}://${host}` : 'https://marketdatanews.com';
-
-    // Fetch the static JSON file from our own domain
-    const dataUrl = `${baseUrl}/feedwatch.json`;
-    const response = await fetch(dataUrl, {
-      signal: AbortSignal.timeout(8000),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data: HTTP ${response.status}`);
+    if (typeof fetch !== 'undefined') {
+      const res = await fetch(dataUrl, { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) throw new Error(`HTTP ${res.status} fetching ${dataUrl}`);
+      data = await res.json();
+    } else {
+      // Fallback: Node https module
+      data = await new Promise((resolve, reject) => {
+        const https = require('https');
+        https.get(dataUrl, (res) => {
+          let body = '';
+          res.on('data', chunk => body += chunk);
+          res.on('end', () => {
+            try { resolve(JSON.parse(body)); }
+            catch (e) { reject(new Error('JSON parse failed: ' + e.message)); }
+          });
+        }).on('error', reject);
+      });
     }
-
-    const data = await response.json();
-    let entries = data.entries || [];
-
-    // Parse query params
-    const params = event.queryStringParameters || {};
-
-    // Filter: impact level (comma-separated OK)
-    if (params.impact) {
-      const levels = params.impact.toLowerCase().split(',').map(s => s.trim());
-      entries = entries.filter(e => levels.includes(e.impact.toLowerCase()));
-    }
-
-    // Filter: organization (comma-separated OK)
-    if (params.org) {
-      const orgs = params.org.toLowerCase().split(',').map(s => s.trim());
-      entries = entries.filter(e => orgs.includes(e.organization.toLowerCase()));
-    }
-
-    // Filter: category (partial match, comma-separated OK)
-    if (params.category) {
-      const cats = params.category.toLowerCase().split(',').map(s => s.trim());
-      entries = entries.filter(e => cats.some(c => e.category.toLowerCase().includes(c)));
-    }
-
-    // Filter: action_required
-    if (params.action_required !== undefined && params.action_required !== null) {
-      const ar = params.action_required === 'true';
-      entries = entries.filter(e => e.action_required === ar);
-    }
-
-    // Filter: region
-    if (params.region) {
-      const regions = params.region.toUpperCase().split(',').map(s => s.trim());
-      entries = entries.filter(e => regions.includes(e.region.toUpperCase()));
-    }
-
-    // Sort by effective_date ascending (exact dates first, Q-dates after, TBD last)
-    entries = entries.sort((a, b) => {
-      const parseDate = (val) => {
-        if (!val) return new Date('2099-12-31');
-        if (/^\d{4}-\d{2}-\d{2}$/.test(val)) return new Date(val);
-        const qMatch = val.match(/(\d{4})-Q(\d)/);
-        if (qMatch) {
-          const qMonths = { '1': '01', '2': '04', '3': '07', '4': '10' };
-          return new Date(`${qMatch[1]}-${qMonths[qMatch[2]]}-01`);
-        }
-        return new Date('2099-12-31');
-      };
-      return parseDate(a.effective_date) - parseDate(b.effective_date);
-    });
-
-    // Limit results
-    const limit = params.limit ? parseInt(params.limit, 10) : null;
-    const limited = (limit && limit > 0) ? entries.slice(0, limit) : entries;
-
-    const result = {
-      version: data.version,
-      generated: data.generated,
-      total_entries: data.entries.length,
-      returned: limited.length,
-      filters_applied: Object.keys(params).filter(k => k !== 'limit' && params[k]),
-      entries: limited,
-    };
-
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify(result, null, 2),
-    };
-
   } catch (err) {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({
-        error: 'Internal server error',
-        message: err.message,
-        hint: 'Make sure feedwatch.json exists in the /files directory',
-      }),
+      body: JSON.stringify({ error: 'Failed to load data', detail: err.message, tried: dataUrl }),
     };
   }
+
+  let entries = data.entries || [];
+  const params = event.queryStringParameters || {};
+
+  if (params.impact) {
+    const levels = params.impact.toLowerCase().split(',').map(s => s.trim());
+    entries = entries.filter(e => levels.includes(e.impact.toLowerCase()));
+  }
+  if (params.org) {
+    const orgs = params.org.toLowerCase().split(',').map(s => s.trim());
+    entries = entries.filter(e => orgs.includes(e.organization.toLowerCase()));
+  }
+  if (params.category) {
+    const cats = params.category.toLowerCase().split(',').map(s => s.trim());
+    entries = entries.filter(e => cats.some(c => e.category.toLowerCase().includes(c)));
+  }
+  if (params.action_required !== undefined) {
+    entries = entries.filter(e => e.action_required === (params.action_required === 'true'));
+  }
+  if (params.region) {
+    const regions = params.region.toUpperCase().split(',').map(s => s.trim());
+    entries = entries.filter(e => regions.includes(e.region.toUpperCase()));
+  }
+
+  // Sort by effective date ascending
+  entries.sort((a, b) => {
+    const parse = (v) => {
+      if (!v) return 9999;
+      if (/^\d{4}-\d{2}-\d{2}$/.test(v)) return new Date(v).getTime();
+      const q = v.match(/(\d{4})-Q(\d)/);
+      if (q) return new Date(`${q[1]}-${['01','04','07','10'][+q[2]-1]}-01`).getTime();
+      return 9999999999999;
+    };
+    return parse(a.effective_date) - parse(b.effective_date);
+  });
+
+  if (params.limit) {
+    const n = parseInt(params.limit, 10);
+    if (n > 0) entries = entries.slice(0, n);
+  }
+
+  return {
+    statusCode: 200,
+    headers,
+    body: JSON.stringify({
+      version: data.version,
+      generated: data.generated,
+      total: data.entries.length,
+      returned: entries.length,
+      filters: Object.keys(params).filter(k => k !== 'limit'),
+      entries,
+    }, null, 2),
+  };
 };
