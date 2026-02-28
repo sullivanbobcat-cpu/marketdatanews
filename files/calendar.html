@@ -198,11 +198,10 @@
   <nav>
     <a href="index.html" class="nav-item">All News</a>
     <a href="exchanges.html" class="nav-item">Exchanges</a>
-    <a href="technology.html" class="nav-item">Technology</a>
     <a href="regulation.html" class="nav-item">Regulation</a>
-    <a href="trading.html" class="nav-item">Trading</a>
-    <a href="fintech.html" class="nav-item">FinTech</a>
-    <a href="calendar.html" class="nav-item active">Calendar</a>
+    <a href="nms.html" class="nav-item">NMS / SIP</a>
+    <a href="feed-status.html" class="nav-item">Feed Status</a>
+    <a href="calendar.html" class="nav-item active">FeedWatch</a>
     <div class="nav-right"></div>
   </nav>
   <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
@@ -213,11 +212,10 @@
 <div class="mobile-nav" id="mobileNav">
   <a href="index.html">All News</a>
   <a href="exchanges.html">Exchanges</a>
-  <a href="technology.html">Technology</a>
   <a href="regulation.html">Regulation</a>
-  <a href="trading.html">Trading</a>
-  <a href="fintech.html">FinTech</a>
-  <a href="calendar.html" class="active">Calendar</a>
+  <a href="nms.html">NMS / SIP</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="calendar.html" class="active">FeedWatch</a>
 </div>
 
 <!-- FeedWatch Banner -->
@@ -997,8 +995,8 @@
 <footer>
   <div class="footer-grid">
     <div><div class="footer-brand">Market Data <span>News</span></div><div class="footer-desc">The authoritative source for market data infrastructure intelligence. FeedWatch consolidates exchange notices, regulatory deadlines, and feed changes into one operational reference.</div></div>
-    <div class="footer-col"><h4>Coverage</h4><a href="exchanges.html">Exchanges</a><a href="regulation.html">Regulation</a><a href="technology.html">Technology</a><a href="trading.html">Trading</a><a href="fintech.html">FinTech</a></div>
-    <div class="footer-col"><h4>FeedWatch</h4><a href="calendar.html">All Entries</a><a href="calendar.html?filter=action">Action Required</a><a href="calendar.html?filter=critical">Critical Alerts</a><a href="#">Email Alerts</a></div>
+    <div class="footer-col"><h4>Coverage</h4><a href="exchanges.html">Exchanges</a><a href="regulation.html">Regulation</a><a href="nms.html">NMS / SIP</a><a href="feed-status.html">Feed Status</a></div>
+    <div class="footer-col"><h4>FeedWatch</h4><a href="calendar.html">All Entries</a><a href="calendar.html?filter=action">Action Required</a><a href="calendar.html?filter=critical">Critical Alerts</a><a href="calendar.html?filter=high">High Impact</a></div>
     <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div>
   </div>
   <div class="footer-bottom"><span>&copy; 2026 MarketDataNews.com — All rights reserved</span><span>For market data professionals</span></div>
@@ -1068,6 +1066,33 @@ function filterEntries() {
   document.getElementById('liveCount').textContent = visible;
   document.getElementById('resultCount').textContent = visible + ' of 20 entries';
 }
+
+// Sort entries by effective date ascending (soonest first, TBD/Q-dates last)
+function sortEntriesByDate() {
+  const container = document.getElementById('entriesContainer');
+  const entries = Array.from(container.querySelectorAll('.fw-entry'));
+  
+  entries.sort((a, b) => {
+    const getDate = (el) => {
+      const val = el.querySelector('.fw-effective .fw-date-val');
+      if (!val) return new Date('2099-12-31');
+      const text = val.textContent.trim();
+      // Exact date
+      if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return new Date(text);
+      // Quarter dates: 2026-Q1 → Jan, Q2 → Apr, Q3 → Jul, Q4 → Oct
+      const qMatch = text.match(/(\d{4})-Q(\d)/);
+      if (qMatch) {
+        const qMonths = { '1': '01', '2': '04', '3': '07', '4': '10' };
+        return new Date(`${qMatch[1]}-${qMonths[qMatch[2]]}-01`);
+      }
+      return new Date('2099-12-31'); // TBD goes last
+    };
+    return getDate(a) - getDate(b);
+  });
+  
+  entries.forEach(e => container.appendChild(e));
+}
+sortEntriesByDate();
 
 // Mobile nav
 function toggleMobileNav() {
