@@ -137,12 +137,11 @@
   </div>
   <nav>
     <a href="index.html" class="nav-item">All News</a>
-    <a href="exchanges.html" class="nav-item ">Exchanges</a>
-    <a href="technology.html" class="nav-item ">Technology</a>
+    <a href="exchanges.html" class="nav-item">Exchanges</a>
     <a href="regulation.html" class="nav-item active">Regulation</a>
-    <a href="trading.html" class="nav-item ">Trading</a>
-    <a href="fintech.html" class="nav-item ">FinTech</a>
-    <a href="calendar.html" class="nav-item">Calendar</a>
+    <a href="nms.html" class="nav-item">NMS / SIP</a>
+    <a href="feed-status.html" class="nav-item">Feed Status</a>
+    <a href="calendar.html" class="nav-item">FeedWatch</a>
     <div class="nav-right">
       <input class="search-box" type="text" placeholder="Search news..." id="searchBox" oninput="filterNews()">
     </div>
@@ -187,8 +186,8 @@
 <footer>
   <div class="footer-grid">
     <div><div class="footer-brand">Market Data <span>News</span></div><div class="footer-desc">The authoritative source for market data industry professionals.</div></div>
-    <div class="footer-col"><h4>Coverage</h4><a href="exchanges.html">Exchanges</a><a href="regulation.html">Regulation</a><a href="technology.html">Technology</a><a href="trading.html">Trading</a><a href="fintech.html">FinTech</a></div>
-    <div class="footer-col"><h4>Resources</h4><a href="#">NMS Updates</a><a href="#">Feed Status</a><a href="calendar.html">Industry Calendar</a><a href="#">Archives</a></div>
+    <div class="footer-col"><h4>Coverage</h4><a href="exchanges.html">Exchanges</a><a href="regulation.html">Regulation</a><a href="nms.html">NMS / SIP</a><a href="feed-status.html">Feed Status</a><a href="calendar.html">FeedWatch</a></div>
+    <div class="footer-col"><h4>Resources</h4><a href="nms.html">NMS Updates</a><a href="feed-status.html">Feed Status</a><a href="calendar.html">FeedWatch</a><a href="#">Archives</a></div>
     <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div>
   </div>
   <div class="footer-bottom"><span>&copy; 2026 MarketDataNews.com &mdash; All rights reserved</span><span>For market data professionals</span></div>
@@ -197,7 +196,7 @@
 const PAGE_CATEGORY  = "Regulation";
 const PAGE_KEYWORDS  = ["SEC", "FINRA", "CFTC", "regulation", "regulatory", "rule", "compliance", "enforcement", "NMS", "MiFID", "ESMA", "FCA", "rulemaking", "proposal", "final rule", "SRO", "SIP", "Reg NMS", "policy", "law", "legal", "government", "federal", "legislation"];
 const PAGE_TOPICS    = ["SEC", "FINRA", "CFTC", "Reg NMS", "NMS Plans", "MiFID", "Compliance", "Enforcement", "Rulemaking", "SRO"];
-const PAGE_RELATED   = [{"label": "Exchanges", "url": "exchanges.html"}, {"label": "Calendar", "url": "calendar.html"}, {"label": "FinTech", "url": "fintech.html"}];
+const PAGE_RELATED   = [{"label": "Exchanges", "url": "exchanges.html"}, {"label": "FeedWatch", "url": "calendar.html"}, {"label": "NMS / SIP", "url": "nms.html"}];
 const PAGE_FEEDS     = ["https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664", "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147", "https://feeds.bloomberg.com/markets/news.rss"];
 const FALLBACK_ARTICLES = [{"title": "SEC Proposes Amendments to Regulation SCI Cybersecurity Requirements", "desc": "The Securities and Exchange Commission proposed updates to Regulation SCI that would expand covered entities to include additional market data providers and tighten incident reporting timelines.", "link": "#", "source": "SEC"}, {"title": "FINRA Issues Guidance on AI Use in Market Surveillance", "desc": "FINRA published a regulatory notice outlining expectations for member firms using artificial intelligence in trade surveillance systems, emphasizing explainability and human oversight.", "link": "#", "source": "FINRA"}, {"title": "NMS Plan Governance Reform: CAT LLC Restructuring Approved", "desc": "The SEC approved a restructuring of the Consolidated Audit Trail governance framework, redistributing voting rights among SRO members and adding institutional investor representation.", "link": "#", "source": "SEC"}, {"title": "CFTC Finalizes Position Reporting Rules for Swaps Dealers", "desc": "The Commodity Futures Trading Commission finalized amendments to swaps position reporting requirements, expanding the universe of reportable products and tightening submission deadlines.", "link": "#", "source": "CFTC"}, {"title": "MiFID III Clock Synchronisation Rules Take Effect June 2026", "desc": "European regulators confirmed enforcement of tightened clock synchronisation standards under MiFID III, requiring trading venues to maintain plus or minus 50 microsecond accuracy.", "link": "#", "source": "ESMA"}];
 const CACHE_TTL      = 10 * 60 * 1000; // 10 minutes
