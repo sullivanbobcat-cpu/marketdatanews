@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NMS / SIP News & Updates | Market Data News</title>
+<meta name="description" content="National Market System and SIP intelligence for market data professionals. CTA, UTP, OPRA feed updates, NMS plan amendments, consolidated tape developments, and SIP infrastructure news.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Market Data News">
+<link rel="canonical" href="https://marketdatanews.com/nms.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://marketdatanews.com/nms.html">
+<meta property="og:title" content="NMS / SIP News & Updates | Market Data News">
+<meta property="og:description" content="National Market System and SIP intelligence for market data professionals. CTA, UTP, OPRA feed updates, NMS plan amendments, consolidated tape developments, and SIP infrastructure news.">
+<meta property="og:site_name" content="Market Data News">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#0d0d0d;--paper:#f5f2eb;--cream:#faf8f3;--rule:#d4c9b0;--accent:#b8860b;--accent-dark:#8b6508;--muted:#6b6555;--red:#c0392b;--surface:#ffffff;--border:#e8e0d0;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",sans-serif;min-height:100vh;}
+  .ticker-wrap{background:var(--ink);color:var(--accent);padding:7px 0;overflow:hidden;position:relative;}
+  .ticker-wrap::before,.ticker-wrap::after{content:"";position:absolute;top:0;bottom:0;width:60px;z-index:2;}
+  .ticker-wrap::before{left:0;background:linear-gradient(90deg,var(--ink),transparent);}
+  .ticker-wrap::after{right:0;background:linear-gradient(-90deg,var(--ink),transparent);}
+  .ticker{display:flex;animation:ticker 40s linear infinite;white-space:nowrap;}
+  .ticker-item{font-family:"IBM Plex Mono",monospace;font-size:11px;padding:0 32px;letter-spacing:0.05em;}
+  .up{color:#00cc66;}.down{color:#ff4444;}
+  @keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+  .masthead{background:var(--cream);border-bottom:3px solid var(--ink);}
+  .masthead-top{display:flex;align-items:center;justify-content:space-between;padding:20px 48px 16px;border-bottom:1px solid var(--rule);}
+  .date-line{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
+  .site-title{font-family:"Playfair Display",serif;font-size:clamp(32px,5vw,58px);font-weight:900;letter-spacing:-0.02em;line-height:1;text-align:center;text-decoration:none;color:var(--ink);}
+  .site-title span{color:var(--accent);}
+  .tagline{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);text-align:right;letter-spacing:0.1em;text-transform:uppercase;line-height:1.6;}
+  nav{display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--rule);}
+  .nav-item{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:10px 18px;cursor:pointer;transition:background 0.15s,color 0.15s;color:var(--ink);border:none;background:none;font-family:"IBM Plex Sans",sans-serif;border-right:1px solid var(--rule);text-decoration:none;display:inline-block;}
+  .nav-item:first-child{border-left:1px solid var(--rule);}
+  .nav-item.active,.nav-item:hover{background:var(--ink);color:var(--accent);}
+  .nav-right{margin-left:auto;}
+  .search-box{background:transparent;border:1px solid var(--rule);padding:5px 12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink);border-radius:2px;width:180px;}
+  .search-box:focus{outline:none;border-color:var(--accent);}
+  .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:40px;height:40px;padding:8px;cursor:pointer;background:none;border:1px solid var(--rule);border-radius:2px;}
+  .hamburger span{display:block;height:2px;background:var(--ink);border-radius:1px;transition:all 0.25s;}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-nav{display:none;flex-direction:column;background:var(--cream);border-bottom:3px solid var(--ink);overflow:hidden;max-height:0;transition:max-height 0.3s ease;}
+  .mobile-nav.open{max-height:500px;}
+  .mobile-nav a{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:14px 20px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);font-family:"IBM Plex Sans",sans-serif;transition:background 0.15s,color 0.15s;}
+  .mobile-nav a:hover,.mobile-nav a.active{background:var(--ink);color:var(--accent);}
+  .page-banner{background:var(--ink);color:var(--cream);padding:24px 48px;border-bottom:2px solid var(--accent);}
+  .page-banner-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+  .page-banner-title{font-family:"Playfair Display",serif;font-size:clamp(20px,3vw,32px);font-weight:900;margin-bottom:4px;}
+  .page-banner-title span{color:var(--accent);}
+  .page-banner-desc{font-size:12px;color:#a09880;letter-spacing:0.03em;}
+  .page-banner-meta{display:flex;align-items:center;gap:8px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:#888;}
+  .live-dot-sm{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;}
+  .container{max-width:1280px;margin:0 auto;padding:0 48px;}
+  .layout{display:grid;grid-template-columns:1fr 320px;gap:0;border-left:1px solid var(--border);border-right:1px solid var(--border);background:var(--surface);}
+  .main-col{border-right:1px solid var(--border);padding:32px;}
+  .side-col{padding:24px;}
+  .section-head{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:10px;border-bottom:2px solid var(--ink);}
+  .section-head h2{font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;}
+  .section-line{flex:1;height:1px;background:var(--rule);}
+  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;flex-shrink:0;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  .news-grid{display:grid;gap:0;}
+  .news-card{padding:20px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit;display:block;transition:all 0.15s;}
+  .news-card:hover{background:var(--paper);padding-left:8px;}
+  .news-card:first-child{padding-top:0;}
+  .news-meta{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+  .news-source{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent-dark);}
+  .news-dot{color:var(--rule);font-size:10px;}
+  .news-time{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);}
+  .news-category{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;padding:2px 6px;border-radius:2px;background:var(--ink);color:var(--accent);font-family:"IBM Plex Mono",monospace;}
+  .news-title{font-family:"Playfair Display",serif;font-size:19px;font-weight:700;line-height:1.3;margin-bottom:6px;color:var(--ink);}
+  .news-card:hover .news-title{color:var(--accent-dark);}
+  .news-desc{font-size:13px;line-height:1.6;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .hero-card{padding:0 0 24px 0;border-bottom:2px solid var(--ink);margin-bottom:24px;}
+  .hero-label{display:inline-block;background:var(--red);color:white;font-size:9px;font-weight:600;font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:0.15em;padding:3px 8px;margin-bottom:10px;}
+  .hero-title{font-family:"Playfair Display",serif;font-size:clamp(22px,3vw,32px);font-weight:900;line-height:1.2;margin-bottom:10px;}
+  .hero-desc{font-size:15px;line-height:1.7;color:var(--muted);margin-bottom:12px;}
+  .hero-meta{display:flex;align-items:center;gap:12px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);}
+  .sidebar-section{margin-bottom:28px;}
+  .sidebar-head{font-family:"IBM Plex Sans",sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:14px;}
+  .sidebar-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit;}
+  .sidebar-item:hover .sidebar-title{color:var(--accent-dark);}
+  .sidebar-num{font-family:"Playfair Display",serif;font-size:22px;font-weight:900;color:var(--rule);line-height:1;min-width:28px;}
+  .sidebar-title{font-family:"Playfair Display",serif;font-size:14px;font-weight:700;line-height:1.3;transition:color 0.15s;}
+  .sidebar-meta{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+  .topic-tag{font-family:"IBM Plex Mono",monospace;font-size:10px;padding:3px 8px;border:1px solid var(--border);border-radius:2px;text-decoration:none;color:var(--muted);display:inline-block;margin:0 3px 3px 0;transition:all 0.15s;}
+  .topic-tag:hover{background:var(--ink);color:var(--accent);border-color:var(--ink);}
+  .newsletter{background:var(--ink);color:white;padding:20px;border-radius:2px;}
+  .newsletter h3{font-family:"Playfair Display",serif;font-size:18px;font-weight:700;margin-bottom:6px;}
+  .newsletter p{font-size:12px;color:#aaa;margin-bottom:14px;line-height:1.5;}
+  .newsletter input{width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:9px 12px;font-family:"IBM Plex Mono",monospace;font-size:12px;margin-bottom:8px;border-radius:2px;}
+  .newsletter input::placeholder{color:#666;}
+  .newsletter button{width:100%;background:var(--accent);color:var(--ink);border:none;padding:9px;font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;border-radius:2px;transition:background 0.2s;}
+  .newsletter button:hover{background:var(--accent-dark);color:white;}
+  .error-msg{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);padding:20px;text-align:center;border:1px dashed var(--border);border-radius:2px;}
+  footer{background:var(--ink);color:#aaa;padding:40px 48px;}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;max-width:1280px;margin:0 auto 32px;}
+  .footer-brand{font-family:"Playfair Display",serif;font-size:22px;font-weight:900;color:white;margin-bottom:10px;}
+  .footer-brand span{color:var(--accent);}
+  .footer-desc{font-size:12px;line-height:1.7;max-width:260px;}
+  .footer-col h4{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:white;margin-bottom:12px;font-family:"IBM Plex Sans",sans-serif;}
+  .footer-col a{display:block;font-size:12px;color:#888;text-decoration:none;margin-bottom:7px;transition:color 0.15s;}
+  .footer-col a:hover{color:var(--accent);}
+  .footer-bottom{border-top:1px solid #222;padding-top:20px;font-family:"IBM Plex Mono",monospace;font-size:10px;display:flex;justify-content:space-between;max-width:1280px;margin:0 auto;}
+  @media(max-width:900px){
+    .layout{grid-template-columns:1fr;}
+    .side-col{border-top:2px solid var(--ink);}
+    .container,.masthead-top,footer,.page-banner{padding-left:20px;padding-right:20px;}
+    .main-col{padding:20px;}
+    .masthead-top{flex-direction:column;gap:10px;text-align:center;padding:16px 20px;}
+    nav{display:none;} .hamburger{display:flex;} .mobile-nav{display:flex;}
+    .footer-grid{grid-template-columns:1fr;gap:24px;}
+    .footer-bottom{flex-direction:column;gap:6px;text-align:center;}
+  }
+  .fade-in{animation:fadeIn 0.4s ease forwards;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  /* FeedWatch Alert Bar */
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; gap: 0; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-stat:hover { background: rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num, .fw-alertbar-stat.critical .fw-alertbar-label { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num, .fw-alertbar-stat.high .fw-alertbar-label { color: #ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num, .fw-alertbar-stat.action .fw-alertbar-label { color: var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color: #888; } .fw-alertbar-stat.total .fw-alertbar-label { color: #555; }
+  .fw-alertbar-next { margin-left: auto; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #555; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
+  .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
+  @media (max-width: 900px) {
+    .fw-alertbar { padding: 0 16px; }
+    .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+</div></div>
+<!-- FeedWatch Alert Bar -->
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
+      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
+    </div>
+    <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="index.html" class="site-title" style="text-decoration:none;color:inherit">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="calendar.html" class="nav-item">FeedWatch</a>
+    <a href="index.html" class="nav-item">All News</a>
+    <a href="exchanges.html" class="nav-item">Exchanges</a>
+    <a href="regulation.html" class="nav-item">Regulation</a>
+    <a href="nms.html" class="nav-item active">NMS / SIP</a>
+    <a href="feed-status.html" class="nav-item">Feed Status</a>
+    <div class="nav-right">
+      <input class="search-box" type="text" placeholder="Search..." id="searchBox" oninput="if(typeof filterNews!=='undefined')filterNews()">
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="calendar.html">FeedWatch</a>
+  <a href="index.html">All News</a>
+  <a href="exchanges.html">Exchanges</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="nms.html" class="active">NMS / SIP</a>
+  <a href="feed-status.html">Feed Status</a>
+</div>
+
+<div class="page-banner">
+  <div class="page-banner-inner">
+    <div>
+      <div class="page-banner-title">NMS / <span>SIP</span></div>
+      <div class="page-banner-desc">CTA · UTP · OPRA · SIP · Consolidated Tape · NMS Plan Amendments</div>
+    </div>
+    <div class="page-banner-meta"><div class="live-dot-sm"></div><span id="updateTime">Loading live feed...</span></div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="layout">
+    <div class="main-col">
+      <div class="hero-card" id="heroCard"></div>
+      <div class="section-head">
+        <div class="live-dot"></div>
+        <h2>NMS / SIP News & Updates</h2>
+        <div class="section-line"></div>
+        <span style="font-family:IBM Plex Mono,monospace;font-size:10px;color:var(--muted)" id="articleCount"></span>
+      </div>
+      <div class="news-grid" id="newsGrid"></div>
+    </div>
+    <div class="side-col">
+      <div class="sidebar-section"><div class="sidebar-head">Top Stories</div><div id="mostRead"></div></div>
+      <div class="sidebar-section"><div class="sidebar-head">Topics</div><div id="topicTags" style="line-height:2.2"></div></div>
+      <div class="sidebar-section">
+        <div class="newsletter">
+          <h3>Daily Briefing</h3>
+          <p>Market data industry updates every morning before the open.</p>
+          <input type="email" placeholder="your@email.com" id="emailInput">
+          <button onclick="subscribe()">Subscribe Free</button>
+        </div>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-head">Related Sections</div><div id="relatedLinks" style="display:flex;flex-direction:column;gap:6px"></div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-brand">Market Data <span>News</span></div><div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div></div>
+    <div class="footer-col"><h4>Coverage</h4><a href="exchanges.html">Exchanges</a><a href="regulation.html">Regulation</a><a href="nms.html">NMS / SIP</a><a href="feed-status.html">Feed Status</a></div>
+    <div class="footer-col"><h4>FeedWatch</h4><a href="calendar.html">All Entries</a><a href="calendar.html?filter=action">Action Required</a><a href="calendar.html?filter=critical">Critical Alerts</a><a href="calendar.html?filter=high">High Impact</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Contact</a><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 MarketDataNews.com — All rights reserved</span><span>For market data professionals</span></div>
+</footer>
+
+<script>
+const PAGE_CATEGORY = "NMS / SIP";
+const PAGE_KEYWORDS = ["NMS", "SIP", "OPRA", "CTA", "UTP", "consolidated tape", "NMS plan", "tape plan", "market data infrastructure", "Rule 605", "CAT", "national market system", "SIP latency", "feed", "Reg NMS"];
+const PAGE_TOPICS   = ["CTA", "UTP Plan", "OPRA", "SIP", "Consolidated Tape", "NMS Plan", "Rule 605", "CAT", "Market Data Infrastructure", "Tape Plans"];
+const PAGE_RELATED  = [{"label": "FeedWatch", "url": "calendar.html"}, {"label": "Regulation", "url": "regulation.html"}, {"label": "Exchanges", "url": "exchanges.html"}];
+const CACHE_TTL = 10 * 60 * 1000;
+
+const _d=new Date(),_dn=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],_mn=["January","February","March","April","May","June","July","August","September","October","November","December"];
+document.getElementById("dateLine").textContent=_dn[_d.getDay()]+", "+_mn[_d.getMonth()]+" "+_d.getDate()+", "+_d.getFullYear();
+
+const FEEDS = [{"url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147", "label": "CNBC Markets"}, {"url": "https://ir.nasdaq.com/rss/news-releases.xml", "label": "NASDAQ IR"}, {"url": "https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines", "label": "MarketWatch"}];
+
+function timeAgo(dateStr){const d=new Date(dateStr);if(isNaN(d))return"Recently";const m=Math.floor((Date.now()-d)/60000);if(m<1)return"Just now";if(m<60)return m+"m ago";const h=Math.floor(m/60);if(h<24)return h+"h ago";return Math.floor(h/24)+"d ago";}
+
+async function fetchFeed(feed){
+  const key="mdn_"+feed.url.replace(/[^a-z0-9]/gi,"").slice(-40);
+  try{const c=localStorage.getItem(key);if(c){const o=JSON.parse(c);if(Date.now()-o.ts<CACHE_TTL)return o.data;}}catch(e){}
+  try{
+    const res=await fetch("/.netlify/functions/rss?url="+encodeURIComponent(feed.url),{signal:AbortSignal.timeout(10000)});
+    const json=await res.json();
+    const items=(json.items||[]).filter(i=>i.title&&i.title.length>5&&PAGE_KEYWORDS.some(k=>i.title.toLowerCase().includes(k.toLowerCase())||((i.desc||"")).toLowerCase().includes(k.toLowerCase()))).map(i=>({title:i.title,desc:i.desc||"",link:i.link||"#",pubDate:i.pubDate||"",source:feed.label,time:timeAgo(i.pubDate),timestamp:new Date(i.pubDate).getTime()||0}));
+    try{localStorage.setItem(key,JSON.stringify({data:items,ts:Date.now()}));}catch(e){}
+    return items;
+  }catch(e){return[];}
+}
+
+let allArticles=[];
+async function loadAllFeeds(){
+  const results=await Promise.allSettled(FEEDS.map(fetchFeed));
+  allArticles=results.flatMap(r=>r.status==="fulfilled"?r.value:[]).sort((a,b)=>b.timestamp-a.timestamp);
+  if(allArticles.length===0){showFallback();return;}
+  renderHero(allArticles[0]);
+  renderNews(allArticles.slice(1));
+  renderMostRead(allArticles.slice(0,5));
+  document.getElementById("updateTime").textContent="Updated "+new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+  document.getElementById("articleCount").textContent=allArticles.length+" articles";
+}
+
+function renderHero(a){
+  document.getElementById("heroCard").innerHTML=`<div class="hero-label">&#9679; Live</div><a href="${a.link}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div class="hero-title">${a.title}</div></a><div class="hero-desc">${a.desc.slice(0,220)}${a.desc.length>220?"...":""}</div><div class="hero-meta"><span style="color:var(--accent-dark);font-weight:600">${a.source}</span><span>·</span><span>${a.time}</span></div>`;
+  document.getElementById("heroCard").classList.add("fade-in");
+}
+function renderNews(articles){
+  const g=document.getElementById("newsGrid");
+  if(!articles.length){g.innerHTML='<div class="error-msg">No articles loaded — check back shortly.</div>';return;}
+  g.innerHTML=articles.map(a=>`<a class="news-card fade-in" href="${a.link}" target="_blank" rel="noopener"><div class="news-meta"><span class="news-source">${a.source}</span><span class="news-dot">·</span><span class="news-time">${a.time}</span></div><div class="news-title">${a.title}</div>${a.desc?`<div class="news-desc">${a.desc}</div>`:""}</a>`).join("");
+}
+function renderMostRead(articles){
+  document.getElementById("mostRead").innerHTML=articles.map((a,i)=>`<a class="sidebar-item" href="${a.link}" target="_blank" rel="noopener"><div class="sidebar-num">0${i+1}</div><div><div class="sidebar-title">${a.title.slice(0,70)}${a.title.length>70?"...":""}</div><div class="sidebar-meta">${a.source} · ${a.time}</div></div></a>`).join("");
+}
+function showFallback(){
+  document.getElementById("heroCard").innerHTML=`<div class="hero-label">&#9679; NMS / SIP</div><div class="hero-title">NMS / SIP News & Updates</div><div class="hero-desc">National Market System and SIP intelligence for market data professionals. CTA, UTP, OPRA feed updates, NMS plan amendments, consolidated tape developments, and SIP infrastructure news.</div>`;
+  document.getElementById("newsGrid").innerHTML='<div class="error-msg">Live feed loading — refresh in a moment.</div>';
+  document.getElementById("mostRead").innerHTML="";
+  document.getElementById("updateTime").textContent="";
+}
+function filterNews(){
+  const q=document.getElementById("searchBox").value.toLowerCase();
+  if(!q){renderNews(allArticles.slice(1));return;}
+  renderNews(allArticles.filter(a=>a.title.toLowerCase().includes(q)||a.desc.toLowerCase().includes(q)));
+}
+function subscribe(){
+  const e=document.getElementById("emailInput").value;
+  if(!e||!e.includes("@")){alert("Please enter a valid email.");return;}
+  document.querySelector(".newsletter").innerHTML=`<div style="text-align:center;padding:10px"><div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px">You're in.</div><div style="font-size:12px;color:#aaa">Daily briefing starts tomorrow morning.</div></div>`;
+}
+function toggleMobileNav(){document.getElementById("mobileNav").classList.toggle("open");document.getElementById("hamburger").classList.toggle("open");}
+function checkMobile(){const b=document.getElementById("mobileBar");if(b)b.style.display=window.innerWidth<=900?"flex":"none";}
+checkMobile();
+window.addEventListener("resize",checkMobile);
+
+// Render topic tags
+document.getElementById("topicTags").innerHTML=PAGE_TOPICS.map(t=>`<a class="topic-tag" href="#" onclick="document.getElementById('searchBox').value='${t}';filterNews();return false">${t}</a>`).join("");
+// Render related links
+document.getElementById("relatedLinks").innerHTML=PAGE_RELATED.map(r=>`<a href="${r.url}" class="nav-item" style="border:1px solid var(--rule);padding:8px 14px;border-radius:2px">${r.label}</a>`).join("");
+
+loadAllFeeds();
+setInterval(loadAllFeeds,600000);
+</script>
+</body>
+</html>
