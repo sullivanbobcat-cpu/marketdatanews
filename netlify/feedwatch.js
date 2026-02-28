@@ -1,5 +1,6 @@
 // netlify/functions/feedwatch.js
-// FeedWatch API - fetches feedwatch.json from static files
+const fs = require('fs');
+const path = require('path');
 
 exports.handler = async function(event) {
   const headers = {
@@ -14,38 +15,42 @@ exports.handler = async function(event) {
     return { statusCode: 200, headers, body: '' };
   }
 
-  // Build base URL from request headers
-  const host = (event.headers && (event.headers['x-forwarded-host'] || event.headers['host'])) || 'marketdatanews.com';
-  const proto = (event.headers && event.headers['x-forwarded-proto']) || 'https';
-  const dataUrl = `${proto}://${host}/feedwatch.json`;
+  // In Netlify, the publish directory ("files") is available at process.cwd()
+  // The function lives at netlify/functions/feedwatch.js
+  // So feedwatch.json (in /files/) is at ../../feedwatch.json relative to this file,
+  // OR at path.join(process.cwd(), 'feedwatch.json') since cwd = publish dir at runtime
 
   let data;
+  const attempts = [];
 
-  // Try fetch first (Node 18+), fall back to https module
-  try {
-    if (typeof fetch !== 'undefined') {
-      const res = await fetch(dataUrl, { signal: AbortSignal.timeout(8000) });
-      if (!res.ok) throw new Error(`HTTP ${res.status} fetching ${dataUrl}`);
-      data = await res.json();
-    } else {
-      // Fallback: Node https module
-      data = await new Promise((resolve, reject) => {
-        const https = require('https');
-        https.get(dataUrl, (res) => {
-          let body = '';
-          res.on('data', chunk => body += chunk);
-          res.on('end', () => {
-            try { resolve(JSON.parse(body)); }
-            catch (e) { reject(new Error('JSON parse failed: ' + e.message)); }
-          });
-        }).on('error', reject);
-      });
+  const tryPaths = [
+    path.join(process.cwd(), 'feedwatch.json'),
+    path.join(__dirname, '../../files/feedwatch.json'),
+    path.join(__dirname, '../../../files/feedwatch.json'),
+    '/opt/build/repo/files/feedwatch.json',
+  ];
+
+  for (const p of tryPaths) {
+    attempts.push(p);
+    try {
+      const raw = fs.readFileSync(p, 'utf8');
+      data = JSON.parse(raw);
+      break;
+    } catch (e) {
+      // try next
     }
-  } catch (err) {
+  }
+
+  if (!data) {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: 'Failed to load data', detail: err.message, tried: dataUrl }),
+      body: JSON.stringify({
+        error: 'feedwatch.json not found',
+        tried: attempts,
+        cwd: process.cwd(),
+        dirname: __dirname,
+      }),
     };
   }
 
@@ -72,10 +77,9 @@ exports.handler = async function(event) {
     entries = entries.filter(e => regions.includes(e.region.toUpperCase()));
   }
 
-  // Sort by effective date ascending
   entries.sort((a, b) => {
     const parse = (v) => {
-      if (!v) return 9999;
+      if (!v) return 9999999999999;
       if (/^\d{4}-\d{2}-\d{2}$/.test(v)) return new Date(v).getTime();
       const q = v.match(/(\d{4})-Q(\d)/);
       if (q) return new Date(`${q[1]}-${['01','04','07','10'][+q[2]-1]}-01`).getTime();
