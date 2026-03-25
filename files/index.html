@@ -5,697 +5,127 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Market Data News — Market Infrastructure Intelligence for Data Professionals</title>
 <meta name="description" content="Real-time market data industry news, exchange notifications, feed changes, regulatory updates, and NMS plan amendments for market data engineers and operations teams.">
-  <!-- SEO Meta Tags -->
   <meta name="keywords" content="market data news, NMS plan, exchange notices, market data feed, FeedWatch, market data engineer, exchange connectivity, market infrastructure">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Market Data News">
   <link rel="canonical" href="https://marketdatanews.com/">
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://marketdatanews.com/">
   <meta property="og:title" content="Market Data News — The Industry Standard">
   <meta property="og:description" content="Exchange notices, feed changes, regulatory deadlines and market infrastructure intelligence for market data professionals.">
   <meta property="og:site_name" content="Market Data News">
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Market Data News — The Industry Standard">
   <meta name="twitter:description" content="Exchange notices, feed changes, regulatory deadlines and market infrastructure intelligence for market data professionals.">
-  <!-- Sitemap reference -->
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0d0d0d;
-    --paper: #f5f2eb;
-    --cream: #faf8f3;
-    --rule: #d4c9b0;
-    --accent: #b8860b;
-    --accent-dark: #8b6508;
-    --muted: #6b6555;
-    --red: #c0392b;
-    --surface: #ffffff;
-    --border: #e8e0d0;
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
 
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'IBM Plex Sans', sans-serif;
-    min-height: 100vh;
-  }
-
-  /* Ticker tape */
-  .ticker-wrap {
-    background: var(--ink);
-    color: var(--accent);
-    padding: 7px 0;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .ticker-wrap::before,
-  .ticker-wrap::after {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 60px;
-    z-index: 2;
-  }
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
   .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
   .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; } .ticker-item .down { color: #ff4444; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-  .ticker {
-    display: flex;
-    animation: ticker 40s linear infinite;
-    white-space: nowrap;
-  }
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
 
-  .ticker-item {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    padding: 0 32px;
-    letter-spacing: 0.05em;
-  }
-
-  .ticker-item .up { color: #00cc66; }
-  .ticker-item .down { color: #ff4444; }
-
-  @keyframes ticker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  /* Masthead */
-  .masthead {
-    background: var(--cream);
-    border-bottom: 3px solid var(--ink);
-    padding: 0;
-  }
-
-  .masthead-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 48px 16px;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .date-line {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .site-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(32px, 5vw, 58px);
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    text-align: center;
-  }
-
-  .site-title span {
-    color: var(--accent);
-  }
-
-  .tagline {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    text-align: right;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    line-height: 1.6;
-  }
-
-  /* Nav */
-  nav {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    padding: 0 48px;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .nav-item {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    padding: 10px 18px;
-    cursor: pointer;
-    border-right: 1px solid var(--rule);
-    transition: background 0.15s, color 0.15s;
-    color: var(--ink);
-    border: none;
-    background: none;
-    font-family: 'IBM Plex Sans', sans-serif;
-  }
-
+  nav { display: flex; align-items: center; padding: 0 48px; border-bottom: 1px solid var(--rule); overflow-x: auto; }
+  .nav-item { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 10px 18px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-block; white-space: nowrap; }
   .nav-item:first-child { border-left: 1px solid var(--rule); }
-  .nav-item.active, .nav-item:hover {
-    background: var(--ink);
-    color: var(--accent);
-  }
-
-  .nav-right {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .search-box {
-    background: transparent;
-    border: 1px solid var(--rule);
-    padding: 5px 12px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--ink);
-    border-radius: 2px;
-    width: 180px;
-  }
-
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 160px; }
   .search-box:focus { outline: none; border-color: var(--accent); }
   .search-box::placeholder { color: var(--muted); }
 
-  /* Layout */
-  .container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 48px;
-  }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+  .layout { display: grid; grid-template-columns: 1fr 320px; gap: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); background: var(--surface); }
+  .main-col { border-right: 1px solid var(--border); padding: 32px; }
+  .side-col { padding: 24px; }
 
-  .layout {
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 0;
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-    background: var(--surface);
-  }
+  .section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .section-head h2 { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; }
+  .section-line { flex: 1; height: 1px; background: var(--rule); }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); animation: pulse 2s infinite; flex-shrink: 0; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-  .main-col {
-    border-right: 1px solid var(--border);
-    padding: 32px;
-  }
+  .skeleton { background: linear-gradient(90deg, var(--border) 25%, var(--paper) 50%, var(--border) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 2px; }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-  .side-col {
-    padding: 24px;
-  }
-
-  /* Section headers */
-  .section-head {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--ink);
-  }
-
-  .section-head h2 {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-  }
-
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: var(--rule);
-  }
-
-  .live-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--red);
-    animation: pulse 2s infinite;
-    flex-shrink: 0;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  /* Loading state */
-  .loading-grid {
-    display: grid;
-    gap: 20px;
-  }
-
-  .skeleton {
-    background: linear-gradient(90deg, var(--border) 25%, var(--paper) 50%, var(--border) 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    border-radius: 2px;
-  }
-
-  @keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-
-  /* News cards */
-  .news-grid {
-    display: grid;
-    gap: 0;
-  }
-
-  .news-card {
-    padding: 20px 0;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    transition: background 0.15s;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-
+  .news-grid { display: grid; gap: 0; }
+  .news-card { padding: 20px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s; text-decoration: none; color: inherit; display: block; }
   .news-card:hover { background: var(--paper); padding-left: 8px; transition: all 0.15s; }
   .news-card:first-child { padding-top: 0; }
-
-  .news-meta {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 6px;
-  }
-
-  .news-source {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent-dark);
-  }
-
+  .news-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+  .news-source { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-dark); }
   .news-dot { color: var(--rule); font-size: 10px; }
-
-  .news-time {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-  }
-
-  .news-category {
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 2px 6px;
-    border-radius: 2px;
-    background: var(--ink);
-    color: var(--accent);
-    font-family: 'IBM Plex Mono', monospace;
-  }
-
-  .news-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 19px;
-    font-weight: 700;
-    line-height: 1.3;
-    margin-bottom: 6px;
-    color: var(--ink);
-  }
-
+  .news-time { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .news-category { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; padding: 2px 6px; border-radius: 2px; background: var(--ink); color: var(--accent); font-family: 'IBM Plex Mono', monospace; }
+  .news-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; line-height: 1.3; margin-bottom: 6px; color: var(--ink); }
   .news-card:hover .news-title { color: var(--accent-dark); }
+  .news-desc { font-size: 13px; line-height: 1.6; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-  .news-desc {
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--muted);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* Featured / hero card */
-  .hero-card {
-    padding: 0 0 24px 0;
-    border-bottom: 2px solid var(--ink);
-    margin-bottom: 24px;
-  }
-
-  .hero-label {
-    display: inline-block;
-    background: var(--red);
-    color: white;
-    font-size: 9px;
-    font-weight: 600;
-    font-family: 'IBM Plex Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    padding: 3px 8px;
-    margin-bottom: 10px;
-  }
-
-  .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(24px, 3vw, 34px);
-    font-weight: 900;
-    line-height: 1.2;
-    margin-bottom: 10px;
-    color: var(--ink);
-  }
-
+  .hero-card { padding: 0 0 24px 0; border-bottom: 2px solid var(--ink); margin-bottom: 24px; }
+  .hero-label { display: inline-block; background: var(--red); color: white; font-size: 9px; font-weight: 600; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.15em; padding: 3px 8px; margin-bottom: 10px; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(24px, 3vw, 34px); font-weight: 900; line-height: 1.2; margin-bottom: 10px; color: var(--ink); }
   .hero-title:hover { color: var(--accent-dark); cursor: pointer; }
+  .hero-desc { font-size: 15px; line-height: 1.7; color: var(--muted); margin-bottom: 12px; }
+  .hero-meta { display: flex; align-items: center; gap: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); flex-wrap: wrap; }
 
-  .hero-desc {
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--muted);
-    margin-bottom: 12px;
-  }
-
-  .hero-meta {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-  }
-
-  /* Sidebar */
-  .sidebar-section {
-    margin-bottom: 32px;
-  }
-
-  .sidebar-head {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    padding-bottom: 8px;
-    border-bottom: 2px solid var(--ink);
-    margin-bottom: 16px;
-  }
-
-  .sidebar-item {
-    display: flex;
-    gap: 10px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-  }
-
+  .sidebar-section { margin-bottom: 32px; }
+  .sidebar-head { font-family: 'IBM Plex Sans', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; padding-bottom: 8px; border-bottom: 2px solid var(--ink); margin-bottom: 16px; }
+  .sidebar-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; cursor: pointer; }
   .sidebar-item:hover .sidebar-title { color: var(--accent-dark); }
+  .sidebar-num { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--rule); line-height: 1; min-width: 28px; }
+  .sidebar-title { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; line-height: 1.3; transition: color 0.15s; }
+  .sidebar-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 3px; }
 
-  .sidebar-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 900;
-    color: var(--rule);
-    line-height: 1;
-    min-width: 28px;
-  }
-
-  .sidebar-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.3;
-    transition: color 0.15s;
-  }
-
-  .sidebar-meta {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 3px;
-  }
-
-  /* Newsletter */
-  .newsletter {
-    background: var(--ink);
-    color: white;
-    padding: 20px;
-    border-radius: 2px;
-  }
-
-  .newsletter h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-
-  .newsletter p {
-    font-size: 12px;
-    color: #aaa;
-    margin-bottom: 14px;
-    line-height: 1.5;
-  }
-
-  .newsletter input {
-    width: 100%;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: white;
-    padding: 9px 12px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    margin-bottom: 8px;
-    border-radius: 2px;
-  }
-
+  .newsletter { background: var(--ink); color: white; padding: 20px; border-radius: 2px; }
+  .newsletter h3 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .newsletter p { font-size: 12px; color: #aaa; margin-bottom: 14px; line-height: 1.5; }
+  .newsletter input { width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 9px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; margin-bottom: 8px; border-radius: 2px; }
   .newsletter input::placeholder { color: #666; }
   .newsletter input:focus { outline: none; border-color: var(--accent); }
-
-  .newsletter button {
-    width: 100%;
-    background: var(--accent);
-    color: var(--ink);
-    border: none;
-    padding: 9px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-    border-radius: 2px;
-    transition: background 0.2s;
-  }
-
+  .newsletter button { width: 100%; background: var(--accent); color: var(--ink); border: none; padding: 9px; font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; border-radius: 2px; transition: background 0.2s; }
   .newsletter button:hover { background: var(--accent-dark); color: white; }
 
-  /* Market snapshot */
   .market-table { width: 100%; border-collapse: collapse; }
-
-  .market-table td {
-    padding: 7px 0;
-    font-size: 12px;
-    border-bottom: 1px solid var(--border);
-    font-family: 'IBM Plex Mono', monospace;
-  }
-
+  .market-table td { padding: 7px 0; font-size: 12px; border-bottom: 1px solid var(--border); font-family: 'IBM Plex Mono', monospace; }
   .market-table td:last-child { text-align: right; }
+  .up { color: #2e7d32; font-weight: 600; } .down { color: var(--red); font-weight: 600; }
 
-  .up { color: #2e7d32; font-weight: 600; }
-  .down { color: var(--red); font-weight: 600; }
-
-  /* Footer */
-  footer {
-    background: var(--ink);
-    color: #aaa;
-    padding: 40px 48px;
-    margin-top: 0;
-  }
-
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 40px;
-    max-width: 1280px;
-    margin: 0 auto 32px;
-  }
-
-  .footer-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 900;
-    color: white;
-    margin-bottom: 10px;
-  }
-
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
   .footer-brand span { color: var(--accent); }
-
-  .footer-desc {
-    font-size: 12px;
-    line-height: 1.7;
-    max-width: 260px;
-  }
-
-  .footer-col h4 {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: white;
-    margin-bottom: 12px;
-    font-family: 'IBM Plex Sans', sans-serif;
-  }
-
-  .footer-col a {
-    display: block;
-    font-size: 12px;
-    color: #888;
-    text-decoration: none;
-    margin-bottom: 7px;
-    transition: color 0.15s;
-  }
-
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
   .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
 
-  .footer-bottom {
-    border-top: 1px solid #222;
-    padding-top: 20px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    display: flex;
-    justify-content: space-between;
-    max-width: 1280px;
-    margin: 0 auto;
-  }
-
-  /* Error state */
-  .error-msg {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-    padding: 20px;
-    text-align: center;
-    border: 1px dashed var(--border);
-    border-radius: 2px;
-  }
-
-  /* Hamburger button */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    width: 40px;
-    height: 40px;
-    padding: 8px;
-    cursor: pointer;
-    background: none;
-    border: 1px solid var(--rule);
-    border-radius: 2px;
-    margin-left: 12px;
-  }
-  .hamburger span {
-    display: block;
-    height: 2px;
-    background: var(--ink);
-    border-radius: 1px;
-    transition: all 0.25s;
-  }
-  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  /* Mobile nav drawer */
-  .mobile-nav {
-    display: none;
-    flex-direction: column;
-    background: var(--cream);
-    border-bottom: 3px solid var(--ink);
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.3s ease;
-  }
-  .mobile-nav.open { max-height: 500px; }
-  .mobile-nav a {
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    padding: 14px 20px;
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--rule);
-    font-family: 'IBM Plex Sans', sans-serif;
-    transition: background 0.15s, color 0.15s;
-  }
-  .mobile-nav a:hover, .mobile-nav a.active { background: var(--ink); color: var(--accent); }
-  .mobile-search {
-    padding: 12px 20px;
-    border-bottom: 1px solid var(--rule);
-  }
-  .mobile-search input {
-    width: 100%;
-    background: transparent;
-    border: 1px solid var(--rule);
-    padding: 8px 12px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--ink);
-    border-radius: 2px;
-  }
-  .mobile-search input:focus { outline: none; border-color: var(--accent); }
-
-  /* Responsive */
-  @media (max-width: 900px) {
-    .layout { grid-template-columns: 1fr; }
-    .side-col { border-top: 2px solid var(--ink); }
-    .container, .masthead-top, footer { padding-left: 20px; padding-right: 20px; }
-    .main-col { padding: 20px; }
-    .footer-grid { grid-template-columns: 1fr 1fr; }
-    .masthead-top { flex-direction: column; gap: 10px; text-align: center; padding: 16px 20px; }
-    .tagline { text-align: center; }
-    .site-title { font-size: clamp(28px, 8vw, 48px); }
-    nav { display: none; }
-    .hamburger { display: flex; }
-    .mobile-nav { display: flex; }
-    .hero-title { font-size: clamp(22px, 5vw, 30px); }
-    .footer-grid { grid-template-columns: 1fr; gap: 24px; }
-    .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
-    .news-title { font-size: 17px; }
-    .masthead-top .date-line { font-size: 10px; }
-  }
-
-  @media (max-width: 480px) {
-    .masthead-top { padding: 12px 16px; }
-    .container, footer { padding-left: 16px; padding-right: 16px; }
-    .main-col { padding: 16px; }
-    .side-col { padding: 16px; }
-    .hero-title { font-size: 22px; }
-    .news-title { font-size: 16px; }
-    .ticker-item { font-size: 10px; padding: 0 20px; }
-  }
-
-  .panel { display: none; }
-  .panel.active { display: block; }
-
-  .fade-in {
-    animation: fadeIn 0.4s ease forwards;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  .error-msg { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); padding: 20px; text-align: center; border: 1px dashed var(--border); border-radius: 2px; }
+  .fade-in { animation: fadeIn 0.4s ease forwards; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
   /* FeedWatch Alert Bar */
   .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
-  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; gap: 0; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
   .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
   .fw-alertbar-brand span { color: var(--accent); }
   .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
@@ -714,17 +144,30 @@
   .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
   .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
   .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
+
+  /* Mobile nav */
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
+
   @media (max-width: 900px) {
-    .fw-alertbar { padding: 0 16px; }
+    nav { display: none; } #mobileBar { display: flex !important; }
+    .layout { grid-template-columns: 1fr; } .side-col { border-top: 2px solid var(--ink); }
+    .container, .masthead-top, footer, .fw-alertbar { padding-left: 20px; padding-right: 20px; }
+    .main-col { padding: 20px; } .footer-grid { grid-template-columns: 1fr 1fr; }
+    .masthead-top { flex-direction: column; gap: 10px; text-align: center; }
+    .tagline { text-align: center; }
     .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
-    .fw-alertbar-divider:last-of-type { display: none; }
+    .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
   }
 </style>
 </head>
 <body>
 
-<!-- Ticker -->
-<!-- Ticker -->
 <!-- Ticker -->
 <div class="ticker-wrap"><div class="ticker">
   <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
@@ -740,6 +183,7 @@
   <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
   <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
 </div></div>
+
 <!-- FeedWatch Alert Bar -->
 <div class="fw-alertbar">
   <div class="fw-alertbar-inner">
@@ -759,11 +203,12 @@
     <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
   </div>
 </div>
+
 <!-- Masthead -->
 <div class="masthead">
   <div class="masthead-top">
     <div class="date-line" id="dateLine">Loading...</div>
-    <a href="index.html" class="site-title" style="text-decoration:none;color:inherit">Market Data <span>News</span></a>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
     <div class="tagline">The Industry Standard<br>Since 2025</div>
   </div>
   <nav>
@@ -773,6 +218,8 @@
     <a href="regulation.html" class="nav-item">Regulation</a>
     <a href="nms.html" class="nav-item">NMS / SIP</a>
     <a href="feed-status.html" class="nav-item">Feed Status</a>
+    <a href="prediction-markets.html" class="nav-item">Prediction Markets</a>
+    <a href="about.html" class="nav-item">About</a>
     <div class="nav-right">
       <input class="search-box" type="text" placeholder="Search..." id="searchBox" oninput="if(typeof filterNews!=='undefined')filterNews()">
     </div>
@@ -789,15 +236,14 @@
   <a href="regulation.html">Regulation</a>
   <a href="nms.html">NMS / SIP</a>
   <a href="feed-status.html">Feed Status</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <a href="about.html">About</a>
 </div>
+
 <!-- Main content -->
 <div class="container">
   <div class="layout">
-
-    <!-- Main column -->
     <div class="main-col">
-
-      <!-- Hero -->
       <div class="hero-card" id="heroCard">
         <div class="skeleton" style="height:16px;width:80px;margin-bottom:12px"></div>
         <div class="skeleton" style="height:32px;margin-bottom:10px"></div>
@@ -805,18 +251,13 @@
         <div class="skeleton" style="height:14px;margin-bottom:6px"></div>
         <div class="skeleton" style="height:14px;width:70%"></div>
       </div>
-
-      <!-- News feed section header -->
       <div class="section-head">
         <div class="live-dot"></div>
         <h2>Latest News</h2>
         <div class="section-line"></div>
         <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)" id="updateTime">Updating...</span>
       </div>
-
-      <!-- News grid -->
       <div class="news-grid" id="newsGrid">
-        <!-- Skeleton loaders -->
         <div class="news-card" style="cursor:default">
           <div class="skeleton" style="height:10px;width:120px;margin-bottom:8px"></div>
           <div class="skeleton" style="height:20px;margin-bottom:6px"></div>
@@ -834,16 +275,12 @@
           <div class="skeleton" style="height:12px;width:80%"></div>
         </div>
       </div>
-
     </div>
 
-    <!-- Sidebar -->
     <div class="side-col">
-
-      <!-- Market snapshot -->
       <div class="sidebar-section">
         <div class="sidebar-head">Market Snapshot</div>
-        <table class="market-table" id="marketTable">
+        <table class="market-table">
           <tr><td>S&P 500</td><td class="up">▲ 0.31%</td></tr>
           <tr><td>NASDAQ</td><td class="up">▲ 0.87%</td></tr>
           <tr><td>DJIA</td><td class="up">▲ 0.22%</td></tr>
@@ -852,18 +289,12 @@
           <tr><td>USD/EUR</td><td class="up">▲ 0.15%</td></tr>
         </table>
       </div>
-
-      <!-- Most read -->
       <div class="sidebar-section">
         <div class="sidebar-head">Most Read</div>
         <div id="mostRead">
-          <div class="sidebar-item">
-            <div class="skeleton" style="height:60px;width:100%;border-radius:2px"></div>
-          </div>
+          <div class="sidebar-item"><div class="skeleton" style="height:60px;width:100%;border-radius:2px"></div></div>
         </div>
       </div>
-
-      <!-- Newsletter -->
       <div class="sidebar-section">
         <div class="newsletter">
           <h3>Daily Briefing</h3>
@@ -872,11 +303,9 @@
           <button onclick="subscribe()">Subscribe Free</button>
         </div>
       </div>
-
-      <!-- Feed sources -->
       <div class="sidebar-section">
         <div class="sidebar-head">Feed Sources</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px" id="sourceList">
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
           <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 8px;background:var(--paper);border:1px solid var(--border);border-radius:2px">Reuters</span>
           <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 8px;background:var(--paper);border:1px solid var(--border);border-radius:2px">Bloomberg</span>
           <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 8px;background:var(--paper);border:1px solid var(--border);border-radius:2px">FT</span>
@@ -887,12 +316,10 @@
           <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 8px;background:var(--paper);border:1px solid var(--border);border-radius:2px">NASDAQ</span>
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
-<!-- Footer -->
 <footer>
   <div class="footer-grid">
     <div>
@@ -904,6 +331,7 @@
       <a href="regulation.html">Regulation</a>
       <a href="nms.html">NMS / SIP</a>
       <a href="feed-status.html">Feed Status</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
     </div>
     <div class="footer-col"><h4>FeedWatch</h4>
       <a href="calendar.html">All Entries</a>
@@ -912,8 +340,10 @@
       <a href="calendar.html?filter=high">High Impact</a>
     </div>
     <div class="footer-col"><h4>Company</h4>
-      <a href="#">About</a><a href="#">Contact</a>
-      <a href="#">Privacy Policy</a><a href="#">Terms of Use</a>
+      <a href="about.html">About</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -923,14 +353,11 @@
 </footer>
 
 <script>
-// ── Date line ──────────────────────────────────────────────
 const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const now = new Date();
-document.getElementById('dateLine').textContent =
-  days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
 
-// ── RSS feeds via Netlify function (confirmed working) ─────
 const FEEDS = [
   { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147', category: 'Markets', label: 'CNBC Markets' },
   { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664', category: 'Markets', label: 'CNBC Finance' },
@@ -938,18 +365,16 @@ const FEEDS = [
   { url: 'https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines', category: 'Markets', label: 'MarketWatch' },
   { url: 'https://ir.nasdaq.com/rss/news-releases.xml', category: 'Exchanges', label: 'NASDAQ IR' },
 ];
-const CACHE_TTL = 10 * 60 * 1000; // 10 min cache
+const CACHE_TTL = 10 * 60 * 1000;
 
-// Category keywords for auto-tagging
 const CATEGORY_KEYWORDS = {
-  'Exchanges': ['exchange','NYSE','NASDAQ','CME','CBOE','ICE','LSE','Euronext','BATS','IEX','trading venue','market center','SRO','co-location','port','connectivity'],
-  'Regulation': ['SEC','FINRA','CFTC','regulation','regulatory','rule','compliance','enforcement','NMS','CAT','SLATE','Rule 605','Reg SHO','Reg NMS','Form 13H','no-action'],
-  'NMS / SIP': ['NMS','SIP','OPRA','CTA','UTP','SIP','consolidated tape','national market system','NMS plan','tape plan','market data infrastructure','feed','MDP','iLink','FIX','ITCH','OUCH','SQF'],
-  'Feed Status': ['outage','maintenance','degraded','incident','status','downtime','recovery','operational','disruption','latency spike'],
+  'Exchanges': ['exchange','NYSE','NASDAQ','CME','CBOE','ICE','LSE','trading venue','SRO','co-location','port','connectivity'],
+  'Regulation': ['SEC','FINRA','CFTC','regulation','regulatory','rule','compliance','enforcement','NMS','CAT','SLATE','Rule 605','Reg SHO'],
+  'NMS / SIP': ['NMS','SIP','OPRA','CTA','UTP','consolidated tape','national market system','NMS plan','MDP','iLink','FIX','ITCH'],
+  'Feed Status': ['outage','maintenance','degraded','incident','status','downtime','recovery','disruption'],
 };
 
 let allArticles = [];
-let currentCategory = 'all';
 
 function detectCategory(title, desc) {
   const text = (title + ' ' + desc).toLowerCase();
@@ -974,26 +399,16 @@ async function fetchFeed(feed) {
   const cacheKey = 'mdn_' + feed.url.replace(/[^a-z0-9]/gi,'').slice(-40);
   try {
     const cached = localStorage.getItem(cacheKey);
-    if (cached) {
-      const obj = JSON.parse(cached);
-      if (Date.now() - obj.ts < CACHE_TTL) return obj.data;
-    }
+    if (cached) { const obj = JSON.parse(cached); if (Date.now() - obj.ts < CACHE_TTL) return obj.data; }
   } catch(e) {}
   try {
     const res = await fetch('/.netlify/functions/rss?url=' + encodeURIComponent(feed.url), { signal: AbortSignal.timeout(10000) });
     const json = await res.json();
-    const items = (json.items || [])
-      .filter(i => i.title && i.title.length > 5)
-      .map(i => ({
-        title: i.title,
-        desc: i.desc || '',
-        link: i.link || '#',
-        pubDate: i.pubDate || '',
-        source: feed.label,
-        category: detectCategory(i.title, i.desc || ''),
-        time: timeAgo(i.pubDate),
-        timestamp: new Date(i.pubDate).getTime() || 0,
-      }));
+    const items = (json.items || []).filter(i => i.title && i.title.length > 5).map(i => ({
+      title: i.title, desc: i.desc || '', link: i.link || '#', pubDate: i.pubDate || '',
+      source: feed.label, category: detectCategory(i.title, i.desc || ''),
+      time: timeAgo(i.pubDate), timestamp: new Date(i.pubDate).getTime() || 0,
+    }));
     try { localStorage.setItem(cacheKey, JSON.stringify({data: items, ts: Date.now()})); } catch(e) {}
     return items;
   } catch(e) { return []; }
@@ -1001,70 +416,43 @@ async function fetchFeed(feed) {
 
 async function loadAllFeeds() {
   const results = await Promise.allSettled(FEEDS.map(fetchFeed));
-  allArticles = results
-    .flatMap(r => r.status === 'fulfilled' ? r.value : [])
-    .sort((a, b) => b.timestamp - a.timestamp);
-
-  if (allArticles.length === 0) {
-    showFallback();
-    return;
-  }
-
+  allArticles = results.flatMap(r => r.status === 'fulfilled' ? r.value : []).sort((a, b) => b.timestamp - a.timestamp);
+  if (allArticles.length === 0) { showFallback(); return; }
   renderHero(allArticles[0]);
   renderNews(allArticles.slice(1));
   renderMostRead(allArticles.slice(0, 5));
-
   document.getElementById('updateTime').textContent = 'Updated ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
 }
 
 function renderHero(article) {
   const el = document.getElementById('heroCard');
-  el.innerHTML = `
-    <div class="hero-label">&#9679; Breaking</div>
+  el.innerHTML = `<div class="hero-label">&#9679; Breaking</div>
     <a href="${article.link}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
-      <div class="hero-title">${article.title}</div>
-    </a>
-    <div class="hero-desc">${article.desc.slice(0, 220)}${article.desc.length > 220 ? '...' : ''}</div>
-    <div class="hero-meta">
-      <span style="color:var(--accent-dark);font-weight:600">${article.source}</span>
-      <span>·</span>
-      <span>${article.time}</span>
-      <span>·</span>
-      <span>${article.category}</span>
-    </div>
-  `;
+      <div class="hero-title">${article.title}</div></a>
+    <div class="hero-desc">${article.desc.slice(0,220)}${article.desc.length>220?'...':''}</div>
+    <div class="hero-meta"><span style="color:var(--accent-dark);font-weight:600">${article.source}</span>
+      <span>·</span><span>${article.time}</span><span>·</span><span>${article.category}</span></div>`;
   el.classList.add('fade-in');
 }
 
 function renderNews(articles) {
   const grid = document.getElementById('newsGrid');
-  if (articles.length === 0) { grid.innerHTML = '<div class="error-msg">No articles loaded — check back shortly.</div>'; return; }
-
+  if (!articles.length) { grid.innerHTML = '<div class="error-msg">No articles loaded — check back shortly.</div>'; return; }
   grid.innerHTML = articles.map(a => `
     <a class="news-card fade-in" href="${a.link}" target="_blank" rel="noopener">
-      <div class="news-meta">
-        <span class="news-source">${a.source}</span>
-        <span class="news-dot">·</span>
-        <span class="news-time">${a.time}</span>
-        <span class="news-category">${a.category}</span>
-      </div>
+      <div class="news-meta"><span class="news-source">${a.source}</span><span class="news-dot">·</span>
+        <span class="news-time">${a.time}</span><span class="news-category">${a.category}</span></div>
       <div class="news-title">${a.title}</div>
       ${a.desc ? `<div class="news-desc">${a.desc}</div>` : ''}
-    </a>
-  `).join('');
+    </a>`).join('');
 }
 
 function renderMostRead(articles) {
-  const el = document.getElementById('mostRead');
-  el.innerHTML = articles.map((a, i) => `
+  document.getElementById('mostRead').innerHTML = articles.map((a, i) => `
     <a class="sidebar-item" href="${a.link}" target="_blank" rel="noopener">
       <div class="sidebar-num">0${i+1}</div>
-      <div>
-        <div class="sidebar-title">${a.title.slice(0, 70)}${a.title.length > 70 ? '...' : ''}</div>
-        <div class="sidebar-meta">${a.source} · ${a.time}</div>
-      </div>
-    </a>
-  `).join('');
+      <div><div class="sidebar-title">${a.title.slice(0,70)}${a.title.length>70?'...':''}</div>
+        <div class="sidebar-meta">${a.source} · ${a.time}</div></div></a>`).join('');
 }
 
 function showFallback() {
@@ -1072,66 +460,35 @@ function showFallback() {
     <div class="hero-label">&#9679; Market Data News</div>
     <div class="hero-title">Your Source for Market Data Industry Intelligence</div>
     <div class="hero-desc">Covering exchanges, NMS developments, financial technology, and regulatory updates for market data professionals worldwide.</div>
-    <div class="hero-meta"><span style="color:var(--accent-dark)">marketdatanews.com</span></div>
-  `;
+    <div class="hero-meta"><span style="color:var(--accent-dark)">marketdatanews.com</span></div>`;
   document.getElementById('newsGrid').innerHTML = `<div class="error-msg">Live feed loading — please refresh in a moment.</div>`;
   document.getElementById('mostRead').innerHTML = '';
 }
 
-// Category filter
-function switchCategory(cat, btn) {
-  currentCategory = cat;
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-
-  const filtered = cat === 'all' ? allArticles : allArticles.filter(a => a.category.toLowerCase() === cat.toLowerCase());
-  if (filtered.length > 0) {
-    renderHero(filtered[0]);
-    renderNews(filtered.slice(1));
-  } else {
-    document.getElementById('newsGrid').innerHTML = '<div class="error-msg">No articles in this category yet.</div>';
-  }
-}
-
-// Search
 function filterNews() {
   const q = document.getElementById('searchBox').value.toLowerCase();
   if (!q) { renderNews(allArticles.slice(1)); return; }
-  const filtered = allArticles.filter(a =>
-    a.title.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q) || a.source.toLowerCase().includes(q)
-  );
-  renderNews(filtered);
+  renderNews(allArticles.filter(a => a.title.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q)));
 }
 
-// Subscribe
 function subscribe() {
   const email = document.getElementById('emailInput').value;
   if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
-  document.querySelector('.newsletter').innerHTML = `
-    <div style="text-align:center;padding:10px">
-      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px">You're in.</div>
-      <div style="font-size:12px;color:#aaa">Daily briefing starts tomorrow morning.</div>
-    </div>
-  `;
+  document.querySelector('.newsletter').innerHTML = `<div style="text-align:center;padding:10px">
+    <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px">You're in.</div>
+    <div style="font-size:12px;color:#aaa">Daily briefing starts tomorrow morning.</div></div>`;
 }
 
-// Mobile nav toggle
 function toggleMobileNav() {
-  const nav = document.getElementById('mobileNav');
-  const btn = document.getElementById('hamburger');
-  nav.classList.toggle('open');
-  btn.classList.toggle('open');
+  document.getElementById('mobileNav').classList.toggle('open');
 }
 
-// Show mobile bar on mobile
 function checkMobile() {
   const bar = document.getElementById('mobileBar');
   if (bar) bar.style.display = window.innerWidth <= 900 ? 'flex' : 'none';
 }
 checkMobile();
 window.addEventListener('resize', checkMobile);
-
-// Auto-refresh every 10 minutes
 loadAllFeeds();
 setInterval(loadAllFeeds, 600000);
 </script>
