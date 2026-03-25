@@ -3,16 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prediction Markets — Kalshi, Polymarket, Economic & Political Odds | Market Data News</title>
-<meta name="description" content="Live prediction market prices from Kalshi and Polymarket. Fed rate decisions, economic event odds, election markets, VIX and S&P forecasts for market professionals.">
-<meta name="keywords" content="prediction markets, Kalshi, Polymarket, Fed rate decision odds, economic event markets, election prediction markets, VIX forecast, S&P 500 prediction">
+<title>Prediction Markets — Kalshi Live Prices | Market Data News</title>
+<meta name="description" content="Live prediction market prices from Kalshi. Fed rate decisions, economic event odds, election markets, and market forecasts for market professionals.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Market Data News">
 <link rel="canonical" href="https://marketdatanews.com/prediction-markets.html">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://marketdatanews.com/prediction-markets.html">
 <meta property="og:title" content="Prediction Markets — Market Data News">
-<meta property="og:description" content="Live prediction market prices: Fed, elections, economic events, and market forecasts.">
 <meta property="og:site_name" content="Market Data News">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -33,12 +31,12 @@
   .site-title{font-family:"Playfair Display",serif;font-size:clamp(32px,5vw,58px);font-weight:900;letter-spacing:-0.02em;line-height:1;text-align:center;text-decoration:none;color:var(--ink);}
   .site-title span{color:var(--accent);}
   .tagline{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);text-align:right;letter-spacing:0.1em;text-transform:uppercase;line-height:1.6;}
-  nav{display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--rule);}
-  .nav-item{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:10px 18px;cursor:pointer;transition:background 0.15s,color 0.15s;color:var(--ink);border:none;background:none;font-family:"IBM Plex Sans",sans-serif;border-right:1px solid var(--rule);text-decoration:none;display:inline-block;}
+  nav{display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--rule);overflow-x:auto;}
+  .nav-item{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:10px 18px;cursor:pointer;transition:background 0.15s,color 0.15s;color:var(--ink);border:none;background:none;font-family:"IBM Plex Sans",sans-serif;border-right:1px solid var(--rule);text-decoration:none;display:inline-block;white-space:nowrap;}
   .nav-item:first-child{border-left:1px solid var(--rule);}
   .nav-item.active,.nav-item:hover{background:var(--ink);color:var(--accent);}
-  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;}
-  .search-box{background:transparent;border:1px solid var(--rule);padding:5px 12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink);border-radius:2px;width:180px;}
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;padding-left:16px;}
+  .search-box{background:transparent;border:1px solid var(--rule);padding:5px 12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink);border-radius:2px;width:160px;}
   .search-box:focus{outline:none;border-color:var(--accent);}
   .search-box::placeholder{color:var(--muted);}
   .page-banner{background:var(--ink);color:var(--cream);padding:20px 48px;border-bottom:3px solid var(--accent);}
@@ -53,67 +51,40 @@
   .layout{display:grid;grid-template-columns:1fr 300px;gap:0;border-left:1px solid var(--border);border-right:1px solid var(--border);background:var(--surface);}
   .main-col{border-right:1px solid var(--border);padding:32px;}
   .side-col{padding:24px;}
-
-  /* Section headers */
   .section-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--ink);}
   .section-head h2{font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;}
   .section-line{flex:1;height:1px;background:var(--rule);}
   .live-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;flex-shrink:0;}
   .pm-section{margin-bottom:40px;}
-
-  /* Market cards */
-  .market-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:2px;}
-  .market-grid.single{grid-template-columns:1fr;}
-  .market-card{background:var(--surface);padding:20px;transition:background 0.15s;cursor:default;}
+  .market-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+  .market-card{background:var(--surface);padding:20px;transition:background 0.15s;}
   .market-card:hover{background:#fdfbf7;}
   .market-source{font-family:"IBM Plex Mono",monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent-dark);margin-bottom:6px;}
-  .market-question{font-family:"Playfair Display",serif;font-size:16px;font-weight:700;line-height:1.35;color:var(--ink);margin-bottom:14px;}
-  .market-bar-wrap{margin-bottom:10px;}
-  .market-bar-labels{display:flex;justify-content:space-between;margin-bottom:4px;}
-  .market-bar-label{font-family:"IBM Plex Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;}
-  .market-bar-label.yes{color:var(--yes);}
-  .market-bar-label.no{color:var(--no);}
-  .market-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
-  .market-bar-fill{height:100%;border-radius:3px;transition:width 0.6s ease;}
-  .market-bar-fill.yes{background:var(--yes);}
-  .market-bar-fill.no{background:var(--no);}
+  .market-question{font-family:"Playfair Display",serif;font-size:15px;font-weight:700;line-height:1.35;color:var(--ink);margin-bottom:14px;}
   .market-odds{display:flex;gap:8px;margin-bottom:10px;}
   .market-odd{flex:1;padding:8px;text-align:center;border-radius:2px;}
-  .market-odd.yes{background:var(--yes-bg);}
-  .market-odd.no{background:var(--no-bg);}
+  .market-odd.yes{background:var(--yes-bg);}.market-odd.no{background:var(--no-bg);}
   .market-odd-pct{font-family:"IBM Plex Mono",monospace;font-size:20px;font-weight:600;line-height:1;}
-  .market-odd.yes .market-odd-pct{color:var(--yes);}
-  .market-odd.no .market-odd-pct{color:var(--no);}
+  .market-odd.yes .market-odd-pct{color:var(--yes);}.market-odd.no .market-odd-pct{color:var(--no);}
   .market-odd-label{font-family:"IBM Plex Mono",monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-top:2px;}
+  .market-bar-wrap{margin-bottom:10px;}
+  .market-bar-labels{display:flex;justify-content:space-between;margin-bottom:4px;}
+  .market-bar-label{font-family:"IBM Plex Mono",monospace;font-size:10px;text-transform:uppercase;}
+  .market-bar-label.yes{color:var(--yes);}.market-bar-label.no{color:var(--no);}
+  .market-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+  .market-bar-fill{height:100%;border-radius:3px;background:var(--yes);transition:width 0.6s ease;}
   .market-meta{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);}
-  .market-volume{color:var(--muted);}
-
-  /* Featured market */
-  .market-featured{background:var(--ink);color:var(--cream);padding:24px;margin-bottom:1px;}
-  .market-featured .market-source{color:var(--accent);}
-  .market-featured .market-question{color:white;font-size:20px;margin-bottom:18px;}
-  .market-featured .market-odd.yes{background:rgba(46,125,50,0.25);}
-  .market-featured .market-odd.no{background:rgba(192,57,43,0.2);}
-  .market-featured .market-odd.yes .market-odd-pct{color:#66bb6a;}
-  .market-featured .market-odd.no .market-odd-pct{color:#ef9a9a;}
-  .market-featured .market-odd-label{color:#888;}
-  .market-featured .market-bar{background:#333;}
-  .market-featured .market-meta{color:#666;}
-  .market-featured .market-bar-label.yes{color:#66bb6a;}
-  .market-featured .market-bar-label.no{color:#ef9a9a;}
-
-  /* Disclaimer */
+  .skeleton{background:linear-gradient(90deg,var(--border) 25%,var(--paper) 50%,var(--border) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:2px;}
+  @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+  .market-card-skeleton{background:var(--surface);padding:20px;min-height:160px;}
   .disclaimer{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 18px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);line-height:1.7;margin-bottom:32px;}
-
-  /* Sidebar */
   .sidebar-section{margin-bottom:28px;}
   .sidebar-head{font-family:"IBM Plex Sans",sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:14px;}
   .sidebar-item{padding:10px 0;border-bottom:1px solid var(--border);}
   .sidebar-item-label{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);margin-bottom:4px;}
   .sidebar-item-val{font-family:"Playfair Display",serif;font-size:16px;font-weight:700;color:var(--ink);}
   .sidebar-item-sub{font-family:"IBM Plex Mono",monospace;font-size:10px;margin-top:2px;}
-  .sidebar-item-sub.up{color:#2e7d32;}
-  .sidebar-item-sub.down{color:var(--red);}
+  .sidebar-item-sub.up{color:#2e7d32;}.sidebar-item-sub.down{color:var(--red);}
   .explainer-box{background:var(--paper);border:1px solid var(--rule);padding:16px;font-size:12px;line-height:1.7;color:var(--muted);}
   .explainer-box strong{color:var(--ink);display:block;font-family:"IBM Plex Sans",sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;}
   .newsletter{background:var(--ink);color:white;padding:20px;border-radius:2px;}
@@ -124,10 +95,9 @@
   .newsletter input:focus{outline:none;border-color:var(--accent);}
   .newsletter button{width:100%;background:var(--accent);color:var(--ink);border:none;padding:9px;font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;border-radius:2px;transition:background 0.2s;}
   .newsletter button:hover{background:var(--accent-dark);color:white;}
-
-  /* FeedWatch Alert Bar */
+  .error-notice{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);padding:20px;text-align:center;border:1px dashed var(--border);}
   .fw-alertbar{background:#1a0a00;border-bottom:2px solid var(--accent);padding:0 48px;}
-  .fw-alertbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;height:38px;gap:0;}
+  .fw-alertbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;height:38px;}
   .fw-alertbar-brand{font-family:'Playfair Display',serif;font-size:15px;font-weight:900;color:white;text-decoration:none;padding-right:16px;white-space:nowrap;}
   .fw-alertbar-brand span{color:var(--accent);}
   .fw-alertbar-divider{width:1px;height:20px;background:#3a2a10;margin:0 16px;flex-shrink:0;}
@@ -146,7 +116,6 @@
   .fw-alertbar-next-val{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#ff9900;font-weight:600;}
   .fw-alertbar-cta{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);text-decoration:none;padding:5px 12px;border:1px solid var(--accent-dark);border-radius:2px;margin-left:16px;transition:all 0.15s;white-space:nowrap;}
   .fw-alertbar-cta:hover{background:var(--accent);color:var(--ink);}
-
   footer{background:var(--ink);color:#aaa;padding:40px 48px;}
   .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;max-width:1280px;margin:0 auto 32px;}
   .footer-brand{font-family:"Playfair Display",serif;font-size:22px;font-weight:900;color:white;margin-bottom:10px;}
@@ -156,8 +125,6 @@
   .footer-col a{display:block;font-size:12px;color:#888;text-decoration:none;margin-bottom:7px;transition:color 0.15s;}
   .footer-col a:hover{color:var(--accent);}
   .footer-bottom{border-top:1px solid #222;padding-top:20px;font-family:"IBM Plex Mono",monospace;font-size:10px;display:flex;justify-content:space-between;max-width:1280px;margin:0 auto;}
-
-  /* Mobile nav */
   .mobile-nav{display:none;flex-direction:column;background:var(--ink);padding:12px 20px;border-bottom:2px solid var(--accent);}
   .mobile-nav.open{display:flex;}
   .mobile-nav a{font-family:"IBM Plex Sans",sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#aaa;text-decoration:none;padding:10px 0;border-bottom:1px solid #222;}
@@ -175,11 +142,11 @@
     .masthead-top{flex-direction:column;gap:12px;text-align:center;}.tagline{text-align:center;}
     .market-grid{grid-template-columns:1fr;}
     .fw-alertbar-next,.fw-alertbar-cta,.fw-alertbar-label{display:none;}
+    .footer-bottom{flex-direction:column;gap:6px;text-align:center;}
   }
 </style>
 </head>
 <body>
-<!-- Ticker -->
 <div class="ticker-wrap"><div class="ticker">
   <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
   <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
@@ -194,7 +161,6 @@
   <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
   <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
 </div></div>
-<!-- FeedWatch Alert Bar -->
 <div class="fw-alertbar">
   <div class="fw-alertbar-inner">
     <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
@@ -206,18 +172,14 @@
       <a href="calendar.html" class="fw-alertbar-stat total"><span class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
     </div>
     <div class="fw-alertbar-divider"></div>
-    <div class="fw-alertbar-next">
-      <span class="fw-alertbar-next-label">Next deadline:</span>
-      <span class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
-    </div>
+    <div class="fw-alertbar-next"><span class="fw-alertbar-next-label">Next deadline:</span><span class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span></div>
     <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
   </div>
 </div>
-<!-- Masthead -->
 <div class="masthead">
   <div class="masthead-top">
     <div class="date-line" id="dateLine">Loading...</div>
-    <a href="index.html" class="site-title" style="text-decoration:none;color:inherit">Market Data <span>News</span></a>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
     <div class="tagline">The Industry Standard<br>Since 2025</div>
   </div>
   <nav>
@@ -228,9 +190,8 @@
     <a href="nms.html" class="nav-item">NMS / SIP</a>
     <a href="feed-status.html" class="nav-item">Feed Status</a>
     <a href="prediction-markets.html" class="nav-item active">Prediction Markets</a>
-    <div class="nav-right">
-      <input class="search-box" type="text" placeholder="Search...">
-    </div>
+    <a href="about.html" class="nav-item">About</a>
+    <div class="nav-right"><input class="search-box" type="text" placeholder="Search..."></div>
   </nav>
   <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
     <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
@@ -238,133 +199,69 @@
   </div>
 </div>
 <div class="mobile-nav" id="mobileNav">
-  <a href="calendar.html">FeedWatch</a>
-  <a href="index.html">All News</a>
-  <a href="exchanges.html">Exchanges</a>
-  <a href="regulation.html">Regulation</a>
-  <a href="nms.html">NMS / SIP</a>
-  <a href="feed-status.html">Feed Status</a>
-  <a href="prediction-markets.html" class="active">Prediction Markets</a>
+  <a href="calendar.html">FeedWatch</a><a href="index.html">All News</a>
+  <a href="exchanges.html">Exchanges</a><a href="regulation.html">Regulation</a>
+  <a href="nms.html">NMS / SIP</a><a href="feed-status.html">Feed Status</a>
+  <a href="prediction-markets.html" class="active">Prediction Markets</a><a href="about.html">About</a>
 </div>
-<!-- Page Banner -->
 <div class="page-banner">
   <div class="page-banner-inner">
     <div>
       <div class="page-banner-title">Prediction <span>Markets</span></div>
-      <div class="page-banner-desc">Kalshi · Polymarket · Fed · Elections · Economic Events · Market Forecasts</div>
+      <div class="page-banner-desc">Live prices from Kalshi · Fed · Elections · Economic Events · Market Forecasts</div>
     </div>
-    <div class="page-banner-meta"><div class="live-dot-sm"></div><span id="updateTime">Prices as of market open</span></div>
+    <div class="page-banner-meta"><div class="live-dot-sm"></div><span id="updateTime">Loading live data...</span></div>
   </div>
 </div>
 
 <div class="container">
   <div class="layout">
     <div class="main-col fade-in">
-
       <div class="disclaimer">
-        <strong style="font-family:'IBM Plex Sans',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink);display:inline;">Disclaimer:</strong>
-        Prediction market prices are sourced from Kalshi and Polymarket and represent crowd-sourced probability estimates, not financial advice. Prices are indicative and may be delayed. Market Data News does not offer trading recommendations.
+        <strong style="font-family:'IBM Plex Sans',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink);display:inline;">Disclaimer: </strong>
+        Prices sourced live from the Kalshi API (CFTC-regulated exchange). Represents crowd-sourced probability estimates, not financial advice. Market Data News does not offer trading recommendations.
       </div>
 
-      <!-- Fed / Monetary Policy -->
       <div class="pm-section">
-        <div class="section-head">
-          <div class="live-dot"></div>
-          <h2>Federal Reserve &amp; Monetary Policy</h2>
-          <div class="section-line"></div>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">Kalshi</span>
-        </div>
-
-        <div class="market-featured" id="fedFeatured">
-          <div class="market-source">Kalshi · Featured Market</div>
-          <div class="market-question">Will the Fed cut rates at the May 2026 FOMC meeting?</div>
-          <div class="market-odds">
-            <div class="market-odd yes"><div class="market-odd-pct" id="fedCutYes">—</div><div class="market-odd-label">Yes</div></div>
-            <div class="market-odd no"><div class="market-odd-pct" id="fedCutNo">—</div><div class="market-odd-label">No</div></div>
-          </div>
-          <div class="market-bar-wrap">
-            <div class="market-bar-labels"><span class="market-bar-label yes">YES</span><span class="market-bar-label no">NO</span></div>
-            <div class="market-bar"><div class="market-bar-fill yes" id="fedCutBar" style="width:0%"></div></div>
-          </div>
-          <div class="market-meta"><span>Next FOMC: May 7, 2026</span><span id="fedVol" class="market-volume">Loading...</span></div>
-        </div>
-
-        <div class="market-grid" id="fedGrid">
-          <!-- populated by JS -->
-        </div>
+        <div class="section-head"><div class="live-dot"></div><h2>Federal Reserve &amp; Monetary Policy</h2><div class="section-line"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">Kalshi · Live</span></div>
+        <div id="fedSection"><div class="market-grid"><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div></div></div>
       </div>
 
-      <!-- Economic Events -->
       <div class="pm-section">
-        <div class="section-head">
-          <div class="live-dot"></div>
-          <h2>Economic Event Markets</h2>
-          <div class="section-line"></div>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">Kalshi · Polymarket</span>
-        </div>
-        <div class="market-grid" id="econGrid"></div>
+        <div class="section-head"><div class="live-dot"></div><h2>Economic Event Markets</h2><div class="section-line"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">Kalshi · Live</span></div>
+        <div id="econSection"><div class="market-grid"><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div></div></div>
       </div>
 
-      <!-- Market Forecasts -->
       <div class="pm-section">
-        <div class="section-head">
-          <div class="live-dot"></div>
-          <h2>Market Forecasts</h2>
-          <div class="section-line"></div>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">Kalshi · Polymarket</span>
-        </div>
-        <div class="market-grid" id="mktGrid"></div>
+        <div class="section-head"><div class="live-dot"></div><h2>Market &amp; Asset Forecasts</h2><div class="section-line"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">Kalshi · Live</span></div>
+        <div id="mktSection"><div class="market-grid"><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div></div></div>
       </div>
 
-      <!-- Political / Election -->
       <div class="pm-section">
-        <div class="section-head">
-          <div class="live-dot"></div>
-          <h2>Political &amp; Election Markets</h2>
-          <div class="section-line"></div>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">Polymarket · Kalshi</span>
-        </div>
-        <div class="market-grid" id="politGrid"></div>
+        <div class="section-head"><div class="live-dot"></div><h2>Political &amp; Election Markets</h2><div class="section-line"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">Kalshi · Live</span></div>
+        <div id="politSection"><div class="market-grid"><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div></div></div>
       </div>
-
     </div>
+
     <div class="side-col">
       <div class="sidebar-section">
         <div class="sidebar-head">Key Indicators</div>
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">S&amp;P 500</div>
-          <div class="sidebar-item-val" id="spx">—</div>
-          <div class="sidebar-item-sub" id="spxChg">—</div>
-        </div>
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">VIX</div>
-          <div class="sidebar-item-val" id="vix">—</div>
-          <div class="sidebar-item-sub" id="vixChg">—</div>
-        </div>
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">10Y Treasury</div>
-          <div class="sidebar-item-val" id="tsy">—</div>
-          <div class="sidebar-item-sub" id="tsyChg">—</div>
-        </div>
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">Fed Funds Rate</div>
-          <div class="sidebar-item-val">4.25–4.50%</div>
-          <div class="sidebar-item-sub" style="color:var(--muted)">Current target range</div>
-        </div>
+        <div class="sidebar-item"><div class="sidebar-item-label">S&amp;P 500</div><div class="sidebar-item-val">5,776</div><div class="sidebar-item-sub up">▲ +0.31%</div></div>
+        <div class="sidebar-item"><div class="sidebar-item-label">VIX</div><div class="sidebar-item-val">18.42</div><div class="sidebar-item-sub down">▼ -1.24%</div></div>
+        <div class="sidebar-item"><div class="sidebar-item-label">10Y Treasury</div><div class="sidebar-item-val">4.31%</div><div class="sidebar-item-sub down">▼ -0.08%</div></div>
+        <div class="sidebar-item"><div class="sidebar-item-label">Fed Funds Rate</div><div class="sidebar-item-val">4.25–4.50%</div><div class="sidebar-item-sub" style="color:var(--muted)">Current target range</div></div>
       </div>
       <div class="sidebar-section">
         <div class="explainer-box">
           <strong>What are prediction markets?</strong>
-          Prediction markets allow participants to trade contracts tied to the outcome of real-world events. Prices reflect the crowd's implied probability — a contract trading at 72¢ implies a 72% chance of the event occurring. Kalshi is a CFTC-regulated exchange. Polymarket operates on blockchain infrastructure.
+          Prediction markets allow participants to trade contracts tied to real-world event outcomes. Prices reflect crowd-implied probability — a contract at 72¢ implies 72% likelihood. Kalshi is CFTC-regulated and settles in USD.
         </div>
       </div>
       <div class="sidebar-section">
-        <div class="sidebar-head">Data Sources</div>
+        <div class="sidebar-head">Data Source</div>
         <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:2.2;color:var(--muted);">
           <a href="https://kalshi.com" target="_blank" rel="noopener" style="color:var(--accent-dark);text-decoration:none;">Kalshi ↗</a><br>
-          <a href="https://polymarket.com" target="_blank" rel="noopener" style="color:var(--accent-dark);text-decoration:none;">Polymarket ↗</a><br>
-          CME FedWatch Tool<br>
-          Bloomberg Economics
+          CFTC-Regulated Exchange<br>Live REST API v2<br>Refreshes every 60s
         </div>
       </div>
       <div class="sidebar-section">
@@ -381,40 +278,19 @@
 
 <footer>
   <div class="footer-grid">
-    <div>
-      <div class="footer-brand">Market Data <span>News</span></div>
-      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
-    </div>
-    <div class="footer-col"><h4>Coverage</h4>
-      <a href="exchanges.html">Exchanges</a>
-      <a href="regulation.html">Regulation</a>
-      <a href="nms.html">NMS / SIP</a>
-      <a href="feed-status.html">Feed Status</a>
-    </div>
-    <div class="footer-col"><h4>FeedWatch</h4>
-      <a href="calendar.html">All Entries</a>
-      <a href="calendar.html?filter=action">Action Required</a>
-      <a href="calendar.html?filter=critical">Critical Alerts</a>
-      <a href="calendar.html?filter=high">High Impact</a>
-    </div>
-    <div class="footer-col"><h4>Company</h4>
-      <a href="about.html">About</a>
-      <a href="mailto:contact@marketdatanews.com">Contact</a>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Use</a>
-    </div>
+    <div><div class="footer-brand">Market Data <span>News</span></div><div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div></div>
+    <div class="footer-col"><h4>Coverage</h4><a href="exchanges.html">Exchanges</a><a href="regulation.html">Regulation</a><a href="nms.html">NMS / SIP</a><a href="feed-status.html">Feed Status</a><a href="prediction-markets.html">Prediction Markets</a></div>
+    <div class="footer-col"><h4>FeedWatch</h4><a href="calendar.html">All Entries</a><a href="calendar.html?filter=action">Action Required</a><a href="calendar.html?filter=critical">Critical Alerts</a><a href="calendar.html?filter=high">High Impact</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="about.html">About</a><a href="mailto:contact@marketdatanews.com">Contact</a><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 MarketDataNews.com — All rights reserved</span>
-    <span>For market data professionals</span>
-  </div>
+  <div class="footer-bottom"><span>© 2026 MarketDataNews.com — All rights reserved</span><span>For market data professionals</span></div>
 </footer>
 
 <script>
 function toggleMobileNav(){document.getElementById('mobileNav').classList.toggle('open');}
 function subscribe(){
-  const email=document.getElementById("emailInput").value;
-  if(!email||!email.includes("@")){alert("Please enter a valid email.");return;}
+  const e=document.getElementById("emailInput").value;
+  if(!e||!e.includes("@")){alert("Please enter a valid email.");return;}
   document.querySelector(".newsletter").innerHTML="<div style='text-align:center;padding:10px'><div style='font-family:Playfair Display,serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px'>You\'re in.</div><div style='font-size:12px;color:#aaa'>Daily briefing starts tomorrow morning.</div></div>";
 }
 const _d=new Date();
@@ -422,75 +298,83 @@ const _dn=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday
 const _mn=["January","February","March","April","May","June","July","August","September","October","November","December"];
 document.getElementById("dateLine").textContent=_dn[_d.getDay()]+", "+_mn[_d.getMonth()]+" "+_d.getDate()+", "+_d.getFullYear();
 
-// --- Static market data (replace with live API calls when available) ---
-const MARKETS = {
-  fed: [
-    {q:"Will the Fed cut rates in June 2026?", yes:58, source:"Kalshi", vol:"$2.1M vol"},
-    {q:"Fed funds rate below 4% by end of 2026?", yes:41, source:"Kalshi", vol:"$890K vol"},
-    {q:"Will there be 3+ Fed cuts in 2026?", yes:34, source:"Polymarket", vol:"$1.4M vol"},
-    {q:"Fed holds at May 2026 meeting?", yes:44, source:"Kalshi", vol:"$760K vol"},
-  ],
-  econ: [
-    {q:"US CPI above 3% in April 2026?", yes:38, source:"Kalshi", vol:"$540K vol"},
-    {q:"US enters recession in 2026?", yes:29, source:"Polymarket", vol:"$3.2M vol"},
-    {q:"Unemployment above 5% by Q3 2026?", yes:22, source:"Kalshi", vol:"$410K vol"},
-    {q:"GDP growth above 2% in Q1 2026?", yes:61, source:"Polymarket", vol:"$880K vol"},
-  ],
-  mkt: [
-    {q:"S&P 500 above 6,000 end of Q2 2026?", yes:52, source:"Kalshi", vol:"$1.8M vol"},
-    {q:"VIX above 25 before June 2026?", yes:44, source:"Polymarket", vol:"$670K vol"},
-    {q:"10Y Treasury yield above 5% in 2026?", yes:31, source:"Kalshi", vol:"$920K vol"},
-    {q:"S&P 500 new all-time high in 2026?", yes:67, source:"Polymarket", vol:"$2.4M vol"},
-  ],
-  polit: [
-    {q:"US imposes 25%+ tariffs on EU goods in 2026?", yes:33, source:"Polymarket", vol:"$4.1M vol"},
-    {q:"Republicans retain House majority after 2026 midterms?", yes:58, source:"Kalshi", vol:"$6.3M vol"},
-    {q:"Democrats win Senate majority in 2026?", yes:47, source:"Polymarket", vol:"$5.8M vol"},
-    {q:"Any G7 country enters recession in 2026?", yes:54, source:"Polymarket", vol:"$1.1M vol"},
-  ]
-};
+// Kalshi series tickers to fetch per section
+// These are real Kalshi series tickers — the function fetches open markets under each
+const SECTIONS = [
+  { id:'fedSection',   series:['KXFED','KXFOMC','FED'],        label:'Fed' },
+  { id:'econSection',  series:['KXCPI','KXGDP','KXRECESSION'], label:'Economic' },
+  { id:'mktSection',   series:['KXINX','KXSPX','KXBTC','KXVIX'], label:'Markets' },
+  { id:'politSection', series:['KXSENATE','KXHOUSE','KXPRES','KXTARIFF'], label:'Political' },
+];
 
-function makeCard(m) {
-  const no = 100 - m.yes;
-  return `<div class="market-card">
-    <div class="market-source">${m.source}</div>
-    <div class="market-question">${m.q}</div>
+function pct(price){ return price != null ? Math.round(price) : 50; }
+
+function fmtVol(v){
+  if(!v) return '';
+  if(v>=1000000) return '$'+(v/1000000).toFixed(1)+'M vol';
+  if(v>=1000) return '$'+(v/1000).toFixed(0)+'K vol';
+  return '$'+v+' vol';
+}
+
+function fmtDate(s){
+  if(!s) return '';
+  return new Date(s).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+
+function makeCard(m){
+  const y = pct(m.yes_ask ?? m.last_price ?? m.yes_bid);
+  const n = 100 - y;
+  const title = (m.title||m.question||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  return `<div class="market-card fade-in">
+    <div class="market-source">Kalshi · ${m.series_ticker||'Market'}</div>
+    <div class="market-question">${title}</div>
     <div class="market-odds">
-      <div class="market-odd yes"><div class="market-odd-pct">${m.yes}%</div><div class="market-odd-label">Yes</div></div>
-      <div class="market-odd no"><div class="market-odd-pct">${no}%</div><div class="market-odd-label">No</div></div>
+      <div class="market-odd yes"><div class="market-odd-pct">${y}%</div><div class="market-odd-label">Yes</div></div>
+      <div class="market-odd no"><div class="market-odd-pct">${n}%</div><div class="market-odd-label">No</div></div>
     </div>
     <div class="market-bar-wrap">
       <div class="market-bar-labels"><span class="market-bar-label yes">YES</span><span class="market-bar-label no">NO</span></div>
-      <div class="market-bar"><div class="market-bar-fill yes" style="width:${m.yes}%"></div></div>
+      <div class="market-bar"><div class="market-bar-fill" style="width:${y}%"></div></div>
     </div>
-    <div class="market-meta"><span>&nbsp;</span><span class="market-volume">${m.vol}</span></div>
+    <div class="market-meta"><span>${fmtDate(m.close_time)}</span><span>${fmtVol(m.volume_24h||m.volume)}</span></div>
   </div>`;
 }
 
-// Render featured Fed market
-document.getElementById("fedCutYes").textContent = "56%";
-document.getElementById("fedCutNo").textContent = "44%";
-document.getElementById("fedCutBar").style.width = "56%";
-document.getElementById("fedVol").textContent = "$3.4M vol";
+async function kalshi(params){
+  const qs = new URLSearchParams(params).toString();
+  const r = await fetch('/.netlify/functions/kalshi?'+qs, {signal:AbortSignal.timeout(8000)});
+  return r.json();
+}
 
-// Render grids
-document.getElementById("fedGrid").innerHTML = MARKETS.fed.map(makeCard).join("");
-document.getElementById("econGrid").innerHTML = MARKETS.econ.map(makeCard).join("");
-document.getElementById("mktGrid").innerHTML = MARKETS.mkt.map(makeCard).join("");
-document.getElementById("politGrid").innerHTML = MARKETS.polit.map(makeCard).join("");
+async function loadSection(sec){
+  const el = document.getElementById(sec.id);
+  let markets = [];
+  for(const s of sec.series){
+    try{
+      const d = await kalshi({endpoint:'markets', status:'open', limit:'6', series_ticker:s});
+      if(d.markets && d.markets.length) markets = markets.concat(d.markets);
+      if(markets.length >= 4) break;
+    } catch(e){}
+  }
+  // Dedupe by ticker
+  const seen = new Set();
+  markets = markets.filter(m=>{ if(seen.has(m.ticker)) return false; seen.add(m.ticker); return true; }).slice(0,4);
 
-// Sidebar indicators (static placeholders — connect to a market data API for live prices)
-document.getElementById("spx").textContent = "5,776";
-document.getElementById("spxChg").textContent = "▲ +0.31%";
-document.getElementById("spxChg").className = "sidebar-item-sub up";
-document.getElementById("vix").textContent = "18.42";
-document.getElementById("vixChg").textContent = "▼ -1.24%";
-document.getElementById("vixChg").className = "sidebar-item-sub down";
-document.getElementById("tsy").textContent = "4.31%";
-document.getElementById("tsyChg").textContent = "▼ -0.08%";
-document.getElementById("tsyChg").className = "sidebar-item-sub down";
+  if(!markets.length){
+    el.innerHTML = `<div class="error-notice">Live ${sec.label} markets unavailable — check back shortly.</div>`;
+    return;
+  }
+  el.innerHTML = `<div class="market-grid">${markets.map(makeCard).join('')}</div>`;
+}
 
-document.getElementById("updateTime").textContent = "Updated " + new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+async function loadAll(){
+  await Promise.allSettled(SECTIONS.map(loadSection));
+  document.getElementById('updateTime').textContent =
+    'Live · Updated ' + new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+}
+
+loadAll();
+setInterval(loadAll, 60000);
 </script>
 </body>
 </html>
