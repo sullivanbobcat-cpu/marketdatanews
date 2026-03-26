@@ -281,12 +281,12 @@
     <div><div class="footer-brand">Market Data <span>News</span></div><div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div></div>
     <div class="footer-col"><h4>Coverage</h4><a href="exchanges.html">Exchanges</a><a href="regulation.html">Regulation</a><a href="nms.html">NMS / SIP</a><a href="feed-status.html">Feed Status</a><a href="prediction-markets.html">Prediction Markets</a></div>
     <div class="footer-col"><h4>FeedWatch</h4><a href="calendar.html">All Entries</a><a href="calendar.html?filter=action">Action Required</a><a href="calendar.html?filter=critical">Critical Alerts</a><a href="calendar.html?filter=high">High Impact</a></div>
-    <div class="footer-col"><h4>Company</h4><a href="about.html">About</a><a href="mailto:contact@marketdatanews.com">Contact</a><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="about.html">About</a><a href="/cdn-cgi/l/email-protection#096a66677d686a7d4964687b626c7d6d687d68676c7e7a276a6664">Contact</a><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div>
   </div>
   <div class="footer-bottom"><span>© 2026 MarketDataNews.com — All rights reserved</span><span>For market data professionals</span></div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function toggleMobileNav(){document.getElementById('mobileNav').classList.toggle('open');}
 function subscribe(){
   const e=document.getElementById("emailInput").value;
@@ -348,11 +348,13 @@ function makeCard(m){
 }
 
 // ── Sections config ───────────────────────────────────────────────────────────
+// Fed uses hardcoded series tickers (subcategory, no top-level slug)
+// All others use Kalshi's top-level category slugs for dynamic/trending results
 const SECTIONS = [
-  { id:'fedSection',   category:'fed',        label:'Fed' },
-  { id:'econSection',  category:'economics',  label:'Economic' },
-  { id:'mktSection',   category:'financials', label:'Markets' },
-  { id:'politSection', category:'politics',   label:'Political' },
+  { id:'fedSection',   series:['KXFED','KXFOMC'],  label:'Fed' },
+  { id:'econSection',  category:'economics',        label:'Economic' },
+  { id:'mktSection',   category:'financials',       label:'Markets' },
+  { id:'politSection', category:'politics',         label:'Political' },
 ];
 
 // ── Kalshi fetcher ────────────────────────────────────────────────────────────
@@ -367,16 +369,21 @@ async function loadSection(sec){
   const el = document.getElementById(sec.id);
   let markets = [];
 
-  try {
-    const d = await kalshiFetch({
-      endpoint: 'markets',
-      status:   'open',
-      limit:    '8',
-      category: sec.category
-    });
-    if(d.markets && d.markets.length) markets = d.markets;
-  } catch(e) {
-    console.warn('Kalshi fetch failed for category', sec.category, e);
+  if(sec.series){
+    // Series-based fetch (Fed — subcategory, no top-level slug)
+    for(const s of sec.series){
+      try{
+        const d = await kalshiFetch({endpoint:'markets', status:'open', limit:'6', series_ticker:s});
+        if(d.markets && d.markets.length) markets = markets.concat(d.markets);
+        if(markets.length >= 4) break;
+      } catch(e){ console.warn('Kalshi fetch failed for series', s, e); }
+    }
+  } else {
+    // Category-based fetch (Economics, Financials, Politics)
+    try{
+      const d = await kalshiFetch({endpoint:'markets', status:'open', limit:'8', category:sec.category});
+      if(d.markets && d.markets.length) markets = d.markets;
+    } catch(e){ console.warn('Kalshi fetch failed for category', sec.category, e); }
   }
 
   // Dedupe by ticker, take top 4
@@ -397,11 +404,4 @@ async function loadSection(sec){
 async function loadAll(){
   await Promise.allSettled(SECTIONS.map(loadSection));
   document.getElementById('updateTime').textContent =
-    'Live · Updated ' + new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-}
-
-loadAll();
-setInterval(loadAll, 60000);
-</script>
-</body>
-</html>
+    'L
