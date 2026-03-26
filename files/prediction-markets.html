@@ -298,22 +298,26 @@ const _dn=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday
 const _mn=["January","February","March","April","May","June","July","August","September","October","November","December"];
 document.getElementById("dateLine").textContent=_dn[_d.getDay()]+", "+_mn[_d.getMonth()]+" "+_d.getDate()+", "+_d.getFullYear();
 
-// Kalshi series tickers to fetch per section
-// These are real Kalshi series tickers — the function fetches open markets under each
-const SECTIONS = [
-  { id:'fedSection',   series:['KXFED','KXFOMC','FED'],        label:'Fed' },
-  { id:'econSection',  series:['KXCPI','KXGDP','KXRECESSION'], label:'Economic' },
-  { id:'mktSection',   series:['KXINX','KXSPX','KXBTC','KXVIX'], label:'Markets' },
-  { id:'politSection', series:['KXSENATE','KXHOUSE','KXPRES','KXTARIFF'], label:'Political' },
-];
+// ── Price parser ─────────────────────────────────────────────────────────────
+// Kalshi prices are dollar strings like "0.35" meaning 35%
+// Best price = midpoint of bid/ask. Fall back to last_price_dollars.
+function pct(m){
+  const bid = parseFloat(m.yes_bid_dollars ?? 0);
+  const ask = parseFloat(m.yes_ask_dollars ?? 0);
+  const last = parseFloat(m.last_price_dollars ?? 0);
+  if(bid > 0 && ask > 0) return Math.max(1, Math.min(99, Math.round(((bid + ask) / 2) * 100)));
+  if(last > 0) return Math.max(1, Math.min(99, Math.round(last * 100)));
+  return 50;
+}
 
-function pct(price){ return price != null ? Math.round(price) : 50; }
-
-function fmtVol(v){
-  if(!v) return '';
-  if(v>=1000000) return '$'+(v/1000000).toFixed(1)+'M vol';
-  if(v>=1000) return '$'+(v/1000).toFixed(0)+'K vol';
-  return '$'+v+' vol';
+// ── Volume formatter ──────────────────────────────────────────────────────────
+// volume_fp is a string like "3618.00" representing number of contracts
+function fmtVol(m){
+  const v = parseFloat(m.volume_fp ?? 0);
+  if(v >= 1000000) return '$'+(v/1000000).toFixed(1)+'M vol';
+  if(v >= 1000) return '$'+(v/1000).toFixed(0)+'K vol';
+  if(v > 0) return Math.round(v)+' contracts';
+  return '';
 }
 
 function fmtDate(s){
@@ -321,12 +325,15 @@ function fmtDate(s){
   return new Date(s).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 }
 
+// ── Card renderer ─────────────────────────────────────────────────────────────
 function makeCard(m){
-  const y = pct(m.yes_ask ?? m.last_price ?? m.yes_bid);
+  const y = pct(m);
   const n = 100 - y;
   const title = (m.title||m.question||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  // Strip KX prefix from series ticker for cleaner display
+  const series = (m.series_ticker||m.event_ticker||'').replace(/^KX/,'').split('-')[0];
   return `<div class="market-card fade-in">
-    <div class="market-source">Kalshi · ${m.series_ticker||'Market'}</div>
+    <div class="market-source">Kalshi · ${series||'Live'}</div>
     <div class="market-question">${title}</div>
     <div class="market-odds">
       <div class="market-odd yes"><div class="market-odd-pct">${y}%</div><div class="market-odd-label">Yes</div></div>
@@ -336,29 +343,45 @@ function makeCard(m){
       <div class="market-bar-labels"><span class="market-bar-label yes">YES</span><span class="market-bar-label no">NO</span></div>
       <div class="market-bar"><div class="market-bar-fill" style="width:${y}%"></div></div>
     </div>
-    <div class="market-meta"><span>${fmtDate(m.close_time)}</span><span>${fmtVol(m.volume_24h||m.volume)}</span></div>
+    <div class="market-meta"><span>${fmtDate(m.close_time)}</span><span>${fmtVol(m)}</span></div>
   </div>`;
 }
 
-async function kalshi(params){
+// ── Sections config ───────────────────────────────────────────────────────────
+const SECTIONS = [
+  { id:'fedSection',   series:['KXFED','KXFOMC'],               label:'Fed' },
+  { id:'econSection',  series:['KXCPI','KXGDP','KXRECESSION'],  label:'Economic' },
+  { id:'mktSection',   series:['KXINX','KXSPX','KXBTC','KXVIX'], label:'Markets' },
+  { id:'politSection', series:['KXSENATE','KXHOUSE','KXPRES','KXTARIFF'], label:'Political' },
+];
+
+// ── Kalshi fetcher ────────────────────────────────────────────────────────────
+async function kalshiFetch(params){
   const qs = new URLSearchParams(params).toString();
   const r = await fetch('/.netlify/functions/kalshi?'+qs, {signal:AbortSignal.timeout(8000)});
+  if(!r.ok) throw new Error('HTTP '+r.status);
   return r.json();
 }
 
 async function loadSection(sec){
   const el = document.getElementById(sec.id);
   let markets = [];
+
   for(const s of sec.series){
     try{
-      const d = await kalshi({endpoint:'markets', status:'open', limit:'6', series_ticker:s});
+      const d = await kalshiFetch({endpoint:'markets', status:'open', limit:'6', series_ticker:s});
       if(d.markets && d.markets.length) markets = markets.concat(d.markets);
       if(markets.length >= 4) break;
-    } catch(e){}
+    } catch(e){ console.warn('Kalshi fetch failed for', s, e); }
   }
-  // Dedupe by ticker
+
+  // Dedupe by ticker, take top 4
   const seen = new Set();
-  markets = markets.filter(m=>{ if(seen.has(m.ticker)) return false; seen.add(m.ticker); return true; }).slice(0,4);
+  markets = markets.filter(m => {
+    if(seen.has(m.ticker)) return false;
+    seen.add(m.ticker);
+    return true;
+  }).slice(0, 4);
 
   if(!markets.length){
     el.innerHTML = `<div class="error-notice">Live ${sec.label} markets unavailable — check back shortly.</div>`;
