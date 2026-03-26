@@ -349,10 +349,10 @@ function makeCard(m){
 
 // ── Sections config ───────────────────────────────────────────────────────────
 const SECTIONS = [
-  { id:'fedSection',   series:['KXFED','KXFOMC'],               label:'Fed' },
-  { id:'econSection',  series:['KXCPI','KXGDP','KXRECESSION'],  label:'Economic' },
-  { id:'mktSection',   series:['KXINX','KXSPX','KXBTC','KXVIX'], label:'Markets' },
-  { id:'politSection', series:['KXSENATE','KXHOUSE','KXPRES','KXTARIFF'], label:'Political' },
+  { id:'fedSection',   category:'fed',        label:'Fed' },
+  { id:'econSection',  category:'economics',  label:'Economic' },
+  { id:'mktSection',   category:'financials', label:'Markets' },
+  { id:'politSection', category:'politics',   label:'Political' },
 ];
 
 // ── Kalshi fetcher ────────────────────────────────────────────────────────────
@@ -367,12 +367,16 @@ async function loadSection(sec){
   const el = document.getElementById(sec.id);
   let markets = [];
 
-  for(const s of sec.series){
-    try{
-      const d = await kalshiFetch({endpoint:'markets', status:'open', limit:'6', series_ticker:s});
-      if(d.markets && d.markets.length) markets = markets.concat(d.markets);
-      if(markets.length >= 4) break;
-    } catch(e){ console.warn('Kalshi fetch failed for', s, e); }
+  try {
+    const d = await kalshiFetch({
+      endpoint: 'markets',
+      status:   'open',
+      limit:    '8',
+      category: sec.category
+    });
+    if(d.markets && d.markets.length) markets = d.markets;
+  } catch(e) {
+    console.warn('Kalshi fetch failed for category', sec.category, e);
   }
 
   // Dedupe by ticker, take top 4
