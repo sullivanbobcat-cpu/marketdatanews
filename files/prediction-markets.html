@@ -3,164 +3,225 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prediction Markets — Kalshi Live Prices | Market Data News</title>
-<meta name="description" content="Live prediction market prices from Kalshi. Fed rate decisions, economic event odds, election markets, and market forecasts for market professionals.">
-<meta name="robots" content="index, follow">
-<meta name="author" content="Market Data News">
-<link rel="canonical" href="https://marketdatanews.com/prediction-markets.html">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://marketdatanews.com/prediction-markets.html">
-<meta property="og:title" content="Prediction Markets — Market Data News">
-<meta property="og:site_name" content="Market Data News">
+<title>Prediction Markets Intelligence — Kalshi · Polymarket · CFTC | Market Data News</title>
+<meta name="description" content="Regulatory, infrastructure, and market data implications of prediction markets. Tracking Kalshi, Polymarket, CFTC rulemaking, state litigation, and event contract compliance.">
+  <meta name="keywords" content="prediction markets, Kalshi, Polymarket, CFTC event contracts, prediction market regulation, sports contracts, binary options, CFTC DCM, event contract market data">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Market Data News">
+  <link rel="canonical" href="https://marketdatanews.com/prediction-markets.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://marketdatanews.com/prediction-markets.html">
+  <meta property="og:title" content="Prediction Markets Intelligence | Market Data News">
+  <meta property="og:description" content="Tracking the regulatory, infrastructure, and market data implications of the emerging event contracts industry.">
+  <meta property="og:site_name" content="Market Data News">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Prediction Markets Intelligence | Market Data News">
+  <meta name="twitter:description" content="Kalshi · Polymarket · CFTC · State Litigation — regulatory and market data intelligence.">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{--ink:#0d0d0d;--paper:#f5f2eb;--cream:#faf8f3;--rule:#d4c9b0;--accent:#b8860b;--accent-dark:#8b6508;--muted:#6b6555;--red:#c0392b;--surface:#ffffff;--border:#e8e0d0;--yes:#2e7d32;--no:#c0392b;--yes-bg:#e8f5e9;--no-bg:#fdecea;}
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",sans-serif;min-height:100vh;}
-  .ticker-wrap{background:var(--ink);color:var(--accent);padding:7px 0;overflow:hidden;position:relative;}
-  .ticker-wrap::before,.ticker-wrap::after{content:"";position:absolute;top:0;bottom:0;width:60px;z-index:2;}
-  .ticker-wrap::before{left:0;background:linear-gradient(90deg,var(--ink),transparent);}
-  .ticker-wrap::after{right:0;background:linear-gradient(-90deg,var(--ink),transparent);}
-  .ticker{display:flex;animation:ticker 40s linear infinite;white-space:nowrap;}
-  .ticker-item{font-family:"IBM Plex Mono",monospace;font-size:11px;padding:0 32px;letter-spacing:0.05em;}
-  .up{color:#00cc66;}.down{color:#ff4444;}
-  @keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-  .masthead{background:var(--cream);border-bottom:3px solid var(--ink);}
-  .masthead-top{display:flex;align-items:center;justify-content:space-between;padding:20px 48px 16px;border-bottom:1px solid var(--rule);}
-  .date-line{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
-  .site-title{font-family:"Playfair Display",serif;font-size:clamp(32px,5vw,58px);font-weight:900;letter-spacing:-0.02em;line-height:1;text-align:center;text-decoration:none;color:var(--ink);}
-  .site-title span{color:var(--accent);}
-  .tagline{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);text-align:right;letter-spacing:0.1em;text-transform:uppercase;line-height:1.6;}
-  nav{display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--rule);overflow-x:auto;}
-  .nav-item{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:10px 18px;cursor:pointer;transition:background 0.15s,color 0.15s;color:var(--ink);border:none;background:none;font-family:"IBM Plex Sans",sans-serif;border-right:1px solid var(--rule);text-decoration:none;display:inline-block;white-space:nowrap;}
-  .nav-item:first-child{border-left:1px solid var(--rule);}
-  .nav-item.active,.nav-item:hover{background:var(--ink);color:var(--accent);}
-  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;padding-left:16px;}
-  .search-box{background:transparent;border:1px solid var(--rule);padding:5px 12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink);border-radius:2px;width:160px;}
-  .search-box:focus{outline:none;border-color:var(--accent);}
-  .search-box::placeholder{color:var(--muted);}
-  .page-banner{background:var(--ink);color:var(--cream);padding:20px 48px;border-bottom:3px solid var(--accent);}
-  .page-banner-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
-  .page-banner-title{font-family:"Playfair Display",serif;font-size:clamp(20px,3vw,32px);font-weight:700;}
-  .page-banner-title span{color:var(--accent);}
-  .page-banner-desc{font-family:"IBM Plex Mono",monospace;font-size:10px;color:#a09880;margin-top:5px;letter-spacing:0.06em;}
-  .page-banner-meta{font-family:"IBM Plex Mono",monospace;font-size:10px;color:#a09880;display:flex;align-items:center;gap:8px;}
-  .live-dot-sm{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;}
-  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-  .container{max-width:1280px;margin:0 auto;padding:0 48px;}
-  .layout{display:grid;grid-template-columns:1fr 300px;gap:0;border-left:1px solid var(--border);border-right:1px solid var(--border);background:var(--surface);}
-  .main-col{border-right:1px solid var(--border);padding:32px;}
-  .side-col{padding:24px;}
-  .section-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--ink);}
-  .section-head h2{font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;}
-  .section-line{flex:1;height:1px;background:var(--rule);}
-  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;flex-shrink:0;}
-  .pm-section{margin-bottom:40px;}
-  .market-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
-  .market-card{background:var(--surface);padding:20px;transition:background 0.15s;}
-  .market-card:hover{background:#fdfbf7;}
-  .market-source{font-family:"IBM Plex Mono",monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent-dark);margin-bottom:6px;}
-  .market-question{font-family:"Playfair Display",serif;font-size:15px;font-weight:700;line-height:1.35;color:var(--ink);margin-bottom:14px;}
-  .market-odds{display:flex;gap:8px;margin-bottom:10px;}
-  .market-odd{flex:1;padding:8px;text-align:center;border-radius:2px;}
-  .market-odd.yes{background:var(--yes-bg);}.market-odd.no{background:var(--no-bg);}
-  .market-odd-pct{font-family:"IBM Plex Mono",monospace;font-size:20px;font-weight:600;line-height:1;}
-  .market-odd.yes .market-odd-pct{color:var(--yes);}.market-odd.no .market-odd-pct{color:var(--no);}
-  .market-odd-label{font-family:"IBM Plex Mono",monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-top:2px;}
-  .market-bar-wrap{margin-bottom:10px;}
-  .market-bar-labels{display:flex;justify-content:space-between;margin-bottom:4px;}
-  .market-bar-label{font-family:"IBM Plex Mono",monospace;font-size:10px;text-transform:uppercase;}
-  .market-bar-label.yes{color:var(--yes);}.market-bar-label.no{color:var(--no);}
-  .market-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
-  .market-bar-fill{height:100%;border-radius:3px;background:var(--yes);transition:width 0.6s ease;}
-  .market-meta{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);}
-  .skeleton{background:linear-gradient(90deg,var(--border) 25%,var(--paper) 50%,var(--border) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:2px;}
-  @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
-  .market-card-skeleton{background:var(--surface);padding:20px;min-height:160px;}
-  .disclaimer{background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:14px 18px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);line-height:1.7;margin-bottom:32px;}
-  .sidebar-section{margin-bottom:28px;}
-  .sidebar-head{font-family:"IBM Plex Sans",sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:14px;}
-  .sidebar-item{padding:10px 0;border-bottom:1px solid var(--border);}
-  .sidebar-item-label{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);margin-bottom:4px;}
-  .sidebar-item-val{font-family:"Playfair Display",serif;font-size:16px;font-weight:700;color:var(--ink);}
-  .sidebar-item-sub{font-family:"IBM Plex Mono",monospace;font-size:10px;margin-top:2px;}
-  .sidebar-item-sub.up{color:#2e7d32;}.sidebar-item-sub.down{color:var(--red);}
-  .explainer-box{background:var(--paper);border:1px solid var(--rule);padding:16px;font-size:12px;line-height:1.7;color:var(--muted);}
-  .explainer-box strong{color:var(--ink);display:block;font-family:"IBM Plex Sans",sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;}
-  .newsletter{background:var(--ink);color:white;padding:20px;border-radius:2px;}
-  .newsletter h3{font-family:"Playfair Display",serif;font-size:18px;font-weight:700;margin-bottom:6px;}
-  .newsletter p{font-size:12px;color:#aaa;margin-bottom:14px;line-height:1.5;}
-  .newsletter input{width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:9px 12px;font-family:"IBM Plex Mono",monospace;font-size:12px;margin-bottom:8px;border-radius:2px;}
-  .newsletter input::placeholder{color:#666;}
-  .newsletter input:focus{outline:none;border-color:var(--accent);}
-  .newsletter button{width:100%;background:var(--accent);color:var(--ink);border:none;padding:9px;font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;border-radius:2px;transition:background 0.2s;}
-  .newsletter button:hover{background:var(--accent-dark);color:white;}
-  .error-notice{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);padding:20px;text-align:center;border:1px dashed var(--border);}
-  .fw-alertbar{background:#1a0a00;border-bottom:2px solid var(--accent);padding:0 48px;}
-  .fw-alertbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;height:38px;}
-  .fw-alertbar-brand{font-family:'Playfair Display',serif;font-size:15px;font-weight:900;color:white;text-decoration:none;padding-right:16px;white-space:nowrap;}
-  .fw-alertbar-brand span{color:var(--accent);}
-  .fw-alertbar-divider{width:1px;height:20px;background:#3a2a10;margin:0 16px;flex-shrink:0;}
-  .fw-alertbar-stats{display:flex;align-items:center;gap:4px;}
-  .fw-alertbar-stat{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:2px;text-decoration:none;transition:background 0.15s;white-space:nowrap;}
-  .fw-alertbar-stat:hover{background:rgba(255,255,255,0.08);}
-  .fw-alertbar-dot{width:6px;height:6px;border-radius:50%;background:#ff4444;animation:pulse 2s infinite;flex-shrink:0;}
-  .fw-alertbar-num{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:white;}
-  .fw-alertbar-label{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.08em;}
-  .fw-alertbar-stat.critical .fw-alertbar-num,.fw-alertbar-stat.critical .fw-alertbar-label{color:#ff4444;}
-  .fw-alertbar-stat.high .fw-alertbar-num,.fw-alertbar-stat.high .fw-alertbar-label{color:#ff8c00;}
-  .fw-alertbar-stat.action .fw-alertbar-num,.fw-alertbar-stat.action .fw-alertbar-label{color:var(--accent);}
-  .fw-alertbar-stat.total .fw-alertbar-num{color:#888;}.fw-alertbar-stat.total .fw-alertbar-label{color:#555;}
-  .fw-alertbar-next{margin-left:auto;display:flex;align-items:center;gap:8px;white-space:nowrap;}
-  .fw-alertbar-next-label{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:#555;}
-  .fw-alertbar-next-val{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#ff9900;font-weight:600;}
-  .fw-alertbar-cta{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);text-decoration:none;padding:5px 12px;border:1px solid var(--accent-dark);border-radius:2px;margin-left:16px;transition:all 0.15s;white-space:nowrap;}
-  .fw-alertbar-cta:hover{background:var(--accent);color:var(--ink);}
-  footer{background:var(--ink);color:#aaa;padding:40px 48px;}
-  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;max-width:1280px;margin:0 auto 32px;}
-  .footer-brand{font-family:"Playfair Display",serif;font-size:22px;font-weight:900;color:white;margin-bottom:10px;}
-  .footer-brand span{color:var(--accent);}
-  .footer-desc{font-size:12px;line-height:1.7;max-width:260px;}
-  .footer-col h4{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:white;margin-bottom:12px;font-family:"IBM Plex Sans",sans-serif;}
-  .footer-col a{display:block;font-size:12px;color:#888;text-decoration:none;margin-bottom:7px;transition:color 0.15s;}
-  .footer-col a:hover{color:var(--accent);}
-  .footer-bottom{border-top:1px solid #222;padding-top:20px;font-family:"IBM Plex Mono",monospace;font-size:10px;display:flex;justify-content:space-between;max-width:1280px;margin:0 auto;}
-  .mobile-nav{display:none;flex-direction:column;background:var(--ink);padding:12px 20px;border-bottom:2px solid var(--accent);}
-  .mobile-nav.open{display:flex;}
-  .mobile-nav a{font-family:"IBM Plex Sans",sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#aaa;text-decoration:none;padding:10px 0;border-bottom:1px solid #222;}
-  .mobile-nav a:last-child{border-bottom:none;}
-  .mobile-nav a:hover,.mobile-nav a.active{color:var(--accent);}
-  .hamburger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:4px;}
-  .hamburger span{display:block;width:22px;height:2px;background:#aaa;}
-  .fade-in{animation:fadeIn 0.4s ease forwards;}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-  @media(max-width:900px){
-    nav{display:none;}#mobileBar{display:flex !important;}
-    .layout{grid-template-columns:1fr;}.side-col{border-top:2px solid var(--ink);}
-    .container,.masthead-top,footer,.page-banner,.fw-alertbar{padding-left:20px;padding-right:20px;}
-    .main-col{padding:20px;}.footer-grid{grid-template-columns:1fr 1fr;}
-    .masthead-top{flex-direction:column;gap:12px;text-align:center;}.tagline{text-align:center;}
-    .market-grid{grid-template-columns:1fr;}
-    .fw-alertbar-next,.fw-alertbar-cta,.fw-alertbar-label{display:none;}
-    .footer-bottom{flex-direction:column;gap:6px;text-align:center;}
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; } .ticker-item .down { color: #ff4444; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: center; padding: 0 48px; border-bottom: 1px solid var(--rule); overflow-x: auto; }
+  .nav-item { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 10px 18px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-block; white-space: nowrap; }
+  .nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 160px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  /* FeedWatch Alert Bar */
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-stat:hover { background: rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num, .fw-alertbar-stat.critical .fw-alertbar-label { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num, .fw-alertbar-stat.high .fw-alertbar-label { color: #ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num, .fw-alertbar-stat.action .fw-alertbar-label { color: var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color: #888; } .fw-alertbar-stat.total .fw-alertbar-label { color: #555; }
+  .fw-alertbar-next { margin-left: auto; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #555; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
+  .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
+
+  /* Mobile nav */
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  @media (max-width: 900px) {
+    nav { display: none; } #mobileBar { display: flex !important; }
+    .masthead-top, .fw-alertbar { padding-left: 20px; padding-right: 20px; }
+    .masthead-top { flex-direction: column; gap: 10px; text-align: center; }
+    .tagline { text-align: center; }
+    .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
+  }
+
+  /* ── PAGE HERO ── */
+  .page-hero { background: var(--cream); border-bottom: 2px solid var(--ink); padding: 36px 48px 32px; }
+  .page-hero-inner { max-width: 1280px; margin: 0 auto; }
+  .page-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-dark); margin-bottom: 10px; }
+  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3.5vw, 42px); font-weight: 900; line-height: 1.15; margin-bottom: 12px; color: var(--ink); }
+  .page-hero h1 span { color: var(--accent); }
+  .page-hero-sub { font-size: 14px; line-height: 1.7; color: var(--muted); max-width: 820px; }
+
+  /* ── MAIN CONTAINER ── */
+  .page-container { max-width: 1280px; margin: 0 auto; padding: 0 48px 64px; }
+
+  /* ── SECTION HEADS ── */
+  .section-head { display: flex; align-items: center; gap: 16px; margin: 44px 0 20px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .section-head h2 { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink); white-space: nowrap; }
+  .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.1em; }
+  .section-line { flex: 1; height: 1px; background: var(--rule); }
+
+  /* ── BREAKING ALERT BANNER ── */
+  .alert-banner { background: #fdf0ee; border: 1px solid #f0b8b0; border-left: 4px solid var(--red); padding: 14px 20px; display: flex; align-items: flex-start; gap: 14px; margin-bottom: 24px; }
+  .alert-banner-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex-shrink: 0; margin-top: 5px; animation: pulse 2s infinite; }
+  .alert-banner-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--red); margin-bottom: 5px; }
+  .alert-banner-text { font-size: 13px; line-height: 1.6; color: var(--ink); }
+
+  /* ── STATUS TABLE ── */
+  .status-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .status-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); text-align: left; padding: 8px 14px; border-bottom: 2px solid var(--ink); background: var(--cream); white-space: nowrap; }
+  .status-table td { padding: 13px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; background: var(--surface); }
+  .status-table tr:hover td { background: var(--cream); }
+
+  .platform-name { font-weight: 700; color: var(--ink); font-size: 14px; margin-bottom: 2px; }
+  .platform-status { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+  .reg-status-badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 2px; white-space: nowrap; }
+  .reg-registered { background: #edf7f2; color: #2a7a50; border: 1px solid #b0ddc5; }
+  .reg-approved   { background: #eef3fb; color: #2e5fa3; border: 1px solid #b0c8e8; }
+  .reg-positioning { background: #fef9f0; color: var(--accent-dark); border: 1px solid #e8c97a; }
+
+  .risk-badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 2px; white-space: nowrap; }
+  .risk-high   { background: #fdf0ee; color: var(--red); border: 1px solid #f0b8b0; }
+  .risk-medium { background: #fef9f0; color: var(--accent-dark); border: 1px solid #e8c97a; }
+  .risk-low    { background: #edf7f2; color: #2a7a50; border: 1px solid #b0ddc5; }
+
+  .key-dev { font-size: 13px; color: var(--ink); line-height: 1.6; }
+
+  /* ── TIMELINE ── */
+  .timeline { display: flex; flex-direction: column; border-left: 2px solid var(--rule); margin-left: 16px; }
+  .tl-item { display: flex; align-items: flex-start; position: relative; padding: 0 0 28px 28px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; position: absolute; left: -7px; top: 4px; border: 2px solid var(--paper); }
+  .tl-dot.past     { background: var(--muted); }
+  .tl-dot.recent   { background: var(--accent); }
+  .tl-dot.open     { background: var(--red); animation: pulse 2s infinite; }
+  .tl-date { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+  .tl-date.recent  { color: var(--accent-dark); }
+  .tl-date.open    { color: var(--red); }
+  .tl-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; line-height: 1.35; }
+  .tl-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .tl-chip { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 1px 7px; border-radius: 2px; margin-left: 8px; vertical-align: middle; }
+  .chip-open { background: #fdf0ee; color: var(--red); border: 1px solid #f0b8b0; }
+
+  /* ── INFRA CARDS ── */
+  .infra-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .infra-card { background: var(--surface); padding: 26px 28px; }
+  .infra-card-icon { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-dark); margin-bottom: 10px; }
+  .infra-card-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 12px; line-height: 1.25; }
+  .infra-card-body { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  /* ── LITIGATION TABLE ── */
+  .lit-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .lit-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); text-align: left; padding: 8px 14px; border-bottom: 2px solid var(--ink); background: var(--cream); white-space: nowrap; }
+  .lit-table td { padding: 13px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; background: var(--surface); }
+  .lit-table tr:hover td { background: var(--cream); }
+  .lit-table td:first-child { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+
+  .lit-status { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 2px; }
+  .lit-active  { background: #fdf0ee; color: var(--red); border: 1px solid #f0b8b0; }
+  .lit-issued  { background: #fef9f0; color: var(--accent-dark); border: 1px solid #e8c97a; }
+  .lit-ongoing { background: #eef3fb; color: #2e5fa3; border: 1px solid #b0c8e8; }
+
+  /* ── QUICK LINKS ── */
+  .ql-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .ql-card { background: var(--surface); padding: 22px 24px; text-decoration: none; color: inherit; transition: background 0.15s; display: block; }
+  .ql-card:hover { background: var(--cream); }
+  .ql-card-org { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-dark); margin-bottom: 8px; }
+  .ql-card-name { font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; line-height: 1.3; }
+  .ql-card-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+  .ql-card-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .page-hero, .page-container { padding-left: 20px; padding-right: 20px; }
+    .infra-grid, .ql-grid { grid-template-columns: 1fr; }
+    .status-table th:nth-child(3), .status-table td:nth-child(3) { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    footer { padding: 32px 20px; }
+  }
+  @media (max-width: 600px) {
+    .lit-table th:nth-child(2), .lit-table td:nth-child(2) { display: none; }
   }
 </style>
 </head>
 <body>
+
+<!-- Ticker -->
 <div class="ticker-wrap"><div class="ticker">
   <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
-  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
-  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
-  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
-  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
-  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">CFTC ANPRM ON PREDICTION MARKETS: <span style="color:#ff9900">COMMENT PERIOD OPEN</span></span>
+  <span class="ticker-item">ARIZONA: FIRST CRIMINAL CHARGES AGAINST KALSHI</span>
+  <span class="ticker-item">COINBASE NEVADA INJUNCTION: <span style="color:#ff9900">MAR 26 2026</span></span>
+  <span class="ticker-item">POLYMARKET DAILY VOLUME RECORD: <span class="up">$425M — FEB 28 2026</span></span>
+  <span class="ticker-item">WASHINGTON AG FILES AGAINST KALSHI: <span style="color:#ff9900">MAR 27 2026</span></span>
   <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
-  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
-  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
-  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
-  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
-  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">CFTC ANPRM ON PREDICTION MARKETS: <span style="color:#ff9900">COMMENT PERIOD OPEN</span></span>
+  <span class="ticker-item">ARIZONA: FIRST CRIMINAL CHARGES AGAINST KALSHI</span>
+  <span class="ticker-item">COINBASE NEVADA INJUNCTION: <span style="color:#ff9900">MAR 26 2026</span></span>
+  <span class="ticker-item">POLYMARKET DAILY VOLUME RECORD: <span class="up">$425M — FEB 28 2026</span></span>
+  <span class="ticker-item">WASHINGTON AG FILES AGAINST KALSHI: <span style="color:#ff9900">MAR 27 2026</span></span>
 </div></div>
+
+<!-- FeedWatch Alert Bar -->
 <div class="fw-alertbar">
   <div class="fw-alertbar-inner">
     <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
@@ -172,10 +233,15 @@
       <a href="calendar.html" class="fw-alertbar-stat total"><span class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
     </div>
     <div class="fw-alertbar-divider"></div>
-    <div class="fw-alertbar-next"><span class="fw-alertbar-next-label">Next deadline:</span><span class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
+    </div>
     <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
   </div>
 </div>
+
+<!-- Masthead -->
 <div class="masthead">
   <div class="masthead-top">
     <div class="date-line" id="dateLine">Loading...</div>
@@ -197,7 +263,7 @@
   </nav>
   <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
     <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
-    <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </div>
 <div class="mobile-nav" id="mobileNav">
@@ -210,204 +276,352 @@
   <a href="prediction-markets.html" class="active">Prediction Markets</a>
   <a href="about.html">About</a>
 </div>
-<div class="page-banner">
-  <div class="page-banner-inner">
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-label">Event Contracts &amp; Emerging Markets</div>
+    <h1>Prediction Markets <span>Intelligence</span></h1>
+    <div class="page-hero-sub">Tracking the regulatory, infrastructure, and market data implications of the emerging event contracts industry — Kalshi · Polymarket · CFTC · State Litigation</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="page-container">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 1 — BREAKING REGULATORY TRACKER -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">01 —</span>
+    <h2>Breaking Regulatory Tracker</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="alert-banner">
+    <div class="alert-banner-dot"></div>
     <div>
-      <div class="page-banner-title">Prediction <span>Markets</span></div>
-      <div class="page-banner-desc">Live prices from Kalshi · Fed · Elections · Economic Events · Market Forecasts</div>
-    </div>
-    <div class="page-banner-meta"><div class="live-dot-sm"></div><span id="updateTime">Loading live data...</span></div>
-  </div>
-</div>
-
-<div class="container">
-  <div class="layout">
-    <div class="main-col fade-in">
-      <div class="disclaimer">
-        <strong style="font-family:'IBM Plex Sans',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink);display:inline;">Disclaimer: </strong>
-        Prices sourced live from the Kalshi API (CFTC-regulated exchange). Represents crowd-sourced probability estimates, not financial advice. Market Data News does not offer trading recommendations.
-      </div>
-
-      <div class="pm-section">
-        <div class="section-head"><div class="live-dot"></div><h2>Federal Reserve &amp; Monetary Policy</h2><div class="section-line"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">Kalshi · Live</span></div>
-        <div id="fedSection"><div class="market-grid"><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div></div></div>
-      </div>
-
-      <div class="pm-section">
-        <div class="section-head"><div class="live-dot"></div><h2>Economic Event Markets</h2><div class="section-line"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">Kalshi · Live</span></div>
-        <div id="econSection"><div class="market-grid"><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div></div></div>
-      </div>
-
-      <div class="pm-section">
-        <div class="section-head"><div class="live-dot"></div><h2>Market &amp; Asset Forecasts</h2><div class="section-line"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">Kalshi · Live</span></div>
-        <div id="mktSection"><div class="market-grid"><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div></div></div>
-      </div>
-
-      <div class="pm-section">
-        <div class="section-head"><div class="live-dot"></div><h2>Political &amp; Election Markets</h2><div class="section-line"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">Kalshi · Live</span></div>
-        <div id="politSection"><div class="market-grid"><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div><div class="market-card-skeleton"><div class="skeleton" style="height:10px;width:60px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:14px"></div><div class="skeleton" style="height:50px"></div></div></div></div>
-      </div>
-    </div>
-
-    <div class="side-col">
-      <div class="sidebar-section">
-        <div class="sidebar-head">Key Indicators</div>
-        <div class="sidebar-item"><div class="sidebar-item-label">S&amp;P 500</div><div class="sidebar-item-val">5,776</div><div class="sidebar-item-sub up">▲ +0.31%</div></div>
-        <div class="sidebar-item"><div class="sidebar-item-label">VIX</div><div class="sidebar-item-val">18.42</div><div class="sidebar-item-sub down">▼ -1.24%</div></div>
-        <div class="sidebar-item"><div class="sidebar-item-label">10Y Treasury</div><div class="sidebar-item-val">4.31%</div><div class="sidebar-item-sub down">▼ -0.08%</div></div>
-        <div class="sidebar-item"><div class="sidebar-item-label">Fed Funds Rate</div><div class="sidebar-item-val">4.25–4.50%</div><div class="sidebar-item-sub" style="color:var(--muted)">Current target range</div></div>
-      </div>
-      <div class="sidebar-section">
-        <div class="explainer-box">
-          <strong>What are prediction markets?</strong>
-          Prediction markets allow participants to trade contracts tied to real-world event outcomes. Prices reflect crowd-implied probability — a contract at 72¢ implies 72% likelihood. Kalshi is CFTC-regulated and settles in USD.
-        </div>
-      </div>
-      <div class="sidebar-section">
-        <div class="sidebar-head">Data Source</div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:2.2;color:var(--muted);">
-          <a href="https://kalshi.com" target="_blank" rel="noopener" style="color:var(--accent-dark);text-decoration:none;">Kalshi ↗</a><br>
-          CFTC-Regulated Exchange<br>Live REST API v2<br>Refreshes every 60s
-        </div>
-      </div>
-      <div class="sidebar-section">
-        <div class="newsletter">
-          <h3>Daily Briefing</h3>
-          <p>Market data industry updates every morning before the open.</p>
-          <input type="email" placeholder="your@email.com" id="emailInput">
-          <button onclick="subscribe()">Subscribe Free</button>
-        </div>
-      </div>
+      <div class="alert-banner-label">Breaking — March 2026</div>
+      <div class="alert-banner-text">CFTC issued Advance Notice of Proposed Rulemaking on March 12, 2026 — public comment period open. Federal prosecutors exploring insider trading jurisdiction over prediction market contracts. Arizona filed first criminal charges against Kalshi for illegal gambling and election wagering.</div>
     </div>
   </div>
-</div>
+
+  <table class="status-table">
+    <thead>
+      <tr>
+        <th>Platform</th>
+        <th>Regulatory Status</th>
+        <th>Key Development</th>
+        <th>Risk Level</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="platform-name">Kalshi</div>
+          <div class="platform-status">CFTC Registered DCM</div>
+        </td>
+        <td><span class="reg-status-badge reg-registered">CFTC DCM</span></td>
+        <td class="key-dev">Arizona criminal charges filed — Kalshi calls them "paper thin." NY AG cease-and-desist on sports contracts. Massachusetts Superior Court preliminary injunction issued January 2026. Washington AG filed March 27, 2026.</td>
+        <td><span class="risk-badge risk-high">HIGH</span></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="platform-name">Polymarket</div>
+          <div class="platform-status">CFTC Approved July 2025</div>
+        </td>
+        <td><span class="reg-status-badge reg-approved">CFTC Approved</span></td>
+        <td class="key-dev">Self-certified new market rules March 2026. US site not yet fully operational. Offshore site still offers Iran and Venezuela markets. Hit $425M single-day trading volume on February 28, 2026.</td>
+        <td><span class="risk-badge risk-high">HIGH</span></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="platform-name">Robinhood</div>
+          <div class="platform-status">CFTC Registered</div>
+        </td>
+        <td><span class="reg-status-badge reg-registered">CFTC Registered</span></td>
+        <td class="key-dev">Joined Coalition for Prediction Markets. State enforcement exposure growing as regulatory landscape evolves. Monitoring state-by-state restrictions on sports event contracts.</td>
+        <td><span class="risk-badge risk-medium">MEDIUM</span></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="platform-name">Coinbase</div>
+          <div class="platform-status">CFTC Positioning</div>
+        </td>
+        <td><span class="reg-status-badge reg-positioning">Positioning</span></td>
+        <td class="key-dev">Nevada preliminary injunction issued March 26, 2026. Filing preemptive federal lawsuits to establish federal preemption of state gaming laws. Product launch delayed pending resolution.</td>
+        <td><span class="risk-badge risk-high">HIGH</span></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="platform-name">Interactive Brokers</div>
+          <div class="platform-status">CFTC Registered</div>
+        </td>
+        <td><span class="reg-status-badge reg-registered">CFTC Registered</span></td>
+        <td class="key-dev">Geographic restrictions in place based on evolving state regulations. Monitoring CFTC ANPRM outcomes before expanding event contract offerings.</td>
+        <td><span class="risk-badge risk-low">LOW</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 2 — CFTC RULEMAKING TIMELINE -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">02 —</span>
+    <h2>CFTC Rulemaking Timeline</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-dot past"></div>
+      <div>
+        <div class="tl-date">January 29, 2026</div>
+        <div class="tl-title">SEC/CFTC Joint Project Crypto Summit</div>
+        <div class="tl-body">CFTC Chair Selig announces four-part regulatory agenda for prediction markets at joint summit with SEC. Framework to address manipulation, insider trading, government official trading restrictions, and contract self-certification standards.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot past"></div>
+      <div>
+        <div class="tl-date">February 25, 2026</div>
+        <div class="tl-title">CFTC Enforcement Advisory Issued</div>
+        <div class="tl-body">CFTC issues formal enforcement advisory clarifying full enforcement authority over CFTC-registered designated contract markets. Kalshi reports two insider trading cases referred to enforcement. CFTC confirms ability to bring manipulation charges against prediction market participants.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot recent"></div>
+      <div>
+        <div class="tl-date recent">March 12, 2026</div>
+        <div class="tl-title">CFTC Advance Notice of Proposed Rulemaking</div>
+        <div class="tl-body">CFTC issues ANPRM on event contract regulation. Guidance Advisory 26-08 simultaneously issued to all DCMs establishing standards for manipulation resistance in binary contract markets. Comment period opened for sports contracts, insider trading rules, and restrictions on trading by government officials.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot recent"></div>
+      <div>
+        <div class="tl-date recent">March 23, 2026</div>
+        <div class="tl-title">5c(c) Capital Fund Launched</div>
+        <div class="tl-body">New venture fund backed by Kalshi CEO Tarek Mansour, Polymarket CEO Shayne Coplan, Marc Andreessen, and Ribbit Capital. Named after CFTC section governing event contracts. Fund targets prediction market infrastructure and adjacent fintech investments.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot recent"></div>
+      <div>
+        <div class="tl-date recent">March 26, 2026</div>
+        <div class="tl-title">Coinbase Nevada Preliminary Injunction</div>
+        <div class="tl-body">Nevada court issues preliminary injunction against Coinbase prediction market product. Coinbase immediately files preemptive federal lawsuit asserting CFTC registration preempts state gaming law. Case expected to be a bellwether for federal vs. state jurisdiction.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot recent"></div>
+      <div>
+        <div class="tl-date recent">March 27, 2026</div>
+        <div class="tl-title">Washington AG Files Against Kalshi</div>
+        <div class="tl-body">Washington State Attorney General files action against Kalshi over sports event contracts. Sixth state to take formal action. Kalshi argues federal preemption under CFTC registration. Case joins existing proceedings in New York, Massachusetts, Arizona, and Nevada.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot open"></div>
+      <div>
+        <div class="tl-date open">Comment Period Open <span class="tl-chip chip-open">Active Now</span></div>
+        <div class="tl-title">CFTC Seeking Public Comment on ANPRM</div>
+        <div class="tl-body">CFTC accepting public comment on: sports event contract standards; insider trading rules for event contracts; restrictions on trading by government officials and their immediate families; and manipulation resistance standards for DCM rule self-certification.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 3 — MARKET DATA INFRASTRUCTURE IMPLICATIONS -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">03 —</span>
+    <h2>Market Data Infrastructure Implications</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="infra-grid">
+
+    <div class="infra-card">
+      <div class="infra-card-icon">Feed Infrastructure</div>
+      <div class="infra-card-title">Exchange-Grade Data Requirements Emerging</div>
+      <div class="infra-card-body">Prediction markets generate real-time binary contract price data with increasing velocity. As platforms scale to billions in daily volume — Polymarket hit $425M in a single day on February 28, 2026 — feed infrastructure requirements are approaching those of traditional exchanges. Firms building on these platforms need low-latency data feeds, historical data archives, normalized order book data, and surveillance capabilities equivalent to regulated equities venues.</div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-card-icon">Market Data Costs</div>
+      <div class="infra-card-title">Free API Access Won't Last</div>
+      <div class="infra-card-body">Unlike traditional exchanges, Kalshi and Polymarket currently offer free REST and WebSocket API access to real-time and historical data. This pricing model will not persist as platforms mature, seek revenue diversification, and face the infrastructure costs of serving institutional clients. Market data professionals should document current data consumption patterns now — before fee schedules are introduced. Early API integrations may be grandfathered; late adopters will pay institutional rates.</div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-card-icon">Compliance Implications</div>
+      <div class="infra-card-title">DCM Obligations Apply in Full</div>
+      <div class="infra-card-body">CFTC-registered DCMs are required to maintain complete audit trails, conduct ongoing market surveillance, and enforce rules against manipulation and insider trading. Firms trading on prediction markets face the same reporting obligations as traditional derivatives markets, including position reporting and large trader notification thresholds. Under proposed CFTC rules, CAT reporting requirements may extend to event contracts. Compliance teams should treat prediction market activity as equivalent to futures trading for internal policy purposes.</div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 4 — STATE LITIGATION MAP -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">04 —</span>
+    <h2>State Litigation Map</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <table class="lit-table">
+    <thead>
+      <tr>
+        <th>Jurisdiction</th>
+        <th>Action</th>
+        <th>Current Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>New York</td>
+        <td>Attorney General cease-and-desist order on sports event contracts. Kalshi contests federal preemption under CFTC registration as DCM.</td>
+        <td><span class="lit-status lit-active">Active</span><div style="font-size:12px;color:var(--muted);margin-top:4px;">Kalshi challenging in federal court</div></td>
+      </tr>
+      <tr>
+        <td>Massachusetts</td>
+        <td>Suffolk County Superior Court preliminary injunction. Court ruled sports event contracts subject to Massachusetts state gaming law regardless of federal DCM registration.</td>
+        <td><span class="lit-status lit-active">Active</span><div style="font-size:12px;color:var(--muted);margin-top:4px;">January 2026 ruling against Kalshi — appeal pending</div></td>
+      </tr>
+      <tr>
+        <td>Arizona</td>
+        <td>First criminal charges filed against Kalshi for illegal gambling and election wagering under Arizona state law. Kalshi calls charges "paper thin" and without merit.</td>
+        <td><span class="lit-status lit-active">Active</span><div style="font-size:12px;color:var(--muted);margin-top:4px;">Kalshi denies wrongdoing — criminal proceeding</div></td>
+      </tr>
+      <tr>
+        <td>Nevada</td>
+        <td>State court issued preliminary injunction against Coinbase prediction market product. Coinbase immediately filed preemptive federal lawsuit asserting CFTC preemption.</td>
+        <td><span class="lit-status lit-issued">Injunction Issued</span><div style="font-size:12px;color:var(--muted);margin-top:4px;">March 26, 2026 — federal preemption case pending</div></td>
+      </tr>
+      <tr>
+        <td>Washington</td>
+        <td>State Attorney General filed action against Kalshi over sports event contracts. Sixth state to take formal regulatory or legal action against a CFTC-registered prediction market platform.</td>
+        <td><span class="lit-status lit-active">Active</span><div style="font-size:12px;color:var(--muted);margin-top:4px;">Filed March 27, 2026</div></td>
+      </tr>
+      <tr>
+        <td>Federal — DOJ</td>
+        <td>Federal prosecutors exploring whether prediction market bets on company-specific events could constitute insider trading under existing federal securities law. No charges filed yet.</td>
+        <td><span class="lit-status lit-ongoing">Investigation</span><div style="font-size:12px;color:var(--muted);margin-top:4px;">Ongoing — jurisdiction question unresolved</div></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 5 — QUICK LINKS -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">05 —</span>
+    <h2>Quick Links</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="ql-grid">
+
+    <a href="https://www.cftc.gov/PressRoom/PressReleases/index.htm" class="ql-card" target="_blank" rel="noopener">
+      <div class="ql-card-org">CFTC</div>
+      <div class="ql-card-name">CFTC Prediction Markets Page</div>
+      <div class="ql-card-desc">Official CFTC press releases, advisories, and rulemaking documents related to event contracts and prediction market regulation. Primary source for ANPRM filings and guidance.</div>
+      <div class="ql-card-link">cftc.gov →</div>
+    </a>
+
+    <a href="https://kalshi.com" class="ql-card" target="_blank" rel="noopener">
+      <div class="ql-card-org">Platform</div>
+      <div class="ql-card-name">Kalshi</div>
+      <div class="ql-card-desc">CFTC-registered designated contract market for event contracts. Real-time binary contract prices across political, economic, and financial events. API access available.</div>
+      <div class="ql-card-link">kalshi.com →</div>
+    </a>
+
+    <a href="https://polymarket.com" class="ql-card" target="_blank" rel="noopener">
+      <div class="ql-card-org">Platform</div>
+      <div class="ql-card-name">Polymarket</div>
+      <div class="ql-card-desc">CFTC-approved prediction market. Hit $425M single-day trading volume February 28, 2026. Blockchain-based settlement. US site expansion ongoing following CFTC approval July 2025.</div>
+      <div class="ql-card-link">polymarket.com →</div>
+    </a>
+
+    <a href="https://www.cftc.gov/LawRegulation/FederalRegister/index.htm" class="ql-card" target="_blank" rel="noopener">
+      <div class="ql-card-org">CFTC</div>
+      <div class="ql-card-name">CFTC Advisory 26-08</div>
+      <div class="ql-card-desc">CFTC Guidance Advisory 26-08 issued March 12, 2026 to all CFTC-registered DCMs. Establishes standards for manipulation resistance requirements in binary event contract markets.</div>
+      <div class="ql-card-link">cftc.gov/regulations →</div>
+    </a>
+
+    <a href="https://www.cftc.gov/PressRoom/PressReleases/index.htm" class="ql-card" target="_blank" rel="noopener">
+      <div class="ql-card-org">Industry</div>
+      <div class="ql-card-name">Coalition for Prediction Markets</div>
+      <div class="ql-card-desc">Industry group formed to advocate for federal regulatory framework for prediction markets. Members include Kalshi, Polymarket, Robinhood, and other CFTC-registered platforms.</div>
+      <div class="ql-card-link">Industry Group →</div>
+    </a>
+
+    <a href="https://comments.cftc.gov" class="ql-card" target="_blank" rel="noopener">
+      <div class="ql-card-org">CFTC</div>
+      <div class="ql-card-name">CFTC ANPRM Comment Portal</div>
+      <div class="ql-card-desc">Submit public comments on the CFTC Advance Notice of Proposed Rulemaking on event contracts. Comment period open. Industry and public input on sports contracts, insider trading rules, and official trading restrictions.</div>
+      <div class="ql-card-link">comments.cftc.gov →</div>
+    </a>
+
+  </div>
+
+</div><!-- end page-container -->
 
 <footer>
   <div class="footer-grid">
-    <div><div class="footer-brand">Market Data <span>News</span></div><div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div></div>
-    <div class="footer-col"><h4>Coverage</h4><a href="exchanges.html">Exchanges</a><a href="regulation.html">Regulation</a><a href="nms.html">NMS / SIP</a><a href="feed-status.html">Feed Status</a><a href="prediction-markets.html">Prediction Markets</a></div>
-    <div class="footer-col"><h4>FeedWatch</h4><a href="calendar.html">All Entries</a><a href="calendar.html?filter=action">Action Required</a><a href="calendar.html?filter=critical">Critical Alerts</a><a href="calendar.html?filter=high">High Impact</a></div>
-    <div class="footer-col"><h4>Company</h4><a href="about.html">About</a><a href="/cdn-cgi/l/email-protection#096a66677d686a7d4964687b626c7d6d687d68676c7e7a276a6664">Contact</a><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div>
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="exchanges.html">Exchanges</a>
+      <a href="regulation.html">Regulation</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>FeedWatch</h4>
+      <a href="calendar.html">All Entries</a>
+      <a href="calendar.html?filter=action">Action Required</a>
+      <a href="calendar.html?filter=critical">Critical Alerts</a>
+      <a href="calendar.html?filter=high">High Impact</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+    </div>
   </div>
-  <div class="footer-bottom"><span>© 2026 MarketDataNews.com — All rights reserved</span><span>For market data professionals</span></div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-function toggleMobileNav(){document.getElementById('mobileNav').classList.toggle('open');}
-function subscribe(){
-  const e=document.getElementById("emailInput").value;
-  if(!e||!e.includes("@")){alert("Please enter a valid email.");return;}
-  document.querySelector(".newsletter").innerHTML="<div style='text-align:center;padding:10px'><div style='font-family:Playfair Display,serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px'>You\'re in.</div><div style='font-size:12px;color:#aaa'>Daily briefing starts tomorrow morning.</div></div>";
+<script>
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('dateLine').textContent =
+  days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
 }
-const _d=new Date();
-const _dn=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-const _mn=["January","February","March","April","May","June","July","August","September","October","November","December"];
-document.getElementById("dateLine").textContent=_dn[_d.getDay()]+", "+_mn[_d.getMonth()]+" "+_d.getDate()+", "+_d.getFullYear();
+</script>
 
-// ── Price parser ─────────────────────────────────────────────────────────────
-// Kalshi prices are dollar strings like "0.35" meaning 35%
-// Best price = midpoint of bid/ask. Fall back to last_price_dollars.
-function pct(m){
-  const bid = parseFloat(m.yes_bid_dollars ?? 0);
-  const ask = parseFloat(m.yes_ask_dollars ?? 0);
-  const last = parseFloat(m.last_price_dollars ?? 0);
-  if(bid > 0 && ask > 0) return Math.max(1, Math.min(99, Math.round(((bid + ask) / 2) * 100)));
-  if(last > 0) return Math.max(1, Math.min(99, Math.round(last * 100)));
-  return 50;
-}
-
-// ── Volume formatter ──────────────────────────────────────────────────────────
-// volume_fp is a string like "3618.00" representing number of contracts
-function fmtVol(m){
-  const v = parseFloat(m.volume_fp ?? 0);
-  if(v >= 1000000) return '$'+(v/1000000).toFixed(1)+'M vol';
-  if(v >= 1000) return '$'+(v/1000).toFixed(0)+'K vol';
-  if(v > 0) return Math.round(v)+' contracts';
-  return '';
-}
-
-function fmtDate(s){
-  if(!s) return '';
-  return new Date(s).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-}
-
-// ── Card renderer ─────────────────────────────────────────────────────────────
-function makeCard(m){
-  const y = pct(m);
-  const n = 100 - y;
-  const title = (m.title||m.question||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
-  // Strip KX prefix from series ticker for cleaner display
-  const series = (m.series_ticker||m.event_ticker||'').replace(/^KX/,'').split('-')[0];
-  return `<div class="market-card fade-in">
-    <div class="market-source">Kalshi · ${series||'Live'}</div>
-    <div class="market-question">${title}</div>
-    <div class="market-odds">
-      <div class="market-odd yes"><div class="market-odd-pct">${y}%</div><div class="market-odd-label">Yes</div></div>
-      <div class="market-odd no"><div class="market-odd-pct">${n}%</div><div class="market-odd-label">No</div></div>
-    </div>
-    <div class="market-bar-wrap">
-      <div class="market-bar-labels"><span class="market-bar-label yes">YES</span><span class="market-bar-label no">NO</span></div>
-      <div class="market-bar"><div class="market-bar-fill" style="width:${y}%"></div></div>
-    </div>
-    <div class="market-meta"><span>${fmtDate(m.close_time)}</span><span>${fmtVol(m)}</span></div>
-  </div>`;
-}
-
-// ── Sections config ───────────────────────────────────────────────────────────
-// Fed uses hardcoded series tickers (subcategory, no top-level slug)
-// All others use Kalshi's top-level category slugs for dynamic/trending results
-const SECTIONS = [
-  { id:'fedSection',   series:['KXFED','KXFOMC'],  label:'Fed' },
-  { id:'econSection',  category:'economics',        label:'Economic' },
-  { id:'mktSection',   category:'financials',       label:'Markets' },
-  { id:'politSection', category:'politics',         label:'Political' },
-];
-
-// ── Kalshi fetcher ────────────────────────────────────────────────────────────
-async function kalshiFetch(params){
-  const qs = new URLSearchParams(params).toString();
-  const r = await fetch('/.netlify/functions/kalshi?'+qs, {signal:AbortSignal.timeout(8000)});
-  if(!r.ok) throw new Error('HTTP '+r.status);
-  return r.json();
-}
-
-async function loadSection(sec){
-  const el = document.getElementById(sec.id);
-  let markets = [];
-
-  if(sec.series){
-    // Series-based fetch (Fed — subcategory, no top-level slug)
-    for(const s of sec.series){
-      try{
-        const d = await kalshiFetch({endpoint:'markets', status:'open', limit:'6', series_ticker:s});
-        if(d.markets && d.markets.length) markets = markets.concat(d.markets);
-        if(markets.length >= 4) break;
-      } catch(e){ console.warn('Kalshi fetch failed for series', s, e); }
-    }
-  } else {
-    // Category-based fetch (Economics, Financials, Politics)
-    try{
-      const d = await kalshiFetch({endpoint:'markets', status:'open', limit:'8', category:sec.category});
-      if(d.markets && d.markets.length) markets = d.markets;
-    } catch(e){ console.warn('Kalshi fetch failed for category', sec.category, e); }
-  }
-
-  // Dedupe by ticker, take top 4
-  const seen = new Set();
-  markets = markets.filter(m => {
-    if(seen.has(m.ticker)) return false;
-    seen.add(m.ticker);
-    return true;
-  }).slice(0, 4);
-
-  if(!markets.length){
-    el.innerHTML = `<div class="error-notice">Live ${sec.label} markets unavailable — check back shortly.</div>`;
-    return;
-  }
-  el.innerHTML = `<div class="market-grid">${markets.map(makeCard).join('')}</div>`;
-}
-
-async function loadAll(){
-  await Promise.allSettled(SECTIONS.map(loadSection));
-  document.getElementById('updateTime').textContent =
-    'L
+</body>
+</html>
