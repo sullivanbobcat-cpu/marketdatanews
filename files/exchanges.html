@@ -173,6 +173,11 @@
   .next-holiday-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
   .next-holiday-date { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); }
 
+  /* Scrollable table wrapper */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .holiday-table { min-width: 480px; }
+  .session-table  { min-width: 480px; }
+
   @media (max-width: 900px) {
     nav { display: none; } #mobileBar { display: flex !important; }
     .page-container, .masthead-top, footer, .fw-alertbar, .page-hero { padding-left: 20px; padding-right: 20px; }
@@ -184,6 +189,16 @@
     .page-side { padding: 24px 20px; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
     .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+    /* Make session panels and holiday section scrollable */
+    .session-panel { overflow-x: auto; }
+    .section-block { overflow-x: auto; }
+    /* Allow section head to wrap on narrow screens */
+    .section-head { flex-wrap: wrap; gap: 8px 12px; }
+    /* Update link cards: stack on mobile */
+    .update-link-card { flex-direction: column; align-items: flex-start; gap: 8px; }
+  }
+  @media (max-width: 600px) {
+    .footer-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -242,7 +257,7 @@
     <a href="prediction-markets.html" class="nav-item">Prediction Markets</a>
     <a href="about.html" class="nav-item">About</a>
     <div class="nav-right">
-      <input class="search-box" type="text" placeholder="Search...">
+      <input class="search-box" type="text" placeholder="Search..." id="searchBox" oninput="if(typeof filterNews!=='undefined')filterNews()">
     </div>
   </nav>
   <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
@@ -282,6 +297,7 @@
           <div class="section-line"></div>
           <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">All NYSE Group Markets</span>
         </div>
+        <div class="table-scroll">
         <table class="holiday-table">
           <thead>
             <tr>
@@ -373,6 +389,7 @@
             </tr>
           </tbody>
         </table>
+        </div><!-- end table-scroll -->
         <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:10px;line-height:1.6;">
           All times Eastern. Early close days: equity markets close at 1:00pm ET. Bond markets follow SIFMA recommended schedule which may differ. Options markets close at 1:15pm ET on early close days.
         </div>

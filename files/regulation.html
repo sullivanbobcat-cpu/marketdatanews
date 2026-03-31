@@ -187,6 +187,10 @@
   .resource-card-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
   .resource-card-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
 
+  /* Scrollable table wrapper */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .rule-table { min-width: 580px; }
+
   @media (max-width: 900px) {
     .page-hero, .page-container { padding-left: 20px; padding-right: 20px; }
     .rule-table th:nth-child(3),
@@ -196,10 +200,18 @@
     .resource-grid { grid-template-columns: 1fr 1fr; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
     footer { padding: 32px 20px; }
+    /* Enforcement actions: single column on mobile */
+    .enf-item { grid-template-columns: 1fr; gap: 4px; }
+    .enf-date { padding-top: 0; }
+    /* Timeline: prevent flex child overflow */
+    .tl-body { min-width: 0; }
+    /* Section head: allow wrapping */
+    .section-head { flex-wrap: wrap; gap: 8px; }
   }
   @media (max-width: 600px) {
     .resource-grid { grid-template-columns: 1fr; }
-    .enf-item { grid-template-columns: 1fr; gap: 4px; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
   }
 </style>
 </head>
@@ -298,6 +310,7 @@
     <div class="section-line"></div>
   </div>
 
+  <div class="table-scroll">
   <table class="rule-table">
     <thead>
       <tr>
@@ -389,6 +402,7 @@
       </tr>
     </tbody>
   </table>
+  </div><!-- end table-scroll -->
 
   <!-- ═══════════════════════════════════════════════ -->
   <!-- SECTION 2 — COMPLIANCE DEADLINE CALENDAR -->
