@@ -3,117 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exchange News — NYSE, NASDAQ, CME, CBOE, ICE Coverage | Market Data News</title>
-<meta name="description" content="Exchange news and technical notices for NYSE, NASDAQ, CME Group, CBOE, and ICE. Market structure updates, trading system migrations, and venue technology changes.">
-  <!-- SEO Meta Tags -->
-  <meta name="keywords" content="NYSE news, NASDAQ news, CME Group update, CBOE notice, ICE exchange, exchange technology, market structure, trading venue, exchange migration, Pillar migration, Arrowhead, Globex">
+<title>NYSE Trading Hours & Calendar | Market Data News</title>
+<meta name="description" content="Official NYSE trading session schedules, 2026 holiday calendar, and market data feed implications for NYSE Group markets including NYSE Arca, NYSE American, NYSE National, and NYSE Texas.">
+  <meta name="keywords" content="NYSE trading hours, NYSE holiday calendar 2026, NYSE Arca hours, market data feed schedule, exchange sessions, early close, NYSE Group">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Market Data News">
   <link rel="canonical" href="https://marketdatanews.com/exchanges.html">
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://marketdatanews.com/exchanges.html">
-  <meta property="og:title" content="Exchange News — Market Data News">
-  <meta property="og:description" content="NYSE, NASDAQ, CME, CBOE and ICE coverage for market data professionals.">
+  <meta property="og:title" content="NYSE Trading Hours & Calendar | Market Data News">
+  <meta property="og:description" content="Official NYSE trading session schedules, 2026 holiday calendar, and market data feed implications for NYSE Group markets.">
   <meta property="og:site_name" content="Market Data News">
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Exchange News — Market Data News">
-  <meta name="twitter:description" content="NYSE, NASDAQ, CME, CBOE and ICE coverage for market data professionals.">
-  <!-- Sitemap reference -->
+  <meta name="twitter:title" content="NYSE Trading Hours & Calendar | Market Data News">
+  <meta name="twitter:description" content="Official NYSE trading session schedules, 2026 holiday calendar, and market data feed implications for NYSE Group markets.">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{--ink:#0d0d0d;--paper:#f5f2eb;--cream:#faf8f3;--rule:#d4c9b0;--accent:#b8860b;--accent-dark:#8b6508;--muted:#6b6555;--red:#c0392b;--surface:#ffffff;--border:#e8e0d0;}
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",sans-serif;min-height:100vh;}
-  .ticker-wrap{background:var(--ink);color:var(--accent);padding:7px 0;overflow:hidden;position:relative;}
-  .ticker-wrap::before,.ticker-wrap::after{content:"";position:absolute;top:0;bottom:0;width:60px;z-index:2;}
-  .ticker-wrap::before{left:0;background:linear-gradient(90deg,var(--ink),transparent);}
-  .ticker-wrap::after{right:0;background:linear-gradient(-90deg,var(--ink),transparent);}
-  .ticker{display:flex;animation:ticker 40s linear infinite;white-space:nowrap;}
-  .ticker-item{font-family:"IBM Plex Mono",monospace;font-size:11px;padding:0 32px;letter-spacing:0.05em;}
-  .up{color:#00cc66;}.down{color:#ff4444;}
-  @keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-  .masthead{background:var(--cream);border-bottom:3px solid var(--ink);}
-  .masthead-top{display:flex;align-items:center;justify-content:space-between;padding:20px 48px 16px;border-bottom:1px solid var(--rule);}
-  .date-line{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
-  .site-title{font-family:"Playfair Display",serif;font-size:clamp(32px,5vw,58px);font-weight:900;letter-spacing:-0.02em;line-height:1;text-align:center;text-decoration:none;color:var(--ink);}
-  .site-title span{color:var(--accent);}
-  .tagline{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);text-align:right;letter-spacing:0.1em;text-transform:uppercase;line-height:1.6;}
-  nav{display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--rule);}
-  .nav-item{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:10px 18px;cursor:pointer;transition:background 0.15s,color 0.15s;color:var(--ink);border:none;background:none;font-family:"IBM Plex Sans",sans-serif;border-right:1px solid var(--rule);text-decoration:none;display:inline-block;}
-  .nav-item:first-child{border-left:1px solid var(--rule);}
-  .nav-item.active,.nav-item:hover{background:var(--ink);color:var(--accent);}
-  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;}
-  .search-box{background:transparent;border:1px solid var(--rule);padding:5px 12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink);border-radius:2px;width:180px;}
-  .search-box:focus{outline:none;border-color:var(--accent);}
-  .search-box::placeholder{color:var(--muted);}
-  .page-banner{background:var(--ink);color:var(--cream);padding:20px 48px;border-bottom:3px solid var(--accent);}
-  .page-banner-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
-  .page-banner-title{font-family:"Playfair Display",serif;font-size:clamp(20px,3vw,32px);font-weight:700;}
-  .page-banner-title span{color:var(--accent);}
-  .page-banner-desc{font-family:"IBM Plex Mono",monospace;font-size:10px;color:#a09880;margin-top:5px;letter-spacing:0.06em;}
-  .page-banner-meta{font-family:"IBM Plex Mono",monospace;font-size:10px;color:#a09880;display:flex;align-items:center;gap:8px;}
-  .live-dot-sm{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;}
-  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-  .container{max-width:1280px;margin:0 auto;padding:0 48px;}
-  .layout{display:grid;grid-template-columns:1fr 320px;gap:0;border-left:1px solid var(--border);border-right:1px solid var(--border);background:var(--surface);}
-  .main-col{border-right:1px solid var(--border);padding:32px;}
-  .side-col{padding:24px;}
-  .section-head{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:10px;border-bottom:2px solid var(--ink);}
-  .section-head h2{font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;}
-  .section-line{flex:1;height:1px;background:var(--rule);}
-  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;flex-shrink:0;}
-  .hero-card{padding:0 0 24px 0;border-bottom:2px solid var(--ink);margin-bottom:24px;min-height:120px;}
-  .hero-label{display:inline-block;background:var(--red);color:white;font-size:9px;font-weight:600;font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:0.15em;padding:3px 8px;margin-bottom:10px;}
-  .hero-title{font-family:"Playfair Display",serif;font-size:clamp(24px,3vw,34px);font-weight:900;line-height:1.2;margin-bottom:10px;color:var(--ink);}
-  .hero-desc{font-size:15px;line-height:1.7;color:var(--muted);margin-bottom:12px;}
-  .hero-meta{display:flex;align-items:center;gap:12px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);flex-wrap:wrap;}
-  .news-grid{display:grid;gap:0;}
-  .news-card{padding:20px 0;border-bottom:1px solid var(--border);transition:all 0.15s;text-decoration:none;color:inherit;display:block;}
-  .news-card:hover{background:var(--paper);padding-left:8px;}
-  .news-meta{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;}
-  .news-source{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent-dark);}
-  .news-dot{color:var(--rule);font-size:10px;}
-  .news-time{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);}
-  .news-category{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;padding:2px 6px;border-radius:2px;background:var(--ink);color:var(--accent);font-family:"IBM Plex Mono",monospace;}
-  .news-title{font-family:"Playfair Display",serif;font-size:19px;font-weight:700;line-height:1.3;margin-bottom:6px;color:var(--ink);}
-  .news-card:hover .news-title{color:var(--accent-dark);}
-  .news-desc{font-size:13px;line-height:1.6;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-  .sidebar-section{margin-bottom:32px;}
-  .sidebar-head{font-family:"IBM Plex Sans",sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:16px;}
-  .sidebar-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit;}
-  .sidebar-item:hover .sidebar-title{color:var(--accent-dark);}
-  .sidebar-num{font-family:"Playfair Display",serif;font-size:22px;font-weight:900;color:var(--rule);line-height:1;min-width:28px;}
-  .sidebar-title{font-family:"Playfair Display",serif;font-size:14px;font-weight:700;line-height:1.3;transition:color 0.15s;}
-  .sidebar-meta{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);margin-top:3px;}
-  .topic-tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;padding:4px 10px;border:1px solid var(--rule);border-radius:2px;color:var(--muted);margin:3px;cursor:pointer;transition:all 0.12s;text-decoration:none;}
-  .topic-tag:hover{background:var(--ink);color:var(--accent);border-color:var(--ink);}
-  .newsletter{background:var(--ink);color:white;padding:20px;border-radius:2px;}
-  .newsletter h3{font-family:"Playfair Display",serif;font-size:18px;font-weight:700;margin-bottom:6px;}
-  .newsletter p{font-size:12px;color:#aaa;margin-bottom:14px;line-height:1.5;}
-  .newsletter input{width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:9px 12px;font-family:"IBM Plex Mono",monospace;font-size:12px;margin-bottom:8px;border-radius:2px;}
-  .newsletter input::placeholder{color:#666;}
-  .newsletter input:focus{outline:none;border-color:var(--accent);}
-  .newsletter button{width:100%;background:var(--accent);color:var(--ink);border:none;padding:9px;font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;border-radius:2px;transition:background 0.2s;}
-  .newsletter button:hover{background:var(--accent-dark);color:white;}
-  footer{background:var(--ink);color:#aaa;padding:40px 48px;}
-  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;max-width:1280px;margin:0 auto 32px;}
-  .footer-brand{font-family:"Playfair Display",serif;font-size:22px;font-weight:900;color:white;margin-bottom:10px;}
-  .footer-brand span{color:var(--accent);}
-  .footer-desc{font-size:12px;line-height:1.7;max-width:260px;}
-  .footer-col h4{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:white;margin-bottom:12px;font-family:"IBM Plex Sans",sans-serif;}
-  .footer-col a{display:block;font-size:12px;color:#888;text-decoration:none;margin-bottom:7px;transition:color 0.15s;}
-  .footer-col a:hover{color:var(--accent);}
-  .footer-bottom{border-top:1px solid #222;padding-top:20px;font-family:"IBM Plex Mono",monospace;font-size:10px;display:flex;justify-content:space-between;max-width:1280px;margin:0 auto;}
-  @media(max-width:900px){.layout{grid-template-columns:1fr;}.side-col{border-top:2px solid var(--ink);}.container,nav,.masthead-top,footer,.page-banner{padding-left:20px;padding-right:20px;}.main-col{padding:20px;}.footer-grid{grid-template-columns:1fr 1fr;}.masthead-top{flex-direction:column;gap:12px;text-align:center;}.tagline{text-align:center;}}
-  .fade-in{animation:fadeIn 0.4s ease forwards;}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; } .ticker-item .down { color: #ff4444; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: center; padding: 0 48px; border-bottom: 1px solid var(--rule); overflow-x: auto; }
+  .nav-item { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 10px 18px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-block; white-space: nowrap; }
+  .nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 160px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
 
   /* FeedWatch Alert Bar */
   .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
-  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; gap: 0; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
   .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
   .fw-alertbar-brand span { color: var(--accent); }
   .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
@@ -132,22 +84,111 @@
   .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
   .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
   .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
+
+  /* Mobile nav */
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* ── PAGE HERO ── */
+  .page-hero { background: var(--cream); border-bottom: 2px solid var(--ink); padding: 36px 48px 32px; }
+  .page-hero-inner { max-width: 1280px; margin: 0 auto; }
+  .page-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-dark); margin-bottom: 10px; }
+  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3.5vw, 42px); font-weight: 900; line-height: 1.15; margin-bottom: 12px; color: var(--ink); }
+  .page-hero-sub { font-size: 15px; line-height: 1.7; color: var(--muted); max-width: 720px; }
+
+  /* ── MAIN LAYOUT ── */
+  .page-container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+  .page-layout { display: grid; grid-template-columns: 1fr 300px; gap: 0; background: var(--surface); border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+  .page-main { border-right: 1px solid var(--border); padding: 36px 40px; }
+  .page-side { padding: 28px 24px; }
+
+  /* ── SECTION HEADS ── */
+  .section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .section-head h2 { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; }
+  .section-line { flex: 1; height: 1px; background: var(--rule); }
+  .section-block { margin-bottom: 48px; }
+
+  /* ── HOLIDAY TABLE ── */
+  .holiday-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 8px; }
+  .holiday-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); text-align: left; padding: 8px 12px; border-bottom: 2px solid var(--ink); background: var(--cream); }
+  .holiday-table td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .holiday-table tr:hover td { background: var(--paper); }
+  .holiday-name { font-weight: 600; color: var(--ink); }
+  .holiday-date { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
+  .holiday-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent-dark); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; }
+  .badge-closed { display: inline-block; background: var(--ink); color: var(--accent); font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 6px; border-radius: 2px; }
+  .badge-early { display: inline-block; background: #7a4f00; color: #ffd98a; font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 6px; border-radius: 2px; }
+
+  /* ── SESSION TABS ── */
+  .session-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--ink); margin-bottom: 0; overflow-x: auto; }
+  .session-tab { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; padding: 9px 16px; cursor: pointer; border: none; background: none; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; transition: color 0.15s, border-color 0.15s; }
+  .session-tab:hover { color: var(--ink); }
+  .session-tab.active { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+  .session-panel { display: none; padding: 28px 0 8px; }
+  .session-panel.active { display: block; }
+
+  /* ── SESSION TABLE ── */
+  .session-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .session-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--cream); }
+  .session-table td { padding: 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .session-table tr:last-child td { border-bottom: none; }
+  .session-name { font-weight: 600; color: var(--ink); font-size: 13px; }
+  .session-time { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--accent-dark); font-weight: 600; }
+  .session-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .session-badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 7px; border-radius: 2px; }
+  .badge-core { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+  .badge-pre { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+  .badge-ext { background: #e8eaf6; color: #283593; border: 1px solid #9fa8da; }
+  .badge-auction { background: #fce4ec; color: #880e4f; border: 1px solid #f48fb1; }
+
+  /* ── INFO CALLOUT ── */
+  .info-callout { background: var(--cream); border: 1px solid var(--border); border-left: 4px solid var(--accent); padding: 20px 24px; margin-bottom: 32px; }
+  .info-callout-head { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-dark); margin-bottom: 10px; }
+  .info-callout p { font-size: 13px; line-height: 1.75; color: var(--muted); margin-bottom: 10px; }
+  .info-callout p:last-child { margin-bottom: 0; }
+  .info-callout strong { color: var(--ink); }
+
+  /* ── TRADER UPDATES ── */
+  .update-link-card { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 20px; border: 1px solid var(--border); background: var(--surface); text-decoration: none; color: inherit; transition: border-color 0.15s, background 0.15s; margin-bottom: 12px; }
+  .update-link-card:hover { border-color: var(--accent); background: var(--cream); }
+  .update-link-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .update-link-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .update-link-arrow { font-family: 'IBM Plex Mono', monospace; font-size: 18px; color: var(--accent); flex-shrink: 0; }
+
+  /* ── SIDEBAR ── */
+  .sidebar-head { font-family: 'IBM Plex Sans', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; padding-bottom: 8px; border-bottom: 2px solid var(--ink); margin-bottom: 16px; }
+  .sidebar-section { margin-bottom: 32px; }
+  .sidebar-item { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  .sidebar-item strong { display: block; color: var(--ink); font-size: 12px; margin-bottom: 2px; }
+  .sidebar-mono { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent-dark); font-weight: 600; }
+  .next-holiday { background: var(--ink); color: white; padding: 16px; border-radius: 2px; margin-bottom: 24px; }
+  .next-holiday-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #888; margin-bottom: 6px; }
+  .next-holiday-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .next-holiday-date { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); }
+
   @media (max-width: 900px) {
-    .fw-alertbar { padding: 0 16px; }
+    nav { display: none; } #mobileBar { display: flex !important; }
+    .page-container, .masthead-top, footer, .fw-alertbar, .page-hero { padding-left: 20px; padding-right: 20px; }
+    .masthead-top { flex-direction: column; gap: 10px; text-align: center; }
+    .tagline { text-align: center; }
     .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
+    .page-layout { grid-template-columns: 1fr; }
+    .page-main { padding: 24px 20px; border-right: none; border-bottom: 2px solid var(--ink); }
+    .page-side { padding: 24px 20px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
   }
-/* Mobile nav */
-.mobile-nav{display:none;flex-direction:column;background:var(--ink);padding:12px 20px;border-bottom:2px solid var(--accent);}
-.mobile-nav.open{display:flex;}
-.mobile-nav a{font-family:"IBM Plex Sans",sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#aaa;text-decoration:none;padding:10px 0;border-bottom:1px solid #222;}
-.mobile-nav a:last-child{border-bottom:none;}
-.mobile-nav a:hover,.mobile-nav a.active{color:var(--accent);}
-.hamburger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:4px;}
-.hamburger span{display:block;width:22px;height:2px;background:#aaa;}
-@media(max-width:900px){nav{display:none;}#mobileBar{display:flex !important;}}
 </style>
 </head>
 <body>
+
 <!-- Ticker -->
 <div class="ticker-wrap"><div class="ticker">
   <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
@@ -163,6 +204,7 @@
   <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
   <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
 </div></div>
+
 <!-- FeedWatch Alert Bar -->
 <div class="fw-alertbar">
   <div class="fw-alertbar-inner">
@@ -182,11 +224,12 @@
     <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
   </div>
 </div>
+
 <!-- Masthead -->
 <div class="masthead">
   <div class="masthead-top">
     <div class="date-line" id="dateLine">Loading...</div>
-    <a href="index.html" class="site-title" style="text-decoration:none;color:inherit">Market Data <span>News</span></a>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
     <div class="tagline">The Industry Standard<br>Since 2025</div>
   </div>
   <nav>
@@ -196,8 +239,10 @@
     <a href="regulation.html" class="nav-item">Regulation</a>
     <a href="nms.html" class="nav-item">NMS / SIP</a>
     <a href="feed-status.html" class="nav-item">Feed Status</a>
+    <a href="prediction-markets.html" class="nav-item">Prediction Markets</a>
+    <a href="about.html" class="nav-item">About</a>
     <div class="nav-right">
-      <input class="search-box" type="text" placeholder="Search..." id="searchBox" oninput="if(typeof filterNews!=='undefined')filterNews()">
+      <input class="search-box" type="text" placeholder="Search...">
     </div>
   </nav>
   <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
@@ -212,43 +257,495 @@
   <a href="regulation.html">Regulation</a>
   <a href="nms.html">NMS / SIP</a>
   <a href="feed-status.html">Feed Status</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <a href="about.html">About</a>
 </div>
-<div class="page-banner">
-  <div class="page-banner-inner">
-    <div>
-      <div class="page-banner-title">Exchange <span>Coverage</span></div>
-      <div class="page-banner-desc">NYSE · NASDAQ · CME · CBOE · ICE · LSE · JPX · ASX and more</div>
-    </div>
-    <div class="page-banner-meta"><div class="live-dot-sm"></div><span id="updateTime">Loading live feed...</span></div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-label">Exchange Reference · NYSE Group</div>
+    <h1>NYSE Trading Hours &amp; Calendar</h1>
+    <div class="page-hero-sub">Official trading session schedules, 2026 holiday calendar, and market data feed implications for all NYSE Group markets.</div>
   </div>
 </div>
-<div class="container">
-  <div class="layout">
-    <div class="main-col">
-      <div class="hero-card" id="heroCard"></div>
-      <div class="section-head">
-        <div class="live-dot"></div>
-        <h2>Exchange News & Updates</h2>
-        <div class="section-line"></div>
-        <span style="font-family:IBM Plex Mono,monospace;font-size:10px;color:var(--muted)" id="articleCount"></span>
-      </div>
-      <div class="news-grid" id="newsGrid"></div>
-    </div>
-    <div class="side-col">
-      <div class="sidebar-section"><div class="sidebar-head">Top Stories</div><div id="mostRead"></div></div>
-      <div class="sidebar-section"><div class="sidebar-head">Topics</div><div id="topicTags" style="line-height:2.2"></div></div>
-      <div class="sidebar-section">
-        <div class="newsletter">
-          <h3>Daily Briefing</h3>
-          <p>Market data industry updates every morning before the open.</p>
-          <input type="email" placeholder="your@email.com" id="emailInput">
-          <button onclick="subscribe()">Subscribe Free</button>
+
+<!-- Main Content -->
+<div class="page-container">
+  <div class="page-layout">
+    <div class="page-main">
+
+      <!-- ── SECTION 1: HOLIDAY CALENDAR ── -->
+      <div class="section-block">
+        <div class="section-head">
+          <h2>2026 Holiday Calendar</h2>
+          <div class="section-line"></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">All NYSE Group Markets</span>
+        </div>
+        <table class="holiday-table">
+          <thead>
+            <tr>
+              <th>Holiday</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="holiday-name">New Year's Day</div>
+              </td>
+              <td><div class="holiday-date">Thursday, January 1, 2026</div></td>
+              <td><span class="badge-closed">Market Closed</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="holiday-name">Martin Luther King Jr. Day</div>
+              </td>
+              <td><div class="holiday-date">Monday, January 19, 2026</div></td>
+              <td><span class="badge-closed">Market Closed</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="holiday-name">Washington's Birthday</div>
+                <div class="holiday-note">Presidents' Day</div>
+              </td>
+              <td><div class="holiday-date">Monday, February 16, 2026</div></td>
+              <td><span class="badge-closed">Market Closed</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="holiday-name">Good Friday</div>
+              </td>
+              <td><div class="holiday-date">Friday, April 3, 2026</div></td>
+              <td><span class="badge-closed">Market Closed</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="holiday-name">Memorial Day</div>
+              </td>
+              <td><div class="holiday-date">Monday, May 25, 2026</div></td>
+              <td><span class="badge-closed">Market Closed</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="holiday-name">Juneteenth National Independence Day</div>
+              </td>
+              <td><div class="holiday-date">Friday, June 19, 2026</div></td>
+              <td><span class="badge-closed">Market Closed</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="holiday-name">Independence Day</div>
+                <div class="holiday-note">Observed — July 4 falls on Saturday</div>
+              </td>
+              <td><div class="holiday-date">Friday, July 3, 2026</div></td>
+              <td><span class="badge-closed">Market Closed</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="holiday-name">Labor Day</div>
+              </td>
+              <td><div class="holiday-date">Monday, September 7, 2026</div></td>
+              <td><span class="badge-closed">Market Closed</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="holiday-name">Thanksgiving Day</div>
+                <div class="holiday-note">Nov 27 early close 1:00pm ET</div>
+              </td>
+              <td><div class="holiday-date">Thursday, November 26, 2026</div></td>
+              <td>
+                <span class="badge-closed">Market Closed</span><br>
+                <span class="badge-early" style="margin-top:4px;display:inline-block;">Nov 27 — Early Close 1pm</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="holiday-name">Christmas Day</div>
+                <div class="holiday-note">Dec 24 early close 1:00pm ET</div>
+              </td>
+              <td><div class="holiday-date">Friday, December 25, 2026</div></td>
+              <td>
+                <span class="badge-closed">Market Closed</span><br>
+                <span class="badge-early" style="margin-top:4px;display:inline-block;">Dec 24 — Early Close 1pm</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:10px;line-height:1.6;">
+          All times Eastern. Early close days: equity markets close at 1:00pm ET. Bond markets follow SIFMA recommended schedule which may differ. Options markets close at 1:15pm ET on early close days.
         </div>
       </div>
-      <div class="sidebar-section"><div class="sidebar-head">Related Sections</div><div id="relatedLinks" style="display:flex;flex-direction:column;gap:6px"></div></div>
-    </div>
-  </div>
-</div>
+
+      <!-- ── SECTION 2: TRADING SESSIONS ── -->
+      <div class="section-block">
+        <div class="section-head">
+          <h2>Trading Sessions</h2>
+          <div class="section-line"></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">All times Eastern</span>
+        </div>
+
+        <div class="session-tabs" id="sessionTabs">
+          <button class="session-tab active" onclick="showSession('nyse')">NYSE</button>
+          <button class="session-tab" onclick="showSession('arca')">NYSE Arca</button>
+          <button class="session-tab" onclick="showSession('amex')">NYSE American</button>
+          <button class="session-tab" onclick="showSession('national')">NYSE National</button>
+          <button class="session-tab" onclick="showSession('texas')">NYSE Texas</button>
+          <button class="session-tab" onclick="showSession('options')">Options</button>
+          <button class="session-tab" onclick="showSession('bonds')">Bonds</button>
+        </div>
+
+        <!-- NYSE -->
+        <div id="session-nyse" class="session-panel active">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE — Tape A · CTS/CQS Consolidated Feed</div>
+          <table class="session-table">
+            <thead>
+              <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="session-name">Pre-Opening</div></td>
+                <td><div class="session-time">6:30am</div></td>
+                <td><span class="session-badge badge-pre">Pre-Open</span></td>
+                <td><div class="session-desc">Pre-opening indications and order entry begins. No executions.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Core Trading Session</div></td>
+                <td><div class="session-time">9:30am – 4:00pm</div></td>
+                <td><span class="session-badge badge-core">Core</span></td>
+                <td><div class="session-desc">Regular continuous trading. SIP feeds fully active. All order types eligible.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Closing Auction</div></td>
+                <td><div class="session-time">4:00pm</div></td>
+                <td><span class="session-badge badge-auction">Auction</span></td>
+                <td><div class="session-desc">NYSE Closing Auction determines official closing prices. MOC/LOC orders execute. Critical for index rebalances and ETF NAV calculations.</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- NYSE Arca -->
+        <div id="session-arca" class="session-panel">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE Arca Equities — Tapes B &amp; C · UTP/CTA Feeds · 23/5 Extended Hours</div>
+          <table class="session-table">
+            <thead>
+              <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="session-name">Pre-Opening</div></td>
+                <td><div class="session-time">2:30am</div></td>
+                <td><span class="session-badge badge-pre">Pre-Open</span></td>
+                <td><div class="session-desc">Pre-opening session begins. Market data feeds begin disseminating quote and trade data. Connectivity teams must ensure feed handlers are active from 2:30am ET.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Early Trading Session</div></td>
+                <td><div class="session-time">4:00am – 9:30am</div></td>
+                <td><span class="session-badge badge-ext">Extended</span></td>
+                <td><div class="session-desc">Early session trading active. SIP feeds processing data. Overnight risk systems must account for pre-4am price discovery.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Core Trading Session</div></td>
+                <td><div class="session-time">9:30am – 4:00pm</div></td>
+                <td><span class="session-badge badge-core">Core</span></td>
+                <td><div class="session-desc">Regular continuous trading. Full liquidity. All order types eligible.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Late Trading Session</div></td>
+                <td><div class="session-time">4:00pm – 8:00pm</div></td>
+                <td><span class="session-badge badge-ext">Extended</span></td>
+                <td><div class="session-desc">After-hours trading continues on Arca. Limit orders only. Reduced liquidity.</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- NYSE American -->
+        <div id="session-amex" class="session-panel">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE American (formerly AMEX) — Tape B · CTA Feed</div>
+          <table class="session-table">
+            <thead>
+              <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="session-name">Pre-Opening</div></td>
+                <td><div class="session-time">6:30am</div></td>
+                <td><span class="session-badge badge-pre">Pre-Open</span></td>
+                <td><div class="session-desc">Pre-opening indications. Order entry accepted, no executions.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Early Trading Session</div></td>
+                <td><div class="session-time">7:00am – 9:30am</div></td>
+                <td><span class="session-badge badge-ext">Extended</span></td>
+                <td><div class="session-desc">Pre-market trading session. Limit orders only.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Core Trading Session</div></td>
+                <td><div class="session-time">9:30am – 4:00pm</div></td>
+                <td><span class="session-badge badge-core">Core</span></td>
+                <td><div class="session-desc">Regular continuous trading. All order types eligible.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Late Trading Session</div></td>
+                <td><div class="session-time">4:00pm – 8:00pm</div></td>
+                <td><span class="session-badge badge-ext">Extended</span></td>
+                <td><div class="session-desc">After-hours session. Limit orders only. Reduced liquidity.</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- NYSE National -->
+        <div id="session-national" class="session-panel">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE National — Tapes A, B &amp; C · CTS/CQS/UTP Feeds</div>
+          <table class="session-table">
+            <thead>
+              <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="session-name">Pre-Opening</div></td>
+                <td><div class="session-time">6:30am</div></td>
+                <td><span class="session-badge badge-pre">Pre-Open</span></td>
+                <td><div class="session-desc">Pre-opening order entry. No executions.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Early Trading Session</div></td>
+                <td><div class="session-time">7:00am – 9:30am</div></td>
+                <td><span class="session-badge badge-ext">Extended</span></td>
+                <td><div class="session-desc">Pre-market trading. Limit orders only.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Core Trading Session</div></td>
+                <td><div class="session-time">9:30am – 4:00pm</div></td>
+                <td><span class="session-badge badge-core">Core</span></td>
+                <td><div class="session-desc">Regular continuous trading. Full functionality.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Late Trading Session</div></td>
+                <td><div class="session-time">4:00pm – 8:00pm</div></td>
+                <td><span class="session-badge badge-ext">Extended</span></td>
+                <td><div class="session-desc">After-hours session. Limit orders only.</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- NYSE Texas -->
+        <div id="session-texas" class="session-panel">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE Texas — Tapes A, B &amp; C · CTS/CQS/UTP Feeds</div>
+          <table class="session-table">
+            <thead>
+              <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="session-name">Pre-Opening</div></td>
+                <td><div class="session-time">6:30am</div></td>
+                <td><span class="session-badge badge-pre">Pre-Open</span></td>
+                <td><div class="session-desc">Pre-opening order entry. No executions.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Early Trading Session</div></td>
+                <td><div class="session-time">7:00am – 9:30am</div></td>
+                <td><span class="session-badge badge-ext">Extended</span></td>
+                <td><div class="session-desc">Pre-market trading. Limit orders only.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Core Trading Session</div></td>
+                <td><div class="session-time">9:30am – 4:00pm</div></td>
+                <td><span class="session-badge badge-core">Core</span></td>
+                <td><div class="session-desc">Regular continuous trading. Full functionality.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Late Trading Session</div></td>
+                <td><div class="session-time">4:00pm – 8:00pm</div></td>
+                <td><span class="session-badge badge-ext">Extended</span></td>
+                <td><div class="session-desc">After-hours session. Limit orders only.</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Options -->
+        <div id="session-options" class="session-panel">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE Arca Options / NYSE American Options — OPRA Feed</div>
+          <table class="session-table">
+            <thead>
+              <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="session-name">Pre-Opening</div></td>
+                <td><div class="session-time">6:00am</div></td>
+                <td><span class="session-badge badge-pre">Pre-Open</span></td>
+                <td><div class="session-desc">Opening rotation preparation. OPRA feed active. Opening imbalance messages begin disseminating.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Core Trading Session</div></td>
+                <td><div class="session-time">9:30am – 4:15pm</div></td>
+                <td><span class="session-badge badge-core">Core</span></td>
+                <td><div class="session-desc">Regular options trading. OPRA processes full quote and trade data. On early close days, options close at 1:15pm ET.</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Bonds -->
+        <div id="session-bonds" class="session-panel">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE Bonds — Fixed Income Platform</div>
+          <table class="session-table">
+            <thead>
+              <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="session-name">Early Session</div></td>
+                <td><div class="session-time">4:00am – 8:00am</div></td>
+                <td><span class="session-badge badge-ext">Extended</span></td>
+                <td><div class="session-desc">Early pre-market bond trading. Institutional and dealer activity.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Core Trading Session</div></td>
+                <td><div class="session-time">8:00am – 5:00pm</div></td>
+                <td><span class="session-badge badge-core">Core</span></td>
+                <td><div class="session-desc">Primary bond trading window. SIFMA recommended schedule applies on early close days.</div></td>
+              </tr>
+              <tr>
+                <td><div class="session-name">Late Session</div></td>
+                <td><div class="session-time">5:00pm – 8:00pm</div></td>
+                <td><span class="session-badge badge-ext">Extended</span></td>
+                <td><div class="session-desc">After-hours bond trading. Reduced dealer participation.</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── SECTION 3: 23/5 EXTENDED TRADING ── -->
+      <div class="section-block">
+        <div class="section-head">
+          <h2>23/5 Extended Trading — Market Data Implications</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="info-callout">
+          <div class="info-callout-head">Connectivity &amp; Feed Handler Impact</div>
+          <p>
+            <strong>NYSE Arca now opens at 2:30am ET</strong> for its pre-opening session and begins executing trades at <strong>4:00am ET</strong> in the early trading session. This means market data feeds begin disseminating quote and trade data significantly earlier than the traditional 9:30am open.
+          </p>
+          <p>
+            <strong>Connectivity teams should ensure feed handlers are active and monitored from 2:30am ET.</strong> Systems that assume a 9:30am start will miss early session data and may produce incorrect open prices, VWAP calculations, and intraday risk metrics.
+          </p>
+          <p>
+            <strong>SIP feed implications:</strong> CTA and UTP SIP feeds begin processing data from the early session. Firms subscribed to consolidated tape receive early session quotes and trades from 4:00am ET. Consolidated last-sale data is available before the traditional 9:30am core session open.
+          </p>
+          <p>
+            <strong>Overnight risk management:</strong> Firms with overnight risk systems need to account for pre-4am price discovery. Opening prices on NYSE Arca-listed securities may be established in the early session, affecting mark-to-market calculations and risk limits before the core session opens.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── SECTION 4: NYSE TRADER UPDATES ── -->
+      <div class="section-block">
+        <div class="section-head">
+          <h2>NYSE Trader Updates</h2>
+          <div class="section-line"></div>
+        </div>
+        <a href="https://www.nyse.com/trader-update/history" target="_blank" rel="noopener" class="update-link-card">
+          <div>
+            <div class="update-link-title">NYSE Trader Update — Official Notice Archive</div>
+            <div class="update-link-desc">nyse.com/trader-update/history — Complete history of operational notices, system changes, connectivity updates, and market structure announcements from NYSE Group. This page tracks material operational notices from NYSE that affect market data feeds, connectivity, and trading system behavior.</div>
+          </div>
+          <div class="update-link-arrow">→</div>
+        </a>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);line-height:1.7;margin-top:8px;">
+          NYSE Trader Updates are the primary channel for operational notices affecting market participants. Material notices include: connectivity changes, protocol updates, session schedule modifications, fee changes, and system migrations. Market data professionals should monitor this feed for changes affecting feed handlers and data infrastructure.
+        </div>
+      </div>
+
+    </div><!-- end page-main -->
+
+    <!-- ── SIDEBAR ── -->
+    <div class="page-side">
+
+      <div class="next-holiday" id="nextHolidayCard">
+        <div class="next-holiday-label">Next Market Holiday</div>
+        <div class="next-holiday-name" id="nextHolidayName">—</div>
+        <div class="next-holiday-date" id="nextHolidayDate">—</div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-head">Today's Sessions</div>
+        <div class="sidebar-item">
+          <strong>NYSE Core Open</strong>
+          <span class="sidebar-mono">9:30am ET</span>
+        </div>
+        <div class="sidebar-item">
+          <strong>NYSE Arca Early Open</strong>
+          <span class="sidebar-mono">4:00am ET</span>
+        </div>
+        <div class="sidebar-item">
+          <strong>NYSE Core Close</strong>
+          <span class="sidebar-mono">4:00pm ET</span>
+        </div>
+        <div class="sidebar-item">
+          <strong>Options Close</strong>
+          <span class="sidebar-mono">4:15pm ET</span>
+        </div>
+        <div class="sidebar-item">
+          <strong>Extended Close</strong>
+          <span class="sidebar-mono">8:00pm ET</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-head">SIP Feed Schedule</div>
+        <div class="sidebar-item">
+          <strong>CTA / CQS (NYSE)</strong>
+          <span class="sidebar-mono">Active 4:00am – 8:00pm</span>
+        </div>
+        <div class="sidebar-item">
+          <strong>UTP (Nasdaq SIP)</strong>
+          <span class="sidebar-mono">Active 4:00am – 8:00pm</span>
+        </div>
+        <div class="sidebar-item">
+          <strong>OPRA (Options)</strong>
+          <span class="sidebar-mono">Active 6:00am – 4:15pm</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-head">2026 Early Close Days</div>
+        <div class="sidebar-item">
+          <strong>Day After Thanksgiving</strong>
+          <span class="sidebar-mono">Nov 27 — 1:00pm ET</span>
+        </div>
+        <div class="sidebar-item">
+          <strong>Christmas Eve</strong>
+          <span class="sidebar-mono">Dec 24 — 1:00pm ET</span>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:10px;line-height:1.6;">
+          Options markets close at 1:15pm ET on early close days. Bond markets follow SIFMA schedule.
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-head">Related</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="nms.html" style="font-size:12px;color:var(--accent-dark);text-decoration:none;font-weight:600;font-family:'IBM Plex Sans',sans-serif;">NMS / SIP Plan Tracker →</a>
+          <a href="feed-status.html" style="font-size:12px;color:var(--accent-dark);text-decoration:none;font-weight:600;font-family:'IBM Plex Sans',sans-serif;">Feed Status →</a>
+          <a href="calendar.html" style="font-size:12px;color:var(--accent-dark);text-decoration:none;font-weight:600;font-family:'IBM Plex Sans',sans-serif;">FeedWatch Calendar →</a>
+          <a href="regulation.html" style="font-size:12px;color:var(--accent-dark);text-decoration:none;font-weight:600;font-family:'IBM Plex Sans',sans-serif;">Regulation →</a>
+        </div>
+      </div>
+
+    </div><!-- end page-side -->
+  </div><!-- end page-layout -->
+</div><!-- end page-container -->
+
 <footer>
   <div class="footer-grid">
     <div>
@@ -260,6 +757,7 @@
       <a href="regulation.html">Regulation</a>
       <a href="nms.html">NMS / SIP</a>
       <a href="feed-status.html">Feed Status</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
     </div>
     <div class="footer-col"><h4>FeedWatch</h4>
       <a href="calendar.html">All Entries</a>
@@ -268,8 +766,10 @@
       <a href="calendar.html?filter=high">High Impact</a>
     </div>
     <div class="footer-col"><h4>Company</h4>
-      <a href="#">About</a><a href="#">Contact</a>
-      <a href="#">Privacy Policy</a><a href="#">Terms of Use</a>
+      <a href="about.html">About</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -277,166 +777,47 @@
     <span>For market data professionals</span>
   </div>
 </footer>
+
 <script>
-const PAGE_CATEGORY  = "Exchanges";
-const PAGE_KEYWORDS  = ["exchange", "NYSE", "NASDAQ", "CME", "CBOE", "ICE", "LSE", "trading venue", "bourse", "equity", "derivatives", "futures", "options", "market structure"];
-const PAGE_TOPICS    = ["NYSE", "NASDAQ", "CME Group", "CBOE", "ICE", "Options Markets", "Futures", "Market Structure", "Dark Pools", "ATS"];
-const PAGE_RELATED   = [{"label": "Regulation", "url": "regulation.html"}, {"label": "NMS / SIP", "url": "nms.html"}, {"label": "FeedWatch", "url": "calendar.html"}];
-const PAGE_FEEDS     = ["https://ir.nasdaq.com/rss/news-releases.xml", "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147", "https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines"];
-const FALLBACK_ARTICLES = [{"title": "NASDAQ Announces Strong Q4 Earnings and Revenue Growth", "desc": "NASDAQ reported strong fourth-quarter results, with market services revenue up 8% year-over-year driven by increased trading volumes across equity and options markets.", "link": "https://ir.nasdaq.com", "source": "NASDAQ IR"}, {"title": "NYSE Pillar Migration: Final Phase Complete for All Listed Equities", "desc": "The New York Stock Exchange successfully completed the final phase of its Pillar technology migration, moving all NYSE-listed equity securities onto the new matching engine.", "link": "#", "source": "NYSE"}, {"title": "CME Group Reports Record Derivatives Volume in February", "desc": "CME Group recorded its highest-ever single-day volume in interest rate derivatives as market participants hedged against Federal Reserve policy uncertainty.", "link": "#", "source": "CME Group"}, {"title": "CBOE Global Markets Expands VIX Options Suite", "desc": "CBOE introduced three new VIX-linked products aimed at institutional investors seeking tail-risk hedging instruments in the current volatility environment.", "link": "#", "source": "CBOE"}, {"title": "ICE Data Services Launches Enhanced Fixed Income Feed", "desc": "Intercontinental Exchange announced an upgraded fixed income data feed offering improved pricing granularity and lower latency for corporate and government bond markets.", "link": "#", "source": "ICE"}];
-const CACHE_TTL      = 10 * 60 * 1000; // 10 minutes
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
 
-const CATEGORY_KEYWORDS = {
-  Exchanges:  ["exchange","NYSE","NASDAQ","CME","CBOE","ICE","LSE","trading venue","bourse","Pillar","Arrowhead","Globex"],
-  Regulation: ["SEC","FINRA","CFTC","regulation","regulatory","rule","compliance","enforcement","NMS","MiFID","ESMA","FCA"],
-  Technology: ["technology","data feed","latency","infrastructure","cloud","API","protocol","network","co-location","FPGA","FIX","ITCH","bandwidth","tech","cyber","semiconductor"],
-  Trading:    ["trading","execution","order","liquidity","HFT","high frequency","algo","market maker","dark pool","PFOF","best execution","stocks","equities","hedge fund"],
-  FinTech:    ["fintech","blockchain","crypto","digital asset","AI","machine learning","DeFi","tokenization","stablecoin","CBDC","web3","bitcoin","ethereum"],
-};
-
-let allArticles = [];
-
-function detectCategory(title, desc) {
-  const text = (title + " " + desc).toLowerCase();
-  for (const [cat, kws] of Object.entries(CATEGORY_KEYWORDS)) {
-    if (kws.some(k => text.includes(k.toLowerCase()))) return cat;
-  }
-  return "Markets";
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
 }
 
-function timeAgo(dateStr) {
-  const d = new Date(dateStr);
-  if (isNaN(d)) return "Recently";
-  const mins = Math.floor((Date.now() - d) / 60000);
-  if (mins < 1) return "Just now";
-  if (mins < 60) return mins + "m ago";
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return hrs + "h ago";
-  return Math.floor(hrs/24) + "d ago";
+function showSession(id) {
+  document.querySelectorAll('.session-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.session-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('session-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
 }
 
-async function fetchFeed(feedUrl) {
-  const cacheKey = "mdn_" + feedUrl.replace(/[^a-z0-9]/gi,"").slice(-40);
-  try {
-    const cached = localStorage.getItem(cacheKey);
-    if (cached) {
-      const obj = JSON.parse(cached);
-      if (Date.now() - obj.ts < CACHE_TTL) return obj.data;
-    }
-  } catch(e) {}
-  const res = await fetch("/.netlify/functions/rss?url=" + encodeURIComponent(feedUrl), {signal: AbortSignal.timeout(10000)});
-  const json = await res.json();
-  const items = (json.items || []).filter(i => i.title && i.title.length > 5);
-  try { localStorage.setItem(cacheKey, JSON.stringify({data: items, ts: Date.now()})); } catch(e) {}
-  return items;
+// Next holiday calculation
+const holidays2026 = [
+  { name: "New Year's Day",           date: new Date(2026, 0, 1) },
+  { name: "MLK Day",                  date: new Date(2026, 0, 19) },
+  { name: "Washington's Birthday",    date: new Date(2026, 1, 16) },
+  { name: "Good Friday",              date: new Date(2026, 3, 3) },
+  { name: "Memorial Day",             date: new Date(2026, 4, 25) },
+  { name: "Juneteenth",               date: new Date(2026, 5, 19) },
+  { name: "Independence Day (obs.)",  date: new Date(2026, 6, 3) },
+  { name: "Labor Day",                date: new Date(2026, 8, 7) },
+  { name: "Thanksgiving",             date: new Date(2026, 10, 26) },
+  { name: "Christmas Day",            date: new Date(2026, 11, 25) },
+];
+const today = new Date(); today.setHours(0,0,0,0);
+const next = holidays2026.find(h => h.date >= today);
+if (next) {
+  document.getElementById('nextHolidayName').textContent = next.name;
+  document.getElementById('nextHolidayDate').textContent =
+    days[next.date.getDay()] + ', ' + months[next.date.getMonth()] + ' ' + next.date.getDate() + ', ' + next.date.getFullYear();
+} else {
+  document.getElementById('nextHolidayCard').style.display = 'none';
 }
-
-function isRelevant(a) {
-  if (a.category === PAGE_CATEGORY) return true;
-  const text = (a.title + " " + a.desc).toLowerCase();
-  return PAGE_KEYWORDS.some(k => text.includes(k.toLowerCase()));
-}
-
-function renderHero(a) {
-  document.getElementById("heroCard").innerHTML =
-    "<div class='hero-label'>&#9679; " + (a.featured ? "Featured" : PAGE_CATEGORY) + "</div>" +
-    "<a href='" + (a.link||"#") + "' target='_blank' rel='noopener' style='text-decoration:none;color:inherit'>" +
-    "<div class='hero-title'>" + a.title + "</div></a>" +
-    "<div class='hero-desc'>" + (a.desc||"").slice(0,260) + ((a.desc||"").length>260?"...":"") + "</div>" +
-    "<div class='hero-meta'><span style='color:var(--accent-dark);font-weight:600'>" + (a.source||"") + "</span>" +
-    " &nbsp;&middot;&nbsp; " + a.time + " &nbsp;&middot;&nbsp; " + (a.category||PAGE_CATEGORY) + "</div>";
-  document.getElementById("heroCard").classList.add("fade-in");
-}
-
-function renderNews(articles) {
-  const grid = document.getElementById("newsGrid");
-  if (!articles.length) { grid.innerHTML = "<p style='font-family:IBM Plex Mono,monospace;font-size:12px;color:var(--muted);padding:20px 0'>No additional articles found.</p>"; return; }
-  grid.innerHTML = articles.map(a =>
-    "<a class='news-card fade-in' href='" + (a.link||"#") + "' target='_blank' rel='noopener'>" +
-    "<div class='news-meta'><span class='news-source'>" + (a.source||"") + "</span>" +
-    "<span class='news-dot'>·</span><span class='news-time'>" + a.time + "</span>" +
-    "<span class='news-category'>" + (a.category||PAGE_CATEGORY) + "</span></div>" +
-    "<div class='news-title'>" + a.title + "</div>" +
-    (a.desc ? "<div class='news-desc'>" + a.desc + "</div>" : "") + "</a>"
-  ).join("");
-}
-
-function renderMostRead(articles) {
-  document.getElementById("mostRead").innerHTML = articles.map((a,i) =>
-    "<a class='sidebar-item' href='" + (a.link||"#") + "' target='_blank' rel='noopener'>" +
-    "<div class='sidebar-num'>0" + (i+1) + "</div><div>" +
-    "<div class='sidebar-title'>" + a.title.slice(0,72) + (a.title.length>72?"...":"") + "</div>" +
-    "<div class='sidebar-meta'>" + (a.source||"") + " &middot; " + a.time + "</div></div></a>"
-  ).join("");
-}
-
-function showFallback() {
-  const articles = FALLBACK_ARTICLES.map((a,i) => ({...a, category: PAGE_CATEGORY, time: (i===0?"2h ago":(i+2)+"h ago"), featured: true}));
-  renderHero(articles[0]);
-  renderNews(articles.slice(1));
-  renderMostRead(articles.slice(0,5));
-  document.getElementById("articleCount").textContent = "Loading live feed...";
-}
-
-async function loadFeeds() {
-  try {
-    const results = await Promise.allSettled(PAGE_FEEDS.map(fetchFeed));
-    const fetched = results.flatMap(r => r.status === "fulfilled" ? r.value : []);
-    if (fetched.length) {
-      const labeled = fetched.map(a => ({...a, category: detectCategory(a.title, a.desc), time: timeAgo(a.pubDate), timestamp: new Date(a.pubDate).getTime()||0}));
-      const relevant = labeled.filter(isRelevant).sort((a,b) => b.timestamp-a.timestamp);
-      const display  = relevant.length ? relevant : labeled.sort((a,b) => b.timestamp-a.timestamp);
-      if (display.length) {
-        allArticles = display;
-        renderHero(allArticles[0]);
-        renderNews(allArticles.slice(1));
-        renderMostRead(allArticles.slice(0,5));
-        document.getElementById("articleCount").textContent = allArticles.length + " live articles";
-        document.getElementById("updateTime").textContent = "Updated " + new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
-        return;
-      }
-    }
-  } catch(e) {}
-  document.getElementById("updateTime").textContent = "Showing recent highlights";
-  document.getElementById("articleCount").textContent = FALLBACK_ARTICLES.length + " articles";
-}
-
-function filterNews() {
-  const q = document.getElementById("searchBox").value.toLowerCase();
-  const src = allArticles.length ? allArticles : FALLBACK_ARTICLES.map(a=>({...a,category:PAGE_CATEGORY,time:"Recently"}));
-  if (!q) { renderNews(src.slice(1)); return; }
-  renderNews(src.filter(a => a.title.toLowerCase().includes(q)||(a.desc||"").toLowerCase().includes(q)));
-}
-
-function buildTopics() {
-  document.getElementById("topicTags").innerHTML = PAGE_TOPICS.map(t =>
-    "<a class='topic-tag' href='#' onclick=\"document.getElementById('searchBox').value='" + t + "';filterNews();return false\">" + t + "</a>"
-  ).join("");
-}
-
-function buildRelated() {
-  document.getElementById("relatedLinks").innerHTML = PAGE_RELATED.map(r =>
-    "<a href='" + r.url + "' class='nav-item' style='border:1px solid var(--rule);padding:8px 14px;border-radius:2px'>" + r.label + "</a>"
-  ).join("");
-}
-
-function subscribe() {
-  const email = document.getElementById("emailInput").value;
-  if (!email||!email.includes("@")) { alert("Please enter a valid email."); return; }
-  document.querySelector(".newsletter").innerHTML = "<div style='text-align:center;padding:10px'><div style='font-family:Playfair Display,serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px'>You\'re in.</div><div style='font-size:12px;color:#aaa'>Daily briefing starts tomorrow morning.</div></div>";
-}
-
-const _d=new Date();
-const _dn=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-const _mn=["January","February","March","April","May","June","July","August","September","October","November","December"];
-document.getElementById("dateLine").textContent=_dn[_d.getDay()]+", "+_mn[_d.getMonth()]+" "+_d.getDate()+", "+_d.getFullYear();
-
-buildTopics();
-buildRelated();
-showFallback();
-loadFeeds();
-setInterval(loadFeeds, CACHE_TTL);
-  function toggleMobileNav(){document.getElementById('mobileNav').classList.toggle('open');}
 </script>
+
 </body>
 </html>
