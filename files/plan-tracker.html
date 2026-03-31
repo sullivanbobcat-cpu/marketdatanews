@@ -1,471 +1,599 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Plan Tracker | Market Data News</title>
-  <style>
-    :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --surface2: #1a1a1a;
-      --border: #2a2a2a;
-      --gold: #c9a84c;
-      --gold-dim: #8a6e2f;
-      --text: #e8e8e8;
-      --text-muted: #888;
-      --green: #4caf7d;
-      --red: #e05c5c;
-      --blue: #5b9bd5;
-      --orange: #e0943a;
-      --purple: #9b7fd4;
-      --font: 'Georgia', serif;
-      --mono: 'Courier New', monospace;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Tracker | Market Data News</title>
+<meta name="description" content="Real-time tracking of UTP, CTA, and OPRA Plan updates, rule filings, fee changes, and operational milestones for market data professionals.">
+  <meta name="keywords" content="UTP plan, CTA plan, OPRA plan, NMS plan tracker, market data plan updates, SIP, consolidated tape">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Market Data News">
+  <link rel="canonical" href="https://marketdatanews.com/plan-tracker.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://marketdatanews.com/plan-tracker.html">
+  <meta property="og:title" content="Plan Tracker | Market Data News">
+  <meta property="og:description" content="Real-time tracking of UTP, CTA, and OPRA Plan updates for market data professionals.">
+  <meta property="og:site_name" content="Market Data News">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Plan Tracker | Market Data News">
+  <meta name="twitter:description" content="Real-time tracking of UTP, CTA, and OPRA Plan updates for market data professionals.">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; } .ticker-item .down { color: #ff4444; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font);
-      min-height: 100vh;
-    }
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
 
-    /* ── HEADER ── */
-    header {
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 60px;
-      background: var(--surface);
-    }
+  nav { display: flex; align-items: center; padding: 0 48px; border-bottom: 1px solid var(--rule); overflow-x: auto; }
+  .nav-item { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 10px 18px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-block; white-space: nowrap; }
+  .nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 160px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
 
-    .logo {
-      font-size: 1.2rem;
-      letter-spacing: 0.05em;
-      color: var(--text);
-    }
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
 
-    .logo span { color: var(--gold); }
+  /* FeedWatch Alert Bar */
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-stat:hover { background: rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num, .fw-alertbar-stat.critical .fw-alertbar-label { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num, .fw-alertbar-stat.high .fw-alertbar-label { color: #ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num, .fw-alertbar-stat.action .fw-alertbar-label { color: var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color: #888; } .fw-alertbar-stat.total .fw-alertbar-label { color: #555; }
+  .fw-alertbar-next { margin-left: auto; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #555; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
+  .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
 
-    nav a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-left: 1.5rem;
-      transition: color 0.2s;
-    }
+  /* Mobile nav */
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
 
-    nav a:hover, nav a.active { color: var(--gold); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-    /* ── PAGE HERO ── */
-    .hero {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 2.5rem 2rem 2rem;
-    }
+  @media (max-width: 900px) {
+    nav { display: none; } #mobileBar { display: flex !important; }
+    .masthead-top, .fw-alertbar { padding-left: 20px; padding-right: 20px; }
+    .masthead-top { flex-direction: column; gap: 10px; text-align: center; }
+    .tagline { text-align: center; }
+    .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
+  }
+</style>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: #2a2a2a;
+    --gold: #c9a84c;
+    --gold-dim: #8a6e2f;
+    --text: #e8e8e8;
+    --text-muted: #888;
+    --green: #4caf7d;
+    --red: #e05c5c;
+    --blue: #5b9bd5;
+    --orange: #e0943a;
+    --purple: #9b7fd4;
+    --font: 'Georgia', serif;
+    --mono: 'Courier New', monospace;
+  }
 
-    .hero-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+  }
 
-    .hero-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
+  /* ── PAGE HERO ── */
+  .hero {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 2rem 2rem;
+  }
 
-    .hero h1 {
-      font-size: 1.8rem;
-      font-weight: normal;
-      margin-bottom: 0.5rem;
-    }
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 
-    .hero p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      max-width: 600px;
-      line-height: 1.6;
-    }
+  .hero-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
 
-    .hero-meta {
-      margin-top: 1rem;
-      display: flex;
-      gap: 2rem;
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--text-muted);
-    }
+  .hero h1 {
+    font-size: 1.8rem;
+    font-weight: normal;
+    margin-bottom: 0.5rem;
+  }
 
-    .hero-meta span { color: var(--text); }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    max-width: 600px;
+    line-height: 1.6;
+  }
 
-    /* ── LAYOUT ── */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
+  .hero-meta {
+    margin-top: 1rem;
+    display: flex;
+    gap: 2rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
 
-    /* ── PLAN TABS ── */
-    .plan-tabs {
-      display: flex;
-      gap: 0;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 2rem;
-    }
+  .hero-meta span { color: var(--text); }
 
-    .plan-tab {
-      padding: 0.75rem 1.5rem;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      border: 1px solid transparent;
-      border-bottom: none;
-      color: var(--text-muted);
-      background: transparent;
-      transition: all 0.2s;
-      margin-bottom: -1px;
-    }
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
 
-    .plan-tab:hover { color: var(--text); }
+  /* ── PLAN TABS ── */
+  .plan-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
 
-    .plan-tab.active {
-      color: var(--gold);
-      border-color: var(--border);
-      border-bottom-color: var(--bg);
-      background: var(--bg);
-    }
+  .plan-tab {
+    padding: 0.75rem 1.5rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-bottom: none;
+    color: var(--text-muted);
+    background: transparent;
+    transition: all 0.2s;
+    margin-bottom: -1px;
+  }
 
-    .plan-tab .badge {
-      display: inline-block;
-      background: var(--gold-dim);
-      color: var(--gold);
-      font-size: 0.65rem;
-      padding: 0.1rem 0.4rem;
-      border-radius: 2px;
-      margin-left: 0.5rem;
-    }
+  .plan-tab:hover { color: var(--text); }
 
-    /* ── PLAN PANEL ── */
-    .plan-panel { display: none; }
-    .plan-panel.active { display: block; }
+  .plan-tab.active {
+    color: var(--gold);
+    border-color: var(--border);
+    border-bottom-color: var(--bg);
+    background: var(--bg);
+  }
 
-    /* ── PLAN OVERVIEW CARD ── */
-    .plan-overview {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
+  .plan-tab .badge {
+    display: inline-block;
+    background: var(--gold-dim);
+    color: var(--gold);
+    font-size: 0.65rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 2px;
+    margin-left: 0.5rem;
+  }
 
-    .overview-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 1.25rem;
-    }
+  /* ── PLAN PANEL ── */
+  .plan-panel { display: none; }
+  .plan-panel.active { display: block; }
 
-    .overview-card .oc-label {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 0.4rem;
-    }
+  /* ── PLAN OVERVIEW CARD ── */
+  .plan-overview {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
 
-    .overview-card .oc-value {
-      font-size: 1.1rem;
-      color: var(--text);
-    }
+  .overview-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+  }
 
-    .overview-card .oc-sub {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 0.25rem;
-    }
+  .overview-card .oc-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+  }
 
-    /* ── SECTION HEADERS ── */
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border);
-    }
+  .overview-card .oc-value {
+    font-size: 1.1rem;
+    color: var(--text);
+  }
 
-    .section-title {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
+  .overview-card .oc-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+  }
 
-    .section-count {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--text-muted);
-    }
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
 
-    /* ── UPDATE TABLE ── */
-    .update-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 2.5rem;
-      font-size: 0.875rem;
-    }
+  .section-title {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
 
-    .update-table th {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      text-align: left;
-      padding: 0.6rem 1rem;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
-    }
+  .section-count {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
 
-    .update-table td {
-      padding: 0.9rem 1rem;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
-      line-height: 1.5;
-    }
+  /* ── UPDATE TABLE ── */
+  .update-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2.5rem;
+    font-size: 0.875rem;
+  }
 
-    .update-table tr:hover td {
-      background: var(--surface2);
-    }
+  .update-table th {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
 
-    /* ── STATUS BADGES ── */
-    .status {
-      display: inline-block;
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.2rem 0.5rem;
-      border-radius: 2px;
-      white-space: nowrap;
-    }
+  .update-table td {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
 
-    .status-active    { background: rgba(76,175,125,0.15); color: var(--green); border: 1px solid rgba(76,175,125,0.3); }
-    .status-pending   { background: rgba(224,148,58,0.15); color: var(--orange); border: 1px solid rgba(224,148,58,0.3); }
-    .status-milestone { background: rgba(91,155,213,0.15); color: var(--blue); border: 1px solid rgba(91,155,213,0.3); }
-    .status-test      { background: rgba(155,127,212,0.15); color: var(--purple); border: 1px solid rgba(155,127,212,0.3); }
-    .status-withdrawn { background: rgba(224,92,92,0.15); color: var(--red); border: 1px solid rgba(224,92,92,0.3); }
+  .update-table tr:hover td {
+    background: var(--surface2);
+  }
 
-    /* ── TYPE TAGS ── */
-    .type-tag {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
-    }
+  /* ── STATUS BADGES ── */
+  .status {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
 
-    /* ── DATE COL ── */
-    .date-col {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
+  .status-active    { background: rgba(76,175,125,0.15); color: var(--green); border: 1px solid rgba(76,175,125,0.3); }
+  .status-pending   { background: rgba(224,148,58,0.15); color: var(--orange); border: 1px solid rgba(224,148,58,0.3); }
+  .status-milestone { background: rgba(91,155,213,0.15); color: var(--blue); border: 1px solid rgba(91,155,213,0.3); }
+  .status-test      { background: rgba(155,127,212,0.15); color: var(--purple); border: 1px solid rgba(155,127,212,0.3); }
+  .status-withdrawn { background: rgba(224,92,92,0.15); color: var(--red); border: 1px solid rgba(224,92,92,0.3); }
 
-    .date-soon { color: var(--orange); }
-    .date-past { color: var(--text-muted); opacity: 0.6; }
+  /* ── TYPE TAGS ── */
+  .type-tag {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
 
-    /* ── PLAN DESCRIPTION ── */
-    .plan-description {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--gold);
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 2rem;
-      font-size: 0.875rem;
-      line-height: 1.7;
-      color: var(--text-muted);
-    }
+  /* ── DATE COL ── */
+  .date-col {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
 
-    .plan-description strong { color: var(--text); }
+  .date-soon { color: var(--orange); }
+  .date-past { color: var(--text-muted); opacity: 0.6; }
 
-    /* ── FILTER BAR ── */
-    .filter-bar {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-      align-items: center;
-    }
+  /* ── PLAN DESCRIPTION ── */
+  .plan-description {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
 
-    .filter-btn {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.35rem 0.75rem;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
+  .plan-description strong { color: var(--text); }
 
-    .filter-btn:hover { border-color: var(--gold-dim); color: var(--text); }
-    .filter-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
 
-    .filter-label {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--text-muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
+  .filter-btn {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
 
-    /* ── ALERT BANNER ── */
-    .alert-banner {
-      background: rgba(224,148,58,0.1);
-      border: 1px solid rgba(224,148,58,0.3);
-      border-left: 3px solid var(--orange);
-      padding: 0.75rem 1rem;
-      margin-bottom: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.85rem;
-    }
+  .filter-btn:hover { border-color: var(--gold-dim); color: var(--text); }
+  .filter-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
 
-    .alert-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--orange);
-      flex-shrink: 0;
-      animation: pulse 2s infinite;
-    }
+  .filter-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
+  /* ── ALERT BANNER ── */
+  .alert-banner {
+    background: rgba(224,148,58,0.1);
+    border: 1px solid rgba(224,148,58,0.3);
+    border-left: 3px solid var(--orange);
+    padding: 0.75rem 1rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+  }
 
-    /* ── LINKS ── */
-    .ref-link {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--gold-dim);
-      text-decoration: none;
-    }
+  .alert-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--orange);
+    flex-shrink: 0;
+    animation: pt-pulse 2s infinite;
+  }
 
-    .ref-link:hover { color: var(--gold); }
+  @keyframes pt-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
 
-    /* ── SUBSCRIBE CTA ── */
-    .subscribe-bar {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: 2px solid var(--gold);
-      padding: 2rem;
-      text-align: center;
-      margin-top: 3rem;
-    }
+  /* ── LINKS ── */
+  .ref-link {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--gold-dim);
+    text-decoration: none;
+  }
 
-    .subscribe-bar h3 {
-      font-size: 1.1rem;
-      font-weight: normal;
-      margin-bottom: 0.5rem;
-    }
+  .ref-link:hover { color: var(--gold); }
 
-    .subscribe-bar p {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      margin-bottom: 1.25rem;
-    }
+  /* ── SUBSCRIBE CTA ── */
+  .subscribe-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--gold);
+    padding: 2rem;
+    text-align: center;
+    margin-top: 3rem;
+  }
 
-    .subscribe-form {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+  .subscribe-bar h3 {
+    font-size: 1.1rem;
+    font-weight: normal;
+    margin-bottom: 0.5rem;
+  }
 
-    .subscribe-form input {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 0.6rem 1rem;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      width: 260px;
-    }
+  .subscribe-bar p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
 
-    .subscribe-form input:focus {
-      outline: none;
-      border-color: var(--gold);
-    }
+  .subscribe-form {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 
-    .btn-gold {
-      background: var(--gold);
-      color: #000;
-      border: none;
-      padding: 0.6rem 1.25rem;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
+  .subscribe-form input {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.6rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    width: 260px;
+  }
 
-    .btn-gold:hover { opacity: 0.85; }
+  .subscribe-form input:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
 
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 1.5rem 2rem;
-      text-align: center;
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      margin-top: 2rem;
-    }
+  .btn-gold {
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 0.6rem 1.25rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
 
-    footer a { color: var(--gold-dim); text-decoration: none; }
+  .btn-gold:hover { opacity: 0.85; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .plan-overview { grid-template-columns: 1fr; }
-      .update-table th:nth-child(4),
-      .update-table td:nth-child(4) { display: none; }
-      .hero h1 { font-size: 1.4rem; }
-    }
-  </style>
+  /* ── FOOTER (page-specific override) ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 2rem;
+    background: var(--bg);
+  }
+
+  footer a { color: var(--gold-dim); text-decoration: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .plan-overview { grid-template-columns: 1fr; }
+    .update-table th:nth-child(4),
+    .update-table td:nth-child(4) { display: none; }
+    .hero h1 { font-size: 1.4rem; }
+  }
+</style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-  <div class="logo">Market Data <span>News</span></div>
+<!-- Ticker -->
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+</div></div>
+
+<!-- FeedWatch Alert Bar -->
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
+      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
+    </div>
+    <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
   <nav>
-    <a href="#">FeedWatch</a>
-    <a href="#">Exchanges</a>
-    <a href="#" class="active">Plan Tracker</a>
-    <a href="#">NYSE Hours</a>
-    <a href="#">Subscribe</a>
+    <a href="calendar.html" class="nav-item">FeedWatch</a>
+    <a href="index.html" class="nav-item">All News</a>
+    <a href="exchanges.html" class="nav-item">Exchanges</a>
+    <a href="regulation.html" class="nav-item">Regulation</a>
+    <a href="nms.html" class="nav-item">NMS / SIP</a>
+    <a href="plan-tracker.html" class="nav-item active">Plan Tracker</a>
+    <a href="feed-status.html" class="nav-item">Feed Status</a>
+    <a href="prediction-markets.html" class="nav-item">Prediction Markets</a>
+    <a href="about.html" class="nav-item">About</a>
+    <div class="nav-right">
+      <input class="search-box" type="text" placeholder="Search...">
+    </div>
   </nav>
-</header>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="calendar.html">FeedWatch</a>
+  <a href="index.html">All News</a>
+  <a href="exchanges.html">Exchanges</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="nms.html">NMS / SIP</a>
+  <a href="plan-tracker.html" class="active">Plan Tracker</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <a href="about.html">About</a>
+</div>
 
 <!-- HERO -->
 <div class="hero">
@@ -490,7 +618,7 @@
   <div class="alert-banner">
     <div class="alert-dot"></div>
     <div>
-      <strong>CTA Plan:</strong> SIP Failover / MWCB Level 1/2 Test #1 scheduled for <strong>April 1, 2026</strong>. 
+      <strong>CTA Plan:</strong> SIP Failover / MWCB Level 1/2 Test #1 scheduled for <strong>April 1, 2026</strong>.
       Connectivity teams should confirm readiness by March 28.
     </div>
   </div>
@@ -864,25 +992,34 @@
 </footer>
 
 <script>
-  function showPlan(plan) {
-    // Hide all panels
-    document.querySelectorAll('.plan-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.plan-tab').forEach(t => t.classList.remove('active'));
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
 
-    // Show selected
-    document.getElementById('panel-' + plan).classList.add('active');
-    event.currentTarget.classList.add('active');
-  }
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
 
-  // Filter buttons (UI only for now — wire to data later)
-  document.querySelectorAll('.filter-bar').forEach(bar => {
-    bar.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-      });
+function showPlan(plan) {
+  // Hide all panels
+  document.querySelectorAll('.plan-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.plan-tab').forEach(t => t.classList.remove('active'));
+
+  // Show selected
+  document.getElementById('panel-' + plan).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// Filter buttons (UI only for now — wire to data later)
+document.querySelectorAll('.filter-bar').forEach(bar => {
+  bar.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
     });
   });
+});
 </script>
 
 </body>
