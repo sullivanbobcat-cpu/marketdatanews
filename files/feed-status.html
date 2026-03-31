@@ -19,6 +19,8 @@
   <meta name="twitter:description" content="Real-time market data feed status and interactive fee calculator.">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
 <style>
   :root {
     --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
@@ -189,8 +191,15 @@
   .badge-pending  { background: #fef9f0; color: var(--accent-dark); border: 1px solid #e8c97a; }
   .eff-date { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
 
+  /* ── SANKEY CHART ── */
+  .sankey-wrap { background: var(--ink); border: 1px solid #2a2a2a; padding: 28px 32px 20px; position: relative; }
+  .sankey-wrap svg { display: block; width: 100%; }
+  .sankey-col-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; fill: #555; }
+  .sankey-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #444; margin-top: 10px; padding-top: 10px; border-top: 1px solid #1a1a1a; }
+
   @media (max-width: 900px) {
     .page-hero, .page-container { padding-left: 20px; padding-right: 20px; }
+    .sankey-wrap { padding: 16px; overflow-x: auto; }
     .status-grid { grid-template-columns: 1fr 1fr; }
     .calc-layout { grid-template-columns: 1fr; }
     .calc-inputs { border-right: none; border-bottom: 1px solid var(--border); }
@@ -378,10 +387,24 @@
   <div class="status-summary">All 8 feeds operational · Updated <span id="lastUpdated"></span> · Next scheduled check in 5 minutes</div>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 2 — FEE CALCULATOR -->
+  <!-- SECTION 2 — FEE FLOW VISUALIZATION -->
   <!-- ═══════════════════════════════════════════════ -->
   <div class="section-head">
     <span class="section-num">02 —</span>
+    <h2>Fee Flow Visualization</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="sankey-wrap">
+    <svg id="sankeyChart"></svg>
+    <div class="sankey-note">Flow widths scale with calculator inputs below. Select exchange families and enter user/machine counts to see proportional fee flows. Values are estimates based on published fee schedules.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 3 — FEE CALCULATOR -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">03 —</span>
     <h2>Market Data Fee Calculator</h2>
     <div class="section-line"></div>
   </div>
@@ -487,10 +510,10 @@
   </div><!-- end calc-layout -->
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 3 — RECENT FEE CHANGES -->
+  <!-- SECTION 4 — RECENT FEE CHANGES -->
   <!-- ═══════════════════════════════════════════════ -->
   <div class="section-head">
-    <span class="section-num">03 —</span>
+    <span class="section-num">04 —</span>
     <h2>Recent Fee Changes</h2>
     <div class="section-line"></div>
   </div>
@@ -587,7 +610,6 @@ function fmtTime(d) {
   return h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0') + ' ' + ampm + ' ET';
 }
 
-// Stagger last-checked times slightly for realism
 const feedIds = ['nyse','arca','itch','utp','opra','cta','cme','cboe'];
 feedIds.forEach((id, i) => {
   const t = new Date(now.getTime() - (i * 23 + 7) * 1000);
@@ -602,15 +624,12 @@ function toggleMobileNav() {
 }
 
 // ── FEE CALCULATOR ─────────────────────────────────────────────────────────
-// Base rates (per month)
 const RATES = {
   NYSE:   { prof: 21,   machine: 1500, directMult: 1.40 },
   Nasdaq: { prof: 24,   machine: 1750, directMult: 1.35 },
   Cboe:   { prof: 18,   machine: 1200, directMult: 1.30 }
 };
-// Non-professional rate is ~10% of professional rate (industry standard)
 const NONPROF_RATIO = 0.10;
-// Use case multipliers
 const USE_MULT = { display: 1.0, trading: 1.25, risk: 1.15, all: 1.40 };
 
 function fmt(n) {
@@ -621,12 +640,12 @@ function fmt(n) {
 }
 
 function recalc() {
-  const direct    = document.getElementById('accessType').value === 'direct';
-  const profU     = Math.max(0, parseInt(document.getElementById('profUsers').value) || 0);
-  const nonprofU  = Math.max(0, parseInt(document.getElementById('nonprofUsers').value) || 0);
-  const mach      = Math.max(0, parseInt(document.getElementById('machines').value) || 0);
-  const useCase   = document.getElementById('useCase').value;
-  const useMult   = USE_MULT[useCase];
+  const direct   = document.getElementById('accessType').value === 'direct';
+  const profU    = Math.max(0, parseInt(document.getElementById('profUsers').value) || 0);
+  const nonprofU = Math.max(0, parseInt(document.getElementById('nonprofUsers').value) || 0);
+  const mach     = Math.max(0, parseInt(document.getElementById('machines').value) || 0);
+  const useCase  = document.getElementById('useCase').value;
+  const useMult  = USE_MULT[useCase];
 
   const sel = {
     NYSE:   document.getElementById('chkNYSE').checked,
@@ -663,20 +682,216 @@ function recalc() {
   }
 
   ['NYSE','Nasdaq','Cboe'].forEach(fam => {
-    const barRow  = document.getElementById('bar' + fam);
-    const fillEl  = document.getElementById('fill' + fam);
-    const amtEl   = document.getElementById('amt' + fam);
-    const show    = sel[fam];
+    const barRow = document.getElementById('bar' + fam);
+    const fillEl = document.getElementById('fill' + fam);
+    const amtEl  = document.getElementById('amt' + fam);
+    const show   = sel[fam];
     barRow.style.display = show ? 'block' : 'none';
     if (show) {
       amtEl.textContent = fmt(amounts[fam]);
       fillEl.style.width = (amounts[fam] / maxAmt * 100).toFixed(1) + '%';
     }
   });
+
+  // Update Sankey
+  updateSankey(amounts, sel, total);
+}
+
+// ── SANKEY CHART ─────────────────────────────────────────────────────────
+
+// Fixed split percentages
+const SPLITS = {
+  // Exchange → Fee Type
+  NYSE_display: 0.35, NYSE_nondisplay: 0.40, NYSE_dist: 0.25,
+  Nasdaq_display: 0.30, Nasdaq_nondisplay: 0.45, Nasdaq_dist: 0.25,
+  Cboe_display: 0.40, Cboe_nondisplay: 0.35, Cboe_dist: 0.25,
+  // Fee Type → Client Type
+  display_prof: 0.60, display_nonprof: 0.30, display_internal: 0.10,
+  nondisplay_machine: 0.70, nondisplay_internal: 0.30,
+  dist_prof: 0.40, dist_machine: 0.60
+};
+
+// Node definitions: [name, column, color]
+const NODE_DEFS = [
+  // Col 0 — Exchange Families
+  { id: 0, name: 'NYSE Family',         col: 0, color: '#b8860b' },
+  { id: 1, name: 'Nasdaq Family',       col: 0, color: '#b8860b' },
+  { id: 2, name: 'Cboe Family',         col: 0, color: '#b8860b' },
+  // Col 1 — Fee Types
+  { id: 3, name: 'Display Fees',        col: 1, color: '#c9a84c' },
+  { id: 4, name: 'Non-Display Fees',    col: 1, color: '#c9a84c' },
+  { id: 5, name: 'Distribution Fees',   col: 1, color: '#c9a84c' },
+  // Col 2 — Client Types
+  { id: 6, name: 'Professional Users',  col: 2, color: '#8b6508' },
+  { id: 7, name: 'Non-Prof. Users',     col: 2, color: '#8b6508' },
+  { id: 8, name: 'Machines',            col: 2, color: '#8b6508' },
+  { id: 9, name: 'Internal Users',      col: 2, color: '#8b6508' }
+];
+
+const COL_LABELS = ['Exchange Families', 'Fee Types', 'Client Types'];
+
+let sankeyInitialized = false;
+let svgEl, sankeyG, colLabelG;
+const SANKEY_HEIGHT = 420;
+const SANKEY_MIN_VALUE = 50; // floor so chart remains visible even at zero inputs
+
+function buildSankeyData(amounts) {
+  // Use a floor value so layout stays stable when inputs are zero
+  const nyse   = Math.max(amounts.NYSE   || 0, SANKEY_MIN_VALUE);
+  const nasdaq = Math.max(amounts.Nasdaq || 0, SANKEY_MIN_VALUE);
+  const cboe   = Math.max(amounts.Cboe   || 0, SANKEY_MIN_VALUE);
+
+  const links = [
+    // NYSE → Fee Types
+    { source: 0, target: 3, value: nyse   * SPLITS.NYSE_display },
+    { source: 0, target: 4, value: nyse   * SPLITS.NYSE_nondisplay },
+    { source: 0, target: 5, value: nyse   * SPLITS.NYSE_dist },
+    // Nasdaq → Fee Types
+    { source: 1, target: 3, value: nasdaq * SPLITS.Nasdaq_display },
+    { source: 1, target: 4, value: nasdaq * SPLITS.Nasdaq_nondisplay },
+    { source: 1, target: 5, value: nasdaq * SPLITS.Nasdaq_dist },
+    // Cboe → Fee Types
+    { source: 2, target: 3, value: cboe   * SPLITS.Cboe_display },
+    { source: 2, target: 4, value: cboe   * SPLITS.Cboe_nondisplay },
+    { source: 2, target: 5, value: cboe   * SPLITS.Cboe_dist },
+    // Display → Clients
+    { source: 3, target: 6, value: (nyse * SPLITS.NYSE_display + nasdaq * SPLITS.Nasdaq_display + cboe * SPLITS.Cboe_display) * SPLITS.display_prof },
+    { source: 3, target: 7, value: (nyse * SPLITS.NYSE_display + nasdaq * SPLITS.Nasdaq_display + cboe * SPLITS.Cboe_display) * SPLITS.display_nonprof },
+    { source: 3, target: 9, value: (nyse * SPLITS.NYSE_display + nasdaq * SPLITS.Nasdaq_display + cboe * SPLITS.Cboe_display) * SPLITS.display_internal },
+    // Non-Display → Clients
+    { source: 4, target: 8, value: (nyse * SPLITS.NYSE_nondisplay + nasdaq * SPLITS.Nasdaq_nondisplay + cboe * SPLITS.Cboe_nondisplay) * SPLITS.nondisplay_machine },
+    { source: 4, target: 9, value: (nyse * SPLITS.NYSE_nondisplay + nasdaq * SPLITS.Nasdaq_nondisplay + cboe * SPLITS.Cboe_nondisplay) * SPLITS.nondisplay_internal },
+    // Distribution → Clients
+    { source: 5, target: 6, value: (nyse * SPLITS.NYSE_dist + nasdaq * SPLITS.Nasdaq_dist + cboe * SPLITS.Cboe_dist) * SPLITS.dist_prof },
+    { source: 5, target: 8, value: (nyse * SPLITS.NYSE_dist + nasdaq * SPLITS.Nasdaq_dist + cboe * SPLITS.Cboe_dist) * SPLITS.dist_machine }
+  ];
+
+  return {
+    nodes: NODE_DEFS.map(d => ({ ...d })),
+    links: links.map(l => ({ ...l }))
+  };
+}
+
+function updateSankey(amounts, sel, total) {
+  const container = document.getElementById('sankeyChart').parentElement;
+  const W = Math.max(container.clientWidth - 64, 600);
+  const H = SANKEY_HEIGHT;
+
+  const svg = d3.select('#sankeyChart')
+    .attr('viewBox', `0 0 ${W} ${H}`)
+    .attr('width', W)
+    .attr('height', H);
+
+  svg.selectAll('*').remove();
+
+  // Background
+  svg.append('rect').attr('width', W).attr('height', H).attr('fill', '#0d0d0d');
+
+  const pad = { top: 32, bottom: 16, left: 12, right: 12 };
+
+  // Column header labels
+  const colPositions = [pad.left, W / 2, W - pad.right];
+  COL_LABELS.forEach((label, i) => {
+    const x = i === 0 ? pad.left + 2
+            : i === 1 ? W / 2 - 20
+            : W - pad.right - 2;
+    const anchor = i === 0 ? 'start' : i === 1 ? 'middle' : 'end';
+    svg.append('text')
+      .attr('x', x + (i === 1 ? 20 : 0))
+      .attr('y', 14)
+      .attr('text-anchor', anchor)
+      .attr('class', 'sankey-col-label')
+      .text(label);
+  });
+
+  // Build Sankey layout
+  const data = buildSankeyData(amounts);
+
+  const sankey = d3.sankey()
+    .nodeId(d => d.id)
+    .nodeWidth(14)
+    .nodePadding(18)
+    .extent([[pad.left, pad.top], [W - pad.right, H - pad.bottom]]);
+
+  const { nodes, links } = sankey(data);
+
+  // Dim exchange family nodes that are deselected
+  const activeExchanges = { 0: sel.NYSE, 1: sel.Nasdaq, 2: sel.Cboe };
+
+  // Draw links
+  const linkPath = d3.sankeyLinkHorizontal();
+
+  svg.append('g')
+    .selectAll('path')
+    .data(links)
+    .join('path')
+      .attr('d', linkPath)
+      .attr('stroke-width', d => Math.max(1, d.width))
+      .attr('fill', 'none')
+      .attr('stroke', d => {
+        const srcId = d.source.id;
+        const isActive = srcId > 2 || activeExchanges[srcId];
+        return isActive ? 'rgba(184,134,11,0.18)' : 'rgba(100,100,100,0.08)';
+      });
+
+  // Draw nodes
+  const nodeG = svg.append('g').selectAll('g').data(nodes).join('g');
+
+  nodeG.append('rect')
+    .attr('x', d => d.x0)
+    .attr('y', d => d.y0)
+    .attr('width', d => d.x1 - d.x0)
+    .attr('height', d => Math.max(1, d.y1 - d.y0))
+    .attr('fill', d => {
+      const isExchange = d.id <= 2;
+      const isActive = !isExchange || activeExchanges[d.id];
+      return isActive ? d.color : '#2a2a2a';
+    })
+    .attr('rx', 1);
+
+  // Node labels
+  nodeG.append('text')
+    .attr('x', d => d.col === 2 ? d.x1 + 8 : d.col === 0 ? d.x0 - 8 : (d.x0 + d.x1) / 2)
+    .attr('y', d => (d.y0 + d.y1) / 2)
+    .attr('dy', '0.35em')
+    .attr('text-anchor', d => d.col === 2 ? 'start' : d.col === 0 ? 'end' : 'middle')
+    .attr('fill', d => {
+      const isExchange = d.id <= 2;
+      return (!isExchange || activeExchanges[d.id]) ? '#e8e8e8' : '#444';
+    })
+    .style('font-family', "'IBM Plex Mono', monospace")
+    .style('font-size', '10px')
+    .style('letter-spacing', '0.04em')
+    .text(d => d.name);
+
+  // Value labels on exchange nodes (show $ amount)
+  nodeG.filter(d => d.id <= 2)
+    .append('text')
+    .attr('x', d => d.x0 - 8)
+    .attr('y', d => (d.y0 + d.y1) / 2 + 13)
+    .attr('text-anchor', 'end')
+    .attr('fill', '#555')
+    .style('font-family', "'IBM Plex Mono', monospace")
+    .style('font-size', '9px')
+    .text(d => {
+      const key = d.id === 0 ? 'NYSE' : d.id === 1 ? 'Nasdaq' : 'Cboe';
+      const v = amounts[key] || 0;
+      return v > 0 ? fmt(v) + '/mo' : '';
+    });
 }
 
 // Run on load with defaults
 recalc();
+
+// Redraw on window resize
+window.addEventListener('resize', () => {
+  const amounts = {
+    NYSE:   document.getElementById('chkNYSE').checked ? (parseInt(document.getElementById('profUsers').value)||0) * 21 : 0,
+    Nasdaq: document.getElementById('chkNasdaq').checked ? (parseInt(document.getElementById('profUsers').value)||0) * 24 : 0,
+    Cboe:   document.getElementById('chkCboe').checked ? (parseInt(document.getElementById('profUsers').value)||0) * 18 : 0
+  };
+  recalc();
+});
 </script>
 
 </body>
