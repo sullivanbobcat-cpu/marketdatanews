@@ -196,8 +196,10 @@
     <a href="regulation.html" class="nav-item">Regulation</a>
     <a href="nms.html" class="nav-item">NMS / SIP</a>
     <a href="feed-status.html" class="nav-item">Feed Status</a>
+    <a href="prediction-markets.html" class="nav-item">Prediction Markets</a>
+    <a href="about.html" class="nav-item active">About</a>
     <div class="nav-right">
-      <input class="search-box" type="text" placeholder="Search...">
+      <input class="search-box" type="text" placeholder="Search..." id="searchBox" oninput="if(typeof filterNews!=='undefined')filterNews()">
     </div>
   </nav>
   <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
@@ -212,6 +214,8 @@
   <a href="regulation.html">Regulation</a>
   <a href="nms.html">NMS / SIP</a>
   <a href="feed-status.html">Feed Status</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <a href="about.html" class="active">About</a>
 </div>
 <!-- Page Banner -->
 <div class="page-banner">

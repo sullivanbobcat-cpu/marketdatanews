@@ -191,7 +191,9 @@
     <a href="feed-status.html" class="nav-item">Feed Status</a>
     <a href="prediction-markets.html" class="nav-item active">Prediction Markets</a>
     <a href="about.html" class="nav-item">About</a>
-    <div class="nav-right"><input class="search-box" type="text" placeholder="Search..."></div>
+    <div class="nav-right">
+      <input class="search-box" type="text" placeholder="Search..." id="searchBox" oninput="if(typeof filterNews!=='undefined')filterNews()">
+    </div>
   </nav>
   <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
     <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
@@ -199,10 +201,14 @@
   </div>
 </div>
 <div class="mobile-nav" id="mobileNav">
-  <a href="calendar.html">FeedWatch</a><a href="index.html">All News</a>
-  <a href="exchanges.html">Exchanges</a><a href="regulation.html">Regulation</a>
-  <a href="nms.html">NMS / SIP</a><a href="feed-status.html">Feed Status</a>
-  <a href="prediction-markets.html" class="active">Prediction Markets</a><a href="about.html">About</a>
+  <a href="calendar.html">FeedWatch</a>
+  <a href="index.html">All News</a>
+  <a href="exchanges.html">Exchanges</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="nms.html">NMS / SIP</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="prediction-markets.html" class="active">Prediction Markets</a>
+  <a href="about.html">About</a>
 </div>
 <div class="page-banner">
   <div class="page-banner-inner">
