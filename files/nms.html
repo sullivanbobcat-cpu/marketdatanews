@@ -103,419 +103,102 @@
     .tagline { text-align: center; }
     .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
   }
-</style>
-<style>
-  :root {
-    --bg: #0a0a0a;
-    --surface: #111111;
-    --surface2: #1a1a1a;
-    --border: #2a2a2a;
-    --gold: #c9a84c;
-    --gold-dim: #8a6e2f;
-    --text: #e8e8e8;
-    --text-muted: #888;
-    --green: #4caf7d;
-    --red: #e05c5c;
-    --blue: #5b9bd5;
-    --orange: #e0943a;
-    --purple: #9b7fd4;
-    --font: 'Georgia', serif;
-    --mono: 'Courier New', monospace;
-  }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font);
-  }
 
   /* ── PAGE HERO ── */
-  .hero {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 2.5rem 2rem 2rem;
-  }
+  .page-hero { background: var(--cream); border-bottom: 2px solid var(--ink); padding: 36px 48px 32px; }
+  .page-hero-inner { max-width: 1280px; margin: 0 auto; }
+  .page-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-dark); margin-bottom: 10px; }
+  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3.5vw, 42px); font-weight: 900; line-height: 1.15; margin-bottom: 12px; color: var(--ink); }
+  .page-hero h1 span { color: var(--accent); }
+  .page-hero-sub { font-size: 15px; line-height: 1.7; color: var(--muted); max-width: 720px; }
+  .page-hero-meta { margin-top: 16px; display: flex; gap: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); flex-wrap: wrap; }
+  .page-hero-meta strong { color: var(--ink); font-weight: 500; }
 
-  .hero-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+  /* ── MAIN CONTAINER ── */
+  .page-container { max-width: 1280px; margin: 0 auto; padding: 0 48px 60px; }
 
-  .hero-label {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
-
-  .hero h1 {
-    font-size: 1.8rem;
-    font-weight: normal;
-    margin-bottom: 0.5rem;
-  }
-
-  .hero p {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    max-width: 600px;
-    line-height: 1.6;
-  }
-
-  .hero-meta {
-    margin-top: 1rem;
-    display: flex;
-    gap: 2rem;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    color: var(--text-muted);
-  }
-
-  .hero-meta span { color: var(--text); }
-
-  /* ── LAYOUT ── */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-  }
+  /* ── ALERT BANNER ── */
+  .alert-banner { background: #fef9f0; border: 1px solid #e8c97a; border-left: 3px solid var(--accent); padding: 12px 16px; margin: 28px 0 0; display: flex; align-items: flex-start; gap: 12px; font-size: 13px; line-height: 1.6; color: var(--ink); }
+  .alert-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 4px; animation: pulse 2s infinite; }
 
   /* ── PLAN TABS ── */
-  .plan-tabs {
-    display: flex;
-    gap: 0;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 2rem;
-  }
-
-  .plan-tab {
-    padding: 0.75rem 1.5rem;
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-bottom: none;
-    color: var(--text-muted);
-    background: transparent;
-    transition: all 0.2s;
-    margin-bottom: -1px;
-  }
-
-  .plan-tab:hover { color: var(--text); }
-
-  .plan-tab.active {
-    color: var(--gold);
-    border-color: var(--border);
-    border-bottom-color: var(--bg);
-    background: var(--bg);
-  }
-
-  .plan-tab .badge {
-    display: inline-block;
-    background: var(--gold-dim);
-    color: var(--gold);
-    font-size: 0.65rem;
-    padding: 0.1rem 0.4rem;
-    border-radius: 2px;
-    margin-left: 0.5rem;
-  }
+  .plan-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--ink); margin: 28px 0 28px; }
+  .plan-tab { padding: 9px 24px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border: 1px solid transparent; border-bottom: none; color: var(--muted); background: transparent; transition: all 0.15s; margin-bottom: -2px; }
+  .plan-tab:hover { color: var(--ink); border-color: var(--rule); background: var(--cream); }
+  .plan-tab.active { color: var(--accent); border-color: var(--ink); border-bottom-color: var(--surface); background: var(--surface); }
+  .plan-tab .badge { display: inline-block; background: var(--rule); color: var(--muted); font-size: 10px; padding: 1px 6px; border-radius: 2px; margin-left: 6px; }
+  .plan-tab.active .badge { background: var(--accent); color: white; }
 
   /* ── PLAN PANEL ── */
   .plan-panel { display: none; }
   .plan-panel.active { display: block; }
 
-  /* ── PLAN OVERVIEW CARD ── */
-  .plan-overview {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
+  /* ── PLAN OVERVIEW CARDS ── */
+  .plan-overview { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+  .overview-card { background: var(--surface); border: 1px solid var(--border); padding: 18px 20px; }
+  .overview-card .oc-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .overview-card .oc-value { font-family: 'IBM Plex Sans', sans-serif; font-size: 18px; font-weight: 600; color: var(--ink); }
+  .overview-card .oc-sub { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
 
-  .overview-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 1.25rem;
-  }
-
-  .overview-card .oc-label {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 0.4rem;
-  }
-
-  .overview-card .oc-value {
-    font-size: 1.1rem;
-    color: var(--text);
-  }
-
-  .overview-card .oc-sub {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    margin-top: 0.25rem;
-  }
+  /* ── PLAN DESCRIPTION BOX ── */
+  .plan-description { background: var(--cream); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 16px 20px; margin-bottom: 24px; font-size: 13px; line-height: 1.7; color: var(--muted); }
+  .plan-description strong { color: var(--ink); }
 
   /* ── SECTION HEADERS ── */
-  .section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .section-title {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
-  .section-count {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    color: var(--text-muted);
-  }
-
-  /* ── UPDATE TABLE ── */
-  .update-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 2.5rem;
-    font-size: 0.875rem;
-  }
-
-  .update-table th {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    text-align: left;
-    padding: 0.6rem 1rem;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-  }
-
-  .update-table td {
-    padding: 0.9rem 1rem;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-    line-height: 1.5;
-  }
-
-  .update-table tr:hover td {
-    background: var(--surface2);
-  }
-
-  /* ── STATUS BADGES ── */
-  .status {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.5rem;
-    border-radius: 2px;
-    white-space: nowrap;
-  }
-
-  .status-active    { background: rgba(76,175,125,0.15); color: var(--green); border: 1px solid rgba(76,175,125,0.3); }
-  .status-pending   { background: rgba(224,148,58,0.15); color: var(--orange); border: 1px solid rgba(224,148,58,0.3); }
-  .status-milestone { background: rgba(91,155,213,0.15); color: var(--blue); border: 1px solid rgba(91,155,213,0.3); }
-  .status-test      { background: rgba(155,127,212,0.15); color: var(--purple); border: 1px solid rgba(155,127,212,0.3); }
-  .status-withdrawn { background: rgba(224,92,92,0.15); color: var(--red); border: 1px solid rgba(224,92,92,0.3); }
-
-  /* ── TYPE TAGS ── */
-  .type-tag {
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
-  }
-
-  /* ── DATE COL ── */
-  .date-col {
-    font-family: var(--mono);
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
-
-  .date-soon { color: var(--orange); }
-  .date-past { color: var(--text-muted); opacity: 0.6; }
-
-  /* ── PLAN DESCRIPTION ── */
-  .plan-description {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--gold);
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 2rem;
-    font-size: 0.875rem;
-    line-height: 1.7;
-    color: var(--text-muted);
-  }
-
-  .plan-description strong { color: var(--text); }
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--ink); }
+  .section-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-dark); }
+  .section-count { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
 
   /* ── FILTER BAR ── */
-  .filter-bar {
-    display: flex;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    align-items: center;
-  }
+  .filter-bar { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+  .filter-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .filter-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--rule); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover { border-color: var(--accent-dark); color: var(--ink); }
+  .filter-btn.active { border-color: var(--ink); color: var(--ink); background: var(--cream); }
 
-  .filter-btn {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.35rem 0.75rem;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
+  /* ── UPDATE TABLE ── */
+  .update-table { width: 100%; border-collapse: collapse; margin-bottom: 36px; font-size: 13px; }
+  .update-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 8px 12px; border-bottom: 2px solid var(--ink); background: var(--cream); }
+  .update-table td { padding: 12px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; background: var(--surface); }
+  .update-table tr:hover td { background: var(--cream); }
 
-  .filter-btn:hover { border-color: var(--gold-dim); color: var(--text); }
-  .filter-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+  /* ── STATUS BADGES ── */
+  .status { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; white-space: nowrap; }
+  .status-active    { background: #edf7f2; color: #2a7a50; border: 1px solid #b0ddc5; }
+  .status-pending   { background: #fef6ed; color: #9a5a10; border: 1px solid #f0c885; }
+  .status-milestone { background: #eef3fb; color: #2e5fa3; border: 1px solid #b0c8e8; }
+  .status-test      { background: #f5f0fc; color: #6040a0; border: 1px solid #d0b8f0; }
+  .status-withdrawn { background: #f5f5f5; color: var(--muted); border: 1px solid var(--rule); }
 
-  .filter-label {
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
+  /* ── TYPE TAG ── */
+  .type-tag { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); line-height: 1.6; display: block; margin-top: 4px; }
 
-  /* ── ALERT BANNER ── */
-  .alert-banner {
-    background: rgba(224,148,58,0.1);
-    border: 1px solid rgba(224,148,58,0.3);
-    border-left: 3px solid var(--orange);
-    padding: 0.75rem 1rem;
-    margin-bottom: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.85rem;
-  }
+  /* ── DATE COLUMN ── */
+  .date-col { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .date-soon { color: var(--accent-dark); font-weight: 600; }
+  .date-past { color: var(--muted); opacity: 0.65; }
 
-  .alert-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--orange);
-    flex-shrink: 0;
-    animation: pt-pulse 2s infinite;
-  }
+  /* ── REF LINK ── */
+  .ref-link { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent-dark); text-decoration: none; }
+  .ref-link:hover { color: var(--accent); text-decoration: underline; }
 
-  @keyframes pt-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
+  /* ── SUBSCRIBE BAR ── */
+  .subscribe-bar { background: var(--cream); border: 1px solid var(--border); border-top: 2px solid var(--ink); padding: 32px 40px; text-align: center; margin-top: 48px; }
+  .subscribe-bar h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .subscribe-bar p { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .subscribe-form { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .subscribe-form input { background: var(--surface); border: 1px solid var(--border); color: var(--ink); padding: 8px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; width: 260px; }
+  .subscribe-form input:focus { outline: none; border-color: var(--accent); }
+  .subscribe-form input::placeholder { color: var(--muted); }
+  .btn-subscribe { background: var(--ink); color: var(--accent); border: none; padding: 8px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; }
+  .btn-subscribe:hover { opacity: 0.85; }
 
-  /* ── LINKS ── */
-  .ref-link {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    color: var(--gold-dim);
-    text-decoration: none;
-  }
-
-  .ref-link:hover { color: var(--gold); }
-
-  /* ── SUBSCRIBE CTA ── */
-  .subscribe-bar {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 2px solid var(--gold);
-    padding: 2rem;
-    text-align: center;
-    margin-top: 3rem;
-  }
-
-  .subscribe-bar h3 {
-    font-size: 1.1rem;
-    font-weight: normal;
-    margin-bottom: 0.5rem;
-  }
-
-  .subscribe-bar p {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .subscribe-form {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .subscribe-form input {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 0.6rem 1rem;
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    width: 260px;
-  }
-
-  .subscribe-form input:focus {
-    outline: none;
-    border-color: var(--gold);
-  }
-
-  .btn-gold {
-    background: var(--gold);
-    color: #000;
-    border: none;
-    padding: 0.6rem 1.25rem;
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: opacity 0.2s;
-  }
-
-  .btn-gold:hover { opacity: 0.85; }
-
-  /* ── FOOTER (page-specific override) ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 1.5rem 2rem;
-    text-align: center;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    margin-top: 2rem;
-    background: var(--bg);
-  }
-
-  footer a { color: var(--gold-dim); text-decoration: none; }
-
-  /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
+    .page-hero, .page-container { padding-left: 20px; padding-right: 20px; }
     .plan-overview { grid-template-columns: 1fr; }
-    .update-table th:nth-child(4),
-    .update-table td:nth-child(4) { display: none; }
-    .hero h1 { font-size: 1.4rem; }
+    .update-table th:nth-child(4), .update-table td:nth-child(4) { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    footer { padding: 32px 20px; }
   }
 </style>
 </head>
@@ -574,7 +257,7 @@
     <a href="prediction-markets.html" class="nav-item">Prediction Markets</a>
     <a href="about.html" class="nav-item">About</a>
     <div class="nav-right">
-      <input class="search-box" type="text" placeholder="Search...">
+      <input class="search-box" type="text" placeholder="Search..." id="searchBox" oninput="if(typeof filterNews!=='undefined')filterNews()">
     </div>
   </nav>
   <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
@@ -593,24 +276,22 @@
   <a href="about.html">About</a>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-inner">
-    <div class="hero-label">Regulatory Intelligence</div>
-    <h1>UTP · CTA · OPRA Plan Tracker</h1>
-    <p>Real-time tracking of material updates, rule filings, fee changes, and operational milestones across the three major U.S. equity and options market data plans.</p>
-    <div class="hero-meta">
-      Last updated: <span>March 31, 2026 — 06:00 ET</span>
-      &nbsp;&nbsp;|&nbsp;&nbsp;
-      Coverage period: <span>Rolling 90 days</span>
-      &nbsp;&nbsp;|&nbsp;&nbsp;
-      Open items: <span>14</span>
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-label">Regulatory Intelligence</div>
+    <h1>UTP · CTA · <span>OPRA</span> Plan Tracker</h1>
+    <div class="page-hero-sub">Real-time tracking of material updates, rule filings, fee changes, and operational milestones across the three major U.S. equity and options market data plans.</div>
+    <div class="page-hero-meta">
+      <span>Last updated: <strong>March 31, 2026 — 06:00 ET</strong></span>
+      <span>Coverage period: <strong>Rolling 90 days</strong></span>
+      <span>Open items: <strong>14</strong></span>
     </div>
   </div>
 </div>
 
-<!-- MAIN -->
-<div class="container">
+<!-- MAIN CONTENT -->
+<div class="page-container">
 
   <!-- ACTIVE ALERT -->
   <div class="alert-banner">
@@ -671,7 +352,7 @@
     </div>
 
     <div class="section-header">
-      <div class="section-title">Upcoming & Active</div>
+      <div class="section-title">Upcoming &amp; Active</div>
       <div class="section-count">4 items</div>
     </div>
 
@@ -689,7 +370,7 @@
         <tr>
           <td class="date-col date-soon">Apr 1, 2026</td>
           <td>
-            <strong>SIP Failover / MWCB Level 1/2 Test #1</strong><br>
+            <strong>SIP Failover / MWCB Level 1/2 Test #1</strong>
             <span class="type-tag">Annual market-wide circuit breaker and SIP failover test. Participants must confirm connectivity readiness ahead of test window. Test conducted pre-market.</span>
           </td>
           <td><span class="status status-test">Test Event</span></td>
@@ -699,7 +380,7 @@
         <tr>
           <td class="date-col date-soon">Apr 3, 2026</td>
           <td>
-            <strong>Introduction of New Contra Midpoint Only (CMO) Order Type</strong><br>
+            <strong>Introduction of New Contra Midpoint Only (CMO) Order Type</strong>
             <span class="type-tag">Nasdaq introduces CMO order type to NASDAQ OMX. Market data feed handlers may need to update order type processing logic.</span>
           </td>
           <td><span class="status status-milestone">Milestone</span></td>
@@ -709,7 +390,7 @@
         <tr>
           <td class="date-col">Jun 30, 2026</td>
           <td>
-            <strong>Retirement of NFN CTCI Inbound Protocol</strong><br>
+            <strong>Retirement of NFN CTCI Inbound Protocol</strong>
             <span class="type-tag">Nasdaq will retire the NFN CTCI inbound protocol. Firms still using this legacy interface must migrate prior to this date. No extensions expected.</span>
           </td>
           <td><span class="status status-milestone">Milestone</span></td>
@@ -719,7 +400,7 @@
         <tr>
           <td class="date-col">Jul 22, 2026</td>
           <td>
-            <strong>SIP Failover / MWCB Level 1/2 Test #2</strong><br>
+            <strong>SIP Failover / MWCB Level 1/2 Test #2</strong>
             <span class="type-tag">Second scheduled annual MWCB and SIP failover test. Date subject to confirmation by UTP Operating Committee.</span>
           </td>
           <td><span class="status status-test">Test Event</span></td>
@@ -748,7 +429,7 @@
         <tr>
           <td class="date-col date-past">Jan 30, 2026</td>
           <td>
-            <strong>NFN CTCI Protocol — Withdrawal Notice Published</strong><br>
+            <strong>NFN CTCI Protocol — Withdrawal Notice Published</strong>
             <span class="type-tag">Nasdaq published formal withdrawal notice for NFN CTCI. Jun 30 hard deadline confirmed. No further extensions.</span>
           </td>
           <td><span class="status status-milestone">Milestone</span></td>
@@ -758,7 +439,7 @@
         <tr>
           <td class="date-col date-past">Jan 21, 2026</td>
           <td>
-            <strong>FINRA ADF — New ADF Participant in CTS and CQS (Participant ID D) — Industry Test #1</strong><br>
+            <strong>FINRA ADF — New ADF Participant in CTS and CQS (Participant ID D) — Industry Test #1</strong>
             <span class="type-tag">First industry test for new ADF quoting participant. Test confirmed successful. Production launch targeted for March 27.</span>
           </td>
           <td><span class="status status-test">Test Event</span></td>
@@ -808,7 +489,7 @@
     </div>
 
     <div class="section-header">
-      <div class="section-title">Upcoming & Active</div>
+      <div class="section-title">Upcoming &amp; Active</div>
       <div class="section-count">5 items</div>
     </div>
 
@@ -826,7 +507,7 @@
         <tr>
           <td class="date-col date-soon">Apr 1, 2026</td>
           <td>
-            <strong>SIP Failover / MWCB Level 1/2 Test #1</strong><br>
+            <strong>SIP Failover / MWCB Level 1/2 Test #1</strong>
             <span class="type-tag">Coordinated with UTP Plan. NYSE SIP failover test and MWCB Level 1 and Level 2 circuit breaker test. Vendor and subscriber participation required.</span>
           </td>
           <td><span class="status status-test">Test Event</span></td>
@@ -836,7 +517,7 @@
         <tr>
           <td class="date-col date-soon">Mar 27, 2026</td>
           <td>
-            <strong>FINRA ADF — New ADF Quoting Participant Production Launch (Participant ID D)</strong><br>
+            <strong>FINRA ADF — New ADF Quoting Participant Production Launch (Participant ID D)</strong>
             <span class="type-tag">Following completion of UATs on Jan 21, Feb 25, Mar 11, and Mar 25, new ADF participant goes live in CTS and CQS production. Feed handlers must be updated to process new Participant ID D.</span>
           </td>
           <td><span class="status status-milestone">Milestone</span></td>
@@ -846,7 +527,7 @@
         <tr>
           <td class="date-col">Jul 22, 2026</td>
           <td>
-            <strong>SIP Failover / MWCB Level 1/2 Test #2</strong><br>
+            <strong>SIP Failover / MWCB Level 1/2 Test #2</strong>
             <span class="type-tag">Second annual MWCB and SIP failover test for CTA Plan participants. Date subject to confirmation.</span>
           </td>
           <td><span class="status status-test">Test Event</span></td>
@@ -856,7 +537,7 @@
         <tr>
           <td class="date-col">Sep 9, 2026</td>
           <td>
-            <strong>MWCB Level 1/2/3 Full Circuit Breaker Test</strong><br>
+            <strong>MWCB Level 1/2/3 Full Circuit Breaker Test</strong>
             <span class="type-tag">Annual full MWCB test including Level 3 (market halt). All data vendors and subscribers must participate. Specific test window TBD by CTA Operating Committee.</span>
           </td>
           <td><span class="status status-test">Test Event</span></td>
@@ -866,7 +547,7 @@
         <tr>
           <td class="date-col">Dec 3, 2026</td>
           <td>
-            <strong>SIP Failover / MWCB Level 1/2 Test #3</strong><br>
+            <strong>SIP Failover / MWCB Level 1/2 Test #3</strong>
             <span class="type-tag">Third and final annual MWCB and SIP failover test. Closes out 2026 annual testing schedule.</span>
           </td>
           <td><span class="status status-test">Test Event</span></td>
@@ -915,7 +596,7 @@
     </div>
 
     <div class="section-header">
-      <div class="section-title">Upcoming & Active</div>
+      <div class="section-title">Upcoming &amp; Active</div>
       <div class="section-count">3 items</div>
     </div>
 
@@ -931,9 +612,9 @@
       </thead>
       <tbody>
         <tr>
-          <td class="date-col date-soon">Q3 2026<br><small style="font-size:0.65rem;opacity:0.7">~Aug 2026</small></td>
+          <td class="date-col date-soon">Q3 2026<br><small style="font-size:10px;opacity:0.75;font-family:'IBM Plex Mono',monospace;">~Aug 2026</small></td>
           <td>
-            <strong>Expansion of OPRA Data Dissemination: 48-Line → 96-Line Multicast Network</strong><br>
+            <strong>Expansion of OPRA Data Dissemination: 48-Line → 96-Line Multicast Network</strong>
             <span class="type-tag">OPRA is doubling its multicast line capacity from 48 to 96 lines to accommodate continued options market volume growth. Subscribers must provision additional network connections and update feed handler configurations. This is the single most impactful OPRA infrastructure change in recent years. Capacity planning and procurement should begin immediately.</span>
           </td>
           <td><span class="status status-milestone">Infrastructure</span></td>
@@ -943,7 +624,7 @@
         <tr>
           <td class="date-col">Mar 27, 2026</td>
           <td>
-            <strong>48-Line Expansion Notice — Updated Subscriber Guidance Published</strong><br>
+            <strong>48-Line Expansion Notice — Updated Subscriber Guidance Published</strong>
             <span class="type-tag">OPRA published updated technical specifications for the 96-line expansion. Connectivity providers and co-location customers should review bandwidth and switch port requirements. Previous 48-line notice (C40164) is withdrawn and superseded.</span>
           </td>
           <td><span class="status status-milestone">Milestone</span></td>
@@ -953,7 +634,7 @@
         <tr>
           <td class="date-col">TBD 2026</td>
           <td>
-            <strong>OPRA Fee Schedule Review — Annual Update</strong><br>
+            <strong>OPRA Fee Schedule Review — Annual Update</strong>
             <span class="type-tag">OPRA Operating Committee conducting annual fee schedule review. Changes to subscriber and vendor fees expected to be announced Q2 2026 with an effective date of Q3/Q4 2026. Watch for SEC filing.</span>
           </td>
           <td><span class="status status-milestone">Fee Change</span></td>
@@ -963,8 +644,7 @@
       </tbody>
     </table>
 
-    <!-- OPRA CONTEXT BOX -->
-    <div class="plan-description" style="border-left-color: var(--blue); margin-top: 0;">
+    <div class="plan-description" style="border-left-color: var(--accent-dark); margin-top: 0;">
       <strong>Why the 96-line expansion matters:</strong> OPRA currently processes over 100 billion messages per day — more volume than all equity markets combined. The move from 48 to 96 multicast lines is a direct response to the continued growth in options market activity. Firms that fail to provision the additional connections before the production cutover will experience data loss. This is not optional. Connectivity teams should begin infrastructure planning immediately regardless of the official go-live date.
     </div>
 
@@ -977,7 +657,7 @@
     <p>Daily digest of UTP, CTA, and OPRA Plan changes for market data professionals. No noise — only what matters to your team.</p>
     <div class="subscribe-form">
       <input type="email" placeholder="your@firm.com" />
-      <button class="btn-gold">Subscribe Free</button>
+      <button class="btn-subscribe">Subscribe Free</button>
     </div>
   </div>
 
@@ -985,8 +665,35 @@
 <!-- END CONTAINER -->
 
 <footer>
-  © 2026 Market Data News · <a href="#">marketdatanews.com</a> · The Industry Standard Since 2025 ·
-  Data sourced from SEC EDGAR, exchange notices, and FINRA filings. Not investment advice.
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="exchanges.html">Exchanges</a>
+      <a href="regulation.html">Regulation</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>FeedWatch</h4>
+      <a href="calendar.html">All Entries</a>
+      <a href="calendar.html?filter=action">Action Required</a>
+      <a href="calendar.html?filter=critical">Critical Alerts</a>
+      <a href="calendar.html?filter=high">High Impact</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
 </footer>
 
 <script>
