@@ -3,117 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Regulatory News — SEC, FINRA, CFTC, NMS Plan Updates | Market Data News</title>
-<meta name="description" content="SEC, FINRA, and CFTC regulatory news. NMS plan amendments, Reg NMS updates, CAT reporting requirements, compliance deadlines, and enforcement actions for market data professionals.">
-  <!-- SEO Meta Tags -->
-  <meta name="keywords" content="SEC regulatory news, FINRA notice, CFTC update, NMS plan amendment, Reg NMS, CAT reporting, CAT NMS Plan, compliance deadline, market regulation, Rule 605, SLATE reporting, Rule 10c-1a">
+<title>Regulatory Intelligence — SEC, FINRA, CFTC, NMS Plans | Market Data News</title>
+<meta name="description" content="SEC, FINRA, CFTC, and MiFID II regulatory tracking for market data professionals. Active rulemakings, compliance deadlines, enforcement actions, and NMS plan governance changes.">
+  <meta name="keywords" content="SEC regulatory news, FINRA notice, CFTC update, NMS plan amendment, Reg NMS, CAT reporting, Rule 605, SLATE reporting, MiFID II consolidated tape, compliance deadline">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Market Data News">
   <link rel="canonical" href="https://marketdatanews.com/regulation.html">
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://marketdatanews.com/regulation.html">
-  <meta property="og:title" content="Regulatory News — Market Data News">
+  <meta property="og:title" content="Regulatory Intelligence | Market Data News">
   <meta property="og:description" content="SEC, FINRA, CFTC and NMS Plan coverage for market data compliance teams.">
   <meta property="og:site_name" content="Market Data News">
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Regulatory News — Market Data News">
-  <meta name="twitter:description" content="SEC, FINRA, CFTC and NMS Plan coverage for market data compliance teams.">
-  <!-- Sitemap reference -->
+  <meta name="twitter:title" content="Regulatory Intelligence | Market Data News">
+  <meta name="twitter:description" content="Active rulemakings, compliance deadlines, and enforcement actions for market data professionals.">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{--ink:#0d0d0d;--paper:#f5f2eb;--cream:#faf8f3;--rule:#d4c9b0;--accent:#b8860b;--accent-dark:#8b6508;--muted:#6b6555;--red:#c0392b;--surface:#ffffff;--border:#e8e0d0;}
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",sans-serif;min-height:100vh;}
-  .ticker-wrap{background:var(--ink);color:var(--accent);padding:7px 0;overflow:hidden;position:relative;}
-  .ticker-wrap::before,.ticker-wrap::after{content:"";position:absolute;top:0;bottom:0;width:60px;z-index:2;}
-  .ticker-wrap::before{left:0;background:linear-gradient(90deg,var(--ink),transparent);}
-  .ticker-wrap::after{right:0;background:linear-gradient(-90deg,var(--ink),transparent);}
-  .ticker{display:flex;animation:ticker 40s linear infinite;white-space:nowrap;}
-  .ticker-item{font-family:"IBM Plex Mono",monospace;font-size:11px;padding:0 32px;letter-spacing:0.05em;}
-  .up{color:#00cc66;}.down{color:#ff4444;}
-  @keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-  .masthead{background:var(--cream);border-bottom:3px solid var(--ink);}
-  .masthead-top{display:flex;align-items:center;justify-content:space-between;padding:20px 48px 16px;border-bottom:1px solid var(--rule);}
-  .date-line{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
-  .site-title{font-family:"Playfair Display",serif;font-size:clamp(32px,5vw,58px);font-weight:900;letter-spacing:-0.02em;line-height:1;text-align:center;text-decoration:none;color:var(--ink);}
-  .site-title span{color:var(--accent);}
-  .tagline{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);text-align:right;letter-spacing:0.1em;text-transform:uppercase;line-height:1.6;}
-  nav{display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--rule);}
-  .nav-item{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:10px 18px;cursor:pointer;transition:background 0.15s,color 0.15s;color:var(--ink);border:none;background:none;font-family:"IBM Plex Sans",sans-serif;border-right:1px solid var(--rule);text-decoration:none;display:inline-block;}
-  .nav-item:first-child{border-left:1px solid var(--rule);}
-  .nav-item.active,.nav-item:hover{background:var(--ink);color:var(--accent);}
-  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;}
-  .search-box{background:transparent;border:1px solid var(--rule);padding:5px 12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink);border-radius:2px;width:180px;}
-  .search-box:focus{outline:none;border-color:var(--accent);}
-  .search-box::placeholder{color:var(--muted);}
-  .page-banner{background:var(--ink);color:var(--cream);padding:20px 48px;border-bottom:3px solid var(--accent);}
-  .page-banner-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
-  .page-banner-title{font-family:"Playfair Display",serif;font-size:clamp(20px,3vw,32px);font-weight:700;}
-  .page-banner-title span{color:var(--accent);}
-  .page-banner-desc{font-family:"IBM Plex Mono",monospace;font-size:10px;color:#a09880;margin-top:5px;letter-spacing:0.06em;}
-  .page-banner-meta{font-family:"IBM Plex Mono",monospace;font-size:10px;color:#a09880;display:flex;align-items:center;gap:8px;}
-  .live-dot-sm{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;}
-  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-  .container{max-width:1280px;margin:0 auto;padding:0 48px;}
-  .layout{display:grid;grid-template-columns:1fr 320px;gap:0;border-left:1px solid var(--border);border-right:1px solid var(--border);background:var(--surface);}
-  .main-col{border-right:1px solid var(--border);padding:32px;}
-  .side-col{padding:24px;}
-  .section-head{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:10px;border-bottom:2px solid var(--ink);}
-  .section-head h2{font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;}
-  .section-line{flex:1;height:1px;background:var(--rule);}
-  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;flex-shrink:0;}
-  .hero-card{padding:0 0 24px 0;border-bottom:2px solid var(--ink);margin-bottom:24px;min-height:120px;}
-  .hero-label{display:inline-block;background:var(--red);color:white;font-size:9px;font-weight:600;font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:0.15em;padding:3px 8px;margin-bottom:10px;}
-  .hero-title{font-family:"Playfair Display",serif;font-size:clamp(24px,3vw,34px);font-weight:900;line-height:1.2;margin-bottom:10px;color:var(--ink);}
-  .hero-desc{font-size:15px;line-height:1.7;color:var(--muted);margin-bottom:12px;}
-  .hero-meta{display:flex;align-items:center;gap:12px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);flex-wrap:wrap;}
-  .news-grid{display:grid;gap:0;}
-  .news-card{padding:20px 0;border-bottom:1px solid var(--border);transition:all 0.15s;text-decoration:none;color:inherit;display:block;}
-  .news-card:hover{background:var(--paper);padding-left:8px;}
-  .news-meta{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;}
-  .news-source{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent-dark);}
-  .news-dot{color:var(--rule);font-size:10px;}
-  .news-time{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);}
-  .news-category{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;padding:2px 6px;border-radius:2px;background:var(--ink);color:var(--accent);font-family:"IBM Plex Mono",monospace;}
-  .news-title{font-family:"Playfair Display",serif;font-size:19px;font-weight:700;line-height:1.3;margin-bottom:6px;color:var(--ink);}
-  .news-card:hover .news-title{color:var(--accent-dark);}
-  .news-desc{font-size:13px;line-height:1.6;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-  .sidebar-section{margin-bottom:32px;}
-  .sidebar-head{font-family:"IBM Plex Sans",sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:16px;}
-  .sidebar-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit;}
-  .sidebar-item:hover .sidebar-title{color:var(--accent-dark);}
-  .sidebar-num{font-family:"Playfair Display",serif;font-size:22px;font-weight:900;color:var(--rule);line-height:1;min-width:28px;}
-  .sidebar-title{font-family:"Playfair Display",serif;font-size:14px;font-weight:700;line-height:1.3;transition:color 0.15s;}
-  .sidebar-meta{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);margin-top:3px;}
-  .topic-tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;padding:4px 10px;border:1px solid var(--rule);border-radius:2px;color:var(--muted);margin:3px;cursor:pointer;transition:all 0.12s;text-decoration:none;}
-  .topic-tag:hover{background:var(--ink);color:var(--accent);border-color:var(--ink);}
-  .newsletter{background:var(--ink);color:white;padding:20px;border-radius:2px;}
-  .newsletter h3{font-family:"Playfair Display",serif;font-size:18px;font-weight:700;margin-bottom:6px;}
-  .newsletter p{font-size:12px;color:#aaa;margin-bottom:14px;line-height:1.5;}
-  .newsletter input{width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:9px 12px;font-family:"IBM Plex Mono",monospace;font-size:12px;margin-bottom:8px;border-radius:2px;}
-  .newsletter input::placeholder{color:#666;}
-  .newsletter input:focus{outline:none;border-color:var(--accent);}
-  .newsletter button{width:100%;background:var(--accent);color:var(--ink);border:none;padding:9px;font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;border-radius:2px;transition:background 0.2s;}
-  .newsletter button:hover{background:var(--accent-dark);color:white;}
-  footer{background:var(--ink);color:#aaa;padding:40px 48px;}
-  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;max-width:1280px;margin:0 auto 32px;}
-  .footer-brand{font-family:"Playfair Display",serif;font-size:22px;font-weight:900;color:white;margin-bottom:10px;}
-  .footer-brand span{color:var(--accent);}
-  .footer-desc{font-size:12px;line-height:1.7;max-width:260px;}
-  .footer-col h4{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:white;margin-bottom:12px;font-family:"IBM Plex Sans",sans-serif;}
-  .footer-col a{display:block;font-size:12px;color:#888;text-decoration:none;margin-bottom:7px;transition:color 0.15s;}
-  .footer-col a:hover{color:var(--accent);}
-  .footer-bottom{border-top:1px solid #222;padding-top:20px;font-family:"IBM Plex Mono",monospace;font-size:10px;display:flex;justify-content:space-between;max-width:1280px;margin:0 auto;}
-  @media(max-width:900px){.layout{grid-template-columns:1fr;}.side-col{border-top:2px solid var(--ink);}.container,nav,.masthead-top,footer,.page-banner{padding-left:20px;padding-right:20px;}.main-col{padding:20px;}.footer-grid{grid-template-columns:1fr 1fr;}.masthead-top{flex-direction:column;gap:12px;text-align:center;}.tagline{text-align:center;}}
-  .fade-in{animation:fadeIn 0.4s ease forwards;}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; } .ticker-item .down { color: #ff4444; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: center; padding: 0 48px; border-bottom: 1px solid var(--rule); overflow-x: auto; }
+  .nav-item { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 10px 18px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-block; white-space: nowrap; }
+  .nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 160px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
 
   /* FeedWatch Alert Bar */
   .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
-  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; gap: 0; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
   .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
   .fw-alertbar-brand span { color: var(--accent); }
   .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
@@ -132,22 +84,127 @@
   .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
   .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
   .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
+
+  /* Mobile nav */
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
   @media (max-width: 900px) {
-    .fw-alertbar { padding: 0 16px; }
+    nav { display: none; } #mobileBar { display: flex !important; }
+    .masthead-top, .fw-alertbar { padding-left: 20px; padding-right: 20px; }
+    .masthead-top { flex-direction: column; gap: 10px; text-align: center; }
+    .tagline { text-align: center; }
     .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
   }
-  /* Mobile nav */
-  .mobile-nav{display:none;flex-direction:column;background:var(--ink);padding:12px 20px;border-bottom:2px solid var(--accent);}
-  .mobile-nav.open{display:flex;}
-  .mobile-nav a{font-family:"IBM Plex Sans",sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#aaa;text-decoration:none;padding:10px 0;border-bottom:1px solid #222;}
-  .mobile-nav a:last-child{border-bottom:none;}
-  .mobile-nav a:hover,.mobile-nav a.active{color:var(--accent);}
-  .hamburger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:4px;}
-  .hamburger span{display:block;width:22px;height:2px;background:#aaa;}
-  @media(max-width:900px){nav{display:none;}#mobileBar{display:flex !important;}}
+
+  /* ── PAGE HERO ── */
+  .page-hero { background: var(--cream); border-bottom: 2px solid var(--ink); padding: 36px 48px 32px; }
+  .page-hero-inner { max-width: 1280px; margin: 0 auto; }
+  .page-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-dark); margin-bottom: 10px; }
+  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3.5vw, 42px); font-weight: 900; line-height: 1.15; margin-bottom: 12px; color: var(--ink); }
+  .page-hero h1 span { color: var(--accent); }
+  .page-hero-sub { font-size: 14px; line-height: 1.7; color: var(--muted); max-width: 760px; }
+
+  /* ── MAIN CONTAINER ── */
+  .page-container { max-width: 1280px; margin: 0 auto; padding: 0 48px 64px; }
+
+  /* ── SECTION HEADS ── */
+  .section-head { display: flex; align-items: center; gap: 16px; margin: 44px 0 20px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .section-head h2 { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink); white-space: nowrap; }
+  .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.1em; }
+  .section-line { flex: 1; height: 1px; background: var(--rule); }
+
+  /* ── RULEMAKING TABLE ── */
+  .rule-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .rule-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); text-align: left; padding: 8px 14px; border-bottom: 2px solid var(--ink); background: var(--cream); white-space: nowrap; }
+  .rule-table td { padding: 13px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; background: var(--surface); }
+  .rule-table tr:hover td { background: var(--cream); }
+
+  .agency-badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 2px; white-space: nowrap; }
+  .agency-sec    { background: #eef3fb; color: #2e5fa3; border: 1px solid #b0c8e8; }
+  .agency-finra  { background: #f0eefa; color: #5a3a8a; border: 1px solid #c8b0e8; }
+  .agency-cftc   { background: #edf7f2; color: #2a7a50; border: 1px solid #b0ddc5; }
+  .agency-mifid  { background: #fef6ed; color: var(--accent-dark); border: 1px solid #f0c885; }
+
+  .status-badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 2px; white-space: nowrap; }
+  .status-final  { background: #edf7f2; color: #2a7a50; border: 1px solid #b0ddc5; }
+  .status-prop   { background: #eef3fb; color: #2e5fa3; border: 1px solid #b0c8e8; }
+  .status-active { background: #fef9f0; color: var(--accent-dark); border: 1px solid #e8c97a; }
+  .status-impl   { background: #f5f0fc; color: #6040a0; border: 1px solid #d0b8f0; }
+
+  .impact-badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 2px; white-space: nowrap; }
+  .impact-high   { background: #fdf0ee; color: var(--red); border: 1px solid #f0b8b0; }
+  .impact-medium { background: #fef9f0; color: var(--accent-dark); border: 1px solid #e8c97a; }
+  .impact-low    { background: #edf7f2; color: #2a7a50; border: 1px solid #b0ddc5; }
+
+  .rule-name { font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+  .rule-desc { font-size: 12px; color: var(--muted); }
+  .rule-impact-text { font-size: 12px; color: var(--muted); }
+  .mono-sm { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+  /* ── DEADLINE TIMELINE ── */
+  .timeline { display: flex; flex-direction: column; gap: 0; border-left: 2px solid var(--rule); margin-left: 16px; padding-left: 0; }
+  .tl-item { display: flex; align-items: flex-start; gap: 0; position: relative; padding: 0 0 24px 28px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; position: absolute; left: -7px; top: 4px; border: 2px solid var(--surface); }
+  .tl-dot.done { background: var(--muted); }
+  .tl-dot.upcoming { background: var(--accent); }
+  .tl-dot.critical { background: var(--red); }
+  .tl-body { flex: 1; }
+  .tl-date { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 3px; }
+  .tl-date.upcoming { color: var(--accent-dark); }
+  .tl-date.critical { color: var(--red); }
+  .tl-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+  .tl-sub { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .tl-chip { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 1px 7px; border-radius: 2px; margin-left: 8px; }
+  .chip-done     { background: #f0f0ee; color: var(--muted); border: 1px solid var(--rule); }
+  .chip-upcoming { background: #fef9f0; color: var(--accent-dark); border: 1px solid #e8c97a; }
+
+  /* ── ENFORCEMENT ACTIONS ── */
+  .enforcement-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); }
+  .enf-item { display: grid; grid-template-columns: auto 1fr auto; align-items: start; gap: 16px; padding: 18px 20px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .enf-item:last-child { border-bottom: none; }
+  .enf-item:hover { background: var(--cream); }
+  .enf-agency { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; color: var(--accent-dark); text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; padding-top: 1px; }
+  .enf-body { flex: 1; }
+  .enf-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 3px; line-height: 1.4; }
+  .enf-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .enf-date { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); white-space: nowrap; padding-top: 1px; }
+
+  /* ── RESOURCE GRID ── */
+  .resource-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .resource-card { background: var(--surface); padding: 22px 24px; text-decoration: none; color: inherit; transition: background 0.15s; display: block; }
+  .resource-card:hover { background: var(--cream); }
+  .resource-card-org { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-dark); margin-bottom: 8px; }
+  .resource-card-name { font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 6px; line-height: 1.3; }
+  .resource-card-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+  .resource-card-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .page-hero, .page-container { padding-left: 20px; padding-right: 20px; }
+    .rule-table th:nth-child(3),
+    .rule-table td:nth-child(3),
+    .rule-table th:nth-child(4),
+    .rule-table td:nth-child(4) { display: none; }
+    .resource-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    footer { padding: 32px 20px; }
+  }
+  @media (max-width: 600px) {
+    .resource-grid { grid-template-columns: 1fr; }
+    .enf-item { grid-template-columns: 1fr; gap: 4px; }
+  }
 </style>
 </head>
 <body>
+
 <!-- Ticker -->
 <div class="ticker-wrap"><div class="ticker">
   <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
@@ -163,6 +220,7 @@
   <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
   <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
 </div></div>
+
 <!-- FeedWatch Alert Bar -->
 <div class="fw-alertbar">
   <div class="fw-alertbar-inner">
@@ -182,11 +240,12 @@
     <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
   </div>
 </div>
+
 <!-- Masthead -->
 <div class="masthead">
   <div class="masthead-top">
     <div class="date-line" id="dateLine">Loading...</div>
-    <a href="index.html" class="site-title" style="text-decoration:none;color:inherit">Market Data <span>News</span></a>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
     <div class="tagline">The Industry Standard<br>Since 2025</div>
   </div>
   <nav>
@@ -217,42 +276,302 @@
   <a href="prediction-markets.html">Prediction Markets</a>
   <a href="about.html">About</a>
 </div>
-<div class="page-banner">
-  <div class="page-banner-inner">
-    <div>
-      <div class="page-banner-title">Regulatory <span>Coverage</span></div>
-      <div class="page-banner-desc">SEC · FINRA · CFTC · MiFID · NMS Plans · Compliance · Enforcement</div>
-    </div>
-    <div class="page-banner-meta"><div class="live-dot-sm"></div><span id="updateTime">Loading live feed...</span></div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-label">Compliance &amp; Rulemaking</div>
+    <h1>Regulatory <span>Intelligence</span></h1>
+    <div class="page-hero-sub">SEC · FINRA · CFTC · MiFID II · NMS Plans — Tracking active rulemakings, compliance deadlines, and enforcement actions affecting market data professionals.</div>
   </div>
 </div>
-<div class="container">
-  <div class="layout">
-    <div class="main-col">
-      <div class="hero-card" id="heroCard"></div>
-      <div class="section-head">
-        <div class="live-dot"></div>
-        <h2>Regulatory News & Updates</h2>
-        <div class="section-line"></div>
-        <span style="font-family:IBM Plex Mono,monospace;font-size:10px;color:var(--muted)" id="articleCount"></span>
-      </div>
-      <div class="news-grid" id="newsGrid"></div>
-    </div>
-    <div class="side-col">
-      <div class="sidebar-section"><div class="sidebar-head">Top Stories</div><div id="mostRead"></div></div>
-      <div class="sidebar-section"><div class="sidebar-head">Topics</div><div id="topicTags" style="line-height:2.2"></div></div>
-      <div class="sidebar-section">
-        <div class="newsletter">
-          <h3>Daily Briefing</h3>
-          <p>Market data industry updates every morning before the open.</p>
-          <input type="email" placeholder="your@email.com" id="emailInput">
-          <button onclick="subscribe()">Subscribe Free</button>
-        </div>
-      </div>
-      <div class="sidebar-section"><div class="sidebar-head">Related Sections</div><div id="relatedLinks" style="display:flex;flex-direction:column;gap:6px"></div></div>
-    </div>
+
+<!-- MAIN -->
+<div class="page-container">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 1 — ACTIVE RULEMAKING TRACKER -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">01 —</span>
+    <h2>Active Rulemaking Tracker</h2>
+    <div class="section-line"></div>
   </div>
-</div>
+
+  <table class="rule-table">
+    <thead>
+      <tr>
+        <th>Agency</th>
+        <th>Rule / Proposal</th>
+        <th>Status</th>
+        <th>Comment Deadline</th>
+        <th>Effective Date</th>
+        <th>Impact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="agency-badge agency-sec">SEC</span></td>
+        <td>
+          <div class="rule-name">Rule 605 NMS Plan Amendments</div>
+          <div class="rule-desc">Enhanced execution quality reporting — new data fields in execution quality reports for market data professionals and compliance teams.</div>
+        </td>
+        <td><span class="status-badge status-final">Final Rule</span></td>
+        <td class="mono-sm">Closed</td>
+        <td class="mono-sm">Aug 1, 2026</td>
+        <td><span class="impact-badge impact-high">HIGH</span><div class="rule-impact-text" style="margin-top:4px;">Requires new data fields in execution reports</div></td>
+      </tr>
+      <tr>
+        <td><span class="agency-badge agency-sec">SEC</span></td>
+        <td>
+          <div class="rule-name">Regulation NMS Amendments</div>
+          <div class="rule-desc">Odd lot quote inclusion in the national best bid and offer. Expands SIP data content requirements and quote consolidation scope.</div>
+        </td>
+        <td><span class="status-badge status-prop">Proposed</span></td>
+        <td class="mono-sm">Closed</td>
+        <td class="mono-sm">TBD 2026</td>
+        <td><span class="impact-badge impact-high">HIGH</span><div class="rule-impact-text" style="margin-top:4px;">Expands SIP data content</div></td>
+      </tr>
+      <tr>
+        <td><span class="agency-badge agency-sec">SEC</span></td>
+        <td>
+          <div class="rule-name">CAT NMS Plan — Phase 2d</div>
+          <div class="rule-desc">Consolidated Audit Trail Phase 2d reporting expansion. Additional order event types and equity option reporting requirements.</div>
+        </td>
+        <td><span class="status-badge status-active">Active</span></td>
+        <td class="mono-sm">Rolling</td>
+        <td class="mono-sm">Q3 2026</td>
+        <td><span class="impact-badge impact-medium">MEDIUM</span><div class="rule-impact-text" style="margin-top:4px;">Additional order event reporting</div></td>
+      </tr>
+      <tr>
+        <td><span class="agency-badge agency-finra">FINRA</span></td>
+        <td>
+          <div class="rule-name">SLATE System — Enhanced Trade Reporting</div>
+          <div class="rule-desc">FINRA SLATE replaces legacy OATS. Streamlined Longitudinal And Tracking Engine for equity and options trade reporting.</div>
+        </td>
+        <td><span class="status-badge status-impl">Implementation</span></td>
+        <td class="mono-sm">N/A</td>
+        <td class="mono-sm">Live Jan 2, 2026</td>
+        <td><span class="impact-badge impact-high">HIGH</span><div class="rule-impact-text" style="margin-top:4px;">Replaces legacy OATS entirely</div></td>
+      </tr>
+      <tr>
+        <td><span class="agency-badge agency-cftc">CFTC</span></td>
+        <td>
+          <div class="rule-name">Real-Time Swap Data Reporting Amendments</div>
+          <div class="rule-desc">Updated reporting requirements for swap data repositories. New data elements, revised validation rules, and amended reporting timeframes.</div>
+        </td>
+        <td><span class="status-badge status-final">Final Rule</span></td>
+        <td class="mono-sm">Closed</td>
+        <td class="mono-sm">Q2 2026</td>
+        <td><span class="impact-badge impact-medium">MEDIUM</span><div class="rule-impact-text" style="margin-top:4px;">Affects swap data feeds</div></td>
+      </tr>
+      <tr>
+        <td><span class="agency-badge agency-sec">SEC</span></td>
+        <td>
+          <div class="rule-name">Market Data Infrastructure Rule</div>
+          <div class="rule-desc">SIP competition framework. Decentralized consolidation model for NMS data. UTP/CTA plan governance changes and competing consolidator framework.</div>
+        </td>
+        <td><span class="status-badge status-impl">Implementation</span></td>
+        <td class="mono-sm">N/A</td>
+        <td class="mono-sm">Ongoing</td>
+        <td><span class="impact-badge impact-high">HIGH</span><div class="rule-impact-text" style="margin-top:4px;">UTP/CTA plan governance changes</div></td>
+      </tr>
+      <tr>
+        <td><span class="agency-badge agency-mifid">MiFID II</span></td>
+        <td>
+          <div class="rule-name">Consolidated Tape Provider — European Equity Tape</div>
+          <div class="rule-desc">European consolidated tape for equities under MiFID II/MiFIR reforms. ESMA-designated provider framework for post-trade data consolidation.</div>
+        </td>
+        <td><span class="status-badge status-impl">Implementation</span></td>
+        <td class="mono-sm">N/A</td>
+        <td class="mono-sm">2026</td>
+        <td><span class="impact-badge impact-medium">MEDIUM</span><div class="rule-impact-text" style="margin-top:4px;">Affects European market data costs</div></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 2 — COMPLIANCE DEADLINE CALENDAR -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">02 —</span>
+    <h2>Compliance Deadline Calendar</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-dot done"></div>
+      <div class="tl-body">
+        <div class="tl-date">January 2, 2026 <span class="tl-chip chip-done">Completed</span></div>
+        <div class="tl-title">FINRA SLATE — Legacy OATS Fully Decommissioned</div>
+        <div class="tl-sub">FINRA's Streamlined Longitudinal And Tracking Engine went live. All OATS reporting obligations ceased. Firms on OATS migrated to SLATE.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot done"></div>
+      <div class="tl-body">
+        <div class="tl-date">January 25, 2026 <span class="tl-chip chip-done">Completed</span></div>
+        <div class="tl-title">CME iLink SBE Schema V9 — Production Launch</div>
+        <div class="tl-sub">CME Group deployed updated iLink SBE binary schema version 9. Order management systems required updated message templates.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot done"></div>
+      <div class="tl-body">
+        <div class="tl-date">March 1, 2026 <span class="tl-chip chip-done">Completed</span></div>
+        <div class="tl-title">CME 1 Gbps MDP 3.0 Multicast Bandwidth Deadline</div>
+        <div class="tl-sub">CME required all co-location and proximity hosting customers to provision minimum 1 Gbps network capacity for MDP 3.0 multicast feeds. Legacy 100 Mbps connections de-supported.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot upcoming"></div>
+      <div class="tl-body">
+        <div class="tl-date upcoming">August 1, 2026 <span class="tl-chip chip-upcoming">Upcoming</span></div>
+        <div class="tl-title">SEC Rule 605 — Enhanced Execution Quality Reporting</div>
+        <div class="tl-sub">Amended Rule 605 takes effect. Market centers must include new data fields in execution quality reports. Significant system changes required for reporting infrastructure.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot upcoming"></div>
+      <div class="tl-body">
+        <div class="tl-date upcoming">Q2 2026 <span class="tl-chip chip-upcoming">Upcoming</span></div>
+        <div class="tl-title">CTA / UTP SIP Annual Fee Review — Decision Expected</div>
+        <div class="tl-sub">CTA and UTP Operating Committees expected to conclude annual fee schedule review. Any fee adjustments announced this quarter would take effect Q3/Q4 2026.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot upcoming"></div>
+      <div class="tl-body">
+        <div class="tl-date upcoming">Q3 2026 <span class="tl-chip chip-upcoming">Upcoming</span></div>
+        <div class="tl-title">OPRA 96-Line Multicast Expansion — Production Launch</div>
+        <div class="tl-sub">OPRA doubles multicast line capacity from 48 to 96 lines. All subscribers must provision additional network connections before cutover. Capacity planning should be underway now.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot upcoming"></div>
+      <div class="tl-body">
+        <div class="tl-date upcoming">Q3 2026 <span class="tl-chip chip-upcoming">Upcoming</span></div>
+        <div class="tl-title">CME Globex — Google Cloud Migration</div>
+        <div class="tl-sub">CME Group's Globex matching engine migration to Google Cloud infrastructure targeted for Q3 2026. Connectivity topology and latency profiles will change for co-location and proximity participants.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 3 — RECENT ENFORCEMENT ACTIONS -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">03 —</span>
+    <h2>Recent Enforcement Actions</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="enforcement-list">
+
+    <div class="enf-item">
+      <div class="enf-agency">FINRA</div>
+      <div class="enf-body">
+        <div class="enf-title">Broker-Dealer Fined $2.1M for CAT Reporting Failures</div>
+        <div class="enf-desc">FINRA fined a registered broker-dealer $2.1 million for systematic failures in Consolidated Audit Trail reporting obligations. Deficiencies included late submissions, missing order events, and inadequate supervisory controls over CAT reporting infrastructure.</div>
+      </div>
+      <div class="enf-date">March 2026</div>
+    </div>
+
+    <div class="enf-item">
+      <div class="enf-agency">SEC</div>
+      <div class="enf-body">
+        <div class="enf-title">SEC Issues Guidance on AI Use in Market Data Dissemination</div>
+        <div class="enf-desc">The SEC's Division of Trading and Markets issued staff guidance addressing the use of artificial intelligence in market data feed processing, dissemination, and real-time analytics. Guidance clarifies existing obligations under Reg NMS and Exchange Act Rule 17a-4 as applied to AI-generated data products.</div>
+      </div>
+      <div class="enf-date">February 2026</div>
+    </div>
+
+    <div class="enf-item">
+      <div class="enf-agency">CFTC</div>
+      <div class="enf-body">
+        <div class="enf-title">Swap Data Repository Fined $800K for Reporting Failures</div>
+        <div class="enf-desc">The CFTC assessed an $800,000 civil monetary penalty against a registered swap data repository for failures to accurately report swap transaction data under Part 49 reporting requirements. Errors included missing counterparty identifiers and delayed trade confirmation submissions.</div>
+      </div>
+      <div class="enf-date">January 2026</div>
+    </div>
+
+    <div class="enf-item">
+      <div class="enf-agency">SEC</div>
+      <div class="enf-body">
+        <div class="enf-title">Firm Charged with Rule 605 Non-Compliance for Stale Execution Data</div>
+        <div class="enf-desc">The SEC charged a registered market center with violations of Rule 605 of Regulation NMS for publishing execution quality reports containing materially stale data. The firm's reporting infrastructure failed to incorporate intraday execution updates, resulting in reports that did not accurately reflect actual execution quality metrics.</div>
+      </div>
+      <div class="enf-date">December 2025</div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 4 — REGULATORY RESOURCES -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">04 —</span>
+    <h2>Regulatory Resources</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="resource-grid">
+
+    <a href="https://www.sec.gov/cgi-bin/browse-edgar" class="resource-card" target="_blank" rel="noopener">
+      <div class="resource-card-org">SEC</div>
+      <div class="resource-card-name">SEC EDGAR</div>
+      <div class="resource-card-desc">Full-text search of SEC filings, rule releases, proposed rulemakings, and no-action letters. Primary source for SRO rule filings and NMS plan amendments.</div>
+      <div class="resource-card-link">edgar.sec.gov →</div>
+    </a>
+
+    <a href="https://www.finra.org/rules-guidance/rulebooks" class="resource-card" target="_blank" rel="noopener">
+      <div class="resource-card-org">FINRA</div>
+      <div class="resource-card-name">FINRA Rulebook</div>
+      <div class="resource-card-desc">Complete FINRA rulebook including equity trading rules, CAT reporting requirements, and SLATE system guidance. Regulatory notices and FAQ updates.</div>
+      <div class="resource-card-link">finra.org/rules →</div>
+    </a>
+
+    <a href="https://www.cftc.gov/LawRegulation/CFTCRegulations/index.htm" class="resource-card" target="_blank" rel="noopener">
+      <div class="resource-card-org">CFTC</div>
+      <div class="resource-card-name">CFTC Regulations</div>
+      <div class="resource-card-desc">CFTC regulations governing swap data reporting, SEF trading, and real-time public reporting. Includes Part 43, Part 45, and Part 49 guidance for swap data repositories.</div>
+      <div class="resource-card-link">cftc.gov/regulations →</div>
+    </a>
+
+    <a href="https://www.nyse.com/trader-update" class="resource-card" target="_blank" rel="noopener">
+      <div class="resource-card-org">NYSE Group</div>
+      <div class="resource-card-name">NYSE Trader Updates</div>
+      <div class="resource-card-desc">Official NYSE exchange notices covering market data feed changes, port migrations, technical specifications, and trading rule amendments for NYSE Group markets.</div>
+      <div class="resource-card-link">nyse.com/trader-update →</div>
+    </a>
+
+    <a href="https://listingcenter.nasdaq.com/rulebook/nasdaq/rules" class="resource-card" target="_blank" rel="noopener">
+      <div class="resource-card-org">Nasdaq</div>
+      <div class="resource-card-name">Nasdaq Regulatory Notices</div>
+      <div class="resource-card-desc">Nasdaq regulatory notices, UTP Plan updates, ITCH feed specifications, and equity trading rule changes. Includes technical bulletins for market data subscribers.</div>
+      <div class="resource-card-link">nasdaq.com/rulebook →</div>
+    </a>
+
+    <a href="https://www.sifma.org/resources/general/us-equity-market-structure/" class="resource-card" target="_blank" rel="noopener">
+      <div class="resource-card-org">SIFMA</div>
+      <div class="resource-card-name">SIFMA Market Data Resources</div>
+      <div class="resource-card-desc">SIFMA industry resources on market data policy, NMS plan governance, exchange fee filings, and market structure comment letters. Holiday calendar and early-close schedules.</div>
+      <div class="resource-card-link">sifma.org →</div>
+    </a>
+
+  </div>
+
+</div><!-- end page-container -->
+
 <footer>
   <div class="footer-grid">
     <div>
@@ -264,6 +583,7 @@
       <a href="regulation.html">Regulation</a>
       <a href="nms.html">NMS / SIP</a>
       <a href="feed-status.html">Feed Status</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
     </div>
     <div class="footer-col"><h4>FeedWatch</h4>
       <a href="calendar.html">All Entries</a>
@@ -272,8 +592,10 @@
       <a href="calendar.html?filter=high">High Impact</a>
     </div>
     <div class="footer-col"><h4>Company</h4>
-      <a href="#">About</a><a href="#">Contact</a>
-      <a href="#">Privacy Policy</a><a href="#">Terms of Use</a>
+      <a href="about.html">About</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -281,166 +603,18 @@
     <span>For market data professionals</span>
   </div>
 </footer>
+
 <script>
-const PAGE_CATEGORY  = "Regulation";
-const PAGE_KEYWORDS  = ["SEC", "FINRA", "CFTC", "regulation", "regulatory", "rule", "compliance", "enforcement", "NMS", "MiFID", "ESMA", "FCA", "rulemaking", "proposal", "final rule", "SRO", "SIP", "Reg NMS", "policy", "law", "legal", "government", "federal", "legislation"];
-const PAGE_TOPICS    = ["SEC", "FINRA", "CFTC", "Reg NMS", "NMS Plans", "MiFID", "Compliance", "Enforcement", "Rulemaking", "SRO"];
-const PAGE_RELATED   = [{"label": "Exchanges", "url": "exchanges.html"}, {"label": "FeedWatch", "url": "calendar.html"}, {"label": "NMS / SIP", "url": "nms.html"}];
-const PAGE_FEEDS     = ["https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664", "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147", "https://feeds.bloomberg.com/markets/news.rss"];
-const FALLBACK_ARTICLES = [{"title": "SEC Proposes Amendments to Regulation SCI Cybersecurity Requirements", "desc": "The Securities and Exchange Commission proposed updates to Regulation SCI that would expand covered entities to include additional market data providers and tighten incident reporting timelines.", "link": "#", "source": "SEC"}, {"title": "FINRA Issues Guidance on AI Use in Market Surveillance", "desc": "FINRA published a regulatory notice outlining expectations for member firms using artificial intelligence in trade surveillance systems, emphasizing explainability and human oversight.", "link": "#", "source": "FINRA"}, {"title": "NMS Plan Governance Reform: CAT LLC Restructuring Approved", "desc": "The SEC approved a restructuring of the Consolidated Audit Trail governance framework, redistributing voting rights among SRO members and adding institutional investor representation.", "link": "#", "source": "SEC"}, {"title": "CFTC Finalizes Position Reporting Rules for Swaps Dealers", "desc": "The Commodity Futures Trading Commission finalized amendments to swaps position reporting requirements, expanding the universe of reportable products and tightening submission deadlines.", "link": "#", "source": "CFTC"}, {"title": "MiFID III Clock Synchronisation Rules Take Effect June 2026", "desc": "European regulators confirmed enforcement of tightened clock synchronisation standards under MiFID III, requiring trading venues to maintain plus or minus 50 microsecond accuracy.", "link": "#", "source": "ESMA"}];
-const CACHE_TTL      = 10 * 60 * 1000; // 10 minutes
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('dateLine').textContent =
+  days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
 
-const CATEGORY_KEYWORDS = {
-  Exchanges:  ["exchange","NYSE","NASDAQ","CME","CBOE","ICE","LSE","trading venue","bourse","Pillar","Arrowhead","Globex"],
-  Regulation: ["SEC","FINRA","CFTC","regulation","regulatory","rule","compliance","enforcement","NMS","MiFID","ESMA","FCA"],
-  Technology: ["technology","data feed","latency","infrastructure","cloud","API","protocol","network","co-location","FPGA","FIX","ITCH","bandwidth","tech","cyber","semiconductor"],
-  Trading:    ["trading","execution","order","liquidity","HFT","high frequency","algo","market maker","dark pool","PFOF","best execution","stocks","equities","hedge fund"],
-  FinTech:    ["fintech","blockchain","crypto","digital asset","AI","machine learning","DeFi","tokenization","stablecoin","CBDC","web3","bitcoin","ethereum"],
-};
-
-let allArticles = [];
-
-function detectCategory(title, desc) {
-  const text = (title + " " + desc).toLowerCase();
-  for (const [cat, kws] of Object.entries(CATEGORY_KEYWORDS)) {
-    if (kws.some(k => text.includes(k.toLowerCase()))) return cat;
-  }
-  return "Markets";
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
 }
-
-function timeAgo(dateStr) {
-  const d = new Date(dateStr);
-  if (isNaN(d)) return "Recently";
-  const mins = Math.floor((Date.now() - d) / 60000);
-  if (mins < 1) return "Just now";
-  if (mins < 60) return mins + "m ago";
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return hrs + "h ago";
-  return Math.floor(hrs/24) + "d ago";
-}
-
-async function fetchFeed(feedUrl) {
-  const cacheKey = "mdn_" + feedUrl.replace(/[^a-z0-9]/gi,"").slice(-40);
-  try {
-    const cached = localStorage.getItem(cacheKey);
-    if (cached) {
-      const obj = JSON.parse(cached);
-      if (Date.now() - obj.ts < CACHE_TTL) return obj.data;
-    }
-  } catch(e) {}
-  const res = await fetch("/.netlify/functions/rss?url=" + encodeURIComponent(feedUrl), {signal: AbortSignal.timeout(10000)});
-  const json = await res.json();
-  const items = (json.items || []).filter(i => i.title && i.title.length > 5);
-  try { localStorage.setItem(cacheKey, JSON.stringify({data: items, ts: Date.now()})); } catch(e) {}
-  return items;
-}
-
-function isRelevant(a) {
-  if (a.category === PAGE_CATEGORY) return true;
-  const text = (a.title + " " + a.desc).toLowerCase();
-  return PAGE_KEYWORDS.some(k => text.includes(k.toLowerCase()));
-}
-
-function renderHero(a) {
-  document.getElementById("heroCard").innerHTML =
-    "<div class='hero-label'>&#9679; " + (a.featured ? "Featured" : PAGE_CATEGORY) + "</div>" +
-    "<a href='" + (a.link||"#") + "' target='_blank' rel='noopener' style='text-decoration:none;color:inherit'>" +
-    "<div class='hero-title'>" + a.title + "</div></a>" +
-    "<div class='hero-desc'>" + (a.desc||"").slice(0,260) + ((a.desc||"").length>260?"...":"") + "</div>" +
-    "<div class='hero-meta'><span style='color:var(--accent-dark);font-weight:600'>" + (a.source||"") + "</span>" +
-    " &nbsp;&middot;&nbsp; " + a.time + " &nbsp;&middot;&nbsp; " + (a.category||PAGE_CATEGORY) + "</div>";
-  document.getElementById("heroCard").classList.add("fade-in");
-}
-
-function renderNews(articles) {
-  const grid = document.getElementById("newsGrid");
-  if (!articles.length) { grid.innerHTML = "<p style='font-family:IBM Plex Mono,monospace;font-size:12px;color:var(--muted);padding:20px 0'>No additional articles found.</p>"; return; }
-  grid.innerHTML = articles.map(a =>
-    "<a class='news-card fade-in' href='" + (a.link||"#") + "' target='_blank' rel='noopener'>" +
-    "<div class='news-meta'><span class='news-source'>" + (a.source||"") + "</span>" +
-    "<span class='news-dot'>·</span><span class='news-time'>" + a.time + "</span>" +
-    "<span class='news-category'>" + (a.category||PAGE_CATEGORY) + "</span></div>" +
-    "<div class='news-title'>" + a.title + "</div>" +
-    (a.desc ? "<div class='news-desc'>" + a.desc + "</div>" : "") + "</a>"
-  ).join("");
-}
-
-function renderMostRead(articles) {
-  document.getElementById("mostRead").innerHTML = articles.map((a,i) =>
-    "<a class='sidebar-item' href='" + (a.link||"#") + "' target='_blank' rel='noopener'>" +
-    "<div class='sidebar-num'>0" + (i+1) + "</div><div>" +
-    "<div class='sidebar-title'>" + a.title.slice(0,72) + (a.title.length>72?"...":"") + "</div>" +
-    "<div class='sidebar-meta'>" + (a.source||"") + " &middot; " + a.time + "</div></div></a>"
-  ).join("");
-}
-
-function showFallback() {
-  const articles = FALLBACK_ARTICLES.map((a,i) => ({...a, category: PAGE_CATEGORY, time: (i===0?"2h ago":(i+2)+"h ago"), featured: true}));
-  renderHero(articles[0]);
-  renderNews(articles.slice(1));
-  renderMostRead(articles.slice(0,5));
-  document.getElementById("articleCount").textContent = "Loading live feed...";
-}
-
-async function loadFeeds() {
-  try {
-    const results = await Promise.allSettled(PAGE_FEEDS.map(fetchFeed));
-    const fetched = results.flatMap(r => r.status === "fulfilled" ? r.value : []);
-    if (fetched.length) {
-      const labeled = fetched.map(a => ({...a, category: detectCategory(a.title, a.desc), time: timeAgo(a.pubDate), timestamp: new Date(a.pubDate).getTime()||0}));
-      const relevant = labeled.filter(isRelevant).sort((a,b) => b.timestamp-a.timestamp);
-      const display  = relevant.length ? relevant : labeled.sort((a,b) => b.timestamp-a.timestamp);
-      if (display.length) {
-        allArticles = display;
-        renderHero(allArticles[0]);
-        renderNews(allArticles.slice(1));
-        renderMostRead(allArticles.slice(0,5));
-        document.getElementById("articleCount").textContent = allArticles.length + " live articles";
-        document.getElementById("updateTime").textContent = "Updated " + new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
-        return;
-      }
-    }
-  } catch(e) {}
-  document.getElementById("updateTime").textContent = "Showing recent highlights";
-  document.getElementById("articleCount").textContent = FALLBACK_ARTICLES.length + " articles";
-}
-
-function filterNews() {
-  const q = document.getElementById("searchBox").value.toLowerCase();
-  const src = allArticles.length ? allArticles : FALLBACK_ARTICLES.map(a=>({...a,category:PAGE_CATEGORY,time:"Recently"}));
-  if (!q) { renderNews(src.slice(1)); return; }
-  renderNews(src.filter(a => a.title.toLowerCase().includes(q)||(a.desc||"").toLowerCase().includes(q)));
-}
-
-function buildTopics() {
-  document.getElementById("topicTags").innerHTML = PAGE_TOPICS.map(t =>
-    "<a class='topic-tag' href='#' onclick=\"document.getElementById('searchBox').value='" + t + "';filterNews();return false\">" + t + "</a>"
-  ).join("");
-}
-
-function buildRelated() {
-  document.getElementById("relatedLinks").innerHTML = PAGE_RELATED.map(r =>
-    "<a href='" + r.url + "' class='nav-item' style='border:1px solid var(--rule);padding:8px 14px;border-radius:2px'>" + r.label + "</a>"
-  ).join("");
-}
-
-function subscribe() {
-  const email = document.getElementById("emailInput").value;
-  if (!email||!email.includes("@")) { alert("Please enter a valid email."); return; }
-  document.querySelector(".newsletter").innerHTML = "<div style='text-align:center;padding:10px'><div style='font-family:Playfair Display,serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px'>You\'re in.</div><div style='font-size:12px;color:#aaa'>Daily briefing starts tomorrow morning.</div></div>";
-}
-
-const _d=new Date();
-const _dn=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-const _mn=["January","February","March","April","May","June","July","August","September","October","November","December"];
-document.getElementById("dateLine").textContent=_dn[_d.getDay()]+", "+_mn[_d.getMonth()]+" "+_d.getDate()+", "+_d.getFullYear();
-
-buildTopics();
-buildRelated();
-showFallback();
-loadFeeds();
-setInterval(loadFeeds, CACHE_TTL);
-function toggleMobileNav(){document.getElementById('mobileNav').classList.toggle('open');}
 </script>
+
 </body>
 </html>
