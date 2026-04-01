@@ -58,6 +58,10 @@
   .mobile-nav a{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:14px 20px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);font-family:"IBM Plex Sans",sans-serif;transition:background 0.15s,color 0.15s;}
   .mobile-nav a:hover,.mobile-nav a.active{background:var(--ink);color:var(--accent);}
 
+  .skeleton{background:linear-gradient(90deg,var(--border) 25%,var(--paper) 50%,var(--border) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:2px;}
+  @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+  .fw-skel-entry{padding:24px 0;border-bottom:1px solid var(--border);}
+  .fw-empty{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);padding:40px 0;text-align:center;border:1px dashed var(--border);border-radius:2px;}
   /* FeedWatch hero banner */
   .fw-banner{background:var(--ink);color:var(--cream);padding:32px 48px;border-bottom:3px solid var(--accent);}
   .fw-banner-inner{max-width:1280px;margin:0 auto;}
@@ -320,695 +324,20 @@
 <div class="container">
   <div class="fw-layout">
     <div class="fw-main" id="entriesContainer">
-
-    <div class="fw-entry" data-impact="medium" data-org="cftc" data-action="true" data-category="regulatory deadline">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">CFTC</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Regulatory Deadline</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#b8860b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">Medium</div>
+      <div id="fwSkeleton">
+        <div class="fw-skel-entry"><div class="skeleton" style="height:12px;width:120px;margin-bottom:12px"></div><div class="skeleton" style="height:20px;margin-bottom:8px"></div><div class="skeleton" style="height:20px;width:75%;margin-bottom:12px"></div><div class="skeleton" style="height:13px;margin-bottom:6px"></div><div class="skeleton" style="height:13px;width:85%"></div></div>
+        <div class="fw-skel-entry"><div class="skeleton" style="height:12px;width:100px;margin-bottom:12px"></div><div class="skeleton" style="height:20px;margin-bottom:8px"></div><div class="skeleton" style="height:20px;width:80%;margin-bottom:12px"></div><div class="skeleton" style="height:13px;margin-bottom:6px"></div><div class="skeleton" style="height:13px;width:70%"></div></div>
+        <div class="fw-skel-entry"><div class="skeleton" style="height:12px;width:140px;margin-bottom:12px"></div><div class="skeleton" style="height:20px;margin-bottom:8px"></div><div class="skeleton" style="height:20px;width:65%;margin-bottom:12px"></div><div class="skeleton" style="height:13px;margin-bottom:6px"></div><div class="skeleton" style="height:13px;width:90%"></div></div>
+        <div class="fw-skel-entry"><div class="skeleton" style="height:12px;width:110px;margin-bottom:12px"></div><div class="skeleton" style="height:20px;margin-bottom:8px"></div><div class="skeleton" style="height:20px;width:70%;margin-bottom:12px"></div><div class="skeleton" style="height:13px;margin-bottom:6px"></div><div class="skeleton" style="height:13px;width:80%"></div></div>
       </div>
-      <div class="fw-entry-id">FW-2026-019</div>
-      <h3 class="fw-title">CFTC Large Trader Reporting — New FIXML Position Message Format Live March 2025</h3>
-      <p class="fw-summary">CFTC final rules amending Large Trader Reporting regulations for Futures and Options took effect in April 2024. CME Group began accepting new Position Message FIXML format files via SFTP on March 10, 2025. Firms must use new FIXML format including Unique Instrument Code (UIC) fields. Instrument listing with UIC data has been available via CME APIs since October 2024. Firms not yet migrated should prioritize this transition.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2024-04-30</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#b8860b;font-weight:700">2025-03-10</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Compliance, Reporting</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CFTC</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">large trader reporting</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">FIXML</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">futures</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">UIC</span></div>
-        <a href="https://www.cmegroup.com/notices/electronic-trading/2025/10/20251013.html" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="low" data-org="nyse" data-action="false" data-category="billing change">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">NYSE</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Billing Change</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          
-        </div>
-        <div class="fw-impact-badge" style="background:#2e7d32;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">Low</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-007</div>
-      <h3 class="fw-title">NYSE Port Fee Increase — MDC Co-location Connectivity (Up to 11.1%)</h3>
-      <p class="fw-summary">NYSE filed proposed rule change SR-NYSE-2025-37 to increase monthly recurring port fees for co-location hall connections at the MDC by up to 11.1%, based on Data PPI inflation tracking. First fee increase since 2017. Applies to NYSE, NYSE American, NYSE Arca, NYSE National, and NYSE Texas through affiliate SRO filings. Changes took effect October 2025.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-09-25</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#2e7d32;font-weight:700">2025-10-01</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Billing</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">NYSE</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">co-location</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">port fees</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">MDC</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">connectivity</span></div>
-        <a href="https://www.federalregister.gov/documents/2025/09/30/2025-18952" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="medium" data-org="cme group" data-action="true" data-category="spec update">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">CME Group</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Spec Update</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#b8860b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">Medium</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-005</div>
-      <h3 class="fw-title">CME Globex: Variable Tick Expansion to Four Levels for S&P 500, Nasdaq-100, Russell 2000 Options</h3>
-      <p class="fw-summary">CME Group will expand variable ticks from two levels to four levels for S&P 500, Nasdaq-100, and Russell 2000 options on CME Globex starting January 2026. Firms must cancel all Good Till Cancel (GTC) and Good Till Date (GTD) orders before the Friday prior to each product's production launch. CME Global Command Center will cancel remaining GT orders after 16:00 CT on launch Friday.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-10-27</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#b8860b;font-weight:700">2026-01-01</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Protocol, Market Data</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CME</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Globex</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">options</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">variable tick</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">S&P 500</span></div>
-        <a href="https://www.cmegroup.com/notices/electronic-trading/2025/10/20251027a.html" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="high" data-org="nasdaq" data-action="true" data-category="port migration">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">NASDAQ</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Port Migration</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#c0392b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">High</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-008</div>
-      <h3 class="fw-title">Nasdaq PHLX Technology Migration — SQF, FIX Port Transition Period</h3>
-      <p class="fw-summary">Nasdaq PHLX is migrating to new technology infrastructure. During transition period (November–December 2025), members can acquire duplicate SQF Ports, SQF Purge Ports, and CTI Ports at no additional cost. New OTTO and FIX Drop Port fees apply from November 1, 2025. Legacy duplicate ports not returned by December 31, 2025 will be billed at standard rates from January 1, 2026. Members should review port inventory and return unneeded legacy ports before year-end.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-08-04</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#c0392b;font-weight:700">2026-01-01</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Connectivity, Billing</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">NASDAQ</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">PHLX</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">SQF</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">FIX</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">OTTO</span></div>
-        <a href="https://www.federalregister.gov/documents/2025/08/04/2025-14674" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="medium" data-org="finra" data-action="true" data-category="regulatory deadline">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">FINRA</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Regulatory Deadline</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#b8860b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">Medium</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-009</div>
-      <h3 class="fw-title">FINRA 2026 Annual Regulatory Oversight Report — CAT Compliance Priorities</h3>
-      <p class="fw-summary">FINRA released its 2026 Regulatory Oversight Report emphasizing CAT (Consolidated Audit Trail) compliance as a top priority. Key findings include incomplete submission of reportable events, failure to timely repair errors, and inaccurate reporting. FINRA also highlights the SEC's February 2025 CAIS exemptive relief and pending CAT NMS Plan amendment to eliminate certain customer information reporting requirements. Firms should review CAT reporting workflows against FINRA Regulatory Notice 20-31.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-12-09</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#b8860b;font-weight:700">2026-01-01</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Compliance</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">FINRA</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CAT</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">NMS Plan</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">compliance</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CAIS</span></div>
-        <a href="https://www.finra.org/rules-guidance/guidance/reports/2026-finra-annual-regulatory-oversight-report" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="medium" data-org="finra" data-action="true" data-category="regulatory deadline">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">FINRA</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Regulatory Deadline</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#b8860b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">Medium</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-010</div>
-      <h3 class="fw-title">FINRA Rule 6830 Amendment — CAT Reporting of Bona Fide Market Making (BFMM) Locate Exception</h3>
-      <p class="fw-summary">FINRA filed SR-FINRA-2025-016 to amend Rule 6830 to require CAT reporting of reliance on the Bona Fide Market Making Locate Exception under Regulation SHO Rule 203(b)(2)(iii). Firms engaged in bona fide market making must record and report to the Central Repository when the BFMM Locate Exception is claimed on short sale orders. Effective upon filing with the SEC, December 2025.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-12-12</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#b8860b;font-weight:700">2026-01-01</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Compliance</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">FINRA</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CAT</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Rule 6830</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Reg SHO</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">BFMM</span></div>
-        <a href="https://www.federalregister.gov/documents/2025/12/31/2025-24048" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="high" data-org="finra" data-action="true" data-category="regulatory deadline">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">FINRA</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Regulatory Deadline</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#c0392b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">High</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-014</div>
-      <h3 class="fw-title">FINRA SLATE Reporting Launch — Securities Lending Transaction Data (Rule 10c-1a)</h3>
-      <p class="fw-summary">FINRA's SLATE (Securities Lending and Transparency Engine) reporting system under Rule 10c-1a launched January 2, 2026. Covered persons are required to report securities loan transaction data to SLATE. FINRA had petitioned the SEC to delay the launch date citing operational risks. Firms must ensure SLATE connectivity, mapping, and reporting workflows are operational. Published data will begin appearing within 90 days of the reporting start date.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-01-24</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#c0392b;font-weight:700">2026-01-02</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Compliance, Reporting</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">FINRA</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">SLATE</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Rule 10c-1a</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">securities lending</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">transparency</span></div>
-        <a href="https://www.finra.org/rules-guidance/rulebooks/finra-rules/6500" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="high" data-org="cme group" data-action="true" data-category="protocol update">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">CME Group</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Protocol Update</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#c0392b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">High</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-003</div>
-      <h3 class="fw-title">CME Globex iLink SBE Schema Update to Version 9</h3>
-      <p class="fw-summary">CME Group will update the iLink SBE (Simple Binary Encoding) schema to version 9 on January 25, 2026, to support upcoming CME Globex enhancements. New schema files support Template Extension for iLink messages. Available in New Release for customer testing. Firms must update parser implementations before the production launch date.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-11-17</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#c0392b;font-weight:700">2026-01-25</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Protocol</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CME</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Globex</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">iLink</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">SBE</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">schema</span></div>
-        <a href="https://www.cmegroup.com/notices/electronic-trading/2025/11/20251117.html" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="medium" data-org="cme group" data-action="true" data-category="feed change">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">CME Group</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Feed Change</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#b8860b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">Medium</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-006</div>
-      <h3 class="fw-title">CME Globex: New Market Data Multicast Group — Channel ID 324 (Q1 2026)</h3>
-      <p class="fw-summary">CME Group will launch a new market data multicast group in Q1 2026 for a new futures product suite in the Equity Indices and Alternative Products asset class. The new multicast group will use Channel ID 324. A second new multicast group with Channel ID 335 is also planned for the first half of 2026. Firms should update firewall policies and network configurations proactively.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-12-29</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#b8860b;font-weight:700">2026-Q1</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Market Data, Connectivity</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CME</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Globex</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">multicast</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">MDP 3.0</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">channel ID</span></div>
-        <a href="https://www.cmegroup.com/notices/electronic-trading/2025/12/20251229.html" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="high" data-org="cme group" data-action="true" data-category="feed change">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">CME Group</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Feed Change</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#c0392b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">High</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-016</div>
-      <h3 class="fw-title">CME Globex: Network Connectivity Update for Market Segment 74 (24/7 Trading Preparation)</h3>
-      <p class="fw-summary">In Q1 2026, CME Group will update iLink, Drop Copy, and MDP 3.0 Production network connectivity for Market Segment 74 (tag 1300-MarketSegmentID) to prepare for 24/7 trading. Firms must review the client impact assessment for updated network connectivity information and migrate IP configurations for MSGW iLink and Drop Copy sessions for impacted products. Changes are available in New Release for testing.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-10-20</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#c0392b;font-weight:700">2026-Q1</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Connectivity, Protocol</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CME</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Globex</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">24/7 trading</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">iLink</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Drop Copy</span></div>
-        <a href="https://www.cmegroup.com/notices/electronic-trading/2025/10/20251020.html" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="low" data-org="cme group" data-action="false" data-category="new product / connectivity">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">CME Group</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">New Product / Connectivity</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          
-        </div>
-        <div class="fw-impact-badge" style="background:#2e7d32;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">Low</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-018</div>
-      <h3 class="fw-title">CME Globex: BrokerTec Chicago CLOB Launch — New GLink Connectivity Required</h3>
-      <p class="fw-summary">CME Group launched BrokerTec Chicago, a secondary U.S. Treasury Actives CLOB on CME Globex in Aurora, IL. A new BrokerTec Chicago GLink is available for dedicated connectivity. Discount pricing applies through December 31, 2026 (from $1,000/month October–January, then $2,500/month through year-end). Early termination fee waiver through January 31, 2026. Contact Global Account Manager to order.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-10-06</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#2e7d32;font-weight:700">2026-02-01</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Connectivity</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CME</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">BrokerTec</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">US Treasury</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CLOB</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">GLink</span></div>
-        <a href="https://www.cmegroup.com/notices/electronic-trading/2025/10/20251020.html" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="low" data-org="sec" data-action="true" data-category="regulatory deadline">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">SEC</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Regulatory Deadline</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#2e7d32;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">Low</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-015</div>
-      <h3 class="fw-title">Form 13H Annual Update — Large Trader Reporting Deadline (February 17, 2026)</h3>
-      <p class="fw-summary">Annual update of Form 13H is due February 17, 2026, for large traders that exercised investment discretion over NMS securities in aggregate amounts equal to or greater than 2 million shares or $20 million in any calendar day, or 20 million shares or $200 million in any calendar month during 2025. Inaccurate or outdated information must be amended promptly at the end of any calendar quarter in which information becomes inaccurate.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2026-01-01</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#2e7d32;font-weight:700">2026-02-17</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Compliance</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">SEC</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Form 13H</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">large trader</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">NMS</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">annual filing</span></div>
-        <a href="https://www.sec.gov/forms/form-13h" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="high" data-org="cme group" data-action="true" data-category="feed change">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">CME Group</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Feed Change</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#c0392b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">High</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-002</div>
-      <h3 class="fw-title">CME Globex: 1Gbps Connections Will No Longer Support MDP 3 Multicast Market Data</h3>
-      <p class="fw-summary">Effective March 2026, 1Gbps connections will no longer support MDP 3 multicast market data on CME Globex due to feed bandwidth regularly exceeding 1Gbps. Firms currently receiving multicast market data on 1Gbps connections must upgrade to 10Gbps. Unicast services including iLink, Drop Copy, STP, and MQ remain supported on 1Gbps.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-10-13</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#c0392b;font-weight:700">2026-03-01</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Connectivity, Market Data</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CME</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Globex</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">MDP 3.0</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">multicast</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">1Gbps</span></div>
-        <a href="https://www.cmegroup.com/notices/electronic-trading/2025/10/20251013.html" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="medium" data-org="nasdaq" data-action="true" data-category="spec update">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">NASDAQ</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Spec Update</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">EU</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#b8860b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">Medium</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-017</div>
-      <h3 class="fw-title">Nasdaq Nordic NLS Specification 1.2.10 — Valid from March 2, 2026</h3>
-      <p class="fw-summary">Nasdaq Nordic will deploy updated NLS (Nordic Last Sale) protocol specification version 1.2.10 effective March 2, 2026. Firms consuming NLS data feeds from Nasdaq Nordic and Baltic markets should review the updated specification for message format changes. Updated spec documents are available on the Nasdaq INET Nordic Protocol Specifications page.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2026-01-01</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#b8860b;font-weight:700">2026-03-02</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Protocol</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">NASDAQ</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Nordic</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">NLS</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">protocol spec</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">last sale</span></div>
-        <a href="https://www.nasdaq.com/solutions/inet-nordic-protocol-specifications" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="low" data-org="cme group" data-action="false" data-category="spec update">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">CME Group</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Spec Update</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          
-        </div>
-        <div class="fw-impact-badge" style="background:#2e7d32;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">Low</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-020</div>
-      <h3 class="fw-title">CME Globex: Implied Functionality Enabled for New Options Products (March 2026)</h3>
-      <p class="fw-summary">Effective March 2, 2026 (trade date March 2), CME Group will enable implied functionality for additional futures and options listed on CME Globex. A full list of impacted options products will be provided in future Globex notices. Firms consuming CME options market data should review implied pricing handling in feed processors once the full product list is published.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-12-29</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#2e7d32;font-weight:700">2026-03-02</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Market Data</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CME</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Globex</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">implied functionality</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">options</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">market data</span></div>
-        <a href="https://www.cmegroup.com/notices/electronic-trading/2025/12/20251229.html" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="medium" data-org="cme group" data-action="false" data-category="infrastructure maintenance">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">CME Group</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Infrastructure Maintenance</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          
-        </div>
-        <div class="fw-impact-badge" style="background:#b8860b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">Medium</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-004</div>
-      <h3 class="fw-title">CME Globex: End-of-Life Network Equipment Replacement at Globex Hubs</h3>
-      <p class="fw-summary">Starting April 2026, CME Group will replace end-of-life network equipment supporting listed derivatives connectivity at CME Globex Hubs. Copper handoffs will no longer be supported after the upgrades roll out. Customers will be notified individually in advance if their connectivity is impacted. Contact your Global Account Manager for details.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-10-20</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#b8860b;font-weight:700">2026-04-01</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Connectivity</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CME</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Globex</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">network</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">infrastructure</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">copper handoff</span></div>
-        <a href="https://www.cmegroup.com/notices/electronic-trading/2025/10/20251020.html" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="critical" data-org="cme group" data-action="true" data-category="infrastructure migration">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">CME Group</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Infrastructure Migration</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#8b0000;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">Critical</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-001</div>
-      <h3 class="fw-title">CME Globex Migration to Google Cloud — Preview Phase Launch</h3>
-      <p class="fw-summary">CME Group and Google Cloud announced a private Google Cloud Chicago region and co-location facility for CME Group listed derivative markets. Preview phase launches in 2026. Clients must review technical specifications and plan for iLink, Drop Copy, and MDP 3.0 IP configuration migrations.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-10-27</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#8b0000;font-weight:700">2026-Q2</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Connectivity, Protocol</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CME</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Globex</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Google Cloud</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">iLink</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">MDP 3.0</span></div>
-        <a href="https://www.cmegroup.com/notices/electronic-trading/2025/10/20251027a.html" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="high" data-org="sec" data-action="true" data-category="regulatory deadline">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">SEC</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Regulatory Deadline</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#c0392b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">High</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-012</div>
-      <h3 class="fw-title">Regulation S-P Cybersecurity Amendments — Smaller RIA Compliance Deadline</h3>
-      <p class="fw-summary">SEC Regulation S-P (Safeguards Rule) cybersecurity amendments require SEC-registered investment advisers with less than $1.5 billion AUM to implement written incident response programs by June 3, 2026. Requirements include investor notification obligations for covered incidents and oversight procedures for service providers. Larger RIAs (over $1.5B AUM) were required to comply from December 3, 2025.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2024-05-16</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#c0392b;font-weight:700">2026-06-03</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Compliance</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">SEC</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Regulation S-P</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">cybersecurity</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">RIA</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">safeguards rule</span></div>
-        <a href="https://www.sec.gov/rules-regulations/2024/05/34-100155" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="high" data-org="sec" data-action="true" data-category="regulatory deadline">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">SEC</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Regulatory Deadline</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          <span style="display:inline-block;background:#c0392b;color:white;font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;padding:2px 7px;border-radius:2px;margin-left:8px">⚡ Action Required</span>
-        </div>
-        <div class="fw-impact-badge" style="background:#c0392b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">High</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-011</div>
-      <h3 class="fw-title">Rule 605 NMS Plan Amendment — Expanded Execution Quality Reporting (Effective August 2026)</h3>
-      <p class="fw-summary">The SEC approved amendments to the Rule 605 NMS Plan in September 2025 to reflect recently adopted Rule 605 amendments. The amended plan expands reporting scope to include larger broker-dealers in addition to market centers, modifies execution quality report content, and adds a summary execution quality report requirement. Compliance deadline is August 1, 2026. Firms should begin implementation planning now.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-09-01</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#c0392b;font-weight:700">2026-08-01</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Compliance, Reporting</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">SEC</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">Rule 605</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">NMS Plan</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">execution quality</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">broker-dealer</span></div>
-        <a href="https://www.finra.org/rules-guidance/guidance/national-market-system-plans" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
-    <div class="fw-entry" data-impact="medium" data-org="sec" data-action="false" data-category="regulatory deadline">
-      <div class="fw-entry-header">
-        <div class="fw-entry-meta">
-          <span class="fw-org">SEC</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-category">Regulatory Deadline</span>
-          <span class="fw-sep">·</span>
-          <span class="fw-region">US</span>
-          
-        </div>
-        <div class="fw-impact-badge" style="background:#b8860b;color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">Medium</div>
-      </div>
-      <div class="fw-entry-id">FW-2026-013</div>
-      <h3 class="fw-title">CAT NMS Plan Amendment — CAIS Customer Information Reporting Elimination (Pending SEC Approval)</h3>
-      <p class="fw-summary">CAT LLC filed a proposed amendment on March 13, 2025 to eliminate CAT NMS Plan requirements for Industry Members to report customer names, addresses, and years of birth for natural and legal entity accounts. If approved by SEC, this would reduce CAIS reporting obligations significantly. SEC exemptive relief issued February 2025 provides interim relief for Designated Natural Person reporting. Monitor for SEC approval order.</p>
-      <div class="fw-dates">
-        <div class="fw-date-block">
-          <div class="fw-date-label">Announced</div>
-          <div class="fw-date-val">2025-03-13</div>
-        </div>
-        <div class="fw-date-block fw-effective">
-          <div class="fw-date-label">Effective Date</div>
-          <div class="fw-date-val" style="color:#b8860b;font-weight:700">2026-TBD</div>
-        </div>
-        <div class="fw-date-block">
-          <div class="fw-date-label">Impact Type</div>
-          <div class="fw-date-val">Compliance, Reporting</div>
-        </div>
-      </div>
-      <div class="fw-footer">
-        <div class="fw-tags"><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CAT</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">NMS Plan</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">CAIS</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">SEC</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block">customer information</span></div>
-        <a href="https://www.finra.org/rules-guidance/guidance/reports/2026-finra-annual-regulatory-oversight-report/cat" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>
-      </div>
-    </div>
     </div>
     <div class="fw-sidebar">
       <div class="sidebar-section">
         <div class="sidebar-head">By Impact Level</div>
-        <div class="impact-row"><div class="impact-label"><div class="impact-dot" style="background:#8b0000"></div>Critical</div><div class="impact-count" style="color:#8b0000">1</div></div>
-        <div class="impact-row"><div class="impact-label"><div class="impact-dot" style="background:#c0392b"></div>High</div><div class="impact-count" style="color:#c0392b">7</div></div>
-        <div class="impact-row"><div class="impact-label"><div class="impact-dot" style="background:#b8860b"></div>Medium</div><div class="impact-count" style="color:#b8860b">8</div></div>
-        <div class="impact-row"><div class="impact-label"><div class="impact-dot" style="background:#2e7d32"></div>Low</div><div class="impact-count" style="color:#2e7d32">4</div></div>
+        <div class="impact-row"><div class="impact-label"><div class="impact-dot" style="background:#8b0000"></div>Critical</div><div class="impact-count" style="color:#8b0000" id="countCritical">—</div></div>
+        <div class="impact-row"><div class="impact-label"><div class="impact-dot" style="background:#c0392b"></div>High</div><div class="impact-count" style="color:#c0392b" id="countHigh">—</div></div>
+        <div class="impact-row"><div class="impact-label"><div class="impact-dot" style="background:#b8860b"></div>Medium</div><div class="impact-count" style="color:#b8860b" id="countMedium">—</div></div>
+        <div class="impact-row"><div class="impact-label"><div class="impact-dot" style="background:#2e7d32"></div>Low</div><div class="impact-count" style="color:#2e7d32" id="countLow">—</div></div>
       </div>
       <div class="sidebar-section">
         <div class="sidebar-head">By Organization</div>
@@ -1084,19 +413,16 @@ const _dn=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday
 const _mn=["January","February","March","April","May","June","July","August","September","October","November","December"];
 document.getElementById("dateLine").textContent=_dn[_d.getDay()]+", "+_mn[_d.getMonth()]+" "+_d.getDate()+", "+_d.getFullYear();
 
-// Active filters state
 const activeFilters = {};
 
 function toggleFilter(btn) {
   const filter = btn.dataset.filter;
   const val = btn.dataset.val;
   const key = filter + ':' + val;
-  
   if (activeFilters[key]) {
     delete activeFilters[key];
     btn.classList.remove('active');
   } else {
-    // Remove other filters of same type (except org which can stack)
     if (filter !== 'org') {
       document.querySelectorAll(`[data-filter="${filter}"]`).forEach(b => {
         delete activeFilters[b.dataset.filter + ':' + b.dataset.val];
@@ -1113,64 +439,145 @@ function filterEntries() {
   const q = document.querySelector('.fw-search').value.toLowerCase();
   const entries = document.querySelectorAll('.fw-entry');
   let visible = 0;
+  const total = entries.length;
 
   entries.forEach(entry => {
     let show = true;
-
-    // Check filters
     const filterKeys = Object.keys(activeFilters);
     if (filterKeys.length > 0) {
       const orgFilters = filterKeys.filter(k => activeFilters[k].filter === 'org').map(k => activeFilters[k].val);
       const impactFilters = filterKeys.filter(k => activeFilters[k].filter === 'impact').map(k => activeFilters[k].val);
       const actionFilters = filterKeys.filter(k => activeFilters[k].filter === 'action').map(k => activeFilters[k].val);
-
       if (orgFilters.length > 0 && !orgFilters.includes(entry.dataset.org)) show = false;
       if (impactFilters.length > 0 && !impactFilters.includes(entry.dataset.impact)) show = false;
       if (actionFilters.length > 0 && !actionFilters.includes(entry.dataset.action)) show = false;
     }
-
-    // Search filter
     if (q && show) {
-      const text = entry.textContent.toLowerCase();
-      if (!text.includes(q)) show = false;
+      if (!entry.textContent.toLowerCase().includes(q)) show = false;
     }
-
     entry.classList.toggle('hidden', !show);
     if (show) visible++;
   });
 
   document.getElementById('liveCount').textContent = visible;
-  document.getElementById('resultCount').textContent = visible + ' of 20 entries';
+  document.getElementById('resultCount').textContent = visible + ' of ' + total + ' entries';
 }
 
-// Sort entries by effective date ascending (soonest first, TBD/Q-dates last)
 function sortEntriesByDate() {
   const container = document.getElementById('entriesContainer');
   const entries = Array.from(container.querySelectorAll('.fw-entry'));
-  
   entries.sort((a, b) => {
-    const getDate = (el) => {
+    const getDate = el => {
       const val = el.querySelector('.fw-effective .fw-date-val');
       if (!val) return new Date('2099-12-31');
-      const text = val.textContent.trim();
-      // Exact date
-      if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return new Date(text);
-      // Quarter dates: 2026-Q1 → Jan, Q2 → Apr, Q3 → Jul, Q4 → Oct
-      const qMatch = text.match(/(\d{4})-Q(\d)/);
-      if (qMatch) {
-        const qMonths = { '1': '01', '2': '04', '3': '07', '4': '10' };
-        return new Date(`${qMatch[1]}-${qMonths[qMatch[2]]}-01`);
-      }
-      return new Date('2099-12-31'); // TBD goes last
+      const t = val.textContent.trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(t)) return new Date(t);
+      const q = t.match(/(\d{4})-Q(\d)/);
+      if (q) return new Date(`${q[1]}-${{ '1':'01','2':'04','3':'07','4':'10' }[q[2]]}-01`);
+      return new Date('2099-12-31');
     };
     return getDate(a) - getDate(b);
   });
-  
   entries.forEach(e => container.appendChild(e));
 }
-sortEntriesByDate();
 
-// Mobile nav
+function updateSidebarCounts() {
+  const entries = document.querySelectorAll('.fw-entry');
+  const counts = { critical: 0, high: 0, medium: 0, low: 0 };
+  entries.forEach(e => {
+    const sev = (e.dataset.impact || '').toLowerCase();
+    if (counts[sev] !== undefined) counts[sev]++;
+  });
+  ['critical','high','medium','low'].forEach(k => {
+    const el = document.getElementById('count' + k.charAt(0).toUpperCase() + k.slice(1));
+    if (el) el.textContent = counts[k];
+  });
+}
+
+const SEV_COLOR = { CRITICAL:'#8b0000', HIGH:'#c0392b', MEDIUM:'#b8860b', LOW:'#2e7d32' };
+const TAG_STYLE = 'font-family:"IBM Plex Mono",monospace;font-size:9px;padding:2px 7px;border:1px solid #e0d8c8;border-radius:2px;color:#888;margin:2px 2px 0 0;display:inline-block';
+
+function renderEntry(e) {
+  const sev = (e.severity || 'LOW').toUpperCase();
+  const color = SEV_COLOR[sev] || '#6b6555';
+  const org = (e.exchange || '').toLowerCase();
+  const cat = (e.category || '').toLowerCase();
+  const sevLabel = sev.charAt(0) + sev.slice(1).toLowerCase();
+  const link = e.link ? `<a href="${e.link}" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>` : '';
+  const tag = s => `<span style="${TAG_STYLE}">${s}</span>`;
+
+  return `<div class="fw-entry fade-in" data-impact="${sev.toLowerCase()}" data-org="${org}" data-action="false" data-category="${cat}">
+  <div class="fw-entry-header">
+    <div class="fw-entry-meta">
+      <span class="fw-org">${e.exchange || 'Unknown'}</span>
+      <span class="fw-sep">·</span>
+      <span class="fw-category">${e.category || ''}</span>
+    </div>
+    <div class="fw-impact-badge" style="background:${color};color:white;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:2px">${sevLabel}</div>
+  </div>
+  <div class="fw-entry-id">${e.id || ''}</div>
+  <h3 class="fw-title">${e.title || ''}</h3>
+  <p class="fw-summary">${e.description || ''}</p>
+  <div class="fw-dates">
+    <div class="fw-date-block fw-effective">
+      <div class="fw-date-label">Effective Date</div>
+      <div class="fw-date-val" style="color:${color};font-weight:700">${e.effectiveDate || 'TBD'}</div>
+    </div>
+    <div class="fw-date-block">
+      <div class="fw-date-label">Added</div>
+      <div class="fw-date-val">${e.addedAt || ''}</div>
+    </div>
+  </div>
+  <div class="fw-footer">
+    <div class="fw-tags">${tag(e.exchange || '')}${tag(e.category || '')}</div>
+    ${link}
+  </div>
+</div>`;
+}
+
+async function loadFeedWatch() {
+  const container = document.getElementById('entriesContainer');
+  try {
+    const res = await fetch('/.netlify/functions/get-feedwatch');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    const entries = Array.isArray(data.entries) ? data.entries : [];
+
+    const skeleton = document.getElementById('fwSkeleton');
+    if (skeleton) skeleton.remove();
+
+    if (entries.length === 0) {
+      container.innerHTML = '<div class="fw-empty">No entries yet — FeedWatch runs daily at 7am ET.</div>';
+      document.getElementById('liveCount').textContent = '0';
+      document.getElementById('resultCount').textContent = '0 of 0 entries';
+      return;
+    }
+
+    container.innerHTML = entries.map(renderEntry).join('');
+
+    // Update banner stats
+    document.querySelector('.fw-stat-num').textContent = entries.length;
+    const statNums = document.querySelectorAll('.fw-stat-num');
+    if (statNums[3]) statNums[3].textContent = entries.length;
+
+    updateSidebarCounts();
+    sortEntriesByDate();
+    filterEntries();
+
+    // Handle URL filter param
+    const urlFilter = new URLSearchParams(window.location.search).get('filter');
+    if (urlFilter) {
+      const btn = document.querySelector(`[data-val="${urlFilter}"]`);
+      if (btn) toggleFilter(btn);
+    }
+  } catch (err) {
+    console.warn('[feedwatch] Load failed:', err.message);
+    const skeleton = document.getElementById('fwSkeleton');
+    if (skeleton) skeleton.remove();
+    container.innerHTML = '<div class="fw-empty">Could not load entries — please try again later.</div>';
+  }
+}
+
 function toggleMobileNav() {
   document.getElementById('mobileNav').classList.toggle('open');
   document.getElementById('hamburger').classList.toggle('open');
@@ -1182,13 +589,7 @@ function checkMobile() {
 checkMobile();
 window.addEventListener('resize', checkMobile);
 
-// Handle URL params for direct filter links
-const urlParams = new URLSearchParams(window.location.search);
-const urlFilter = urlParams.get('filter');
-if (urlFilter) {
-  const btn = document.querySelector(`[data-val="${urlFilter}"]`);
-  if (btn) toggleFilter(btn);
-}
+loadFeedWatch();
 </script>
 </body>
 </html>

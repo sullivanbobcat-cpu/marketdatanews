@@ -11,5 +11,8 @@
 [functions."fee-change-monitor"]
   schedule = "0 13 * * *"
 
+[functions."update-feedwatch"]
+  schedule = "0 12 * * *"
+
 [[plugins]]
   package = "@netlify/plugin-functions-install-core"
