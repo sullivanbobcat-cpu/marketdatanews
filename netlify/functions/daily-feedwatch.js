@@ -105,7 +105,11 @@ exports.handler = async function () {
   }
 
   try {
-    const store = getStore('content');
+    const store = getStore({
+      name: 'content',
+      siteID: process.env.NETLIFY_SITE_ID,
+      token: process.env.NETLIFY_TOKEN,
+    });
     await store.set('feedwatch-digest', JSON.stringify(digest));
     console.log('[daily-feedwatch] Digest saved to Netlify Blobs.');
   } catch (err) {

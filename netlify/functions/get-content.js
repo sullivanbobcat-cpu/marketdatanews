@@ -9,7 +9,11 @@ exports.handler = async function (event) {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
-  const store = getStore('content');
+  const store = getStore({
+    name: 'content',
+    siteID: process.env.NETLIFY_SITE_ID,
+    token: process.env.NETLIFY_TOKEN,
+  });
 
   const [feedwatch, regulatory, feeAlerts] = await Promise.all([
     store.get('feedwatch-digest', { type: 'json' }).catch((err) => {

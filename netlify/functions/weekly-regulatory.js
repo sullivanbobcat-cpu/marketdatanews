@@ -98,7 +98,11 @@ exports.handler = async function () {
   }
 
   try {
-    const store = getStore('content');
+    const store = getStore({
+      name: 'content',
+      siteID: process.env.NETLIFY_SITE_ID,
+      token: process.env.NETLIFY_TOKEN,
+    });
     await store.set('weekly-regulatory', JSON.stringify(roundup));
     console.log('[weekly-regulatory] Roundup saved to Netlify Blobs.');
   } catch (err) {

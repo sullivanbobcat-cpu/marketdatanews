@@ -114,7 +114,11 @@ exports.handler = async function () {
 
   if (parsed.hasChanges) {
     try {
-      const store = getStore('content');
+      const store = getStore({
+        name: 'content',
+        siteID: process.env.NETLIFY_SITE_ID,
+        token: process.env.NETLIFY_TOKEN,
+      });
       await store.set('fee-alerts', JSON.stringify(result));
       console.log('[fee-change-monitor] Fee changes detected — saved to Netlify Blobs.');
     } catch (err) {
