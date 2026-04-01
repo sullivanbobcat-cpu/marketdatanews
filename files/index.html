@@ -476,30 +476,42 @@ function detectCategory(title, desc) {
 }
 
 function timeAgo(dateStr) {
+  if (!dateStr) return 'Recently';
   const d = new Date(dateStr);
-  if (isNaN(d)) return 'Recently';
-  const mins = Math.floor((Date.now() - d) / 60000);
+  if (!d || isNaN(d.getTime())) return 'Recently';
+  const mins = Math.floor((Date.now() - d.getTime()) / 60000);
   if (mins < 1) return 'Just now';
   if (mins < 60) return mins + 'm ago';
   const hrs = Math.floor(mins / 60);
   if (hrs < 24) return hrs + 'h ago';
-  return Math.floor(hrs/24) + 'd ago';
+  return Math.floor(hrs / 24) + 'd ago';
 }
 
 async function fetchFeed(feed) {
-  const cacheKey = 'mdn_' + feed.url.replace(/[^a-z0-9]/gi,'').slice(-40);
+  const cacheKey = 'mdn_v3_' + feed.url.replace(/[^a-z0-9]/gi,'').slice(-40);
   try {
     const cached = localStorage.getItem(cacheKey);
     if (cached) { const obj = JSON.parse(cached); if (Date.now() - obj.ts < CACHE_TTL) return obj.data; }
   } catch(e) {}
   try {
     const res = await fetch('/.netlify/functions/rss?url=' + encodeURIComponent(feed.url), { signal: AbortSignal.timeout(10000) });
+    if (!res.ok) return [];
     const json = await res.json();
-    const items = (json.items || []).filter(i => i.title && i.title.length > 5).map(i => ({
-      title: i.title, desc: i.desc || '', link: i.link || '#', pubDate: i.pubDate || '',
-      source: feed.label, category: detectCategory(i.title, i.desc || ''),
-      time: timeAgo(i.pubDate), timestamp: new Date(i.pubDate).getTime() || 0,
-    }));
+    const rawItems = json.items || json.entries || json.feed?.items || [];
+    const items = rawItems.filter(i => i && i.title && i.title.length > 5).map(i => {
+      const title   = i.title || '';
+      const desc    = i.desc || i.description || i.content || i.summary || i.contentSnippet || '';
+      const link    = i.link || i.url || i.guid || '#';
+      const pubDate = i.pubDate || i.isoDate || i.date || i.published || i['dc:date'] || '';
+      return {
+        title, desc: String(desc).replace(/<[^>]+>/g,'').slice(0,300),
+        link, pubDate,
+        source: feed.label,
+        category: detectCategory(title, desc),
+        time: timeAgo(pubDate),
+        timestamp: pubDate ? (new Date(pubDate).getTime() || 0) : 0,
+      };
+    });
     try { localStorage.setItem(cacheKey, JSON.stringify({data: items, ts: Date.now()})); } catch(e) {}
     return items;
   } catch(e) { return []; }
@@ -521,8 +533,8 @@ function renderHero(article) {
     <a href="${article.link}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
       <div class="hero-title">${article.title}</div></a>
     <div class="hero-desc">${article.desc.slice(0,220)}${article.desc.length>220?'...':''}</div>
-    <div class="hero-meta"><span style="color:var(--accent-dark);font-weight:600">${article.source}</span>
-      <span>·</span><span>${article.time}</span><span>·</span><span>${article.category}</span></div>`;
+    <div class="hero-meta"><span style="color:var(--accent-dark);font-weight:600">${article.source || 'Market Data News'}</span>
+      <span>·</span><span>${article.time || 'Recently'}</span><span>·</span><span>${article.category || 'Markets'}</span></div>`;
   el.classList.add('fade-in');
 }
 
@@ -531,8 +543,8 @@ function renderNews(articles) {
   if (!articles.length) { grid.innerHTML = '<div class="error-msg">No articles loaded — check back shortly.</div>'; return; }
   grid.innerHTML = articles.map(a => `
     <a class="news-card fade-in" href="${a.link}" target="_blank" rel="noopener">
-      <div class="news-meta"><span class="news-source">${a.source}</span><span class="news-dot">·</span>
-        <span class="news-time">${a.time}</span><span class="news-category">${a.category}</span></div>
+      <div class="news-meta"><span class="news-source">${a.source || 'Market Data News'}</span><span class="news-dot">·</span>
+        <span class="news-time">${a.time || 'Recently'}</span><span class="news-category">${a.category || 'Markets'}</span></div>
       <div class="news-title">${a.title}</div>
       ${a.desc ? `<div class="news-desc">${a.desc}</div>` : ''}
     </a>`).join('');
@@ -543,7 +555,7 @@ function renderMostRead(articles) {
     <a class="sidebar-item" href="${a.link}" target="_blank" rel="noopener">
       <div class="sidebar-num">0${i+1}</div>
       <div><div class="sidebar-title">${a.title.slice(0,70)}${a.title.length>70?'...':''}</div>
-        <div class="sidebar-meta">${a.source} · ${a.time}</div></div></a>`).join('');
+        <div class="sidebar-meta">${a.source || 'Market Data News'} · ${a.time || 'Recently'}</div></div></a>`).join('');
 }
 
 function showFallback() {
