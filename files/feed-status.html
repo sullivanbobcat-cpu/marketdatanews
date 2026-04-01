@@ -267,6 +267,9 @@
     .status-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 1200px) { .nav-comp { display: none; } }
+  .fee-row-high td:first-child { border-left: 3px solid var(--accent); padding-left: 11px; }
+  .fee-live-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:#c0392b; animation:pulse 2s infinite; margin-right:8px; vertical-align:middle; flex-shrink:0; }
+  .fee-reviewed { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-top:10px; padding:8px 14px; background:var(--cream); border-top:1px solid var(--border); }
 </style>
 </head>
 <body>
@@ -451,10 +454,62 @@
   <div class="status-summary">All 8 feeds operational · Updated <span id="lastUpdated"></span> · Next scheduled check in 5 minutes</div>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 2 — FEE FLOW VISUALIZATION -->
+  <!-- SECTION 2 — FEE CHANGE ALERTS -->
   <!-- ═══════════════════════════════════════════════ -->
   <div class="section-head">
     <span class="section-num">02 —</span>
+    <h2><span class="fee-live-dot"></span>Recent &amp; Upcoming Fee Changes</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <table class="fee-table">
+    <thead>
+      <tr>
+        <th>Feed</th>
+        <th>Change</th>
+        <th>Effective</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="fee-row-high">
+        <td>NYSE Integrated Feed</td>
+        <td><span class="change-badge badge-increase">+8% Pro User Fee</span></td>
+        <td class="eff-date">Jan 1, 2026</td>
+        <td>Professional user monthly fee increased from $19.50 to $21.00. Non-professional and machine fees unchanged. NYSE cited infrastructure investment and Pillar platform upgrades as basis for the increase.</td>
+      </tr>
+      <tr>
+        <td>Nasdaq TotalView ITCH</td>
+        <td><span class="change-badge badge-new">New FPGA Variant</span></td>
+        <td class="eff-date">Q4 2025</td>
+        <td>New FPGA-optimized TotalView variant launched at $4,500/month per machine. Delivers sub-microsecond feed processing for latency-sensitive trading applications. Standard machine fee remains $1,750/month.</td>
+      </tr>
+      <tr>
+        <td>OPRA</td>
+        <td><span class="change-badge badge-pending">Surcharge Under Review</span></td>
+        <td class="eff-date">TBD — Q3 2026</td>
+        <td>96-line network expansion surcharge under review by OPRA Operating Committee. Expected to apply to subscribers provisioning additional multicast connections. SEC filing anticipated Q2 2026 ahead of production launch.</td>
+      </tr>
+      <tr>
+        <td>CTA / UTP SIP</td>
+        <td><span class="change-badge badge-pending">Annual Review Pending</span></td>
+        <td class="eff-date">Decision Q2 2026</td>
+        <td>Annual fee schedule review underway by CTA and UTP Operating Committees. Consolidated tape fee adjustments, if any, expected to be announced Q2 2026. Industry comment period likely to precede any changes.</td>
+      </tr>
+      <tr class="fee-row-high">
+        <td>Cboe One Feed Premium</td>
+        <td><span class="change-badge badge-increase">+$3/User Surcharge</span></td>
+        <td class="eff-date">Feb 1, 2026</td>
+        <td>Depth of book surcharge of $3.00/professional user/month added to Cboe One Feed Premium tier. Applies to subscribers accessing full depth of book across BZX, BYX, EDGX, and EDGA. Standard Cboe One Feed unaffected.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="fee-reviewed">Last reviewed: April 01, 2026 &nbsp;·&nbsp; Source: exchange fee schedules and SEC filings</div>
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 3 — FEE FLOW VISUALIZATION -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">03 —</span>
     <h2>Fee Flow Visualization</h2>
     <div class="section-line"></div>
   </div>
@@ -549,10 +604,10 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 3 — FEE CALCULATOR -->
+  <!-- SECTION 4 — MARKET DATA FEE CALCULATOR -->
   <!-- ═══════════════════════════════════════════════ -->
   <div class="section-head">
-    <span class="section-num">03 —</span>
+    <span class="section-num">04 —</span>
     <h2>Market Data Fee Calculator</h2>
     <div class="section-line"></div>
   </div>
@@ -657,57 +712,6 @@
     </div><!-- end calc-output -->
   </div><!-- end calc-layout -->
 
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 4 — RECENT FEE CHANGES -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-head">
-    <span class="section-num">04 —</span>
-    <h2>Recent Fee Changes</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <table class="fee-table">
-    <thead>
-      <tr>
-        <th>Feed</th>
-        <th>Change</th>
-        <th>Effective</th>
-        <th>Details</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>NYSE Integrated Feed</td>
-        <td><span class="change-badge badge-increase">+8% Pro User Fee</span></td>
-        <td class="eff-date">Jan 1, 2026</td>
-        <td>Professional user monthly fee increased from $19.50 to $21.00. Non-professional and machine fees unchanged. NYSE cited infrastructure investment and Pillar platform upgrades as basis for the increase.</td>
-      </tr>
-      <tr>
-        <td>Nasdaq TotalView ITCH</td>
-        <td><span class="change-badge badge-new">New FPGA Variant</span></td>
-        <td class="eff-date">Q4 2025</td>
-        <td>New FPGA-optimized TotalView variant launched at $4,500/month per machine. Delivers sub-microsecond feed processing for latency-sensitive trading applications. Standard machine fee remains $1,750/month.</td>
-      </tr>
-      <tr>
-        <td>OPRA</td>
-        <td><span class="change-badge badge-pending">Surcharge Under Review</span></td>
-        <td class="eff-date">TBD — Q3 2026</td>
-        <td>96-line network expansion surcharge under review by OPRA Operating Committee. Expected to apply to subscribers provisioning additional multicast connections. SEC filing anticipated Q2 2026 ahead of production launch.</td>
-      </tr>
-      <tr>
-        <td>CTA / UTP SIP</td>
-        <td><span class="change-badge badge-pending">Annual Review Pending</span></td>
-        <td class="eff-date">Decision Q2 2026</td>
-        <td>Annual fee schedule review underway by CTA and UTP Operating Committees. Consolidated tape fee adjustments, if any, expected to be announced Q2 2026. Industry comment period likely to precede any changes.</td>
-      </tr>
-      <tr>
-        <td>Cboe One Feed Premium</td>
-        <td><span class="change-badge badge-increase">+$3/User Surcharge</span></td>
-        <td class="eff-date">Feb 1, 2026</td>
-        <td>Depth of book surcharge of $3.00/professional user/month added to Cboe One Feed Premium tier. Applies to subscribers accessing full depth of book across BZX, BYX, EDGX, and EDGA. Standard Cboe One Feed unaffected.</td>
-      </tr>
-    </tbody>
-  </table>
 
 </div><!-- end page-container -->
 
