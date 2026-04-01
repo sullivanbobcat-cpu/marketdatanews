@@ -199,6 +199,8 @@
   .sankey-wrap svg { display: block; width: 100%; }
   .sankey-col-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; fill: #555; }
   .sankey-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #444; margin-top: 10px; padding-top: 10px; border-top: 1px solid #1a1a1a; }
+  #sankeyTooltip { display: none; position: absolute; background: #1a1a1a; border: 1px solid #3a3a3a; padding: 8px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #e8e8e8; pointer-events: none; border-radius: 2px; z-index: 10; white-space: nowrap; line-height: 1.6; }
+  #sankeyTooltip strong { color: var(--accent); display: block; margin-bottom: 2px; }
 
   @media (max-width: 900px) {
     .page-hero, .page-container { padding-left: 20px; padding-right: 20px; }
@@ -721,23 +723,24 @@ const SPLITS = {
 const NODE_DEFS = [
   // Col 0 — Exchange Families
   { id: 0, name: 'NYSE Family',         col: 0, color: '#b8860b' },
-  { id: 1, name: 'Nasdaq Family',       col: 0, color: '#b8860b' },
-  { id: 2, name: 'Cboe Family',         col: 0, color: '#b8860b' },
+  { id: 1, name: 'Nasdaq Family',       col: 0, color: '#1a5276' },
+  { id: 2, name: 'Cboe Family',         col: 0, color: '#1e8449' },
   // Col 1 — Fee Types
-  { id: 3, name: 'Display Fees',        col: 1, color: '#c9a84c' },
-  { id: 4, name: 'Non-Display Fees',    col: 1, color: '#c9a84c' },
-  { id: 5, name: 'Distribution Fees',   col: 1, color: '#c9a84c' },
+  { id: 3, name: 'Display Fees',        col: 1, color: '#5d6d7e' },
+  { id: 4, name: 'Non-Display Fees',    col: 1, color: '#5d6d7e' },
+  { id: 5, name: 'Distribution Fees',   col: 1, color: '#5d6d7e' },
   // Col 2 — Client Types
-  { id: 6, name: 'Professional Users',  col: 2, color: '#8b6508' },
-  { id: 7, name: 'Non-Prof. Users',     col: 2, color: '#8b6508' },
-  { id: 8, name: 'Machines',            col: 2, color: '#8b6508' },
-  { id: 9, name: 'Internal Users',      col: 2, color: '#8b6508' }
+  { id: 6, name: 'Professional Users',  col: 2, color: '#6c3483' },
+  { id: 7, name: 'Non-Prof. Users',     col: 2, color: '#6c3483' },
+  { id: 8, name: 'Machines',            col: 2, color: '#6c3483' },
+  { id: 9, name: 'Internal Users',      col: 2, color: '#6c3483' }
 ];
 
 const COL_LABELS = ['Exchange Families', 'Fee Types', 'Client Types'];
 
 let sankeyInitialized = false;
 let svgEl, sankeyG, colLabelG;
+let pinnedLinkKey = null;
 const SANKEY_HEIGHT = 420;
 const SANKEY_MIN_VALUE = 50; // floor so chart remains visible even at zero inputs
 
@@ -824,20 +827,72 @@ function updateSankey(amounts, sel, total) {
   // Dim exchange family nodes that are deselected
   const activeExchanges = { 0: sel.NYSE, 1: sel.Nasdaq, 2: sel.Cboe };
 
+  // Ensure tooltip element exists
+  let tooltip = document.getElementById('sankeyTooltip');
+  if (!tooltip) {
+    tooltip = document.createElement('div');
+    tooltip.id = 'sankeyTooltip';
+    container.appendChild(tooltip);
+  }
+
+  // Total entering flow (first-column links) for % calculation
+  const totalFlow = links
+    .filter(l => l.source.id <= 2)
+    .reduce((sum, l) => sum + l.value, 0);
+
+  const linkKey = d => `${d.source.id}-${d.target.id}`;
+  const isActive = d => d.source.id > 2 || activeExchanges[d.source.id];
+  const defaultOpacity = d => isActive(d) ? 0.35 : 0.08;
+
   // Draw links
   const linkPath = d3.sankeyLinkHorizontal();
 
-  svg.append('g')
+  const linkPaths = svg.append('g')
     .selectAll('path')
     .data(links)
     .join('path')
       .attr('d', linkPath)
       .attr('stroke-width', d => Math.max(1, d.width))
       .attr('fill', 'none')
-      .attr('stroke', d => {
-        const srcId = d.source.id;
-        const isActive = srcId > 2 || activeExchanges[srcId];
-        return isActive ? 'rgba(184,134,11,0.18)' : 'rgba(100,100,100,0.08)';
+      .attr('stroke', d => isActive(d) ? d.source.color : '#333')
+      .attr('opacity', d => pinnedLinkKey
+        ? (linkKey(d) === pinnedLinkKey ? 1.0 : 0.2)
+        : defaultOpacity(d))
+      .style('cursor', 'pointer')
+      .on('mouseenter', function(event, d) {
+        if (pinnedLinkKey !== null) return;
+        linkPaths.attr('opacity', l => linkKey(l) === linkKey(d) ? 1.0 : 0.2);
+        const pct = totalFlow > 0 ? ((d.value / totalFlow) * 100).toFixed(1) : '0';
+        tooltip.innerHTML = `<strong>${d.source.name} → ${d.target.name}</strong>${pct}% of total flow`;
+        tooltip.style.display = 'block';
+      })
+      .on('mousemove', function(event) {
+        if (pinnedLinkKey !== null) return;
+        const rect = container.getBoundingClientRect();
+        tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
+        tooltip.style.top  = (event.clientY - rect.top  - 36) + 'px';
+      })
+      .on('mouseleave', function() {
+        if (pinnedLinkKey !== null) return;
+        linkPaths.attr('opacity', defaultOpacity);
+        tooltip.style.display = 'none';
+      })
+      .on('click', function(event, d) {
+        const key = linkKey(d);
+        if (pinnedLinkKey === key) {
+          pinnedLinkKey = null;
+          linkPaths.attr('opacity', defaultOpacity);
+          tooltip.style.display = 'none';
+        } else {
+          pinnedLinkKey = key;
+          linkPaths.attr('opacity', l => linkKey(l) === key ? 1.0 : 0.2);
+          const pct = totalFlow > 0 ? ((d.value / totalFlow) * 100).toFixed(1) : '0';
+          tooltip.innerHTML = `<strong>${d.source.name} → ${d.target.name}</strong>${pct}% of total flow<span style="display:block;font-size:9px;color:#888;margin-top:3px">click again to unpin</span>`;
+          tooltip.style.display = 'block';
+          const rect = container.getBoundingClientRect();
+          tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
+          tooltip.style.top  = (event.clientY - rect.top  - 36) + 'px';
+        }
       });
 
   // Draw nodes
