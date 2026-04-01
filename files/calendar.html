@@ -25,6 +25,7 @@
   <!-- Sitemap reference -->
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
   :root{--ink:#0d0d0d;--paper:#f5f2eb;--cream:#faf8f3;--rule:#d4c9b0;--accent:#b8860b;--accent-dark:#8b6508;--muted:#6b6555;--red:#c0392b;--surface:#ffffff;--border:#e8e0d0;}
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -198,6 +199,33 @@
   @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
   #resultCount{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);margin-left:auto;}
 
+  /* ── DEADLINE TIMELINE ── */
+  .tl-section{background:var(--paper);border-bottom:1px solid var(--border);padding:24px 48px 20px;}
+  .tl-head{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+  .tl-head span{color:var(--ink);}
+  .tl-chart-wrap{position:relative;}
+  .tl-chart-wrap svg{display:block;width:100%;}
+  .tl-tooltip{display:none;position:fixed;background:var(--ink);border:1px solid #333;padding:10px 14px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:#e8e8e8;pointer-events:none;border-radius:2px;z-index:9999;max-width:300px;line-height:1.6;white-space:normal;}
+  .tl-tooltip strong{color:var(--accent);display:block;margin-bottom:3px;font-size:12px;}
+  .tl-tooltip .tl-tt-sev{font-size:9px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;}
+  .tl-tooltip .tl-tt-desc{font-size:10px;color:#aaa;margin-top:5px;line-height:1.5;}
+  .tl-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;}
+  .tl-legend-item{display:flex;align-items:center;gap:6px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink);}
+  .tl-legend-dot{border-radius:50%;flex-shrink:0;}
+  /* Mobile: hide SVG, show list */
+  .tl-mobile-list{display:none;margin-top:8px;}
+  .tl-mobile-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer;}
+  .tl-mobile-item:last-child{border-bottom:none;}
+  .tl-mobile-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+  .tl-mobile-title{font-size:11px;font-weight:600;line-height:1.4;}
+  .tl-mobile-meta{font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--muted);margin-top:2px;}
+  @media(max-width:900px){
+    .tl-section{padding:16px 20px;}
+    .tl-chart-wrap svg{display:none;}
+    .tl-mobile-list{display:block;}
+    .tl-legend{display:none;}
+  }
+
   /* FeedWatch Alert Bar */
   .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
   .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; gap: 0; }
@@ -343,6 +371,17 @@
     <input class="fw-search" type="text" placeholder="Search entries..." oninput="filterEntries()">
     <span id="resultCount"></span>
   </div>
+</div>
+
+<!-- ── DEADLINE TIMELINE ── -->
+<div class="tl-section">
+  <div class="tl-head"><span>Deadline Timeline</span> — 2026 Regulatory &amp; Infrastructure Calendar</div>
+  <div class="tl-chart-wrap">
+    <svg id="tlSvg"></svg>
+    <div class="tl-tooltip" id="tlTooltip"></div>
+  </div>
+  <div class="tl-mobile-list" id="tlMobileList"></div>
+  <div class="tl-legend" id="tlLegend"></div>
 </div>
 
 <div class="container">
@@ -530,7 +569,7 @@ function renderEntry(e) {
   const link = e.link ? `<a href="${e.link}" target="_blank" rel="noopener" class="fw-source-link">View Source Notice →</a>` : '';
   const tag = s => `<span style="${TAG_STYLE}">${s}</span>`;
 
-  return `<div class="fw-entry fade-in" data-impact="${sev.toLowerCase()}" data-org="${org}" data-action="false" data-category="${cat}">
+  return `<div class="fw-entry fade-in" id="entry-${e.id || ''}" data-impact="${sev.toLowerCase()}" data-org="${org}" data-action="false" data-category="${cat}">
   <div class="fw-entry-header">
     <div class="fw-entry-meta">
       <span class="fw-org">${e.exchange || 'Unknown'}</span>
@@ -559,6 +598,179 @@ function renderEntry(e) {
 </div>`;
 }
 
+// ── DEADLINE TIMELINE ─────────────────────────────────────────────────────
+
+const TL_SEV_COLOR = { CRITICAL:'#c0392b', HIGH:'#e67e22', MEDIUM:'#b8860b', LOW:'#27ae60' };
+const TL_SEV_R     = { CRITICAL:9, HIGH:7, MEDIUM:5, LOW:4 };
+
+function tlParseDate(str) {
+  if (!str) return null;
+  // Exact date
+  if (/^\d{4}-\d{2}-\d{2}$/.test(str)) { const d = new Date(str + 'T12:00:00'); return isNaN(d) ? null : d; }
+  // Quarter markers
+  if (str === '2026-Q1') return new Date('2026-02-15T12:00:00');
+  if (str === '2026-Q2') return new Date('2026-05-15T12:00:00');
+  if (str === '2026-Q3') return new Date('2026-08-15T12:00:00');
+  if (str === '2026-Q4') return new Date('2026-11-15T12:00:00');
+  if (/TBD/i.test(str))  return new Date('2026-12-01T12:00:00');
+  return null;
+}
+
+function renderTimeline(entries) {
+  const svgEl = document.getElementById('tlSvg');
+  const tooltip = document.getElementById('tlTooltip');
+  const legendEl = document.getElementById('tlLegend');
+  const mobileListEl = document.getElementById('tlMobileList');
+  if (!svgEl || !entries.length) return;
+
+  // Legend
+  legendEl.innerHTML = Object.entries(TL_SEV_COLOR).map(([sev, col]) => {
+    const r = TL_SEV_R[sev];
+    return '<div class="tl-legend-item">' +
+      '<div class="tl-legend-dot" style="width:' + (r*2) + 'px;height:' + (r*2) + 'px;background:' + col + '"></div>' +
+      sev.charAt(0) + sev.slice(1).toLowerCase() + '</div>';
+  }).join('');
+
+  // Parsed entries (skip null dates)
+  const plotEntries = entries
+    .map(e => ({ ...e, _date: tlParseDate(e.effectiveDate) }))
+    .filter(e => e._date !== null)
+    .sort((a, b) => a._date - b._date);
+
+  // Mobile list: upcoming deadlines
+  const today = new Date();
+  const upcoming = plotEntries
+    .filter(e => e._date >= today)
+    .slice(0, 8);
+  mobileListEl.innerHTML = upcoming.map(e => {
+    const col = TL_SEV_COLOR[(e.severity||'LOW').toUpperCase()] || '#888';
+    return '<div class="tl-mobile-item" onclick="document.getElementById(\'entry-' + (e.id||'') + '\')?.scrollIntoView({behavior:\'smooth\',block:\'start\'})">' +
+      '<div class="tl-mobile-dot" style="background:' + col + '"></div>' +
+      '<div><div class="tl-mobile-title">' + (e.title||'') + '</div>' +
+      '<div class="tl-mobile-meta">' + (e.exchange||'') + ' · ' + (e.effectiveDate||'TBD') + ' · ' + (e.severity||'') + '</div></div>' +
+      '</div>';
+  }).join('');
+  if (!upcoming.length) mobileListEl.innerHTML = '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--muted);padding:8px 0">No upcoming deadlines</div>';
+
+  // SVG chart
+  const W = Math.max(svgEl.parentElement.clientWidth - 4, 600);
+  const H = 200;
+  const M = { top: 20, bottom: 32, left: 50, right: 30 };
+  const innerW = W - M.left - M.right;
+  const innerH = H - M.top - M.bottom;
+  const midY = M.top + innerH / 2;
+
+  const xScale = d3.scaleTime()
+    .domain([new Date('2026-01-01'), new Date('2026-12-31')])
+    .range([0, innerW]);
+
+  const svg = d3.select(svgEl).attr('width', W).attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H);
+  svg.selectAll('*').remove();
+
+  // Background
+  svg.append('rect').attr('width', W).attr('height', H).attr('fill', '#f5f2eb');
+
+  const g = svg.append('g').attr('transform', 'translate(' + M.left + ',' + 0 + ')');
+
+  // X axis
+  const xAxis = d3.axisBottom(xScale)
+    .ticks(d3.timeMonth.every(1))
+    .tickFormat(d3.timeFormat('%b'))
+    .tickSize(4);
+
+  g.append('g')
+    .attr('transform', 'translate(0,' + (H - M.bottom) + ')')
+    .call(xAxis)
+    .call(ax => { ax.select('.domain').attr('stroke', '#d4c9b0'); ax.selectAll('line').attr('stroke', '#d4c9b0'); })
+    .call(ax => ax.selectAll('text').style('font-family', "'IBM Plex Mono',monospace").style('font-size', '9px').attr('fill', '#6b6555'));
+
+  // Horizontal baseline
+  g.append('line')
+    .attr('x1', 0).attr('x2', innerW)
+    .attr('y1', midY).attr('y2', midY)
+    .attr('stroke', '#d4c9b0').attr('stroke-width', 1);
+
+  // TODAY line
+  const todayX = xScale(today);
+  if (todayX >= 0 && todayX <= innerW) {
+    g.append('line')
+      .attr('x1', todayX).attr('x2', todayX)
+      .attr('y1', M.top).attr('y2', H - M.bottom)
+      .attr('stroke', '#c0392b').attr('stroke-width', 1.5)
+      .attr('stroke-dasharray', '4,3').attr('opacity', 0.8);
+    g.append('text')
+      .attr('x', todayX + 3).attr('y', M.top + 10)
+      .attr('fill', '#c0392b').style('font-family', "'IBM Plex Mono',monospace")
+      .style('font-size', '8px').text('TODAY');
+  }
+
+  // Stack circles to avoid overlap
+  // For each entry, try y positions from midY outward until no collision
+  const placed = [];
+  const STEP = 22;
+  const MAX_OFFSET = 3; // max number of steps from center
+
+  plotEntries.forEach(function(e) {
+    const x = xScale(e._date);
+    const r = TL_SEV_R[(e.severity || 'LOW').toUpperCase()] || 5;
+    let yOffset = 0;
+    let placed_y = midY;
+    for (let dir = 0; dir <= MAX_OFFSET; dir++) {
+      const tries = dir === 0 ? [0] : [-dir * STEP, dir * STEP];
+      let ok = false;
+      for (const dy of tries) {
+        const cy = midY + dy;
+        // Check bounds
+        if (cy - r < M.top + 2 || cy + r > H - M.bottom - 2) continue;
+        // Check collision with already placed
+        const collides = placed.some(p => {
+          const pr = TL_SEV_R[(p.severity || 'LOW').toUpperCase()] || 5;
+          const dx = Math.abs(p._px - x);
+          const dyo = Math.abs(p._py - cy);
+          return dx < (r + pr + 3) && dyo < (r + pr + 3);
+        });
+        if (!collides) { placed_y = cy; ok = true; break; }
+      }
+      if (ok) break;
+    }
+    e._px = x;
+    e._py = placed_y;
+    placed.push(e);
+  });
+
+  // Draw circles
+  g.append('g').selectAll('circle').data(placed).join('circle')
+    .attr('cx', d => d._px)
+    .attr('cy', d => d._py)
+    .attr('r', d => TL_SEV_R[(d.severity || 'LOW').toUpperCase()] || 5)
+    .attr('fill', d => TL_SEV_COLOR[(d.severity || 'LOW').toUpperCase()] || '#888')
+    .attr('stroke', '#f5f2eb').attr('stroke-width', 1.5)
+    .attr('opacity', 0.85)
+    .style('cursor', 'pointer')
+    .on('mouseenter', function(event, d) {
+      d3.select(this).attr('opacity', 1).attr('stroke', '#0d0d0d').attr('stroke-width', 2);
+      const col = TL_SEV_COLOR[(d.severity || 'LOW').toUpperCase()] || '#888';
+      const desc = (d.description || '').slice(0, 120) + ((d.description || '').length > 120 ? '…' : '');
+      tooltip.innerHTML = '<strong>' + (d.title || '') + '</strong>' +
+        '<div class="tl-tt-sev" style="color:' + col + '">' + (d.exchange || '') + ' · ' + (d.severity || '') + '</div>' +
+        '<div>Effective: ' + (d.effectiveDate || 'TBD') + '</div>' +
+        '<div class="tl-tt-desc">' + desc + '</div>';
+      tooltip.style.display = 'block';
+    })
+    .on('mousemove', function(event) {
+      tooltip.style.left = Math.min(event.clientX + 14, window.innerWidth - 320) + 'px';
+      tooltip.style.top  = (event.clientY - 20) + 'px';
+    })
+    .on('mouseleave', function() {
+      d3.select(this).attr('opacity', 0.85).attr('stroke', '#f5f2eb').attr('stroke-width', 1.5);
+      tooltip.style.display = 'none';
+    })
+    .on('click', function(event, d) {
+      const el = document.getElementById('entry-' + (d.id || ''));
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+}
+
 async function loadFeedWatch() {
   const container = document.getElementById('entriesContainer');
   try {
@@ -578,6 +790,10 @@ async function loadFeedWatch() {
     }
 
     container.innerHTML = entries.map(renderEntry).join('');
+
+    // Render deadline timeline (reuses same entries array)
+    window._tlEntries = entries;
+    renderTimeline(entries);
 
     // Update banner stats
     document.querySelector('.fw-stat-num').textContent = entries.length;
@@ -611,7 +827,11 @@ function checkMobile() {
   if (bar) bar.style.display = window.innerWidth <= 900 ? 'flex' : 'none';
 }
 checkMobile();
-window.addEventListener('resize', checkMobile);
+window.addEventListener('resize', function() {
+  checkMobile();
+  // Re-render timeline on resize so x-scale adapts to new width
+  if (window._tlEntries) renderTimeline(window._tlEntries);
+});
 
 loadFeedWatch();
 </script>
