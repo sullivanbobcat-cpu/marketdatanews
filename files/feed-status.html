@@ -407,10 +407,160 @@
 <div class="page-container">
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 1 — FEED STATUS DASHBOARD -->
+  <!-- SECTION 1 — FEE CHANGE ALERTS -->
   <!-- ═══════════════════════════════════════════════ -->
   <div class="section-head">
     <span class="section-num">01 —</span>
+    <h2><span class="fee-live-dot"></span>Recent &amp; Upcoming Fee Changes</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <table class="fee-table">
+    <thead>
+      <tr>
+        <th>Feed</th>
+        <th>Change</th>
+        <th>Effective</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="fee-row-high">
+        <td>NYSE Integrated Feed</td>
+        <td><span class="change-badge badge-increase">+8% Pro User Fee</span></td>
+        <td class="eff-date">Jan 1, 2026</td>
+        <td>Professional user monthly fee increased from $19.50 to $21.00. Non-professional and machine fees unchanged. NYSE cited infrastructure investment and Pillar platform upgrades as basis for the increase.</td>
+      </tr>
+      <tr>
+        <td>Nasdaq TotalView ITCH</td>
+        <td><span class="change-badge badge-new">New FPGA Variant</span></td>
+        <td class="eff-date">Q4 2025</td>
+        <td>New FPGA-optimized TotalView variant launched at $4,500/month per machine. Delivers sub-microsecond feed processing for latency-sensitive trading applications. Standard machine fee remains $1,750/month.</td>
+      </tr>
+      <tr>
+        <td>OPRA</td>
+        <td><span class="change-badge badge-pending">Surcharge Under Review</span></td>
+        <td class="eff-date">TBD — Q3 2026</td>
+        <td>96-line network expansion surcharge under review by OPRA Operating Committee. Expected to apply to subscribers provisioning additional multicast connections. SEC filing anticipated Q2 2026 ahead of production launch.</td>
+      </tr>
+      <tr>
+        <td>CTA / UTP SIP</td>
+        <td><span class="change-badge badge-pending">Annual Review Pending</span></td>
+        <td class="eff-date">Decision Q2 2026</td>
+        <td>Annual fee schedule review underway by CTA and UTP Operating Committees. Consolidated tape fee adjustments, if any, expected to be announced Q2 2026. Industry comment period likely to precede any changes.</td>
+      </tr>
+      <tr class="fee-row-high">
+        <td>Cboe One Feed Premium</td>
+        <td><span class="change-badge badge-increase">+$3/User Surcharge</span></td>
+        <td class="eff-date">Feb 1, 2026</td>
+        <td>Depth of book surcharge of $3.00/professional user/month added to Cboe One Feed Premium tier. Applies to subscribers accessing full depth of book across BZX, BYX, EDGX, and EDGA. Standard Cboe One Feed unaffected.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="fee-reviewed">Last reviewed: April 01, 2026 &nbsp;·&nbsp; Source: exchange fee schedules and SEC filings</div>
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 2 — FEE FLOW VISUALIZATION -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">02 —</span>
+    <h2>Fee Flow Visualization</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="fv-section">
+
+    <!-- Summary Row -->
+    <div class="fv-summary-row">
+      <div class="fv-summary-item">
+        <div class="fv-summary-label">Total Monthly</div>
+        <div class="fv-summary-val" id="fv-monthly">$0</div>
+      </div>
+      <div class="fv-summary-item">
+        <div class="fv-summary-label">Total Annual</div>
+        <div class="fv-summary-val sm" id="fv-annual">$0</div>
+      </div>
+      <div class="fv-summary-item">
+        <div class="fv-summary-label">Exchanges Selected</div>
+        <div class="fv-summary-val sm" id="fv-exch-count">3</div>
+      </div>
+      <div class="fv-summary-item">
+        <div class="fv-summary-label">Fee Types</div>
+        <div class="fv-summary-val sm" id="fv-fee-count">5</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="fv-controls">
+      <div class="fv-ctrl-group">
+        <div class="fv-ctrl-label">Access Type</div>
+        <div class="fv-toggle">
+          <input type="radio" name="fv-access" id="fv-access-indirect" value="indirect" checked onchange="fvUpdate()">
+          <label for="fv-access-indirect">Indirect</label>
+          <input type="radio" name="fv-access" id="fv-access-direct" value="direct" onchange="fvUpdate()">
+          <label for="fv-access-direct">Direct</label>
+        </div>
+      </div>
+      <div class="fv-ctrl-group">
+        <label class="fv-ctrl-label" for="fv-prof">Professional Users</label>
+        <input class="fv-ctrl-input" type="number" id="fv-prof" value="1" min="0" oninput="fvUpdate()">
+      </div>
+      <div class="fv-ctrl-group">
+        <label class="fv-ctrl-label" for="fv-machines">Machines</label>
+        <input class="fv-ctrl-input" type="number" id="fv-machines" value="1" min="0" oninput="fvUpdate()">
+      </div>
+      <div class="fv-ctrl-group">
+        <div class="fv-ctrl-label">Exchange Families</div>
+        <div class="fv-checkboxes">
+          <label class="fv-check-item"><input type="checkbox" id="fv-chk-nyse" checked onchange="fvUpdate()"> NYSE Family</label>
+          <label class="fv-check-item"><input type="checkbox" id="fv-chk-nasdaq" checked onchange="fvUpdate()"> Nasdaq Family</label>
+          <label class="fv-check-item"><input type="checkbox" id="fv-chk-cboe" checked onchange="fvUpdate()"> Cboe Family</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Tabs -->
+    <div class="fv-view-tabs">
+      <button class="fv-tab active" onclick="fvSwitchView('bar',this)">Stacked Bar</button>
+      <button class="fv-tab" onclick="fvSwitchView('sankey',this)">Sankey Flow</button>
+      <button class="fv-tab" onclick="fvSwitchView('table',this)">Table View</button>
+    </div>
+
+    <!-- Stacked Bar View -->
+    <div class="fv-view active fv-chart-area" id="fv-view-bar">
+      <div class="fv-legend" id="fv-legend"></div>
+      <svg id="fv-bar-svg"></svg>
+    </div>
+
+    <!-- Sankey View -->
+    <div class="fv-view fv-chart-area" id="fv-view-sankey" style="position:relative">
+      <div class="fv-tooltip" id="fv-tooltip"></div>
+      <svg id="fv-sankey-svg"></svg>
+    </div>
+
+    <!-- Table View -->
+    <div class="fv-view" id="fv-view-table">
+      <table class="fv-tbl" id="fv-tbl">
+        <thead>
+          <tr>
+            <th onclick="fvSortTable(0,this)">Exchange Family <span class="fv-sort-arrow"></span></th>
+            <th onclick="fvSortTable(1,this)">Exchange <span class="fv-sort-arrow"></span></th>
+            <th onclick="fvSortTable(2,this)">Fee Type <span class="fv-sort-arrow"></span></th>
+            <th onclick="fvSortTable(3,this)" style="text-align:right">Monthly Est. <span class="fv-sort-arrow"> ↓</span></th>
+            <th onclick="fvSortTable(4,this)" style="text-align:right">Annual Est. <span class="fv-sort-arrow"></span></th>
+          </tr>
+        </thead>
+        <tbody id="fv-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="fv-disclaimer">Fee estimates are based on published exchange fee schedules. Enterprise options and volume discounts not included. Consult exchange fee schedules for precise billing.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 3 — FEED STATUS DASHBOARD -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">03 —</span>
     <h2>Feed Status Dashboard</h2>
     <div class="section-line"></div>
   </div>
@@ -783,156 +933,6 @@
       <div class="fd-card-desc">EUR/USD, USD/JPY, GBP/USD, and 30+ currency pair futures. World's largest regulated FX futures marketplace.</div>
     </div>
     </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 2 — FEE CHANGE ALERTS -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-head">
-    <span class="section-num">02 —</span>
-    <h2><span class="fee-live-dot"></span>Recent &amp; Upcoming Fee Changes</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <table class="fee-table">
-    <thead>
-      <tr>
-        <th>Feed</th>
-        <th>Change</th>
-        <th>Effective</th>
-        <th>Details</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="fee-row-high">
-        <td>NYSE Integrated Feed</td>
-        <td><span class="change-badge badge-increase">+8% Pro User Fee</span></td>
-        <td class="eff-date">Jan 1, 2026</td>
-        <td>Professional user monthly fee increased from $19.50 to $21.00. Non-professional and machine fees unchanged. NYSE cited infrastructure investment and Pillar platform upgrades as basis for the increase.</td>
-      </tr>
-      <tr>
-        <td>Nasdaq TotalView ITCH</td>
-        <td><span class="change-badge badge-new">New FPGA Variant</span></td>
-        <td class="eff-date">Q4 2025</td>
-        <td>New FPGA-optimized TotalView variant launched at $4,500/month per machine. Delivers sub-microsecond feed processing for latency-sensitive trading applications. Standard machine fee remains $1,750/month.</td>
-      </tr>
-      <tr>
-        <td>OPRA</td>
-        <td><span class="change-badge badge-pending">Surcharge Under Review</span></td>
-        <td class="eff-date">TBD — Q3 2026</td>
-        <td>96-line network expansion surcharge under review by OPRA Operating Committee. Expected to apply to subscribers provisioning additional multicast connections. SEC filing anticipated Q2 2026 ahead of production launch.</td>
-      </tr>
-      <tr>
-        <td>CTA / UTP SIP</td>
-        <td><span class="change-badge badge-pending">Annual Review Pending</span></td>
-        <td class="eff-date">Decision Q2 2026</td>
-        <td>Annual fee schedule review underway by CTA and UTP Operating Committees. Consolidated tape fee adjustments, if any, expected to be announced Q2 2026. Industry comment period likely to precede any changes.</td>
-      </tr>
-      <tr class="fee-row-high">
-        <td>Cboe One Feed Premium</td>
-        <td><span class="change-badge badge-increase">+$3/User Surcharge</span></td>
-        <td class="eff-date">Feb 1, 2026</td>
-        <td>Depth of book surcharge of $3.00/professional user/month added to Cboe One Feed Premium tier. Applies to subscribers accessing full depth of book across BZX, BYX, EDGX, and EDGA. Standard Cboe One Feed unaffected.</td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="fee-reviewed">Last reviewed: April 01, 2026 &nbsp;·&nbsp; Source: exchange fee schedules and SEC filings</div>
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 3 — FEE FLOW VISUALIZATION -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-head">
-    <span class="section-num">03 —</span>
-    <h2>Fee Flow Visualization</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="fv-section">
-
-    <!-- Summary Row -->
-    <div class="fv-summary-row">
-      <div class="fv-summary-item">
-        <div class="fv-summary-label">Total Monthly</div>
-        <div class="fv-summary-val" id="fv-monthly">$0</div>
-      </div>
-      <div class="fv-summary-item">
-        <div class="fv-summary-label">Total Annual</div>
-        <div class="fv-summary-val sm" id="fv-annual">$0</div>
-      </div>
-      <div class="fv-summary-item">
-        <div class="fv-summary-label">Exchanges Selected</div>
-        <div class="fv-summary-val sm" id="fv-exch-count">3</div>
-      </div>
-      <div class="fv-summary-item">
-        <div class="fv-summary-label">Fee Types</div>
-        <div class="fv-summary-val sm" id="fv-fee-count">5</div>
-      </div>
-    </div>
-
-    <!-- Controls -->
-    <div class="fv-controls">
-      <div class="fv-ctrl-group">
-        <div class="fv-ctrl-label">Access Type</div>
-        <div class="fv-toggle">
-          <input type="radio" name="fv-access" id="fv-access-indirect" value="indirect" checked onchange="fvUpdate()">
-          <label for="fv-access-indirect">Indirect</label>
-          <input type="radio" name="fv-access" id="fv-access-direct" value="direct" onchange="fvUpdate()">
-          <label for="fv-access-direct">Direct</label>
-        </div>
-      </div>
-      <div class="fv-ctrl-group">
-        <label class="fv-ctrl-label" for="fv-prof">Professional Users</label>
-        <input class="fv-ctrl-input" type="number" id="fv-prof" value="1" min="0" oninput="fvUpdate()">
-      </div>
-      <div class="fv-ctrl-group">
-        <label class="fv-ctrl-label" for="fv-machines">Machines</label>
-        <input class="fv-ctrl-input" type="number" id="fv-machines" value="1" min="0" oninput="fvUpdate()">
-      </div>
-      <div class="fv-ctrl-group">
-        <div class="fv-ctrl-label">Exchange Families</div>
-        <div class="fv-checkboxes">
-          <label class="fv-check-item"><input type="checkbox" id="fv-chk-nyse" checked onchange="fvUpdate()"> NYSE Family</label>
-          <label class="fv-check-item"><input type="checkbox" id="fv-chk-nasdaq" checked onchange="fvUpdate()"> Nasdaq Family</label>
-          <label class="fv-check-item"><input type="checkbox" id="fv-chk-cboe" checked onchange="fvUpdate()"> Cboe Family</label>
-        </div>
-      </div>
-    </div>
-
-    <!-- View Tabs -->
-    <div class="fv-view-tabs">
-      <button class="fv-tab active" onclick="fvSwitchView('bar',this)">Stacked Bar</button>
-      <button class="fv-tab" onclick="fvSwitchView('sankey',this)">Sankey Flow</button>
-      <button class="fv-tab" onclick="fvSwitchView('table',this)">Table View</button>
-    </div>
-
-    <!-- Stacked Bar View -->
-    <div class="fv-view active fv-chart-area" id="fv-view-bar">
-      <div class="fv-legend" id="fv-legend"></div>
-      <svg id="fv-bar-svg"></svg>
-    </div>
-
-    <!-- Sankey View -->
-    <div class="fv-view fv-chart-area" id="fv-view-sankey" style="position:relative">
-      <div class="fv-tooltip" id="fv-tooltip"></div>
-      <svg id="fv-sankey-svg"></svg>
-    </div>
-
-    <!-- Table View -->
-    <div class="fv-view" id="fv-view-table">
-      <table class="fv-tbl" id="fv-tbl">
-        <thead>
-          <tr>
-            <th onclick="fvSortTable(0,this)">Exchange Family <span class="fv-sort-arrow"></span></th>
-            <th onclick="fvSortTable(1,this)">Exchange <span class="fv-sort-arrow"></span></th>
-            <th onclick="fvSortTable(2,this)">Fee Type <span class="fv-sort-arrow"></span></th>
-            <th onclick="fvSortTable(3,this)" style="text-align:right">Monthly Est. <span class="fv-sort-arrow"> ↓</span></th>
-            <th onclick="fvSortTable(4,this)" style="text-align:right">Annual Est. <span class="fv-sort-arrow"></span></th>
-          </tr>
-        </thead>
-        <tbody id="fv-tbody"></tbody>
-      </table>
-    </div>
-
-    <div class="fv-disclaimer">Fee estimates are based on published exchange fee schedules. Enterprise options and volume discounts not included. Consult exchange fee schedules for precise billing.</div>
   </div>
 
   <!-- ═══════════════════════════════════════════════ -->
