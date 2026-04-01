@@ -76,9 +76,12 @@
   .nav-item:first-child { border-left: 1px solid var(--rule); }
   .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
   .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; }
-  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 160px; }
+  .search-wrap { position: relative; display: flex; align-items: center; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 28px 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 160px; }
   .search-box:focus { outline: none; border-color: var(--accent); }
   .search-box::placeholder { color: var(--muted); }
+  .search-clear { position: absolute; right: 6px; background: none; border: none; cursor: pointer; font-size: 13px; color: var(--muted); line-height: 1; padding: 0 2px; display: none; }
+  .search-clear:hover { color: var(--ink); }
 
 
   .container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
@@ -267,7 +270,10 @@
     <a href="about.html" class="nav-item">About</a>
     <a href="subscribe.html" class="nav-item">Subscribe</a>
     <div class="nav-right">
-      <input class="search-box" type="text" placeholder="Search..." id="searchBox" oninput="if(typeof filterNews!=='undefined')filterNews()">
+      <div class="search-wrap">
+        <input class="search-box" type="text" placeholder="Search..." id="searchBox" oninput="filterNews()">
+        <button class="search-clear" id="searchClear" onclick="clearSearch()" aria-label="Clear search">&#x2715;</button>
+      </div>
     </div>
   </nav>
   <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
@@ -536,9 +542,37 @@ function showFallback() {
 }
 
 function filterNews() {
-  const q = document.getElementById('searchBox').value.toLowerCase();
-  if (!q) { renderNews(allArticles.slice(1)); return; }
-  renderNews(allArticles.filter(a => a.title.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q)));
+  const q = document.getElementById('searchBox').value.toLowerCase().trim();
+  const clearBtn = document.getElementById('searchClear');
+  if (clearBtn) clearBtn.style.display = q ? 'block' : 'none';
+
+  if (!q) {
+    if (allArticles.length) {
+      renderHero(allArticles[0]);
+      renderNews(allArticles.slice(1));
+    }
+    return;
+  }
+
+  const matches = allArticles.filter(a =>
+    a.title.toLowerCase().includes(q) || (a.desc || '').toLowerCase().includes(q)
+  );
+
+  if (!matches.length) {
+    document.getElementById('heroCard').innerHTML = `<div style="padding:24px 0;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)">No results found for <strong style="color:var(--ink)">"${document.getElementById('searchBox').value}"</strong></div>`;
+    document.getElementById('newsGrid').innerHTML = '';
+    return;
+  }
+
+  renderHero(matches[0]);
+  renderNews(matches.slice(1));
+}
+
+function clearSearch() {
+  const box = document.getElementById('searchBox');
+  box.value = '';
+  filterNews();
+  box.focus();
 }
 
 function subscribe() {
