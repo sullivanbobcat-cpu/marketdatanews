@@ -478,7 +478,7 @@ function detectCategory(title, desc) {
 function timeAgo(dateStr) {
   if (!dateStr) return 'Recently';
   const d = new Date(dateStr);
-  if (!d || isNaN(d.getTime())) return 'Recently';
+  if (isNaN(d.getTime())) return 'Recently';
   const mins = Math.floor((Date.now() - d.getTime()) / 60000);
   if (mins < 1) return 'Just now';
   if (mins < 60) return mins + 'm ago';
@@ -518,6 +518,13 @@ async function fetchFeed(feed) {
 }
 
 async function loadAllFeeds() {
+  // Clear stale cache entries that may have undefined source values
+  Object.keys(localStorage).filter(k => k.startsWith('mdn_')).forEach(k => {
+    try {
+      const obj = JSON.parse(localStorage.getItem(k));
+      if (obj.data && obj.data.some(i => !i.source)) localStorage.removeItem(k);
+    } catch(e) { localStorage.removeItem(k); }
+  });
   const results = await Promise.allSettled(FEEDS.map(fetchFeed));
   allArticles = results.flatMap(r => r.status === 'fulfilled' ? r.value : []).sort((a, b) => b.timestamp - a.timestamp);
   if (allArticles.length === 0) { showFallback(); return; }
