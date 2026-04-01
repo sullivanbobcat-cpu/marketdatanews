@@ -10,3 +10,6 @@
 
 [functions."fee-change-monitor"]
   schedule = "0 13 * * *"
+
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"
