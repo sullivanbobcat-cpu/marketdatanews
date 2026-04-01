@@ -14,5 +14,8 @@
 [functions."update-feedwatch"]
   schedule = "0 12 * * *"
 
+[functions."search"]
+  included_files = []
+
 [[plugins]]
   package = "@netlify/plugin-functions-install-core"
