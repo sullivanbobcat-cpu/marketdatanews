@@ -212,17 +212,49 @@
   .badge-pending  { background: #fef9f0; color: var(--accent-dark); border: 1px solid #e8c97a; }
   .eff-date { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
 
-  /* ── SANKEY CHART ── */
-  .sankey-wrap { background: var(--ink); border: 1px solid #2a2a2a; padding: 28px 32px 20px; position: relative; }
-  .sankey-wrap svg { display: block; width: 100%; }
-  .sankey-col-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; fill: #555; }
-  .sankey-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #444; margin-top: 10px; padding-top: 10px; border-top: 1px solid #1a1a1a; }
-  #sankeyTooltip { display: none; position: absolute; background: #1a1a1a; border: 1px solid #3a3a3a; padding: 8px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #e8e8e8; pointer-events: none; border-radius: 2px; z-index: 10; white-space: nowrap; line-height: 1.6; }
-  #sankeyTooltip strong { color: var(--accent); display: block; margin-bottom: 2px; }
+  /* ── FEE VISUALIZATION ── */
+  .fv-section { }
+  .fv-summary-row { display:flex; flex-wrap:wrap; gap:24px; padding:16px 20px; background:var(--cream); border:1px solid var(--border); margin-bottom:16px; }
+  .fv-summary-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:2px; }
+  .fv-summary-val { font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:700; color:var(--accent); }
+  .fv-summary-val.sm { font-size:16px; color:var(--ink); }
+  .fv-controls { display:flex; flex-wrap:wrap; gap:20px; align-items:flex-end; padding:14px 20px; background:var(--cream); border:1px solid var(--border); margin-bottom:16px; }
+  .fv-ctrl-group { display:flex; flex-direction:column; gap:4px; }
+  .fv-ctrl-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+  .fv-toggle { display:flex; border:1px solid var(--rule); overflow:hidden; border-radius:2px; }
+  .fv-toggle input[type=radio] { display:none; }
+  .fv-toggle label { padding:5px 14px; font-size:11px; font-family:'IBM Plex Mono',monospace; cursor:pointer; background:transparent; color:var(--ink); user-select:none; border-right:1px solid var(--rule); }
+  .fv-toggle label:last-child { border-right:none; }
+  .fv-toggle input:checked + label { background:var(--ink); color:var(--accent); }
+  .fv-ctrl-input { width:80px; padding:5px 10px; font-family:'IBM Plex Mono',monospace; font-size:12px; border:1px solid var(--rule); background:var(--paper); color:var(--ink); border-radius:2px; }
+  .fv-checkboxes { display:flex; flex-direction:column; gap:4px; }
+  .fv-check-item { display:flex; align-items:center; gap:6px; font-size:11px; cursor:pointer; }
+  .fv-view-tabs { display:flex; border-bottom:2px solid var(--rule); margin-bottom:16px; }
+  .fv-tab { padding:8px 20px; font-size:10px; font-family:'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:0.08em; cursor:pointer; border:none; background:none; color:var(--muted); border-bottom:3px solid transparent; margin-bottom:-2px; }
+  .fv-tab.active { color:var(--ink); border-bottom-color:var(--accent); font-weight:600; }
+  .fv-view { display:none; }
+  .fv-view.active { display:block; }
+  .fv-chart-area { position:relative; }
+  .fv-chart-area svg { display:block; width:100%; }
+  .fv-legend { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
+  .fv-legend-item { display:flex; align-items:center; gap:5px; font-size:10px; font-family:'IBM Plex Mono',monospace; color:var(--ink); }
+  .fv-legend-dot { width:10px; height:10px; border-radius:1px; flex-shrink:0; }
+  .fv-tooltip { display:none; position:absolute; background:var(--ink); border:1px solid #333; padding:8px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#e8e8e8; pointer-events:none; border-radius:2px; z-index:100; white-space:nowrap; line-height:1.6; }
+  .fv-tooltip strong { color:var(--accent); display:block; margin-bottom:2px; }
+  .fv-tbl { width:100%; border-collapse:collapse; font-size:12px; }
+  .fv-tbl th { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; padding:8px 12px; text-align:left; border-bottom:2px solid var(--rule); cursor:pointer; user-select:none; white-space:nowrap; background:var(--cream); }
+  .fv-tbl th:hover { color:var(--accent); }
+  .fv-tbl td { padding:8px 12px; border-bottom:1px solid var(--border); }
+  .fv-tbl tr:nth-child(even) td { background:var(--paper); }
+  .fv-tbl tr:nth-child(odd) td { background:#fff; }
+  .fv-tbl tr:hover td { background:var(--cream); }
+  .fv-disclaimer { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-top:16px; padding-top:12px; border-top:1px solid var(--border); line-height:1.6; }
 
   @media (max-width: 900px) {
     .page-hero, .page-container { padding-left: 20px; padding-right: 20px; }
-    .sankey-wrap { padding: 16px; overflow-x: auto; }
+    .fv-controls { gap: 12px; }
+    .fv-view-tabs .fv-tab:nth-child(2) { display: none; }
+    #fv-view-sankey { display: none !important; }
     .status-grid { grid-template-columns: 1fr 1fr; }
     .calc-layout { grid-template-columns: 1fr; }
     .calc-inputs { border-right: none; border-bottom: 1px solid var(--border); }
@@ -423,9 +455,93 @@
     <div class="section-line"></div>
   </div>
 
-  <div class="sankey-wrap">
-    <svg id="sankeyChart"></svg>
-    <div class="sankey-note">Flow widths scale with calculator inputs below. Select exchange families and enter user/machine counts to see proportional fee flows. Values are estimates based on published fee schedules.</div>
+  <div class="fv-section">
+
+    <!-- Summary Row -->
+    <div class="fv-summary-row">
+      <div class="fv-summary-item">
+        <div class="fv-summary-label">Total Monthly</div>
+        <div class="fv-summary-val" id="fv-monthly">$0</div>
+      </div>
+      <div class="fv-summary-item">
+        <div class="fv-summary-label">Total Annual</div>
+        <div class="fv-summary-val sm" id="fv-annual">$0</div>
+      </div>
+      <div class="fv-summary-item">
+        <div class="fv-summary-label">Exchanges Selected</div>
+        <div class="fv-summary-val sm" id="fv-exch-count">3</div>
+      </div>
+      <div class="fv-summary-item">
+        <div class="fv-summary-label">Fee Types</div>
+        <div class="fv-summary-val sm" id="fv-fee-count">5</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="fv-controls">
+      <div class="fv-ctrl-group">
+        <div class="fv-ctrl-label">Access Type</div>
+        <div class="fv-toggle">
+          <input type="radio" name="fv-access" id="fv-access-indirect" value="indirect" checked onchange="fvUpdate()">
+          <label for="fv-access-indirect">Indirect</label>
+          <input type="radio" name="fv-access" id="fv-access-direct" value="direct" onchange="fvUpdate()">
+          <label for="fv-access-direct">Direct</label>
+        </div>
+      </div>
+      <div class="fv-ctrl-group">
+        <label class="fv-ctrl-label" for="fv-prof">Professional Users</label>
+        <input class="fv-ctrl-input" type="number" id="fv-prof" value="1" min="0" oninput="fvUpdate()">
+      </div>
+      <div class="fv-ctrl-group">
+        <label class="fv-ctrl-label" for="fv-machines">Machines</label>
+        <input class="fv-ctrl-input" type="number" id="fv-machines" value="1" min="0" oninput="fvUpdate()">
+      </div>
+      <div class="fv-ctrl-group">
+        <div class="fv-ctrl-label">Exchange Families</div>
+        <div class="fv-checkboxes">
+          <label class="fv-check-item"><input type="checkbox" id="fv-chk-nyse" checked onchange="fvUpdate()"> NYSE Family</label>
+          <label class="fv-check-item"><input type="checkbox" id="fv-chk-nasdaq" checked onchange="fvUpdate()"> Nasdaq Family</label>
+          <label class="fv-check-item"><input type="checkbox" id="fv-chk-cboe" checked onchange="fvUpdate()"> Cboe Family</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Tabs -->
+    <div class="fv-view-tabs">
+      <button class="fv-tab active" onclick="fvSwitchView('bar',this)">Stacked Bar</button>
+      <button class="fv-tab" onclick="fvSwitchView('sankey',this)">Sankey Flow</button>
+      <button class="fv-tab" onclick="fvSwitchView('table',this)">Table View</button>
+    </div>
+
+    <!-- Stacked Bar View -->
+    <div class="fv-view active fv-chart-area" id="fv-view-bar">
+      <div class="fv-legend" id="fv-legend"></div>
+      <svg id="fv-bar-svg"></svg>
+    </div>
+
+    <!-- Sankey View -->
+    <div class="fv-view fv-chart-area" id="fv-view-sankey" style="position:relative">
+      <div class="fv-tooltip" id="fv-tooltip"></div>
+      <svg id="fv-sankey-svg"></svg>
+    </div>
+
+    <!-- Table View -->
+    <div class="fv-view" id="fv-view-table">
+      <table class="fv-tbl" id="fv-tbl">
+        <thead>
+          <tr>
+            <th onclick="fvSortTable(0,this)">Exchange Family <span class="fv-sort-arrow"></span></th>
+            <th onclick="fvSortTable(1,this)">Exchange <span class="fv-sort-arrow"></span></th>
+            <th onclick="fvSortTable(2,this)">Fee Type <span class="fv-sort-arrow"></span></th>
+            <th onclick="fvSortTable(3,this)" style="text-align:right">Monthly Est. <span class="fv-sort-arrow"> ↓</span></th>
+            <th onclick="fvSortTable(4,this)" style="text-align:right">Annual Est. <span class="fv-sort-arrow"></span></th>
+          </tr>
+        </thead>
+        <tbody id="fv-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="fv-disclaimer">Fee estimates are based on published exchange fee schedules. Enterprise options and volume discounts not included. Consult exchange fee schedules for precise billing.</div>
   </div>
 
   <!-- ═══════════════════════════════════════════════ -->
@@ -722,245 +838,442 @@ function recalc() {
     }
   });
 
-  // Update Sankey
-  updateSankey(amounts, sel, total);
 }
 
-// ── SANKEY CHART ─────────────────────────────────────────────────────────
+// ── FEE VISUALIZATION ─────────────────────────────────────────────────────
 
-// Fixed split percentages
-const SPLITS = {
-  // Exchange → Fee Type
-  NYSE_display: 0.35, NYSE_nondisplay: 0.40, NYSE_dist: 0.25,
-  Nasdaq_display: 0.30, Nasdaq_nondisplay: 0.45, Nasdaq_dist: 0.25,
-  Cboe_display: 0.40, Cboe_nondisplay: 0.35, Cboe_dist: 0.25,
-  // Fee Type → Client Type
-  display_prof: 0.60, display_nonprof: 0.30, display_internal: 0.10,
-  nondisplay_machine: 0.70, nondisplay_internal: 0.30,
-  dist_prof: 0.40, dist_machine: 0.60
+const FV_RATES = {
+  NYSE: {
+    prof: 21, machine: 1500, directMult: 1.4, dist: 500, color: '#b8860b',
+    exchanges: { 'NYSE': 0.30, 'NYSE Arca': 0.25, 'NYSE American': 0.25, 'NYSE (Other)': 0.20 }
+  },
+  Nasdaq: {
+    prof: 24, machine: 1750, directMult: 1.35, dist: 450, color: '#1565C0',
+    exchanges: { 'Nasdaq': 0.45, 'BX': 0.25, 'PSX': 0.20, 'Nasdaq (Other)': 0.10 }
+  },
+  Cboe: {
+    prof: 18, machine: 1200, directMult: 1.30, dist: 400, color: '#2E7D32',
+    exchanges: { 'BZX': 0.20, 'EDGX': 0.20, 'EDGA': 0.15, 'BYX': 0.15, 'Cboe (Other)': 0.30 }
+  }
 };
 
-// Node definitions: [name, column, color]
-const NODE_DEFS = [
-  // Col 0 — Exchange Families
-  { id: 0, name: 'NYSE Family',         col: 0, color: '#b8860b' },
-  { id: 1, name: 'Nasdaq Family',       col: 0, color: '#1a5276' },
-  { id: 2, name: 'Cboe Family',         col: 0, color: '#1e8449' },
-  // Col 1 — Fee Types
-  { id: 3, name: 'Display Fees',        col: 1, color: '#5d6d7e' },
-  { id: 4, name: 'Non-Display Fees',    col: 1, color: '#5d6d7e' },
-  { id: 5, name: 'Distribution Fees',   col: 1, color: '#5d6d7e' },
-  // Col 2 — Client Types
-  { id: 6, name: 'Professional Users',  col: 2, color: '#6c3483' },
-  { id: 7, name: 'Non-Prof. Users',     col: 2, color: '#6c3483' },
-  { id: 8, name: 'Machines',            col: 2, color: '#6c3483' },
-  { id: 9, name: 'Internal Users',      col: 2, color: '#6c3483' }
-];
+const FV_FEE_COLORS = {
+  'User Fees':         '#4CAF50',
+  'Non-Display Fees':  '#E91E63',
+  'Distribution Fees': '#2196F3',
+  'Flat Fees':         '#FF9800',
+  'Other Fees':        '#9C27B0'
+};
+const FV_FEE_TYPES = Object.keys(FV_FEE_COLORS);
 
-const COL_LABELS = ['Exchange Families', 'Fee Types', 'Client Types'];
+let fvCurrentView = 'bar';
+let fvLastData = null;
+let fvSortColIdx = 3;
+let fvSortAscending = false;
 
-let sankeyInitialized = false;
-let svgEl, sankeyG, colLabelG;
-let pinnedLinkKey = null;
-const SANKEY_HEIGHT = 420;
-const SANKEY_MIN_VALUE = 50; // floor so chart remains visible even at zero inputs
-
-function buildSankeyData(amounts) {
-  // Use a floor value so layout stays stable when inputs are zero
-  const nyse   = Math.max(amounts.NYSE   || 0, SANKEY_MIN_VALUE);
-  const nasdaq = Math.max(amounts.Nasdaq || 0, SANKEY_MIN_VALUE);
-  const cboe   = Math.max(amounts.Cboe   || 0, SANKEY_MIN_VALUE);
-
-  const links = [
-    // NYSE → Fee Types
-    { source: 0, target: 3, value: nyse   * SPLITS.NYSE_display },
-    { source: 0, target: 4, value: nyse   * SPLITS.NYSE_nondisplay },
-    { source: 0, target: 5, value: nyse   * SPLITS.NYSE_dist },
-    // Nasdaq → Fee Types
-    { source: 1, target: 3, value: nasdaq * SPLITS.Nasdaq_display },
-    { source: 1, target: 4, value: nasdaq * SPLITS.Nasdaq_nondisplay },
-    { source: 1, target: 5, value: nasdaq * SPLITS.Nasdaq_dist },
-    // Cboe → Fee Types
-    { source: 2, target: 3, value: cboe   * SPLITS.Cboe_display },
-    { source: 2, target: 4, value: cboe   * SPLITS.Cboe_nondisplay },
-    { source: 2, target: 5, value: cboe   * SPLITS.Cboe_dist },
-    // Display → Clients
-    { source: 3, target: 6, value: (nyse * SPLITS.NYSE_display + nasdaq * SPLITS.Nasdaq_display + cboe * SPLITS.Cboe_display) * SPLITS.display_prof },
-    { source: 3, target: 7, value: (nyse * SPLITS.NYSE_display + nasdaq * SPLITS.Nasdaq_display + cboe * SPLITS.Cboe_display) * SPLITS.display_nonprof },
-    { source: 3, target: 9, value: (nyse * SPLITS.NYSE_display + nasdaq * SPLITS.Nasdaq_display + cboe * SPLITS.Cboe_display) * SPLITS.display_internal },
-    // Non-Display → Clients
-    { source: 4, target: 8, value: (nyse * SPLITS.NYSE_nondisplay + nasdaq * SPLITS.Nasdaq_nondisplay + cboe * SPLITS.Cboe_nondisplay) * SPLITS.nondisplay_machine },
-    { source: 4, target: 9, value: (nyse * SPLITS.NYSE_nondisplay + nasdaq * SPLITS.Nasdaq_nondisplay + cboe * SPLITS.Cboe_nondisplay) * SPLITS.nondisplay_internal },
-    // Distribution → Clients
-    { source: 5, target: 6, value: (nyse * SPLITS.NYSE_dist + nasdaq * SPLITS.Nasdaq_dist + cboe * SPLITS.Cboe_dist) * SPLITS.dist_prof },
-    { source: 5, target: 8, value: (nyse * SPLITS.NYSE_dist + nasdaq * SPLITS.Nasdaq_dist + cboe * SPLITS.Cboe_dist) * SPLITS.dist_machine }
-  ];
-
-  return {
-    nodes: NODE_DEFS.map(d => ({ ...d })),
-    links: links.map(l => ({ ...l }))
-  };
+function fvFmt(n) {
+  if (!n || n === 0) return '$0';
+  if (n >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
+  if (n >= 1000) return '$' + Math.round(n).toLocaleString();
+  return '$' + Math.round(n);
 }
 
-function updateSankey(amounts, sel, total) {
-  const container = document.getElementById('sankeyChart').parentElement;
-  const W = Math.max(container.clientWidth - 64, 600);
-  const H = SANKEY_HEIGHT;
+function fvCalc() {
+  const isDirect = document.getElementById('fv-access-direct').checked;
+  const prof     = Math.max(0, parseInt(document.getElementById('fv-prof').value)     || 0);
+  const machines = Math.max(0, parseInt(document.getElementById('fv-machines').value) || 0);
+  const sel = {
+    NYSE:   document.getElementById('fv-chk-nyse').checked,
+    Nasdaq: document.getElementById('fv-chk-nasdaq').checked,
+    Cboe:   document.getElementById('fv-chk-cboe').checked
+  };
 
-  const svg = d3.select('#sankeyChart')
-    .attr('viewBox', `0 0 ${W} ${H}`)
-    .attr('width', W)
-    .attr('height', H);
+  const families = Object.keys(FV_RATES).filter(f => sel[f]);
+  const byFamilyFeeType = {}; // fam -> { feeType -> amount }
+  const famTotals = {};
+  const feeTotals = {};
+  const tableRows = [];
+  FV_FEE_TYPES.forEach(ft => { feeTotals[ft] = 0; });
+  let grandTotal = 0;
 
-  svg.selectAll('*').remove();
+  families.forEach(fam => {
+    const r = FV_RATES[fam];
+    const mult = isDirect ? r.directMult : 1;
+    const userFees   = prof     * r.prof    * mult;
+    const nonDisplay = machines * r.machine * mult;
+    const distFees   = r.dist;
+    const flatFees   = (userFees + nonDisplay) * 0.06 + 50;
+    const otherFees  = (userFees + nonDisplay) * 0.03;
+    const famTotal   = userFees + nonDisplay + distFees + flatFees + otherFees;
 
-  // Background
-  svg.append('rect').attr('width', W).attr('height', H).attr('fill', '#0d0d0d');
+    const feeBreakdown = {
+      'User Fees':         userFees,
+      'Non-Display Fees':  nonDisplay,
+      'Distribution Fees': distFees,
+      'Flat Fees':         flatFees,
+      'Other Fees':        otherFees
+    };
 
-  const pad = { top: 32, bottom: 16, left: 12, right: 12 };
+    byFamilyFeeType[fam] = feeBreakdown;
+    famTotals[fam] = famTotal;
+    grandTotal += famTotal;
+    FV_FEE_TYPES.forEach(ft => { feeTotals[ft] += feeBreakdown[ft]; });
 
-  // Column header labels
-  const colPositions = [pad.left, W / 2, W - pad.right];
-  COL_LABELS.forEach((label, i) => {
-    const x = i === 0 ? pad.left + 2
-            : i === 1 ? W / 2 - 20
-            : W - pad.right - 2;
-    const anchor = i === 0 ? 'start' : i === 1 ? 'middle' : 'end';
-    svg.append('text')
-      .attr('x', x + (i === 1 ? 20 : 0))
-      .attr('y', 14)
-      .attr('text-anchor', anchor)
-      .attr('class', 'sankey-col-label')
-      .text(label);
+    Object.entries(r.exchanges).forEach(([exch, weight]) => {
+      FV_FEE_TYPES.forEach(ft => {
+        const monthly = feeBreakdown[ft] * weight;
+        tableRows.push({
+          family: fam + ' Family', famKey: fam,
+          exchange: exch, feeType: ft,
+          monthly, annual: monthly * 12,
+          famColor: r.color
+        });
+      });
+    });
   });
 
-  // Build Sankey layout
-  const data = buildSankeyData(amounts);
+  return { families, byFamilyFeeType, famTotals, feeTotals, tableRows, grandTotal, sel };
+}
 
-  const sankey = d3.sankey()
-    .nodeId(d => d.id)
-    .nodeWidth(14)
-    .nodePadding(18)
-    .extent([[pad.left, pad.top], [W - pad.right, H - pad.bottom]]);
+function fvUpdate() {
+  const data = fvCalc();
+  fvLastData = data;
 
-  const { nodes, links } = sankey(data);
+  document.getElementById('fv-monthly').textContent    = fvFmt(data.grandTotal);
+  document.getElementById('fv-annual').textContent     = fvFmt(data.grandTotal * 12);
+  document.getElementById('fv-exch-count').textContent = data.families.length;
+  document.getElementById('fv-fee-count').textContent  = FV_FEE_TYPES.length;
 
-  // Dim exchange family nodes that are deselected
-  const activeExchanges = { 0: sel.NYSE, 1: sel.Nasdaq, 2: sel.Cboe };
+  if (fvCurrentView === 'bar')    fvRenderBar(data);
+  else if (fvCurrentView === 'sankey') fvRenderSankey(data);
+  else fvRenderTable(data);
+}
 
-  // Ensure tooltip element exists
-  let tooltip = document.getElementById('sankeyTooltip');
-  if (!tooltip) {
-    tooltip = document.createElement('div');
-    tooltip.id = 'sankeyTooltip';
-    container.appendChild(tooltip);
+function fvSwitchView(view, btn) {
+  fvCurrentView = view;
+  document.querySelectorAll('.fv-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.fv-view').forEach(v => v.classList.remove('active'));
+  document.getElementById('fv-view-' + view).classList.add('active');
+  if (fvLastData) {
+    if (view === 'bar')    fvRenderBar(fvLastData);
+    else if (view === 'sankey') fvRenderSankey(fvLastData);
+    else fvRenderTable(fvLastData);
+  }
+}
+
+// ── STACKED BAR CHART ──────────────────────────────────────────────────────
+
+function fvRenderBar(data) {
+  const { families, byFamilyFeeType, famTotals } = data;
+  const svgEl = document.getElementById('fv-bar-svg');
+  const legendEl = document.getElementById('fv-legend');
+
+  // Legend
+  legendEl.innerHTML = FV_FEE_TYPES.map(ft =>
+    '<div class="fv-legend-item">' +
+    '<div class="fv-legend-dot" style="background:' + FV_FEE_COLORS[ft] + '"></div>' + ft + '</div>'
+  ).join('');
+
+  if (!families.length) {
+    d3.select(svgEl).selectAll('*').remove();
+    return;
   }
 
-  // Total entering flow (first-column links) for % calculation
-  const totalFlow = links
-    .filter(l => l.source.id <= 2)
-    .reduce((sum, l) => sum + l.value, 0);
+  const container = svgEl.parentElement;
+  const W = Math.max(container.clientWidth - 4, 320);
+  const rowH = 54;
+  const margin = { top: 8, bottom: 28, left: 115, right: 100 };
+  const H = margin.top + families.length * rowH + margin.bottom;
+  const innerW = W - margin.left - margin.right;
 
-  const linkKey = d => `${d.source.id}-${d.target.id}`;
-  const isActive = d => d.source.id > 2 || activeExchanges[d.source.id];
-  const defaultOpacity = d => isActive(d) ? 0.35 : 0.08;
+  const maxVal = Math.max(...families.map(f => famTotals[f]), 1);
+  const xScale = d3.scaleLinear().domain([0, maxVal]).range([0, innerW]);
 
-  // Draw links
+  const svg = d3.select(svgEl)
+    .attr('width', W).attr('height', H)
+    .attr('viewBox', '0 0 ' + W + ' ' + H);
+  svg.selectAll('*').remove();
+
+  // X-axis grid + labels
+  const g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+  g.append('g')
+    .attr('transform', 'translate(0,' + (families.length * rowH) + ')')
+    .call(d3.axisBottom(xScale).ticks(4).tickFormat(d => fvFmt(d)))
+    .call(ax => { ax.select('.domain').attr('stroke', '#d4c9b0'); ax.selectAll('line').attr('stroke', '#d4c9b0'); })
+    .call(ax => ax.selectAll('text').style('font-family', "'IBM Plex Mono',monospace").style('font-size', '9px').attr('fill', '#6b6555'));
+
+  // Grid lines
+  xScale.ticks(4).forEach(tick => {
+    g.append('line')
+      .attr('x1', xScale(tick)).attr('x2', xScale(tick))
+      .attr('y1', 0).attr('y2', families.length * rowH)
+      .attr('stroke', '#e8e0d0').attr('stroke-width', 1).attr('stroke-dasharray', '3,3');
+  });
+
+  // Bars per family
+  families.forEach(function(fam, i) {
+    const rowG = g.append('g').attr('transform', 'translate(0,' + (i * rowH + 4) + ')');
+    const barH = rowH - 14;
+
+    // Family label
+    rowG.append('text')
+      .attr('x', -8).attr('y', barH / 2)
+      .attr('dy', '0.35em').attr('text-anchor', 'end')
+      .attr('fill', FV_RATES[fam].color)
+      .style('font-family', "'IBM Plex Sans',sans-serif")
+      .style('font-size', '11px').style('font-weight', '600')
+      .text(fam + ' Family');
+
+    let xPos = 0;
+    FV_FEE_TYPES.forEach(function(ft) {
+      const val = byFamilyFeeType[fam][ft] || 0;
+      const barW = xScale(val);
+      if (barW <= 0) return;
+      const rect = rowG.append('rect')
+        .attr('x', xPos).attr('y', 0)
+        .attr('width', 0).attr('height', barH)
+        .attr('fill', FV_FEE_COLORS[ft]);
+      rect.transition().duration(600).ease(d3.easeCubicOut).attr('width', barW);
+      xPos += barW;
+    });
+
+    // Total label at end of bar
+    const total = famTotals[fam];
+    const endX = xScale(total);
+    rowG.append('text')
+      .attr('x', endX + 6).attr('y', barH / 2)
+      .attr('dy', '0.35em').attr('fill', '#0d0d0d')
+      .style('font-family', "'IBM Plex Mono',monospace")
+      .style('font-size', '10px').style('font-weight', '600')
+      .attr('opacity', 0)
+      .transition().delay(600).duration(200)
+      .attr('opacity', 1)
+      .text(fvFmt(total) + '/mo');
+  });
+}
+
+// ── SANKEY FLOW CHART ──────────────────────────────────────────────────────
+
+function fvRenderSankey(data) {
+  const { families, byFamilyFeeType, feeTotals } = data;
+  const svgEl = document.getElementById('fv-sankey-svg');
+
+  if (!families.length) { d3.select(svgEl).selectAll('*').remove(); return; }
+
+  // Build nodes list
+  const nodes = [];
+  const famNodeIdx = {};
+  families.forEach(function(fam) {
+    famNodeIdx[fam] = nodes.length;
+    nodes.push({ name: fam + ' Family', col: 0, color: FV_RATES[fam].color });
+  });
+
+  const feeNodeIdx = {};
+  const activeFeeTypes = FV_FEE_TYPES.filter(ft => feeTotals[ft] > 0);
+  activeFeeTypes.forEach(function(ft) {
+    feeNodeIdx[ft] = nodes.length;
+    nodes.push({ name: ft, col: 1, color: FV_FEE_COLORS[ft] });
+  });
+
+  const rightNodeIdx = {};
+  const rightNodes = [
+    { name: 'Professional Users', color: '#6c3483' },
+    { name: 'Machines',           color: '#1565C0' },
+    { name: 'Platform / Other',   color: '#455A64' }
+  ];
+  rightNodes.forEach(function(rn) {
+    rightNodeIdx[rn.name] = nodes.length;
+    nodes.push({ name: rn.name, col: 2, color: rn.color });
+  });
+
+  const links = [];
+
+  // Family → Fee Type
+  families.forEach(function(fam) {
+    activeFeeTypes.forEach(function(ft) {
+      const val = byFamilyFeeType[fam][ft] || 0;
+      if (val > 0) links.push({ source: famNodeIdx[fam], target: feeNodeIdx[ft], value: val });
+    });
+  });
+
+  // Fee Type → Right column
+  function addLink(ft, rightName, fraction) {
+    if (feeNodeIdx[ft] === undefined || feeTotals[ft] <= 0) return;
+    const val = feeTotals[ft] * fraction;
+    if (val > 0) links.push({ source: feeNodeIdx[ft], target: rightNodeIdx[rightName], value: val });
+  }
+  addLink('User Fees',         'Professional Users', 1.0);
+  addLink('Non-Display Fees',  'Machines',           1.0);
+  addLink('Distribution Fees', 'Professional Users', 0.5);
+  addLink('Distribution Fees', 'Machines',           0.5);
+  addLink('Flat Fees',         'Platform / Other',   1.0);
+  addLink('Other Fees',        'Platform / Other',   1.0);
+
+  const container = document.getElementById('fv-view-sankey');
+  const W = Math.max(container.clientWidth - 4, 500);
+  const H = 380;
+
+  const svg = d3.select(svgEl).attr('width', W).attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H);
+  svg.selectAll('*').remove();
+  svg.append('rect').attr('width', W).attr('height', H).attr('fill', '#f5f2eb');
+
+  let sData;
+  try {
+    sData = d3.sankey()
+      .nodeId(function(d, i) { return i; })
+      .nodeWidth(14).nodePadding(12)
+      .extent([[80, 24], [W - 80, H - 16]])({ nodes: nodes.map(d => Object.assign({}, d)), links: links.map(d => Object.assign({}, d)) });
+  } catch(e) { return; }
+
+  const tooltip = document.getElementById('fv-tooltip');
+  let pinnedKey = null;
+  const linkKey = function(d) { return d.source.index + '-' + d.target.index; };
+  const DEF_OPACITY = 0.45;
+
   const linkPath = d3.sankeyLinkHorizontal();
-
-  const linkPaths = svg.append('g')
-    .selectAll('path')
-    .data(links)
-    .join('path')
-      .attr('d', linkPath)
-      .attr('stroke-width', d => Math.max(1, d.width))
-      .attr('fill', 'none')
-      .attr('stroke', d => isActive(d) ? d.source.color : '#333')
-      .attr('opacity', d => pinnedLinkKey
-        ? (linkKey(d) === pinnedLinkKey ? 1.0 : 0.2)
-        : defaultOpacity(d))
-      .style('cursor', 'pointer')
-      .on('mouseenter', function(event, d) {
-        if (pinnedLinkKey !== null) return;
-        linkPaths.attr('opacity', l => linkKey(l) === linkKey(d) ? 1.0 : 0.2);
-        const pct = totalFlow > 0 ? ((d.value / totalFlow) * 100).toFixed(1) : '0';
-        tooltip.innerHTML = `<strong>${d.source.name} → ${d.target.name}</strong>${pct}% of total flow`;
+  const linkSel = svg.append('g').selectAll('path').data(sData.links).join('path')
+    .attr('d', linkPath)
+    .attr('fill', 'none')
+    .attr('stroke', function(d) { return d.source.color; })
+    .attr('stroke-width', function(d) { return Math.max(1, d.width); })
+    .attr('opacity', DEF_OPACITY)
+    .style('cursor', 'pointer')
+    .on('mouseenter', function(event, d) {
+      if (pinnedKey) return;
+      linkSel.attr('opacity', function(l) { return linkKey(l) === linkKey(d) ? 1 : 0.1; });
+      tooltip.innerHTML = '<strong>' + d.source.name + ' → ' + d.target.name + '</strong>' + fvFmt(d.value) + '/mo';
+      tooltip.style.display = 'block';
+    })
+    .on('mousemove', function(event) {
+      if (pinnedKey) return;
+      const rect = container.getBoundingClientRect();
+      tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
+      tooltip.style.top  = (event.clientY - rect.top - 40) + 'px';
+    })
+    .on('mouseleave', function() {
+      if (pinnedKey) return;
+      linkSel.attr('opacity', DEF_OPACITY);
+      tooltip.style.display = 'none';
+    })
+    .on('click', function(event, d) {
+      const key = linkKey(d);
+      if (pinnedKey === key) {
+        pinnedKey = null;
+        linkSel.transition().duration(200).attr('opacity', DEF_OPACITY);
+        tooltip.style.display = 'none';
+      } else {
+        pinnedKey = key;
+        linkSel.transition().duration(200).attr('opacity', function(l) { return linkKey(l) === key ? 1 : 0.1; });
+        tooltip.innerHTML = '<strong>' + d.source.name + ' → ' + d.target.name + '</strong>' + fvFmt(d.value) + '/mo' +
+          '<span style="display:block;font-size:9px;color:#888;margin-top:2px">click to unpin</span>';
         tooltip.style.display = 'block';
-      })
-      .on('mousemove', function(event) {
-        if (pinnedLinkKey !== null) return;
         const rect = container.getBoundingClientRect();
         tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
-        tooltip.style.top  = (event.clientY - rect.top  - 36) + 'px';
-      })
-      .on('mouseleave', function() {
-        if (pinnedLinkKey !== null) return;
-        linkPaths.attr('opacity', defaultOpacity);
-        tooltip.style.display = 'none';
-      })
-      .on('click', function(event, d) {
-        const key = linkKey(d);
-        if (pinnedLinkKey === key) {
-          pinnedLinkKey = null;
-          linkPaths.attr('opacity', defaultOpacity);
-          tooltip.style.display = 'none';
-        } else {
-          pinnedLinkKey = key;
-          linkPaths.attr('opacity', l => linkKey(l) === key ? 1.0 : 0.2);
-          const pct = totalFlow > 0 ? ((d.value / totalFlow) * 100).toFixed(1) : '0';
-          tooltip.innerHTML = `<strong>${d.source.name} → ${d.target.name}</strong>${pct}% of total flow<span style="display:block;font-size:9px;color:#888;margin-top:3px">click again to unpin</span>`;
-          tooltip.style.display = 'block';
-          const rect = container.getBoundingClientRect();
-          tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
-          tooltip.style.top  = (event.clientY - rect.top  - 36) + 'px';
-        }
-      });
+        tooltip.style.top  = (event.clientY - rect.top - 40) + 'px';
+      }
+    });
 
-  // Draw nodes
-  const nodeG = svg.append('g').selectAll('g').data(nodes).join('g');
+  const nodeG = svg.append('g').selectAll('g').data(sData.nodes).join('g');
 
   nodeG.append('rect')
-    .attr('x', d => d.x0)
-    .attr('y', d => d.y0)
-    .attr('width', d => d.x1 - d.x0)
-    .attr('height', d => Math.max(1, d.y1 - d.y0))
-    .attr('fill', d => {
-      const isExchange = d.id <= 2;
-      const isActive = !isExchange || activeExchanges[d.id];
-      return isActive ? d.color : '#2a2a2a';
+    .attr('x', function(d) { return d.x0; }).attr('y', function(d) { return d.y0; })
+    .attr('width', function(d) { return d.x1 - d.x0; })
+    .attr('height', function(d) { return Math.max(1, d.y1 - d.y0); })
+    .attr('fill', function(d) { return d.color; }).attr('rx', 1)
+    .style('cursor', 'pointer')
+    .on('mouseenter', function(event, d) {
+      if (pinnedKey) return;
+      const idx = d.index;
+      linkSel.transition().duration(150).attr('opacity', function(l) {
+        return (l.source.index === idx || l.target.index === idx) ? 0.9 : 0.08;
+      });
+      tooltip.innerHTML = '<strong>' + d.name + '</strong>' + fvFmt(d.value) + '/mo';
+      tooltip.style.display = 'block';
     })
-    .attr('rx', 1);
+    .on('mousemove', function(event) {
+      if (pinnedKey) return;
+      const rect = container.getBoundingClientRect();
+      tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
+      tooltip.style.top  = (event.clientY - rect.top - 40) + 'px';
+    })
+    .on('mouseleave', function() {
+      if (pinnedKey) return;
+      linkSel.transition().duration(150).attr('opacity', DEF_OPACITY);
+      tooltip.style.display = 'none';
+    })
+    .on('click', function(event, d) {
+      if (pinnedKey && pinnedKey.startsWith('node')) {
+        pinnedKey = null;
+        linkSel.transition().duration(200).attr('opacity', DEF_OPACITY);
+        tooltip.style.display = 'none';
+      } else {
+        const idx = d.index;
+        pinnedKey = 'node-' + idx;
+        linkSel.transition().duration(200).attr('opacity', function(l) {
+          return (l.source.index === idx || l.target.index === idx) ? 0.9 : 0.08;
+        });
+      }
+    });
 
   // Node labels
   nodeG.append('text')
-    .attr('x', d => d.col === 2 ? d.x1 + 8 : d.col === 0 ? d.x0 - 8 : (d.x0 + d.x1) / 2)
-    .attr('y', d => (d.y0 + d.y1) / 2)
+    .attr('x', function(d) { return d.col === 2 ? d.x1 + 8 : d.col === 0 ? d.x0 - 8 : (d.x0 + d.x1) / 2; })
+    .attr('y', function(d) { return (d.y0 + d.y1) / 2; })
     .attr('dy', '0.35em')
-    .attr('text-anchor', d => d.col === 2 ? 'start' : d.col === 0 ? 'end' : 'middle')
-    .attr('fill', d => {
-      const isExchange = d.id <= 2;
-      return (!isExchange || activeExchanges[d.id]) ? '#e8e8e8' : '#444';
-    })
-    .style('font-family', "'IBM Plex Mono', monospace")
-    .style('font-size', '10px')
-    .style('letter-spacing', '0.04em')
-    .text(d => d.name);
+    .attr('text-anchor', function(d) { return d.col === 2 ? 'start' : d.col === 0 ? 'end' : 'middle'; })
+    .attr('fill', '#0d0d0d')
+    .style('font-family', "'IBM Plex Mono',monospace").style('font-size', '10px')
+    .text(function(d) { return d.name; });
 
-  // Value labels on exchange nodes (show $ amount)
-  nodeG.filter(d => d.id <= 2)
-    .append('text')
-    .attr('x', d => d.x0 - 8)
-    .attr('y', d => (d.y0 + d.y1) / 2 + 13)
-    .attr('text-anchor', 'end')
-    .attr('fill', '#555')
-    .style('font-family', "'IBM Plex Mono', monospace")
-    .style('font-size', '9px')
-    .text(d => {
-      const key = d.id === 0 ? 'NYSE' : d.id === 1 ? 'Nasdaq' : 'Cboe';
-      const v = amounts[key] || 0;
-      return v > 0 ? fmt(v) + '/mo' : '';
-    });
+  // Column header labels
+  [['Exchange Families', 72, 'end'], ['Fee Types', W / 2, 'middle'], ['Client Types', W - 72, 'start']].forEach(function(h) {
+    svg.append('text').attr('x', h[1]).attr('y', 14).attr('text-anchor', h[2])
+      .attr('fill', '#6b6555').style('font-family', "'IBM Plex Mono',monospace")
+      .style('font-size', '9px').style('text-transform', 'uppercase').style('letter-spacing', '0.1em')
+      .text(h[0]);
+  });
 }
+
+// ── TABLE VIEW ────────────────────────────────────────────────────────────
+
+function fvRenderTable(data) {
+  const rows = data.tableRows;
+  const cols = ['family', 'exchange', 'feeType', 'monthly', 'annual'];
+  const sorted = rows.slice().sort(function(a, b) {
+    const va = a[cols[fvSortColIdx]], vb = b[cols[fvSortColIdx]];
+    if (typeof va === 'string') return fvSortAscending ? va.localeCompare(vb) : vb.localeCompare(va);
+    return fvSortAscending ? va - vb : vb - va;
+  });
+
+  document.getElementById('fv-tbody').innerHTML = sorted.map(function(r) {
+    return '<tr>' +
+      '<td style="color:' + r.famColor + ';font-weight:600">' + r.family + '</td>' +
+      '<td>' + r.exchange + '</td>' +
+      '<td><span style="display:inline-block;width:8px;height:8px;background:' + FV_FEE_COLORS[r.feeType] + ';border-radius:1px;margin-right:5px;vertical-align:middle"></span>' + r.feeType + '</td>' +
+      '<td style="font-family:\'IBM Plex Mono\',monospace;text-align:right">' + fvFmt(r.monthly) + '</td>' +
+      '<td style="font-family:\'IBM Plex Mono\',monospace;text-align:right">' + fvFmt(r.annual) + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+function fvSortTable(colIdx, th) {
+  if (fvSortColIdx === colIdx) { fvSortAscending = !fvSortAscending; }
+  else { fvSortColIdx = colIdx; fvSortAscending = colIdx < 3; }
+  document.querySelectorAll('#fv-tbl th .fv-sort-arrow').forEach(function(el, i) {
+    el.textContent = i === colIdx ? (fvSortAscending ? ' ↑' : ' ↓') : '';
+  });
+  if (fvLastData) fvRenderTable(fvLastData);
+}
+
+// Init fee visualization
+fvUpdate();
+window.addEventListener('resize', function() {
+  if (!fvLastData) return;
+  if (fvCurrentView === 'bar') fvRenderBar(fvLastData);
+  else if (fvCurrentView === 'sankey') fvRenderSankey(fvLastData);
+});
+
 
 // Run on load with defaults
 recalc();
