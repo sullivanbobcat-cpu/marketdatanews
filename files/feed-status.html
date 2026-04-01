@@ -270,6 +270,46 @@
   .fee-row-high td:first-child { border-left: 3px solid var(--accent); padding-left: 11px; }
   .fee-live-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:#c0392b; animation:pulse 2s infinite; margin-right:8px; vertical-align:middle; flex-shrink:0; }
   .fee-reviewed { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-top:10px; padding:8px 14px; background:var(--cream); border-top:1px solid var(--border); }
+
+  /* ── FEED DIRECTORY ── */
+  .fd-summary-bar { display:flex; flex-wrap:wrap; gap:24px; padding:14px 20px; background:var(--cream); border:1px solid var(--border); margin-bottom:20px; align-items:center; }
+  .fd-summary-item { display:flex; flex-direction:column; gap:2px; }
+  .fd-summary-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+  .fd-summary-val { font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:700; color:var(--ink); line-height:1; }
+  .fd-summary-val.green { color:var(--green); }
+  .fd-summary-val.accent { color:var(--accent); }
+  .fd-summary-divider { width:1px; height:36px; background:var(--border); align-self:center; }
+  .fd-summary-updated { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-left:auto; line-height:1.6; }
+
+  .fd-category { margin-bottom:16px; border:1px solid var(--border); }
+  .fd-cat-header { display:flex; align-items:center; gap:12px; padding:11px 16px; background:var(--cream); cursor:pointer; user-select:none; border-bottom:1px solid var(--border); }
+  .fd-cat-header:hover { background:#f0ece3; }
+  .fd-cat-name { font-family:'IBM Plex Sans',sans-serif; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink); flex:1; }
+  .fd-cat-count { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); padding:1px 8px; background:var(--border); border-radius:10px; }
+  .fd-cat-toggle { font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--muted); display:inline-block; transition:transform 0.2s; }
+  .fd-cat-header.collapsed .fd-cat-toggle { transform:rotate(-90deg); }
+  .fd-cat-body { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); }
+  .fd-cat-body.collapsed { display:none; }
+
+  .fd-card { background:var(--surface); padding:16px 18px; transition:background 0.12s; }
+  .fd-card:hover { background:var(--cream); }
+  .fd-card-name { font-family:'Playfair Display',serif; font-size:14px; font-weight:700; color:var(--ink); line-height:1.2; margin-bottom:3px; }
+  .fd-card-operator { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; }
+  .fd-card-badges { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:8px; }
+  .fd-badge-op { display:flex; align-items:center; gap:4px; background:var(--green-bg); border:1px solid var(--green-border); padding:2px 7px; border-radius:2px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--green); text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap; }
+  .fd-badge-op-dot { width:5px; height:5px; border-radius:50%; background:var(--green); animation:pulse 3s infinite; flex-shrink:0; }
+  .fd-badge-proto { font-family:'IBM Plex Mono',monospace; font-size:9px; padding:2px 7px; border:1px solid var(--rule); color:var(--muted); border-radius:2px; background:var(--paper); white-space:nowrap; }
+  .fd-badge-notice { position:relative; font-family:'IBM Plex Mono',monospace; font-size:9px; padding:2px 7px; border:1px solid #d4a843; color:var(--accent-dark); border-radius:2px; background:#fef9f0; cursor:help; white-space:nowrap; font-weight:600; }
+  .fd-badge-notice:hover .fd-notice-tip { display:block; }
+  .fd-notice-tip { display:none; position:absolute; bottom:calc(100% + 7px); left:0; width:240px; background:var(--ink); color:#e8e8e8; font-family:'IBM Plex Mono',monospace; font-size:10px; padding:9px 11px; border-radius:2px; z-index:200; line-height:1.6; white-space:normal; pointer-events:none; box-shadow:0 4px 16px rgba(0,0,0,0.3); }
+  .fd-notice-tip::after { content:''; position:absolute; top:100%; left:10px; border:5px solid transparent; border-top-color:var(--ink); }
+  .fd-card-desc { font-size:11px; color:var(--muted); line-height:1.55; }
+
+  @media (max-width: 900px) {
+    .fd-cat-body { grid-template-columns:1fr; }
+    .fd-summary-divider { display:none; }
+    .fd-summary-updated { margin-left:0; width:100%; }
+  }
 </style>
 </head>
 <body>
@@ -375,83 +415,375 @@
     <div class="section-line"></div>
   </div>
 
-  <div class="status-grid">
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">NYSE Integrated Feed</div>
-      <div class="status-card-desc">Tape A last-sale and quote data. Full depth of book for NYSE-listed securities. Pillar-based infrastructure.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-nyse"></span></div>
+  <div class="fd-summary-bar">
+    <div class="fd-summary-item">
+      <div class="fd-summary-label">Total Feeds</div>
+      <div class="fd-summary-val">33</div>
     </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">NYSE Arca Integrated Feed</div>
-      <div class="status-card-desc">Tapes B &amp; C. NYSE Arca equities and options market data. Co-located SIP feed via NYSE Data Services.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-arca"></span></div>
+    <div class="fd-summary-divider"></div>
+    <div class="fd-summary-item">
+      <div class="fd-summary-label">Operational</div>
+      <div class="fd-summary-val green">33</div>
     </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">Nasdaq TotalView ITCH</div>
-      <div class="status-card-desc">Full order book depth for all Nasdaq-listed securities. ITCH 5.0 protocol. Highest message rate equity feed.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-itch"></span></div>
+    <div class="fd-summary-divider"></div>
+    <div class="fd-summary-item">
+      <div class="fd-summary-label">Active Notices</div>
+      <div class="fd-summary-val accent">5</div>
     </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">Nasdaq Basic / UTP SIP</div>
-      <div class="status-card-desc">Consolidated BBO and last-sale for UTP Plan securities. Nasdaq operates the SIP. UQDF and UTDF feeds.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-utp"></span></div>
-    </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">OPRA</div>
-      <div class="status-card-desc">Options Price Reporting Authority. Highest-volume U.S. feed. 48-line multicast; 96-line expansion Q3 2026.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-opra"></span></div>
-    </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">CTA SIP</div>
-      <div class="status-card-desc">Consolidated Tape. NYSE operates the SIP. CTS (Tape A) and CQS (Tape B) last-sale and quote consolidation.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-cta"></span></div>
-    </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">CME Globex MDP 3.0</div>
-      <div class="status-card-desc">CME Group futures and options. MDP 3.0 multicast SBE. 1 Gbps bandwidth requirement effective March 2026.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-cme"></span></div>
-    </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">Cboe One Feed</div>
-      <div class="status-card-desc">Consolidated best bid/offer and last sale across all Cboe U.S. equity exchanges. Premium depth-of-book variant available.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-cboe"></span></div>
-    </div>
-
+    <div class="fd-summary-updated">Last Updated: April 1, 2026 &nbsp;·&nbsp; All systems normal &nbsp;·&nbsp; Next check in 5 min</div>
   </div>
 
-  <div class="status-summary">All 8 feeds operational · Updated <span id="lastUpdated"></span> · Next scheduled check in 5 minutes</div>
+  <div class="fd-category" id="cat-equity">
+    <div class="fd-cat-header" onclick="fdToggle(this)">
+      <span class="fd-cat-name">US Equity Feeds</span>
+      <span class="fd-cat-count">8 feeds</span>
+      <span class="fd-cat-toggle">&#9660;</span>
+    </div>
+    <div class="fd-cat-body">
+    <div class="fd-card">
+      <div class="fd-card-name">NYSE Integrated Feed</div>
+      <div class="fd-card-operator">NYSE / ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">Pillar</span>
+      </div>
+      <div class="fd-card-desc">Tape A equities — trades, quotes, imbalances, and full depth of book for NYSE-listed securities. Pillar-based infrastructure.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">NYSE Arca Integrated Feed</div>
+      <div class="fd-card-operator">NYSE / ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">Pillar</span>
+      </div>
+      <div class="fd-card-desc">Tape B/C ETFs and equities. Early session begins 4am ET. Includes NYSE Arca options market data via NYSE Data Services.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Nasdaq TotalView ITCH</div>
+      <div class="fd-card-operator">Nasdaq</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">ITCH 5.0</span>
+      </div>
+      <div class="fd-card-desc">Full order book depth for all Nasdaq-listed securities. Highest message rate equity feed. ITCH 5.0 protocol.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Nasdaq Basic / UTP SIP</div>
+      <div class="fd-card-operator">Nasdaq</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">UTP</span>
+      </div>
+      <div class="fd-card-desc">Consolidated last sale and NBBO for Nasdaq-listed securities. Nasdaq operates the SIP. UQDF and UTDF feeds.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">CTA SIP (Tape A/B)</div>
+      <div class="fd-card-operator">NYSE / ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">CTS / CQS</span>
+      </div>
+      <div class="fd-card-desc">Consolidated tape for NYSE and regional exchange securities. CTS (Tape A) last sale and CQS (Tape B/C) quote consolidation.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">IEX TOPS / DEEP</div>
+      <div class="fd-card-operator">IEX</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">IEXTP</span>
+      </div>
+      <div class="fd-card-desc">Real-time top of book and full depth from IEX exchange. Includes IEX signal data. Low-latency multicast and TCP variants.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Cboe BZX / BYX / EDGA / EDGX</div>
+      <div class="fd-card-operator">Cboe</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">PITCH</span>
+      </div>
+      <div class="fd-card-desc">Four Cboe equity venues providing full depth and summary feeds. BZX and EDGX are primary liquidity venues.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">FINRA ADF</div>
+      <div class="fd-card-operator">FINRA</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">ADF</span>
+      </div>
+      <div class="fd-card-desc">Alternative Display Facility quotes and trades. OTC equity securities. Required for FINRA member reporting obligations.</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="fd-category" id="cat-options">
+    <div class="fd-cat-header" onclick="fdToggle(this)">
+      <span class="fd-cat-name">Options Feeds</span>
+      <span class="fd-cat-count">6 feeds</span>
+      <span class="fd-cat-toggle">&#9660;</span>
+    </div>
+    <div class="fd-cat-body">
+    <div class="fd-card">
+      <div class="fd-card-name">OPRA Consolidated</div>
+      <div class="fd-card-operator">DTCC / OPRA</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">OPRA</span>
+            <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">96-line network expansion launching Q3 2026. Surcharge under review by OPRA Operating Committee. SEC filing anticipated Q2 2026 ahead of production launch.</span></span>
+      </div>
+      <div class="fd-card-desc">All US equity options last sale and NBBO — highest volume feed in US markets. 96-line multicast expansion launching Q3 2026.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Cboe One Feed</div>
+      <div class="fd-card-operator">Cboe</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">PITCH</span>
+      </div>
+      <div class="fd-card-desc">Consolidated options data from all four Cboe options exchanges — BZX, C1, C2, and EDGX. Premium depth-of-book variant available.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Cboe Depth of Book</div>
+      <div class="fd-card-operator">Cboe</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">PITCH</span>
+      </div>
+      <div class="fd-card-desc">Full order book depth for Cboe options across BZX, C1, C2, and EDGX exchanges. For latency-sensitive options market makers.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Nasdaq PHLX / NOM / BX Options</div>
+      <div class="fd-card-operator">Nasdaq</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">ITCH</span>
+      </div>
+      <div class="fd-card-desc">Options feeds from three Nasdaq-operated options exchanges. PHLX is largest US options exchange by volume.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">MIAX Options / Pearl / Emerald</div>
+      <div class="fd-card-operator">MIAX</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">MACH</span>
+      </div>
+      <div class="fd-card-desc">Three MIAX options venues providing top of book and depth-of-book market data. MIAX Pearl equity market also available.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">NYSE American Options</div>
+      <div class="fd-card-operator">NYSE / ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">Pillar</span>
+      </div>
+      <div class="fd-card-desc">Options on NYSE American (formerly AMEX) and NYSE Arca exchanges. Full depth and top of book variants.</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="fd-category" id="cat-futures">
+    <div class="fd-cat-header" onclick="fdToggle(this)">
+      <span class="fd-cat-name">Futures &amp; Commodities Feeds</span>
+      <span class="fd-cat-count">10 feeds</span>
+      <span class="fd-cat-toggle">&#9660;</span>
+    </div>
+    <div class="fd-cat-body">
+    <div class="fd-card">
+      <div class="fd-card-name">CME Globex MDP 3.0</div>
+      <div class="fd-card-operator">CME Group</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">MDP 3.0</span>
+            <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">Bandwidth requirement increased to 10Gbps effective March 2026. 1Gbps connections are no longer supported. Firms must upgrade network infrastructure immediately.</span></span>
+      </div>
+      <div class="fd-card-desc">All CME futures and options — equity index, rates, FX, metals, energy, agricultural. 10Gbps bandwidth now required.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">CBOT Agricultural Futures</div>
+      <div class="fd-card-operator">CME / CBOT</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">Corn, wheat, soybean, oat, and rice futures and options. Chicago Board of Trade. World benchmark agricultural contracts.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">NYMEX Energy / Metals</div>
+      <div class="fd-card-operator">CME / NYMEX</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">WTI crude oil, natural gas, gasoline, heating oil, gold, silver, and copper futures. Global energy price benchmarks.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">COMEX Metals</div>
+      <div class="fd-card-operator">CME / COMEX</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">Gold, silver, copper, and aluminum futures and options. COMEX gold is the global benchmark for precious metals pricing.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">ICE Brent Crude / Energy</div>
+      <div class="fd-card-operator">ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">iMpact</span>
+      </div>
+      <div class="fd-card-desc">Brent crude oil, gasoil, and natural gas futures — covers 50% of global crude trading. Volumes surged post-Iran war.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">ICE Endex European Gas</div>
+      <div class="fd-card-operator">ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">iMpact</span>
+            <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">TTF Natural Gas feed volumes up 340% since February 28 due to Iran war LNG disruption. ICE has extended trading hours for key energy contracts. Check capacity immediately.</span></span>
+      </div>
+      <div class="fd-card-desc">TTF natural gas, power, and emissions futures. Elevated volumes due to Iran war LNG disruption to European supply.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">ICE Softs / Agricultural</div>
+      <div class="fd-card-operator">ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">iMpact</span>
+      </div>
+      <div class="fd-card-desc">Cotton, coffee, cocoa, sugar, MSCI indices, and US Dollar Index futures. Global soft commodity benchmarks.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Eurex Derivatives</div>
+      <div class="fd-card-operator">Deutsche Boerse / Eurex</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">T7 ETI</span>
+      </div>
+      <div class="fd-card-desc">European equity index, fixed income, and single stock options and futures. EURO STOXX 50 and Bund futures are flagship contracts.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Minneapolis Grain Exchange</div>
+      <div class="fd-card-operator">MGEX</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">Hard red spring wheat futures and options. MGEX is the primary price discovery venue for spring wheat globally.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">LME Metals</div>
+      <div class="fd-card-operator">London Metal Exchange</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">LMEsmart</span>
+      </div>
+      <div class="fd-card-desc">Base metals — aluminum, copper, nickel, zinc, lead, and tin. LME is global benchmark for industrial metals pricing.</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="fd-category" id="cat-prediction">
+    <div class="fd-cat-header" onclick="fdToggle(this)">
+      <span class="fd-cat-name">Prediction Market Feeds</span>
+      <span class="fd-cat-count">4 feeds</span>
+      <span class="fd-cat-toggle">&#9660;</span>
+    </div>
+    <div class="fd-cat-body">
+    <div class="fd-card">
+      <div class="fd-card-name">Kalshi REST / WebSocket API</div>
+      <div class="fd-card-operator">Kalshi</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">REST / WS</span>
+      </div>
+      <div class="fd-card-desc">CFTC-registered DCM — real-time event contract prices, order book, and trade data. Free API access currently available.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Polymarket CLOB API</div>
+      <div class="fd-card-operator">Polymarket / QCEX</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">REST / WS</span>
+            <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">US intermediated model via registered FCMs only. Geographic restrictions apply. Phased rollout commenced March 2026 — not all contracts available to all participants.</span></span>
+      </div>
+      <div class="fd-card-desc">CFTC-approved conditional liquidity order book. US intermediated model via FCMs. Phased rollout March 2026.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Robinhood Prediction Markets</div>
+      <div class="fd-card-operator">Robinhood</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">REST</span>
+      </div>
+      <div class="fd-card-desc">Sports and event contracts via Robinhood platform. Geographic restrictions by state. Retail-focused event contract access.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Interactive Brokers Events</div>
+      <div class="fd-card-operator">IBKR</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">TWS API</span>
+      </div>
+      <div class="fd-card-desc">Event contracts via IBKR platform and TWS API. Available to eligible accounts. Integrated with IBKR order management.</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="fd-category" id="cat-fi">
+    <div class="fd-cat-header" onclick="fdToggle(this)">
+      <span class="fd-cat-name">Fixed Income &amp; FX Feeds</span>
+      <span class="fd-cat-count">5 feeds</span>
+      <span class="fd-cat-toggle">&#9660;</span>
+    </div>
+    <div class="fd-cat-body">
+    <div class="fd-card">
+      <div class="fd-card-name">BrokerTec US Treasuries</div>
+      <div class="fd-card-operator">CME / BrokerTec</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">FIX</span>
+            <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">New Chicago co-location venue launched February 2026. Supplemental certification required for firms connecting to the Chicago venue. Review production readiness checklist.</span></span>
+      </div>
+      <div class="fd-card-desc">On-the-run and off-the-run US Treasury CLOB. New Chicago co-location venue launched February 2026.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">eSpeed / BGC Treasuries</div>
+      <div class="fd-card-operator">BGC Partners</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">FIX</span>
+      </div>
+      <div class="fd-card-desc">US Treasury inter-dealer broker feed via BGC Partners. Supports on-the-run and off-the-run Treasuries across the yield curve.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">EBS FX</div>
+      <div class="fd-card-operator">CME / EBS</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">FIX</span>
+      </div>
+      <div class="fd-card-desc">Spot FX and precious metals — EUR/USD, USD/JPY, and major pairs. Primary inter-dealer FX liquidity venue for core pairs.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Reuters FXall</div>
+      <div class="fd-card-operator">LSEG</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">FIX</span>
+      </div>
+      <div class="fd-card-desc">Multi-dealer FX platform via LSEG. Spot, forwards, and swap data. Connects buy-side to sell-side FX liquidity globally.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">CME FX Futures</div>
+      <div class="fd-card-operator">CME Group</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+            <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">EUR/USD, USD/JPY, GBP/USD, and 30+ currency pair futures. World's largest regulated FX futures marketplace.</div>
+    </div>
+    </div>
+  </div>
 
   <!-- ═══════════════════════════════════════════════ -->
   <!-- SECTION 2 — FEE CHANGE ALERTS -->
@@ -1298,5 +1630,11 @@ window.addEventListener('resize', () => {
 </script>
 
   <script src="search-global.js"></script>
+
+function fdToggle(hdr) {
+  hdr.classList.toggle('collapsed');
+  hdr.nextElementSibling.classList.toggle('collapsed');
+}
+
 </body>
 </html>
