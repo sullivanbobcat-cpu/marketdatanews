@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Data Compensation Intelligence 2026 | Market Data News</title>
+<meta name="description" content="2026 salary benchmarks, compensation trends, and career data for market data professionals — sourced from Glassdoor, ZipRecruiter, Salary.com, and industry surveys.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://marketdatanews.com/compensation.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://marketdatanews.com/compensation.html">
+<meta property="og:title" content="Market Data Compensation Intelligence 2026 | Market Data News">
+<meta property="og:description" content="2026 salary benchmarks and compensation trends for market data professionals.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+    --green: #2a7a50;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; } .ticker-item .down { color: #ff4444; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: center; padding: 0 48px; border-bottom: 1px solid var(--rule); overflow-x: auto; }
+  .nav-item { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 10px 18px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-block; white-space: nowrap; }
+  .nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; }
+  .search-wrap { position: relative; display: flex; align-items: center; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 180px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+  .search-drop { position: absolute; top: calc(100% + 4px); right: 0; width: 380px; background: var(--ink); border: 1px solid #333; z-index: 1000; display: none; max-height: 480px; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .search-drop.open { display: block; }
+  .search-drop-group { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #555; padding: 10px 14px 4px; border-top: 1px solid #1a1a1a; }
+  .search-drop-group:first-child { border-top: none; }
+  .search-drop-item { display: flex; flex-direction: column; padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #111; text-decoration: none; }
+  .search-drop-item:hover, .search-drop-item.active { background: #1a1a1a; }
+  .search-drop-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ccc; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
+  .search-drop-item:hover .search-drop-title, .search-drop-item.active .search-drop-title { color: var(--accent); }
+  .search-drop-snippet { font-size: 11px; color: #555; line-height: 1.4; }
+  .search-drop-cat { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 1px 5px; border-radius: 1px; margin-left: auto; flex-shrink: 0; }
+  .search-drop-cat.pages { background: #12263a; color: #5b9bd5; }
+  .search-drop-cat.feedwatch { background: #2a1500; color: #b8860b; }
+  .search-drop-cat.topics { background: #0d2b0d; color: #4a9a4a; }
+  .search-drop-footer { padding: 10px 14px; border-top: 1px solid #222; }
+  .search-drop-footer a { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); text-decoration: none; }
+  .search-drop-footer a:hover { text-decoration: underline; }
+  .search-drop-empty { padding: 16px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #444; }
+
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a.active { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
+
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-stat:hover { background: rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num, .fw-alertbar-stat.critical .fw-alertbar-label { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num, .fw-alertbar-stat.high .fw-alertbar-label { color: #ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num, .fw-alertbar-stat.action .fw-alertbar-label { color: var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color: #888; } .fw-alertbar-stat.total .fw-alertbar-label { color: #555; }
+  .fw-alertbar-next { margin-left: auto; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #555; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
+  .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* ── PAGE ── */
+  .page-hero { background: var(--paper); border-bottom: 2px solid var(--ink); padding: 40px 48px 32px; }
+  .page-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin-bottom: 10px; }
+  .page-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; line-height: 1.1; margin-bottom: 10px; }
+  .page-hero-sub { font-size: 14px; color: var(--muted); max-width: 700px; line-height: 1.7; }
+  .page-hero-meta { margin-top: 16px; display: flex; gap: 20px; flex-wrap: wrap; }
+  .page-hero-badge { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 10px; border: 1px solid var(--rule); color: var(--muted); border-radius: 2px; }
+
+  .page-container { max-width: 1200px; margin: 0 auto; padding: 40px 48px; }
+
+  .section-head { margin: 0 0 24px; }
+  .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; margin: 4px 0 8px; }
+  .section-rule { border: none; border-top: 2px solid var(--ink); margin: 0 0 28px; }
+  .section-wrap { margin-bottom: 56px; }
+
+  /* ── SALARY CARDS ── */
+  .role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .role-card { background: var(--surface); border: 1px solid var(--border); padding: 24px; border-top: 3px solid var(--accent); transition: box-shadow 0.2s; }
+  .role-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .role-title { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 10px; }
+  .role-median { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: 4px; }
+  .role-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 10px; }
+  .role-range { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--ink); margin-bottom: 12px; font-weight: 500; }
+  .role-bar-track { height: 6px; background: #e8e0d0; border-radius: 3px; margin-bottom: 12px; position: relative; }
+  .role-bar-range { position: absolute; height: 100%; background: #d4a843; border-radius: 3px; }
+  .role-bar-median { position: absolute; height: 100%; width: 3px; background: var(--accent); border-radius: 1px; transform: translateX(-1px); }
+  .role-employers { font-size: 11px; color: var(--muted); line-height: 1.5; border-top: 1px solid var(--border); padding-top: 10px; margin-top: 4px; }
+  .role-employers strong { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink); display: block; margin-bottom: 4px; }
+
+  /* ── D3 BAR CHART ── */
+  .chart-wrap { background: var(--surface); border: 1px solid var(--border); padding: 24px; position: relative; }
+  .chart-controls { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+  .chart-toggle { display: flex; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+  .chart-toggle button { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; padding: 6px 16px; border: none; background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .chart-toggle button.active { background: var(--ink); color: var(--accent); }
+  .chart-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  #compChart { display: block; width: 100%; }
+  .chart-tooltip { display: none; position: fixed; background: var(--ink); border: 1px solid #333; padding: 10px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #e8e8e8; pointer-events: none; border-radius: 2px; z-index: 999; white-space: nowrap; line-height: 1.8; }
+  .chart-tooltip strong { color: var(--accent); display: block; margin-bottom: 2px; }
+
+  /* ── FIRM TYPE TABLE ── */
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .comp-table th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--ink); background: var(--cream); white-space: nowrap; }
+  .comp-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tr:hover td { background: var(--paper); }
+  .comp-table .role-col { font-weight: 600; font-size: 12px; }
+  .comp-table .highlight { background: rgba(184,134,11,0.12); font-weight: 600; color: var(--accent-dark); }
+  .comp-table td:not(:first-child) { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
+  .table-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 12px; padding: 10px 14px; background: var(--cream); border-left: 3px solid var(--accent); line-height: 1.6; }
+
+  /* ── SKILLS PREMIUM ── */
+  .skills-grid { display: flex; flex-direction: column; gap: 10px; }
+  .skill-row { display: flex; align-items: center; gap: 16px; }
+  .skill-name { font-size: 13px; color: var(--ink); min-width: 280px; flex-shrink: 0; }
+  .skill-bar-wrap { flex: 1; display: flex; align-items: center; gap: 10px; }
+  .skill-bar-track { flex: 1; height: 8px; background: #e8e0d0; border-radius: 4px; }
+  .skill-bar-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.6s ease; }
+  .skill-pct { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: var(--accent); min-width: 40px; }
+
+  /* ── CAREER TIMELINE ── */
+  .career-timeline { display: flex; align-items: flex-start; gap: 0; overflow-x: auto; padding-bottom: 8px; }
+  .career-stage { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 160px; position: relative; }
+  .career-stage:not(:last-child)::after { content: ''; position: absolute; top: 14px; left: 50%; right: -50%; height: 2px; background: var(--rule); z-index: 0; }
+  .career-node { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); border: 3px solid var(--ink); z-index: 1; margin-bottom: 12px; flex-shrink: 0; }
+  .career-years { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 4px; }
+  .career-role { font-size: 12px; font-weight: 600; color: var(--ink); text-align: center; margin-bottom: 4px; line-height: 1.3; }
+  .career-comp { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); font-weight: 600; text-align: center; }
+  .career-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 20px; padding: 10px 14px; background: var(--cream); border-left: 3px solid var(--accent); line-height: 1.6; }
+
+  /* ── METHODOLOGY ── */
+  .methodology-card { background: var(--cream); border: 1px solid var(--border); padding: 24px; border-left: 4px solid var(--muted); }
+  .methodology-card h3 { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 10px; }
+  .methodology-card p { font-size: 12px; color: var(--muted); line-height: 1.8; }
+  .source-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .source-chip { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 3px 10px; border: 1px solid var(--rule); border-radius: 2px; color: var(--muted); background: var(--surface); }
+
+  @media (max-width: 900px) {
+    nav { display: none; } #mobileBar { display: flex !important; }
+    .page-hero, .page-container { padding-left: 20px; padding-right: 20px; }
+    .fw-alertbar { padding-left: 20px; padding-right: 20px; }
+    .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    footer { padding: 32px 20px; }
+    .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+    .masthead-top { flex-direction: column; gap: 10px; text-align: center; }
+    .role-grid { grid-template-columns: 1fr 1fr; }
+    .skill-name { min-width: 180px; font-size: 12px; }
+    .career-timeline { flex-direction: column; align-items: flex-start; gap: 0; }
+    .career-stage { flex-direction: row; align-items: flex-start; gap: 16px; width: 100%; min-width: unset; padding-bottom: 20px; }
+    .career-stage:not(:last-child)::after { top: 14px; left: 14px; right: unset; width: 2px; height: 100%; background: var(--rule); }
+    .career-role, .career-comp { text-align: left; }
+  }
+  @media (max-width: 600px) {
+    .role-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+</div></div>
+
+<!-- FeedWatch Alert Bar -->
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
+      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span class="fw-alertbar-num">30</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span class="fw-alertbar-next-val">CME iLink v8 Sunset — Apr 24, 2026</span>
+    </div>
+    <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="calendar.html" class="nav-item">FeedWatch</a>
+    <a href="index.html" class="nav-item">All News</a>
+    <a href="exchanges.html" class="nav-item">Exchanges</a>
+    <a href="regulation.html" class="nav-item">Regulation</a>
+    <a href="nms.html" class="nav-item">NMS / SIP</a>
+    <a href="feed-status.html" class="nav-item">Feed Status</a>
+    <a href="prediction-markets.html" class="nav-item">Prediction Markets</a>
+    <a href="about.html" class="nav-item">About</a>
+    <a href="compensation.html" class="nav-item active">Compensation</a>
+    <a href="subscribe.html" class="nav-item">Subscribe</a>
+    <div class="nav-right">
+      <div class="search-wrap" id="searchWrap">
+        <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
+        <div class="search-drop" id="searchDrop"></div>
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="calendar.html">FeedWatch</a>
+  <a href="index.html">All News</a>
+  <a href="exchanges.html">Exchanges</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="nms.html">NMS / SIP</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <a href="about.html">About</a>
+  <a href="compensation.html" class="active">Compensation</a>
+  <a href="subscribe.html">Subscribe</a>
+</div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="page-hero-label">&#9679; Market Intelligence</div>
+  <h1 class="page-hero-title">Market Data Compensation Intelligence</h1>
+  <p class="page-hero-sub">2026 salary benchmarks, compensation trends, and career data for market data professionals — sourced from Glassdoor, ZipRecruiter, Salary.com, and industry surveys.</p>
+  <div class="page-hero-meta">
+    <span class="page-hero-badge">Q1 2026 Data</span>
+    <span class="page-hero-badge">US National Medians</span>
+    <span class="page-hero-badge">6 Role Benchmarks</span>
+    <span class="page-hero-badge">NYC / CHI / SF +15–25%</span>
+  </div>
+</div>
+
+<div class="page-container">
+
+  <!-- SECTION 1: SALARY BENCHMARK CARDS -->
+  <div class="section-wrap">
+    <div class="section-head">
+      <div class="section-num">01 —</div>
+      <div class="section-title">2026 Salary Benchmarks</div>
+    </div>
+    <hr class="section-rule">
+    <div class="role-grid">
+
+      <!-- Market Data Analyst -->
+      <div class="role-card">
+        <div class="role-title">Market Data Analyst</div>
+        <div class="role-median">$85k</div>
+        <div class="role-label">Median Base Salary</div>
+        <div class="role-range">$65k – $110k &nbsp;·&nbsp; 25th–75th pct.</div>
+        <div class="role-bar-track">
+          <div class="role-bar-range" style="left:21.7%;width:15%"></div>
+          <div class="role-bar-median" style="left:28.3%"></div>
+        </div>
+        <div class="role-employers"><strong>Typical Employers</strong>Banks, Trading Firms, Exchanges, Data Vendors</div>
+      </div>
+
+      <!-- Market Data Engineer -->
+      <div class="role-card">
+        <div class="role-title">Market Data Engineer</div>
+        <div class="role-median">$130k</div>
+        <div class="role-label">Median Base Salary</div>
+        <div class="role-range">$114.5k – $137.5k &nbsp;·&nbsp; 25th–75th pct.</div>
+        <div class="role-bar-track">
+          <div class="role-bar-range" style="left:38.2%;width:7.7%"></div>
+          <div class="role-bar-median" style="left:43.3%"></div>
+        </div>
+        <div class="role-employers"><strong>Typical Employers</strong>HFT Firms, Banks, Exchanges, Tech Vendors</div>
+      </div>
+
+      <!-- Market Data Manager -->
+      <div class="role-card">
+        <div class="role-title">Market Data Manager</div>
+        <div class="role-median">$145k</div>
+        <div class="role-label">Median Base Salary</div>
+        <div class="role-range">$115k – $175k &nbsp;·&nbsp; 25th–75th pct.</div>
+        <div class="role-bar-track">
+          <div class="role-bar-range" style="left:38.3%;width:20%"></div>
+          <div class="role-bar-median" style="left:48.3%"></div>
+        </div>
+        <div class="role-employers"><strong>Typical Employers</strong>Asset Managers, Banks, Hedge Funds</div>
+      </div>
+
+      <!-- Feed Handler Developer -->
+      <div class="role-card">
+        <div class="role-title">Feed Handler Developer</div>
+        <div class="role-median">$155k</div>
+        <div class="role-label">Median Base Salary</div>
+        <div class="role-range">$130k – $185k &nbsp;·&nbsp; 25th–75th pct.</div>
+        <div class="role-bar-track">
+          <div class="role-bar-range" style="left:43.3%;width:18.3%"></div>
+          <div class="role-bar-median" style="left:51.7%"></div>
+        </div>
+        <div class="role-employers"><strong>Typical Employers</strong>HFT Firms, Prime Brokers, Market Makers</div>
+      </div>
+
+      <!-- VP Market Data -->
+      <div class="role-card">
+        <div class="role-title">VP Market Data</div>
+        <div class="role-median">$195k</div>
+        <div class="role-label">Median Base Salary</div>
+        <div class="role-range">$160k – $240k &nbsp;·&nbsp; 25th–75th pct.</div>
+        <div class="role-bar-track">
+          <div class="role-bar-range" style="left:53.3%;width:26.7%"></div>
+          <div class="role-bar-median" style="left:65%"></div>
+        </div>
+        <div class="role-employers"><strong>Typical Employers</strong>Tier 1 Banks, Large Asset Managers</div>
+      </div>
+
+      <!-- Head of Market Data -->
+      <div class="role-card" style="border-top-color:var(--accent-dark)">
+        <div class="role-title">Head of Market Data / Director</div>
+        <div class="role-median" style="color:var(--accent-dark)">$230k</div>
+        <div class="role-label">Median Base Salary</div>
+        <div class="role-range">$185k – $290k &nbsp;·&nbsp; 25th–75th pct.</div>
+        <div class="role-bar-track">
+          <div class="role-bar-range" style="left:61.7%;width:35%"></div>
+          <div class="role-bar-median" style="left:76.7%;background:var(--accent-dark)"></div>
+        </div>
+        <div class="role-employers"><strong>Typical Employers</strong>Goldman Sachs, JPMorgan, BlackRock, ICE</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 2: D3 SALARY COMPARISON CHART -->
+  <div class="section-wrap">
+    <div class="section-head">
+      <div class="section-num">02 —</div>
+      <div class="section-title">Interactive Salary Comparison</div>
+    </div>
+    <hr class="section-rule">
+    <div class="chart-wrap">
+      <div class="chart-controls">
+        <span class="chart-label">View:</span>
+        <div class="chart-toggle">
+          <button class="active" id="btnBase" onclick="setView('base')">Base Salary</button>
+          <button id="btnTotal" onclick="setView('total')">Total Compensation</button>
+        </div>
+        <span class="chart-label" id="viewNote">Showing base salary medians</span>
+      </div>
+      <svg id="compChart"></svg>
+      <div class="chart-tooltip" id="chartTooltip"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: COMPENSATION BY FIRM TYPE -->
+  <div class="section-wrap">
+    <div class="section-head">
+      <div class="section-num">03 —</div>
+      <div class="section-title">Compensation by Firm Type</div>
+    </div>
+    <hr class="section-rule">
+    <div style="overflow-x:auto">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Tier 1 Bank</th>
+            <th>Hedge Fund / HFT</th>
+            <th>Exchange / Venue</th>
+            <th>Data Vendor</th>
+            <th>Asset Manager</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="role-col">Market Data Analyst</td>
+            <td>$85,000</td>
+            <td class="highlight">$105,000</td>
+            <td>$80,000</td>
+            <td>$75,000</td>
+            <td>$82,000</td>
+          </tr>
+          <tr>
+            <td class="role-col">Market Data Engineer</td>
+            <td>$135,000</td>
+            <td class="highlight">$165,000</td>
+            <td>$120,000</td>
+            <td>$115,000</td>
+            <td>$125,000</td>
+          </tr>
+          <tr>
+            <td class="role-col">Market Data Manager</td>
+            <td>$155,000</td>
+            <td class="highlight">$185,000</td>
+            <td>$140,000</td>
+            <td>$130,000</td>
+            <td>$150,000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-note">
+      &#9888; HFT and hedge fund firms typically pay 20–40% above market rate for feed handler, co-location, and low-latency roles. This premium reflects the direct revenue impact of latency-sensitive market data infrastructure.
+    </div>
+  </div>
+
+  <!-- SECTION 4: SKILLS PREMIUM -->
+  <div class="section-wrap">
+    <div class="section-head">
+      <div class="section-num">04 —</div>
+      <div class="section-title">Market Data Skills Premium — 2026</div>
+    </div>
+    <hr class="section-rule">
+    <div class="skills-grid" id="skillsGrid">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+
+  <!-- SECTION 5: CAREER PATH TIMELINE -->
+  <div class="section-wrap">
+    <div class="section-head">
+      <div class="section-num">05 —</div>
+      <div class="section-title">Typical Career Progression</div>
+    </div>
+    <hr class="section-rule">
+    <div class="career-timeline">
+      <div class="career-stage">
+        <div class="career-node"></div>
+        <div>
+          <div class="career-years">Year 0 – 2</div>
+          <div class="career-role">Market Data Analyst</div>
+          <div class="career-comp">$65k – $85k</div>
+        </div>
+      </div>
+      <div class="career-stage">
+        <div class="career-node"></div>
+        <div>
+          <div class="career-years">Year 2 – 5</div>
+          <div class="career-role">Sr. Analyst / Associate</div>
+          <div class="career-comp">$85k – $120k</div>
+        </div>
+      </div>
+      <div class="career-stage">
+        <div class="career-node"></div>
+        <div>
+          <div class="career-years">Year 5 – 8</div>
+          <div class="career-role">Market Data Manager</div>
+          <div class="career-comp">$120k – $165k</div>
+        </div>
+      </div>
+      <div class="career-stage">
+        <div class="career-node"></div>
+        <div>
+          <div class="career-years">Year 8 – 12</div>
+          <div class="career-role">VP Market Data</div>
+          <div class="career-comp">$160k – $220k</div>
+        </div>
+      </div>
+      <div class="career-stage">
+        <div class="career-node" style="background:var(--accent-dark)"></div>
+        <div>
+          <div class="career-years">Year 12+</div>
+          <div class="career-role">Director / Head of Market Data</div>
+          <div class="career-comp">$200k – $290k+</div>
+        </div>
+      </div>
+    </div>
+    <div class="career-note">
+      &#9654; HFT and hedge fund tracks typically compress this timeline by 2–3 years. Feed handler developers and low-latency engineers at top prop trading firms can reach VP-equivalent compensation by year 4–6.
+    </div>
+  </div>
+
+  <!-- SECTION 6: METHODOLOGY -->
+  <div class="section-wrap">
+    <div class="section-head">
+      <div class="section-num">06 —</div>
+      <div class="section-title">Methodology &amp; Data Sources</div>
+    </div>
+    <hr class="section-rule">
+    <div class="methodology-card">
+      <h3>Data Sourcing &amp; Disclaimer</h3>
+      <p>Data sourced from Glassdoor, ZipRecruiter, Salary.com, and PayScale as of Q1 2026. Market data roles are a specialized subset of financial services technology. Figures reflect US national medians. New York, Chicago, and San Francisco command 15–25% above national averages. Total compensation estimates include base salary, annual bonus, and equity where applicable, using a 1.25× multiplier on base as a conservative estimate. Compensation data is provided for informational purposes only and does not constitute financial or career advice.</p>
+      <div class="source-chips">
+        <span class="source-chip">Glassdoor</span>
+        <span class="source-chip">ZipRecruiter</span>
+        <span class="source-chip">Salary.com</span>
+        <span class="source-chip">PayScale</span>
+        <span class="source-chip">Q1 2026</span>
+        <span class="source-chip">US National</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end page-container -->
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="exchanges.html">Exchanges</a>
+      <a href="regulation.html">Regulation</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
+      <a href="compensation.html">Compensation</a>
+    </div>
+    <div class="footer-col"><h4>FeedWatch</h4>
+      <a href="calendar.html">All Entries</a>
+      <a href="calendar.html?filter=action">Action Required</a>
+      <a href="calendar.html?filter=critical">Critical Alerts</a>
+      <a href="calendar.html?filter=high">High Impact</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="subscribe.html">Subscribe</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+function checkMobile() {
+  const bar = document.getElementById('mobileBar');
+  if (bar) bar.style.display = window.innerWidth <= 900 ? 'flex' : 'none';
+}
+checkMobile();
+window.addEventListener('resize', function() { checkMobile(); drawChart(); });
+
+// ── ROLE DATA ────────────────────────────────────────────────────────────────
+const ROLES = [
+  { title: 'Market Data Analyst',      median: 85000,  low: 65000,  high: 110000 },
+  { title: 'Market Data Engineer',     median: 130000, low: 114500, high: 137500 },
+  { title: 'Market Data Manager',      median: 145000, low: 115000, high: 175000 },
+  { title: 'Feed Handler Developer',   median: 155000, low: 130000, high: 185000 },
+  { title: 'VP Market Data',           median: 195000, low: 160000, high: 240000 },
+  { title: 'Head of Market Data / Dir',median: 230000, low: 185000, high: 290000 },
+];
+
+let currentView = 'base';
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('btnBase').classList.toggle('active', v === 'base');
+  document.getElementById('btnTotal').classList.toggle('active', v === 'total');
+  document.getElementById('viewNote').textContent = v === 'base'
+    ? 'Showing base salary medians'
+    : 'Showing estimated total compensation (base × 1.25)';
+  drawChart();
+}
+
+function fmtK(n) {
+  return '$' + Math.round(n / 1000) + 'k';
+}
+function fmtFull(n) {
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function drawChart() {
+  const svgEl = document.getElementById('compChart');
+  const tooltip = document.getElementById('chartTooltip');
+  const mult = currentView === 'total' ? 1.25 : 1;
+
+  const data = ROLES.slice().sort((a, b) => a.median - b.median).map(r => ({
+    ...r,
+    dispMedian: r.median * mult,
+    dispLow:    r.low    * mult,
+    dispHigh:   r.high   * mult,
+  }));
+
+  const container = svgEl.parentElement;
+  const W = Math.max(container.clientWidth - 48, 320);
+  const rowH = 44;
+  const M = { top: 16, bottom: 32, left: 200, right: 80 };
+  const H = M.top + data.length * rowH + M.bottom;
+  const innerW = W - M.left - M.right;
+
+  const maxVal = Math.max(...data.map(d => d.dispHigh)) * 1.05;
+  const xScale = d3.scaleLinear().domain([0, maxVal]).range([0, innerW]);
+
+  const svg = d3.select(svgEl).attr('width', W).attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H);
+  svg.selectAll('*').remove();
+  svg.append('rect').attr('width', W).attr('height', H).attr('fill', '#ffffff');
+
+  // X-axis
+  const g = svg.append('g').attr('transform', 'translate(' + M.left + ',' + M.top + ')');
+  g.append('g')
+    .attr('transform', 'translate(0,' + (data.length * rowH) + ')')
+    .call(d3.axisBottom(xScale).ticks(5).tickFormat(d => fmtK(d)))
+    .call(ax => { ax.select('.domain').attr('stroke', '#d4c9b0'); ax.selectAll('line').attr('stroke', '#d4c9b0'); })
+    .call(ax => ax.selectAll('text').style('font-family', "'IBM Plex Mono',monospace").style('font-size', '10px').attr('fill', '#6b6555'));
+
+  // Grid lines
+  xScale.ticks(5).forEach(function(tick) {
+    g.append('line')
+      .attr('x1', xScale(tick)).attr('x2', xScale(tick))
+      .attr('y1', 0).attr('y2', data.length * rowH)
+      .attr('stroke', '#e8e0d0').attr('stroke-width', 1).attr('stroke-dasharray', '3,3');
+  });
+
+  // Bars
+  data.forEach(function(d, i) {
+    const y = i * rowH + 8;
+    const bH = rowH - 16;
+
+    // Role label
+    g.append('text')
+      .attr('x', -8).attr('y', y + bH / 2)
+      .attr('dy', '0.35em').attr('text-anchor', 'end')
+      .attr('fill', '#0d0d0d')
+      .style('font-family', "'IBM Plex Sans',sans-serif")
+      .style('font-size', '11px').style('font-weight', '500')
+      .text(d.title);
+
+    // Range bar (background)
+    const rangeX = xScale(d.dispLow);
+    const rangeW = xScale(d.dispHigh) - xScale(d.dispLow);
+    g.append('rect')
+      .attr('x', rangeX).attr('y', y)
+      .attr('width', 0).attr('height', bH)
+      .attr('fill', '#d4a843').attr('rx', 2).attr('opacity', 0.5)
+      .transition().duration(600).ease(d3.easeCubicOut)
+      .attr('width', rangeW);
+
+    // Median bar (foreground)
+    const medW = xScale(d.dispMedian);
+    g.append('rect')
+      .attr('x', 0).attr('y', y + 2)
+      .attr('width', 0).attr('height', bH - 4)
+      .attr('fill', '#b8860b').attr('rx', 2)
+      .transition().duration(600).delay(100).ease(d3.easeCubicOut)
+      .attr('width', medW);
+
+    // Value label
+    const labelX = xScale(d.dispHigh) + 6;
+    g.append('text')
+      .attr('x', labelX).attr('y', y + bH / 2)
+      .attr('dy', '0.35em')
+      .attr('fill', '#0d0d0d')
+      .style('font-family', "'IBM Plex Mono',monospace")
+      .style('font-size', '10px').style('font-weight', '600')
+      .attr('opacity', 0)
+      .transition().delay(700).duration(200).attr('opacity', 1)
+      .text(fmtK(d.dispMedian));
+
+    // Invisible hover target
+    g.append('rect')
+      .attr('x', 0).attr('y', y - 2)
+      .attr('width', xScale(d.dispHigh) + 60).attr('height', bH + 4)
+      .attr('fill', 'transparent')
+      .style('cursor', 'pointer')
+      .on('mouseenter', function(event) {
+        tooltip.innerHTML = '<strong>' + d.title + '</strong>' +
+          'Median: ' + fmtFull(d.dispMedian) + '<br>' +
+          'Range: ' + fmtFull(d.dispLow) + ' – ' + fmtFull(d.dispHigh);
+        tooltip.style.display = 'block';
+      })
+      .on('mousemove', function(event) {
+        tooltip.style.left = Math.min(event.clientX + 14, window.innerWidth - 260) + 'px';
+        tooltip.style.top  = (event.clientY - 20) + 'px';
+      })
+      .on('mouseleave', function() { tooltip.style.display = 'none'; });
+  });
+}
+
+drawChart();
+
+// ── SKILLS PREMIUM ────────────────────────────────────────────────────────────
+const SKILLS = [
+  { name: 'Low-latency / FPGA expertise',          pct: 35 },
+  { name: 'Python / KDB+ / tick data',             pct: 25 },
+  { name: 'CME iLink / MDP 3.0 protocol',          pct: 22 },
+  { name: 'OPRA / options feed expertise',          pct: 20 },
+  { name: 'Google Cloud / AWS market data',         pct: 18 },
+  { name: 'CAT / regulatory reporting',             pct: 15 },
+  { name: 'FIX protocol',                          pct: 12 },
+  { name: 'Bloomberg Terminal / data licensing',   pct: 8  },
+];
+
+const maxPct = 35;
+document.getElementById('skillsGrid').innerHTML = SKILLS.map(function(s) {
+  const fillW = (s.pct / maxPct * 100).toFixed(1);
+  return '<div class="skill-row">' +
+    '<div class="skill-name">' + s.name + '</div>' +
+    '<div class="skill-bar-wrap">' +
+      '<div class="skill-bar-track"><div class="skill-bar-fill" style="width:' + fillW + '%"></div></div>' +
+      '<div class="skill-pct">+' + s.pct + '%</div>' +
+    '</div>' +
+    '</div>';
+}).join('');
+</script>
+
+<script src="search-global.js"></script>
+</body>
+</html>
