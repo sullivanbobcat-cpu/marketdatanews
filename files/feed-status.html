@@ -22,7 +22,7 @@
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
 <style>
   :root {
     --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
@@ -234,7 +234,7 @@
   .fv-tab.active { color:var(--ink); border-bottom-color:var(--accent); font-weight:600; }
   .fv-view { display:none; }
   .fv-view.active { display:block; }
-  .fv-chart-area { position:relative; }
+  .fv-chart-area { position:relative; min-height:400px; }
   .fv-chart-area svg { display:block; width:100%; }
   .fv-legend { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
   .fv-legend-item { display:flex; align-items:center; gap:5px; font-size:10px; font-family:'IBM Plex Mono',monospace; color:var(--ink); }
@@ -1607,7 +1607,7 @@ function fvSortTable(colIdx, th) {
 }
 
 // Init fee visualization
-fvUpdate();
+window.addEventListener('load', function() { fvUpdate(); });
 window.addEventListener('resize', function() {
   if (!fvLastData) return;
   if (fvCurrentView === 'bar') fvRenderBar(fvLastData);
@@ -1630,11 +1630,12 @@ window.addEventListener('resize', () => {
 </script>
 
   <script src="search-global.js"></script>
-
+  <script>
 function fdToggle(hdr) {
   hdr.classList.toggle('collapsed');
   hdr.nextElementSibling.classList.toggle('collapsed');
 }
+  </script>
 
 </body>
 </html>
