@@ -110,19 +110,21 @@
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
   /* ── PAGE ── */
-  .page-hero { background: var(--paper); border-bottom: 2px solid var(--ink); padding: 40px 48px 32px; }
-  .page-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin-bottom: 10px; }
-  .page-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; line-height: 1.1; margin-bottom: 10px; }
-  .page-hero-sub { font-size: 14px; color: var(--muted); max-width: 700px; line-height: 1.7; }
+  .page-hero { background: var(--cream); border-bottom: 2px solid var(--ink); padding: 36px 48px 32px; }
+  .page-hero-inner { max-width: 1280px; margin: 0 auto; }
+  .page-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-dark); margin-bottom: 10px; }
+  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3.5vw, 42px); font-weight: 900; line-height: 1.15; margin-bottom: 12px; color: var(--ink); }
+  .page-hero h1 span { color: var(--accent); }
+  .page-hero-sub { font-size: 15px; line-height: 1.7; color: var(--muted); max-width: 720px; }
   .page-hero-meta { margin-top: 16px; display: flex; gap: 20px; flex-wrap: wrap; }
   .page-hero-badge { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 10px; border: 1px solid var(--rule); color: var(--muted); border-radius: 2px; }
 
-  .page-container { max-width: 1200px; margin: 0 auto; padding: 40px 48px; }
+  .page-container { max-width: 1280px; margin: 0 auto; padding: 0 48px 64px; }
 
-  .section-head { margin: 0 0 24px; }
-  .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
-  .section-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; margin: 4px 0 8px; }
-  .section-rule { border: none; border-top: 2px solid var(--ink); margin: 0 0 28px; }
+  .section-head { display: flex; align-items: center; gap: 16px; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .section-head h2 { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink); white-space: nowrap; }
+  .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.1em; }
+  .section-line { flex: 1; height: 1px; background: var(--rule); }
   .section-wrap { margin-bottom: 56px; }
 
   /* ── SALARY CARDS ── */
@@ -130,12 +132,12 @@
   .role-card { background: var(--surface); border: 1px solid var(--border); padding: 24px; border-top: 3px solid var(--accent); transition: box-shadow 0.2s; }
   .role-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
   .role-title { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 10px; }
-  .role-median { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: 4px; }
+  .role-median { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: var(--ink); line-height: 1; margin-bottom: 4px; }
   .role-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 10px; }
   .role-range { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--ink); margin-bottom: 12px; font-weight: 500; }
   .role-bar-track { height: 6px; background: #e8e0d0; border-radius: 3px; margin-bottom: 12px; position: relative; }
-  .role-bar-range { position: absolute; height: 100%; background: #d4a843; border-radius: 3px; }
-  .role-bar-median { position: absolute; height: 100%; width: 3px; background: var(--accent); border-radius: 1px; transform: translateX(-1px); }
+  .role-bar-range { position: absolute; height: 100%; border-radius: 3px; }
+  .role-bar-median { position: absolute; height: 100%; width: 3px; border-radius: 1px; transform: translateX(-1px); }
   .role-employers { font-size: 11px; color: var(--muted); line-height: 1.5; border-top: 1px solid var(--border); padding-top: 10px; margin-top: 4px; }
   .role-employers strong { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink); display: block; margin-bottom: 4px; }
 
@@ -167,14 +169,14 @@
   .skill-name { font-size: 13px; color: var(--ink); min-width: 280px; flex-shrink: 0; }
   .skill-bar-wrap { flex: 1; display: flex; align-items: center; gap: 10px; }
   .skill-bar-track { flex: 1; height: 8px; background: #e8e0d0; border-radius: 4px; }
-  .skill-bar-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.6s ease; }
-  .skill-pct { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: var(--accent); min-width: 40px; }
+  .skill-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+  .skill-pct { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; min-width: 40px; }
 
   /* ── CAREER TIMELINE ── */
   .career-timeline { display: flex; align-items: flex-start; gap: 0; overflow-x: auto; padding-bottom: 8px; }
   .career-stage { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 160px; position: relative; }
   .career-stage:not(:last-child)::after { content: ''; position: absolute; top: 14px; left: 50%; right: -50%; height: 2px; background: var(--rule); z-index: 0; }
-  .career-node { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); border: 3px solid var(--ink); z-index: 1; margin-bottom: 12px; flex-shrink: 0; }
+  .career-node { width: 28px; height: 28px; border-radius: 50%; background: #4CAF50; border: 3px solid var(--ink); z-index: 1; margin-bottom: 12px; flex-shrink: 0; }
   .career-years { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 4px; }
   .career-role { font-size: 12px; font-weight: 600; color: var(--ink); text-align: center; margin-bottom: 4px; line-height: 1.3; }
   .career-comp { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); font-weight: 600; text-align: center; }
@@ -291,14 +293,16 @@
 
 <!-- Page Hero -->
 <div class="page-hero">
-  <div class="page-hero-label">&#9679; Market Intelligence</div>
-  <h1 class="page-hero-title">Market Data Compensation Intelligence</h1>
-  <p class="page-hero-sub">2026 salary benchmarks, compensation trends, and career data for market data professionals — sourced from Glassdoor, ZipRecruiter, Salary.com, and industry surveys.</p>
-  <div class="page-hero-meta">
-    <span class="page-hero-badge">Q1 2026 Data</span>
-    <span class="page-hero-badge">US National Medians</span>
-    <span class="page-hero-badge">6 Role Benchmarks</span>
-    <span class="page-hero-badge">NYC / CHI / SF +15–25%</span>
+  <div class="page-hero-inner">
+    <div class="page-hero-label">Market Intelligence · Compensation</div>
+    <h1>Market Data <span>Compensation</span> Intelligence</h1>
+    <p class="page-hero-sub">2026 salary benchmarks, compensation trends, and career data for market data professionals — sourced from Glassdoor, ZipRecruiter, Salary.com, and industry surveys.</p>
+    <div class="page-hero-meta">
+      <span class="page-hero-badge">Q1 2026 Data</span>
+      <span class="page-hero-badge">US National Medians</span>
+      <span class="page-hero-badge">6 Role Benchmarks</span>
+      <span class="page-hero-badge">NYC / CHI / SF +15–25%</span>
+    </div>
   </div>
 </div>
 
@@ -307,86 +311,86 @@
   <!-- SECTION 1: SALARY BENCHMARK CARDS -->
   <div class="section-wrap">
     <div class="section-head">
-      <div class="section-num">01 —</div>
-      <div class="section-title">2026 Salary Benchmarks</div>
+      <span class="section-num">01</span>
+      <h2>2026 Salary Benchmarks</h2>
+      <div class="section-line"></div>
     </div>
-    <hr class="section-rule">
     <div class="role-grid">
 
       <!-- Market Data Analyst -->
-      <div class="role-card">
+      <div class="role-card" style="border-top-color:#4CAF50">
         <div class="role-title">Market Data Analyst</div>
-        <div class="role-median">$85k</div>
+        <div class="role-median" style="color:#4CAF50">$85k</div>
         <div class="role-label">Median Base Salary</div>
         <div class="role-range">$65k – $110k &nbsp;·&nbsp; 25th–75th pct.</div>
         <div class="role-bar-track">
-          <div class="role-bar-range" style="left:21.7%;width:15%"></div>
-          <div class="role-bar-median" style="left:28.3%"></div>
+          <div class="role-bar-range" style="left:21.7%;width:15%;background:rgba(76,175,80,0.3)"></div>
+          <div class="role-bar-median" style="left:28.3%;background:#4CAF50"></div>
         </div>
         <div class="role-employers"><strong>Typical Employers</strong>Banks, Trading Firms, Exchanges, Data Vendors</div>
       </div>
 
       <!-- Market Data Engineer -->
-      <div class="role-card">
+      <div class="role-card" style="border-top-color:#2196F3">
         <div class="role-title">Market Data Engineer</div>
-        <div class="role-median">$130k</div>
+        <div class="role-median" style="color:#2196F3">$130k</div>
         <div class="role-label">Median Base Salary</div>
         <div class="role-range">$114.5k – $137.5k &nbsp;·&nbsp; 25th–75th pct.</div>
         <div class="role-bar-track">
-          <div class="role-bar-range" style="left:38.2%;width:7.7%"></div>
-          <div class="role-bar-median" style="left:43.3%"></div>
+          <div class="role-bar-range" style="left:38.2%;width:7.7%;background:rgba(33,150,243,0.3)"></div>
+          <div class="role-bar-median" style="left:43.3%;background:#2196F3"></div>
         </div>
         <div class="role-employers"><strong>Typical Employers</strong>HFT Firms, Banks, Exchanges, Tech Vendors</div>
       </div>
 
       <!-- Market Data Manager -->
-      <div class="role-card">
+      <div class="role-card" style="border-top-color:#FF9800">
         <div class="role-title">Market Data Manager</div>
-        <div class="role-median">$145k</div>
+        <div class="role-median" style="color:#FF9800">$145k</div>
         <div class="role-label">Median Base Salary</div>
         <div class="role-range">$115k – $175k &nbsp;·&nbsp; 25th–75th pct.</div>
         <div class="role-bar-track">
-          <div class="role-bar-range" style="left:38.3%;width:20%"></div>
-          <div class="role-bar-median" style="left:48.3%"></div>
+          <div class="role-bar-range" style="left:38.3%;width:20%;background:rgba(255,152,0,0.3)"></div>
+          <div class="role-bar-median" style="left:48.3%;background:#FF9800"></div>
         </div>
         <div class="role-employers"><strong>Typical Employers</strong>Asset Managers, Banks, Hedge Funds</div>
       </div>
 
       <!-- Feed Handler Developer -->
-      <div class="role-card">
+      <div class="role-card" style="border-top-color:#E91E63">
         <div class="role-title">Feed Handler Developer</div>
-        <div class="role-median">$155k</div>
+        <div class="role-median" style="color:#E91E63">$155k</div>
         <div class="role-label">Median Base Salary</div>
         <div class="role-range">$130k – $185k &nbsp;·&nbsp; 25th–75th pct.</div>
         <div class="role-bar-track">
-          <div class="role-bar-range" style="left:43.3%;width:18.3%"></div>
-          <div class="role-bar-median" style="left:51.7%"></div>
+          <div class="role-bar-range" style="left:43.3%;width:18.3%;background:rgba(233,30,99,0.3)"></div>
+          <div class="role-bar-median" style="left:51.7%;background:#E91E63"></div>
         </div>
         <div class="role-employers"><strong>Typical Employers</strong>HFT Firms, Prime Brokers, Market Makers</div>
       </div>
 
       <!-- VP Market Data -->
-      <div class="role-card">
+      <div class="role-card" style="border-top-color:#9C27B0">
         <div class="role-title">VP Market Data</div>
-        <div class="role-median">$195k</div>
+        <div class="role-median" style="color:#9C27B0">$195k</div>
         <div class="role-label">Median Base Salary</div>
         <div class="role-range">$160k – $240k &nbsp;·&nbsp; 25th–75th pct.</div>
         <div class="role-bar-track">
-          <div class="role-bar-range" style="left:53.3%;width:26.7%"></div>
-          <div class="role-bar-median" style="left:65%"></div>
+          <div class="role-bar-range" style="left:53.3%;width:26.7%;background:rgba(156,39,176,0.3)"></div>
+          <div class="role-bar-median" style="left:65%;background:#9C27B0"></div>
         </div>
         <div class="role-employers"><strong>Typical Employers</strong>Tier 1 Banks, Large Asset Managers</div>
       </div>
 
       <!-- Head of Market Data -->
-      <div class="role-card" style="border-top-color:var(--accent-dark)">
+      <div class="role-card" style="border-top-color:#b8860b">
         <div class="role-title">Head of Market Data / Director</div>
-        <div class="role-median" style="color:var(--accent-dark)">$230k</div>
+        <div class="role-median" style="color:#b8860b">$230k</div>
         <div class="role-label">Median Base Salary</div>
         <div class="role-range">$185k – $290k &nbsp;·&nbsp; 25th–75th pct.</div>
         <div class="role-bar-track">
-          <div class="role-bar-range" style="left:61.7%;width:35%"></div>
-          <div class="role-bar-median" style="left:76.7%;background:var(--accent-dark)"></div>
+          <div class="role-bar-range" style="left:61.7%;width:35%;background:rgba(184,134,11,0.3)"></div>
+          <div class="role-bar-median" style="left:76.7%;background:#b8860b"></div>
         </div>
         <div class="role-employers"><strong>Typical Employers</strong>Goldman Sachs, JPMorgan, BlackRock, ICE</div>
       </div>
@@ -397,10 +401,10 @@
   <!-- SECTION 2: D3 SALARY COMPARISON CHART -->
   <div class="section-wrap">
     <div class="section-head">
-      <div class="section-num">02 —</div>
-      <div class="section-title">Interactive Salary Comparison</div>
+      <span class="section-num">02</span>
+      <h2>Interactive Salary Comparison</h2>
+      <div class="section-line"></div>
     </div>
-    <hr class="section-rule">
     <div class="chart-wrap">
       <div class="chart-controls">
         <span class="chart-label">View:</span>
@@ -418,10 +422,10 @@
   <!-- SECTION 3: COMPENSATION BY FIRM TYPE -->
   <div class="section-wrap">
     <div class="section-head">
-      <div class="section-num">03 —</div>
-      <div class="section-title">Compensation by Firm Type</div>
+      <span class="section-num">03</span>
+      <h2>Compensation by Firm Type</h2>
+      <div class="section-line"></div>
     </div>
-    <hr class="section-rule">
     <div style="overflow-x:auto">
       <table class="comp-table">
         <thead>
@@ -470,10 +474,10 @@
   <!-- SECTION 4: SKILLS PREMIUM -->
   <div class="section-wrap">
     <div class="section-head">
-      <div class="section-num">04 —</div>
-      <div class="section-title">Market Data Skills Premium — 2026</div>
+      <span class="section-num">04</span>
+      <h2>Market Data Skills Premium — 2026</h2>
+      <div class="section-line"></div>
     </div>
-    <hr class="section-rule">
     <div class="skills-grid" id="skillsGrid">
       <!-- Rendered by JS -->
     </div>
@@ -482,49 +486,49 @@
   <!-- SECTION 5: CAREER PATH TIMELINE -->
   <div class="section-wrap">
     <div class="section-head">
-      <div class="section-num">05 —</div>
-      <div class="section-title">Typical Career Progression</div>
+      <span class="section-num">05</span>
+      <h2>Typical Career Progression</h2>
+      <div class="section-line"></div>
     </div>
-    <hr class="section-rule">
     <div class="career-timeline">
       <div class="career-stage">
-        <div class="career-node"></div>
+        <div class="career-node" style="background:#4CAF50"></div>
         <div>
           <div class="career-years">Year 0 – 2</div>
           <div class="career-role">Market Data Analyst</div>
-          <div class="career-comp">$65k – $85k</div>
+          <div class="career-comp" style="color:#4CAF50">$65k – $85k</div>
         </div>
       </div>
       <div class="career-stage">
-        <div class="career-node"></div>
+        <div class="career-node" style="background:#FF9800"></div>
         <div>
           <div class="career-years">Year 2 – 5</div>
           <div class="career-role">Sr. Analyst / Associate</div>
-          <div class="career-comp">$85k – $120k</div>
+          <div class="career-comp" style="color:#FF9800">$85k – $120k</div>
         </div>
       </div>
       <div class="career-stage">
-        <div class="career-node"></div>
+        <div class="career-node" style="background:#b8860b"></div>
         <div>
           <div class="career-years">Year 5 – 8</div>
           <div class="career-role">Market Data Manager</div>
-          <div class="career-comp">$120k – $165k</div>
+          <div class="career-comp" style="color:#b8860b">$120k – $165k</div>
         </div>
       </div>
       <div class="career-stage">
-        <div class="career-node"></div>
+        <div class="career-node" style="background:#9C27B0"></div>
         <div>
           <div class="career-years">Year 8 – 12</div>
           <div class="career-role">VP Market Data</div>
-          <div class="career-comp">$160k – $220k</div>
+          <div class="career-comp" style="color:#9C27B0">$160k – $220k</div>
         </div>
       </div>
       <div class="career-stage">
-        <div class="career-node" style="background:var(--accent-dark)"></div>
+        <div class="career-node" style="background:#7B1FA2"></div>
         <div>
           <div class="career-years">Year 12+</div>
           <div class="career-role">Director / Head of Market Data</div>
-          <div class="career-comp">$200k – $290k+</div>
+          <div class="career-comp" style="color:#7B1FA2">$200k – $290k+</div>
         </div>
       </div>
     </div>
@@ -536,10 +540,10 @@
   <!-- SECTION 6: METHODOLOGY -->
   <div class="section-wrap">
     <div class="section-head">
-      <div class="section-num">06 —</div>
-      <div class="section-title">Methodology &amp; Data Sources</div>
+      <span class="section-num">06</span>
+      <h2>Methodology &amp; Data Sources</h2>
+      <div class="section-line"></div>
     </div>
-    <hr class="section-rule">
     <div class="methodology-card">
       <h3>Data Sourcing &amp; Disclaimer</h3>
       <p>Data sourced from Glassdoor, ZipRecruiter, Salary.com, and PayScale as of Q1 2026. Market data roles are a specialized subset of financial services technology. Figures reflect US national medians. New York, Chicago, and San Francisco command 15–25% above national averages. Total compensation estimates include base salary, annual bonus, and equity where applicable, using a 1.25× multiplier on base as a conservative estimate. Compensation data is provided for informational purposes only and does not constitute financial or career advice.</p>
@@ -608,12 +612,12 @@ window.addEventListener('resize', function() { checkMobile(); drawChart(); });
 
 // ── ROLE DATA ────────────────────────────────────────────────────────────────
 const ROLES = [
-  { title: 'Market Data Analyst',      median: 85000,  low: 65000,  high: 110000 },
-  { title: 'Market Data Engineer',     median: 130000, low: 114500, high: 137500 },
-  { title: 'Market Data Manager',      median: 145000, low: 115000, high: 175000 },
-  { title: 'Feed Handler Developer',   median: 155000, low: 130000, high: 185000 },
-  { title: 'VP Market Data',           median: 195000, low: 160000, high: 240000 },
-  { title: 'Head of Market Data / Dir',median: 230000, low: 185000, high: 290000 },
+  { title: 'Market Data Analyst',      median: 85000,  low: 65000,  high: 110000, color: '#4CAF50' },
+  { title: 'Market Data Engineer',     median: 130000, low: 114500, high: 137500, color: '#2196F3' },
+  { title: 'Market Data Manager',      median: 145000, low: 115000, high: 175000, color: '#FF9800' },
+  { title: 'Feed Handler Developer',   median: 155000, low: 130000, high: 185000, color: '#E91E63' },
+  { title: 'VP Market Data',           median: 195000, low: 160000, high: 240000, color: '#9C27B0' },
+  { title: 'Head of Market Data / Dir',median: 230000, low: 185000, high: 290000, color: '#b8860b' },
 ];
 
 let currentView = 'base';
@@ -691,31 +695,31 @@ function drawChart() {
       .style('font-size', '11px').style('font-weight', '500')
       .text(d.title);
 
-    // Range bar (background)
+    // Range bar (background — 30% opacity of role color)
     const rangeX = xScale(d.dispLow);
     const rangeW = xScale(d.dispHigh) - xScale(d.dispLow);
     g.append('rect')
       .attr('x', rangeX).attr('y', y)
       .attr('width', 0).attr('height', bH)
-      .attr('fill', '#d4a843').attr('rx', 2).attr('opacity', 0.5)
+      .attr('fill', d.color).attr('rx', 2).attr('opacity', 0.3)
       .transition().duration(600).ease(d3.easeCubicOut)
       .attr('width', rangeW);
 
-    // Median bar (foreground)
+    // Median bar (foreground — full role color)
     const medW = xScale(d.dispMedian);
     g.append('rect')
       .attr('x', 0).attr('y', y + 2)
       .attr('width', 0).attr('height', bH - 4)
-      .attr('fill', '#b8860b').attr('rx', 2)
+      .attr('fill', d.color).attr('rx', 2)
       .transition().duration(600).delay(100).ease(d3.easeCubicOut)
       .attr('width', medW);
 
-    // Value label
+    // Value label (role color)
     const labelX = xScale(d.dispHigh) + 6;
     g.append('text')
       .attr('x', labelX).attr('y', y + bH / 2)
       .attr('dy', '0.35em')
-      .attr('fill', '#0d0d0d')
+      .attr('fill', d.color)
       .style('font-family', "'IBM Plex Mono',monospace")
       .style('font-size', '10px').style('font-weight', '600')
       .attr('opacity', 0)
@@ -756,14 +760,17 @@ const SKILLS = [
   { name: 'Bloomberg Terminal / data licensing',   pct: 8  },
 ];
 
+const SKILL_COLORS = ['#2196F3','#4CAF50','#FF9800','#E91E63','#9C27B0','#b8860b','#00BCD4','#FF5722'];
+
 const maxPct = 35;
-document.getElementById('skillsGrid').innerHTML = SKILLS.map(function(s) {
+document.getElementById('skillsGrid').innerHTML = SKILLS.map(function(s, i) {
   const fillW = (s.pct / maxPct * 100).toFixed(1);
+  const color = SKILL_COLORS[i % SKILL_COLORS.length];
   return '<div class="skill-row">' +
     '<div class="skill-name">' + s.name + '</div>' +
     '<div class="skill-bar-wrap">' +
-      '<div class="skill-bar-track"><div class="skill-bar-fill" style="width:' + fillW + '%"></div></div>' +
-      '<div class="skill-pct">+' + s.pct + '%</div>' +
+      '<div class="skill-bar-track"><div class="skill-bar-fill" style="width:' + fillW + '%;background:' + color + '"></div></div>' +
+      '<div class="skill-pct" style="color:' + color + '">+' + s.pct + '%</div>' +
     '</div>' +
     '</div>';
 }).join('');
