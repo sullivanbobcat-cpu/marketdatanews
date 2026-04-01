@@ -1,3 +1,12 @@
 [build]
   publish = "files"
   functions = "netlify/functions"
+
+[functions."daily-feedwatch"]
+  schedule = "0 11 * * *"
+
+[functions."weekly-regulatory"]
+  schedule = "0 12 * * 1"
+
+[functions."fee-change-monitor"]
+  schedule = "0 13 * * *"
