@@ -1,11 +1,9 @@
 // weekly-regulatory.js
 // Scheduled: 0 12 * * 1  (7am ET / 12pm UTC, every Monday)
 // Fetches SEC EDGAR filings and generates a weekly regulatory roundup via Claude.
-// Output saved to /tmp/weekly-regulatory.json.
+// Output persisted to Netlify Blobs store 'content' under key 'weekly-regulatory'.
 
-const fs = require('fs');
-
-const SAVE_PATH = '/tmp/weekly-regulatory.json';
+const { getStore } = require('@netlify/blobs');
 
 const FEED_URL =
   'https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=&dateb=&owner=include&count=20&search_text=&output=atom';
@@ -23,14 +21,7 @@ function getWeekLabel() {
 function extractTextFromXml(xml) {
   if (!xml) return '';
   const strip = (s) =>
-    s
-      .replace(/<[^>]+>/g, '')
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"')
-      .trim();
-
+    s.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').trim();
   const pull = (tag) =>
     [...xml.matchAll(new RegExp(`<${tag}[^>]*>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?<\\/${tag}>`, 'gi'))]
       .map((m) => strip(m[1]))
@@ -107,9 +98,11 @@ exports.handler = async function () {
   }
 
   try {
-    fs.writeFileSync(SAVE_PATH, JSON.stringify(roundup, null, 2));
+    const store = getStore('content');
+    await store.set('weekly-regulatory', JSON.stringify(roundup));
+    console.log('[weekly-regulatory] Roundup saved to Netlify Blobs.');
   } catch (err) {
-    console.error('[weekly-regulatory] Failed to write roundup file:', err.message);
+    console.error('[weekly-regulatory] Failed to save roundup to Blobs:', err.message);
   }
 
   return {

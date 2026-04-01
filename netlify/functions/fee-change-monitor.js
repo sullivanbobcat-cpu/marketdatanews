@@ -1,11 +1,9 @@
 // fee-change-monitor.js
 // Scheduled: 0 13 * * *  (8am ET / 13:00 UTC)
 // Monitors NYSE pricing PDF and NASDAQ news RSS for market data fee changes via Claude.
-// Saves fee-alerts.json to /tmp only when changes are detected.
+// Persists fee-alerts to Netlify Blobs only when changes are detected.
 
-const fs = require('fs');
-
-const SAVE_PATH = '/tmp/fee-alerts.json';
+const { getStore } = require('@netlify/blobs');
 
 const SOURCES = [
   {
@@ -34,7 +32,6 @@ async function fetchSource({ name, url }) {
     const contentType = res.headers.get('content-type') ?? '';
     let text;
     if (contentType.includes('pdf') || url.endsWith('.pdf')) {
-      // PDFs are binary — extract printable ASCII characters as best-effort text
       const buf = await res.arrayBuffer();
       text = Buffer.from(buf)
         .toString('latin1')
@@ -54,14 +51,7 @@ async function fetchSource({ name, url }) {
 function extractTextFromXml(xml) {
   if (!xml) return '';
   const strip = (s) =>
-    s
-      .replace(/<[^>]+>/g, '')
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"')
-      .trim();
-
+    s.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').trim();
   const pull = (tag) =>
     [...xml.matchAll(new RegExp(`<${tag}[^>]*>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?<\\/${tag}>`, 'gi'))]
       .map((m) => strip(m[1]))
@@ -113,7 +103,6 @@ exports.handler = async function () {
     const data = await apiRes.json();
     const rawText = data.content?.[0]?.text ?? '{}';
 
-    // Extract JSON from the response (Claude may wrap in code fences)
     const jsonMatch = rawText.match(/\{[\s\S]*\}/);
     parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : { hasChanges: false, changes: [], summary: rawText };
   } catch (err) {
@@ -125,10 +114,11 @@ exports.handler = async function () {
 
   if (parsed.hasChanges) {
     try {
-      fs.writeFileSync(SAVE_PATH, JSON.stringify(result, null, 2));
-      console.log(`[fee-change-monitor] Fee changes detected — saved to ${SAVE_PATH}`);
+      const store = getStore('content');
+      await store.set('fee-alerts', JSON.stringify(result));
+      console.log('[fee-change-monitor] Fee changes detected — saved to Netlify Blobs.');
     } catch (err) {
-      console.error('[fee-change-monitor] Failed to write alerts file:', err.message);
+      console.error('[fee-change-monitor] Failed to save alerts to Blobs:', err.message);
     }
   } else {
     console.log('[fee-change-monitor] No fee changes detected.');

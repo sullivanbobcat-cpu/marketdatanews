@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="favicon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Market Data News — Market Infrastructure Intelligence for Data Professionals</title>
 <meta name="description" content="Real-time market data industry news, exchange notifications, feed changes, regulatory updates, and NMS plan amendments for market data engineers and operations teams.">
@@ -179,6 +181,22 @@
   .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
   .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
 
+  /* ── AI DAILY DIGEST ── */
+  .digest-wrap { background: var(--surface); border-left: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 3px solid var(--ink); padding: 20px 32px 24px; }
+  .digest-ts { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; }
+  .digest-fee-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--red); color: white; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 10px; border-radius: 2px; margin-bottom: 14px; }
+  .digest-body { font-size: 13px; line-height: 1.8; color: var(--muted); }
+  .digest-body h1 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--ink); margin: 0 0 12px; }
+  .digest-body h2, .digest-body h3 { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink); margin: 16px 0 8px; }
+  .digest-body ul { padding-left: 20px; margin: 8px 0 12px; }
+  .digest-body li { margin-bottom: 7px; }
+  .digest-body p { margin-bottom: 10px; }
+  .digest-body strong { color: var(--ink); font-weight: 600; }
+  .digest-body a { color: var(--accent-dark); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .digest-body a:hover { color: var(--ink); }
+  .digest-empty { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); padding: 12px 0; }
+  .digest-skel { display: flex; flex-direction: column; gap: 10px; padding: 4px 0; }
+
   @media (max-width: 900px) {
     nav { display: none; } #mobileBar { display: flex !important; }
     .layout { grid-template-columns: 1fr; } .side-col { border-top: 2px solid var(--ink); }
@@ -188,6 +206,7 @@
     .tagline { text-align: center; }
     .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
     .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+    .digest-wrap { padding: 16px 20px 20px; }
   }
 </style>
 </head>
@@ -263,6 +282,28 @@
   <a href="feed-status.html">Feed Status</a>
   <a href="prediction-markets.html">Prediction Markets</a>
   <a href="about.html">About</a>
+</div>
+
+<!-- AI Daily Digest -->
+<div class="container">
+  <div class="digest-wrap">
+    <div class="section-head" style="margin-bottom:16px;">
+      <span class="live-dot"></span>
+      <h2>AI Daily Digest</h2>
+      <div class="section-line"></div>
+      <span class="digest-ts" id="digestTs">Loading...</span>
+    </div>
+    <div id="digestContent">
+      <div class="digest-skel">
+        <div class="skeleton" style="height:18px;width:55%"></div>
+        <div class="skeleton" style="height:12px"></div>
+        <div class="skeleton" style="height:12px;width:88%"></div>
+        <div class="skeleton" style="height:12px;width:70%"></div>
+        <div class="skeleton" style="height:12px;margin-top:4px"></div>
+        <div class="skeleton" style="height:12px;width:80%"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Main content -->
@@ -516,6 +557,45 @@ checkMobile();
 window.addEventListener('resize', checkMobile);
 loadAllFeeds();
 setInterval(loadAllFeeds, 600000);
+
+// ── AI DAILY DIGEST ──
+async function loadDigest() {
+  const contentEl = document.getElementById('digestContent');
+  const tsEl = document.getElementById('digestTs');
+  try {
+    const res = await fetch('/.netlify/functions/get-content');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+
+    // Timestamp
+    const generatedAt = data.feedwatch?.generatedAt;
+    if (generatedAt) {
+      const d = new Date(generatedAt);
+      tsEl.textContent = 'Updated ' + d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+    } else {
+      tsEl.textContent = '';
+    }
+
+    // Fee alert badge
+    const hasFeeAlert = data.feeAlerts?.hasChanges === true;
+    const feeBadge = hasFeeAlert
+      ? '<div class="digest-fee-badge"><span>⚠</span> Fee Changes Detected — ' + (data.feeAlerts.summary || data.feeAlerts.changes?.length + ' item(s)') + '</div>'
+      : '';
+
+    // Digest body
+    const html = data.feedwatch?.html;
+    const body = html
+      ? '<div class="digest-body fade-in">' + html + '</div>'
+      : '<p class="digest-empty">' + (data.feedwatch?.message || 'No digest available yet. Runs daily at 6am ET.') + '</p>';
+
+    contentEl.innerHTML = feeBadge + body;
+  } catch (err) {
+    console.warn('[digest] Failed to load:', err.message);
+    tsEl.textContent = '';
+    contentEl.innerHTML = '<p class="digest-empty">Digest unavailable — will retry on next scheduled run.</p>';
+  }
+}
+loadDigest();
 </script>
 </body>
 </html>

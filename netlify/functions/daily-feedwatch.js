@@ -1,11 +1,9 @@
 // daily-feedwatch.js
 // Scheduled: 0 11 * * *  (6am ET / 11am UTC)
 // Fetches SEC, FINRA, CFTC feeds and generates a FeedWatch digest via Claude.
-// Output saved to /tmp/feedwatch-digest.json (ephemeral per invocation on Netlify).
+// Output persisted to Netlify Blobs store 'content' under key 'feedwatch-digest'.
 
-const fs = require('fs');
-
-const SAVE_PATH = '/tmp/feedwatch-digest.json';
+const { getStore } = require('@netlify/blobs');
 
 const FEEDS = [
   {
@@ -42,13 +40,14 @@ async function fetchFeed({ name, url }) {
 
 function extractTextFromXml(xml) {
   if (!xml) return '';
-  const strip = (s) => s.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').trim();
+  const strip = (s) =>
+    s.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').trim();
   const pull = (tag) =>
     [...xml.matchAll(new RegExp(`<${tag}[^>]*>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?<\\/${tag}>`, 'gi'))]
       .map((m) => strip(m[1]))
       .filter(Boolean);
 
-  const titles = pull('title').slice(1, 15); // skip feed-level title
+  const titles = pull('title').slice(1, 15);
   const summaries = pull('summary').concat(pull('description')).slice(0, 8);
   const links = [...xml.matchAll(/<link[^>]+href="([^"]+)"/gi)].map((m) => m[1]).slice(0, 8);
 
@@ -106,9 +105,11 @@ exports.handler = async function () {
   }
 
   try {
-    fs.writeFileSync(SAVE_PATH, JSON.stringify(digest, null, 2));
+    const store = getStore('content');
+    await store.set('feedwatch-digest', JSON.stringify(digest));
+    console.log('[daily-feedwatch] Digest saved to Netlify Blobs.');
   } catch (err) {
-    console.error('[daily-feedwatch] Failed to write digest file:', err.message);
+    console.error('[daily-feedwatch] Failed to save digest to Blobs:', err.message);
   }
 
   return {
