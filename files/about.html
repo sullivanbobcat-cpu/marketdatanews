@@ -6,20 +6,23 @@
 <link rel="apple-touch-icon" href="favicon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About — Market Data News</title>
-<meta name="description" content="About Market Data News — the independent source for market infrastructure intelligence, FeedWatch, and exchange data coverage.">
+<meta name="description" content="Market Data News — independent intelligence on exchange connectivity, NMS plans, regulatory deadlines, and market data economics for infrastructure professionals.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Market Data News">
 <link rel="canonical" href="https://marketdatanews.com/about.html">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://marketdatanews.com/about.html">
 <meta property="og:title" content="About — Market Data News">
-<meta property="og:description" content="About Market Data News — independent coverage of exchange feeds, NMS plans, regulatory filings, and market data infrastructure for data professionals.">
+<meta property="og:description" content="Independent coverage of exchange feeds, NMS plans, regulatory filings, and market data infrastructure for data professionals.">
 <meta property="og:site_name" content="Market Data News">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{--ink:#0d0d0d;--paper:#f5f2eb;--cream:#faf8f3;--rule:#d4c9b0;--accent:#b8860b;--accent-dark:#8b6508;--muted:#6b6555;--red:#c0392b;--surface:#ffffff;--border:#e8e0d0;}
+  :root{--ink:#0d0d0d;--paper:#f5f2eb;--cream:#faf8f3;--rule:#d4c9b0;--accent:#b8860b;--accent-dark:#8b6508;--muted:#6b6555;--red:#c0392b;--surface:#ffffff;--border:#e8e0d0;--green:#2e7d32;}
   *{margin:0;padding:0;box-sizing:border-box;}
   body{background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",sans-serif;min-height:100vh;}
+
+  /* ── TICKER ── */
   .ticker-wrap{background:var(--ink);color:var(--accent);padding:7px 0;overflow:hidden;position:relative;}
   .ticker-wrap::before,.ticker-wrap::after{content:"";position:absolute;top:0;bottom:0;width:60px;z-index:2;}
   .ticker-wrap::before{left:0;background:linear-gradient(90deg,var(--ink),transparent);}
@@ -28,17 +31,31 @@
   .ticker-item{font-family:"IBM Plex Mono",monospace;font-size:11px;padding:0 32px;letter-spacing:0.05em;}
   .up{color:#00cc66;}.down{color:#ff4444;}
   @keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+  /* ── MASTHEAD ── */
   .masthead{background:var(--cream);border-bottom:3px solid var(--ink);}
   .masthead-top{display:flex;align-items:center;justify-content:space-between;padding:20px 48px 16px;border-bottom:1px solid var(--rule);}
   .date-line{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
   .site-title{font-family:"Playfair Display",serif;font-size:clamp(32px,5vw,58px);font-weight:900;letter-spacing:-0.02em;line-height:1;text-align:center;text-decoration:none;color:var(--ink);}
   .site-title span{color:var(--accent);}
   .tagline{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);text-align:right;letter-spacing:0.1em;text-transform:uppercase;line-height:1.6;}
-  nav{display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--rule);overflow:visible;flex-wrap:nowrap;white-space:nowrap;}
-  .nav-item{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:8px 12px;cursor:pointer;transition:background 0.15s,color 0.15s;color:var(--ink);border:none;background:none;font-family:"IBM Plex Sans",sans-serif;border-right:1px solid var(--rule);text-decoration:none;display:inline-block;}
-  .nav-item:first-child{border-left:1px solid var(--rule);}
+
+  /* ── NAV ── */
+  nav{display:flex;align-items:stretch;padding:0 48px;border-bottom:1px solid var(--rule);position:relative;flex-wrap:nowrap;overflow:visible;background:var(--cream);}
+  .nav-item{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:0 14px;cursor:pointer;transition:background 0.15s,color 0.15s;color:var(--ink);border:none;background:none;font-family:"IBM Plex Sans",sans-serif;border-right:1px solid var(--rule);text-decoration:none;display:inline-flex;align-items:center;white-space:nowrap;min-height:40px;user-select:none;}
+  a.nav-item:first-child{border-left:1px solid var(--rule);}
   .nav-item.active,.nav-item:hover{background:var(--ink);color:var(--accent);}
-  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;padding-left:16px;}
+  .nav-dropdown{position:relative;display:flex;align-items:stretch;}
+  .nav-dropdown>.nav-item{border-left:none;}
+  .nav-dropdown-menu{display:block;position:absolute;top:100%;left:0;opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity 0.15s ease,transform 0.15s ease,visibility 0.15s ease;min-width:220px;background:var(--ink);border-top:2px solid var(--accent);z-index:1000;box-shadow:0 6px 24px rgba(0,0,0,0.35);}
+  .nav-dropdown-menu.nav-dropdown-right{left:auto;right:0;}
+  .nav-dropdown:hover .nav-dropdown-menu{opacity:1;visibility:visible;transform:translateY(0);}
+  .nav-drop-item{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;color:#aaa;text-decoration:none;padding:10px 20px;border-bottom:1px solid #1e1e1e;transition:color 0.15s,background 0.15s;white-space:nowrap;}
+  .nav-drop-item:last-child{border-bottom:none;}
+  .nav-drop-item:hover{color:var(--accent);background:#111;}
+  a.nav-subscribe{background:var(--accent);color:var(--ink)!important;border-right:1px solid var(--rule);}
+  a.nav-subscribe:hover{background:var(--accent-dark)!important;color:white!important;}
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;padding-left:16px;border-left:1px solid var(--rule);}
   .search-wrap{position:relative;display:flex;align-items:center;}
   .search-box{background:transparent;border:1px solid var(--rule);padding:5px 12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink);border-radius:2px;width:180px;}
   .search-box:focus{outline:none;border-color:var(--accent);}
@@ -58,85 +75,42 @@
   .search-drop-cat.topics{background:#0d2b0d;color:#4a9a4a;}
   .search-drop-footer{padding:10px 14px;border-top:1px solid #222;}
   .search-drop-footer a{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--accent);text-decoration:none;}
-  .search-drop-footer a:hover{text-decoration:underline;}
   .search-drop-empty{padding:16px 14px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:#444;}
-  .page-banner{background:var(--paper);color:var(--ink);padding:20px 48px;border-bottom:2px solid var(--ink);}
-  .page-banner-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
-  .page-banner-title{font-family:"Playfair Display",serif;font-size:clamp(20px,3vw,32px);font-weight:700;}
-  .page-banner-title span{color:var(--accent);}
-  .page-banner-desc{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);margin-top:5px;letter-spacing:0.06em;}
+
+  /* ── FEEDWATCH ALERT BAR ── */
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-  .container{max-width:1280px;margin:0 auto;padding:0 48px;}
-  .layout{display:grid;grid-template-columns:1fr 280px;gap:0;border-left:1px solid var(--border);border-right:1px solid var(--border);background:var(--surface);}
-  .main-col{border-right:1px solid var(--border);padding:36px 32px;}
-  .side-col{padding:28px;}
-
-  /* About-specific styles */
-  .about-lede{font-family:"Playfair Display",serif;font-size:clamp(22px,2.5vw,30px);font-weight:700;line-height:1.35;color:var(--ink);margin-bottom:32px;padding-bottom:32px;border-bottom:2px solid var(--ink);}
-  .about-lede span{color:var(--accent);}
-  .about-section{margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--border);}
-  .about-section:last-child{border-bottom:none;}
-  .about-section-label{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent-dark);margin-bottom:12px;}
-  .about-section h2{font-family:"Playfair Display",serif;font-size:22px;font-weight:700;margin-bottom:16px;color:var(--ink);}
-  .about-section p{font-size:15px;line-height:1.8;color:var(--muted);margin-bottom:14px;}
-  .about-section p:last-child{margin-bottom:0;}
-
-  /* Founder card */
-  .founder-card{background:var(--paper);border:1px solid var(--rule);border-left:4px solid var(--accent);padding:28px;margin-bottom:32px;}
-  .founder-name{font-family:"Playfair Display",serif;font-size:26px;font-weight:900;color:var(--ink);margin-bottom:4px;}
-  .founder-title{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--accent-dark);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:18px;}
-  .founder-bio{font-size:15px;line-height:1.8;color:var(--muted);}
-
-  /* FeedWatch explainer */
-  .fw-explainer{background:var(--ink);color:var(--cream);padding:32px;margin-bottom:32px;}
-  .fw-explainer-title{font-family:"Playfair Display",serif;font-size:20px;font-weight:900;margin-bottom:6px;}
-  .fw-explainer-title span{color:var(--accent);}
-  .fw-explainer-sub{font-family:"IBM Plex Mono",monospace;font-size:10px;color:#888;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px;}
-  .fw-step{display:flex;gap:16px;margin-bottom:18px;align-items:flex-start;}
-  .fw-step:last-child{margin-bottom:0;}
-  .fw-step-num{font-family:"Playfair Display",serif;font-size:28px;font-weight:900;color:var(--accent);line-height:1;min-width:32px;}
-  .fw-step-text{font-size:13px;line-height:1.7;color:#aaa;}
-  .fw-step-text strong{color:white;display:block;font-family:"IBM Plex Sans",sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;}
-
-  /* Sidebar */
-  .sidebar-section{margin-bottom:32px;}
-  .sidebar-head{font-family:"IBM Plex Sans",sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:16px;}
-  .sidebar-stat{padding:14px 0;border-bottom:1px solid var(--border);}
-  .sidebar-stat-num{font-family:"Playfair Display",serif;font-size:32px;font-weight:900;color:var(--accent);line-height:1;}
-  .sidebar-stat-label{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:3px;}
-  .newsletter{background:var(--ink);color:white;padding:20px;border-radius:2px;}
-  .newsletter h3{font-family:"Playfair Display",serif;font-size:18px;font-weight:700;margin-bottom:6px;}
-  .newsletter p{font-size:12px;color:#aaa;margin-bottom:14px;line-height:1.5;}
-  .newsletter input{width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:9px 12px;font-family:"IBM Plex Mono",monospace;font-size:12px;margin-bottom:8px;border-radius:2px;}
-  .newsletter input::placeholder{color:#666;}
-  .newsletter input:focus{outline:none;border-color:var(--accent);}
-  .newsletter button{width:100%;background:var(--accent);color:var(--ink);border:none;padding:9px;font-family:"IBM Plex Sans",sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;border-radius:2px;transition:background 0.2s;}
-  .newsletter button:hover{background:var(--accent-dark);color:white;}
-  .contact-link{display:block;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--accent-dark);text-decoration:none;padding:10px 0;border-bottom:1px solid var(--border);transition:color 0.15s;}
-  .contact-link:hover{color:var(--ink);}
-
-  /* FeedWatch Alert Bar */
   .fw-alertbar{background:#1a0a00;border-bottom:2px solid var(--accent);padding:0 48px;}
   .fw-alertbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;height:38px;gap:0;}
-  .fw-alertbar-brand{font-family:'Playfair Display',serif;font-size:15px;font-weight:900;color:white;text-decoration:none;padding-right:16px;white-space:nowrap;}
+  .fw-alertbar-brand{font-family:"Playfair Display",serif;font-size:15px;font-weight:900;color:white;text-decoration:none;padding-right:16px;white-space:nowrap;}
   .fw-alertbar-brand span{color:var(--accent);}
   .fw-alertbar-divider{width:1px;height:20px;background:#3a2a10;margin:0 16px;flex-shrink:0;}
   .fw-alertbar-stats{display:flex;align-items:center;gap:4px;}
   .fw-alertbar-stat{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:2px;text-decoration:none;transition:background 0.15s;white-space:nowrap;}
   .fw-alertbar-stat:hover{background:rgba(255,255,255,0.08);}
   .fw-alertbar-dot{width:6px;height:6px;border-radius:50%;background:#ff4444;animation:pulse 2s infinite;flex-shrink:0;}
-  .fw-alertbar-num{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:white;}
-  .fw-alertbar-label{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.08em;}
+  .fw-alertbar-num{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;color:white;}
+  .fw-alertbar-label{font-family:"IBM Plex Mono",monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.08em;}
   .fw-alertbar-stat.critical .fw-alertbar-num,.fw-alertbar-stat.critical .fw-alertbar-label{color:#ff4444;}
   .fw-alertbar-stat.high .fw-alertbar-num,.fw-alertbar-stat.high .fw-alertbar-label{color:#ff8c00;}
   .fw-alertbar-stat.action .fw-alertbar-num,.fw-alertbar-stat.action .fw-alertbar-label{color:var(--accent);}
   .fw-alertbar-stat.total .fw-alertbar-num{color:#888;}.fw-alertbar-stat.total .fw-alertbar-label{color:#555;}
   .fw-alertbar-next{margin-left:auto;display:flex;align-items:center;gap:8px;white-space:nowrap;}
-  .fw-alertbar-next-label{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:#555;}
-  .fw-alertbar-next-val{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#ff9900;font-weight:600;}
-  .fw-alertbar-cta{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);text-decoration:none;padding:5px 12px;border:1px solid var(--accent-dark);border-radius:2px;margin-left:16px;transition:all 0.15s;white-space:nowrap;}
+  .fw-alertbar-next-label{font-family:"IBM Plex Mono",monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:#555;}
+  .fw-alertbar-next-val{font-family:"IBM Plex Mono",monospace;font-size:10px;color:#ff9900;font-weight:600;}
+  .fw-alertbar-cta{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);text-decoration:none;padding:5px 12px;border:1px solid var(--accent-dark);border-radius:2px;margin-left:16px;transition:all 0.15s;white-space:nowrap;}
   .fw-alertbar-cta:hover{background:var(--accent);color:var(--ink);}
 
+  /* ── MOBILE NAV ── */
+  .mobile-nav{display:none;flex-direction:column;background:var(--ink);padding:12px 20px;border-bottom:2px solid var(--accent);}
+  .mobile-nav.open{display:flex;}
+  .mobile-nav a{font-family:"IBM Plex Sans",sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#aaa;text-decoration:none;padding:10px 0;border-bottom:1px solid #222;}
+  .mobile-nav a:last-child{border-bottom:none;}
+  .mobile-nav a:hover,.mobile-nav a.active{color:var(--accent);}
+  .mobile-nav .mob-group-label{font-family:"IBM Plex Mono",monospace!important;font-size:9px!important;text-transform:uppercase!important;letter-spacing:0.15em!important;color:var(--accent)!important;padding:14px 0 5px!important;border-bottom:none!important;font-weight:400!important;cursor:default;}
+  .hamburger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:4px;}
+  .hamburger span{display:block;width:22px;height:2px;background:#aaa;}
+
+  /* ── FOOTER ── */
   footer{background:var(--ink);color:#aaa;padding:40px 48px;}
   .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;max-width:1280px;margin:0 auto 32px;}
   .footer-brand{font-family:"Playfair Display",serif;font-size:22px;font-weight:900;color:white;margin-bottom:10px;}
@@ -147,65 +121,141 @@
   .footer-col a:hover{color:var(--accent);}
   .footer-bottom{border-top:1px solid #222;padding-top:20px;font-family:"IBM Plex Mono",monospace;font-size:10px;display:flex;justify-content:space-between;max-width:1280px;margin:0 auto;}
 
-  /* Mobile nav */
-  .mobile-nav{display:none;flex-direction:column;background:var(--ink);padding:12px 20px;border-bottom:2px solid var(--accent);}
-  .mobile-nav.open{display:flex;}
-  .mobile-nav a{font-family:"IBM Plex Sans",sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#aaa;text-decoration:none;padding:10px 0;border-bottom:1px solid #222;}
-  .mobile-nav a:last-child{border-bottom:none;}
-  .mobile-nav a:hover,.mobile-nav a.active{color:var(--accent);}
-  .hamburger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:4px;}
-  .hamburger span{display:block;width:22px;height:2px;background:#aaa;}
-  .fade-in{animation:fadeIn 0.5s ease forwards;}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-  @media(max-width:1100px){
-    .layout{grid-template-columns:1fr;}.side-col{border-top:2px solid var(--ink);}
-  }
-  @media(max-width:900px){
-    nav{display:none;}#mobileBar{display:flex !important;}
-    .layout{grid-template-columns:1fr;}.side-col{border-top:2px solid var(--ink);}
-    .container,nav,.masthead-top,footer,.page-banner,.fw-alertbar{padding-left:20px;padding-right:20px;}
-    .main-col{padding:24px;}.footer-grid{grid-template-columns:1fr 1fr;}
-    .masthead-top{flex-direction:column;gap:12px;text-align:center;}.tagline{text-align:center;}
-    .fw-alertbar-next,.fw-alertbar-cta,.fw-alertbar-label{display:none;}
-  }
-  @media (max-width: 1200px) { .nav-comp { display: none; } }
+  /* ── PAGE LAYOUT ── */
+  .page-wrap{max-width:1100px;margin:0 auto;padding:0 48px;}
+  .section-rule{border:none;border-top:1px solid var(--border);margin:0;}
 
-  /* ── REBUILT NAV: GROUPED DROPDOWNS ── */
-  nav { display: flex; align-items: stretch; padding: 0 48px; border-bottom: 1px solid var(--rule); position: relative; flex-wrap: nowrap; overflow: visible; background: var(--cream); }
-  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0 14px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; user-select: none; }
-  a.nav-item:first-child { border-left: 1px solid var(--rule); }
-  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
-  .nav-dropdown { position: relative; display: flex; align-items: stretch; }
-  .nav-dropdown > .nav-item { border-left: none; }
-  .nav-dropdown-menu { display: block; position: absolute; top: 100%; left: 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; min-width: 220px; background: var(--ink); border-top: 2px solid var(--accent); z-index: 1000; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
-  .nav-dropdown-menu.nav-dropdown-right { left: auto; right: 0; }
-  .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-  .nav-drop-item { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #aaa; text-decoration: none; padding: 10px 20px; border-bottom: 1px solid #1e1e1e; transition: color 0.15s, background 0.15s; white-space: nowrap; }
-  .nav-drop-item:last-child { border-bottom: none; }
-  .nav-drop-item:hover { color: var(--accent); background: #111; }
-  a.nav-subscribe { background: var(--accent); color: var(--ink) !important; border-right: 1px solid var(--rule); }
-  a.nav-subscribe:hover { background: var(--accent-dark) !important; color: white !important; }
-  a.nav-subscribe.active { background: var(--accent-dark) !important; color: white !important; }
-  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; border-left: 1px solid var(--rule); }
-  .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
+  /* ── HERO ── */
+  .hero{background:var(--ink);color:var(--cream);padding:80px 48px 72px;}
+  .hero-inner{max-width:1100px;margin:0 auto;}
+  .hero-eyebrow{font-family:"IBM Plex Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.18em;color:var(--accent);margin-bottom:20px;}
+  .hero-headline{font-family:"Playfair Display",serif;font-size:clamp(32px,4.5vw,56px);font-weight:900;line-height:1.12;letter-spacing:-0.02em;color:#fff;margin-bottom:28px;max-width:820px;}
+  .hero-sub{font-family:"IBM Plex Mono",monospace;font-size:14px;line-height:1.75;color:#aaa;max-width:680px;letter-spacing:0.01em;}
+  .hero-divider{width:64px;height:3px;background:var(--accent);margin:36px 0 0;}
+
+  /* ── SECTION HEADERS ── */
+  .sec-label{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.18em;color:var(--accent-dark);margin-bottom:6px;}
+  .sec-num{font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;padding:32px 0 0;}
+
+  /* ── PULL QUOTE SECTION ── */
+  .pull-section{padding:60px 0 48px;}
+  .pull-quote{font-family:"Playfair Display",serif;font-size:clamp(22px,2.8vw,34px);font-style:italic;font-weight:600;line-height:1.45;color:var(--ink);border-left:4px solid var(--accent);padding-left:32px;margin-bottom:40px;}
+  .pull-body{font-size:16px;line-height:1.85;color:var(--muted);max-width:780px;}
+  .pull-body p{margin-bottom:1.2em;}
+  .pull-body p:last-child{margin-bottom:0;}
+
+  /* ── WHAT WE COVER CARDS ── */
+  .cover-section{padding:56px 0;}
+  .cover-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+  .cover-card{background:var(--surface);padding:36px 32px;transition:box-shadow 0.2s,transform 0.2s;}
+  .cover-card:hover{box-shadow:0 4px 24px rgba(0,0,0,0.08);transform:translateY(-2px);position:relative;z-index:1;}
+  .cover-icon{font-size:24px;margin-bottom:14px;display:block;}
+  .cover-title{font-family:"Playfair Display",serif;font-size:18px;font-weight:700;color:var(--ink);margin-bottom:12px;}
+  .cover-desc{font-size:14px;line-height:1.75;color:var(--muted);}
+
+  /* ── STATS ── */
+  .stats-section{padding:56px 0;}
+  .stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--border);background:var(--border);}
+  .stat-block{background:var(--surface);padding:36px 24px;text-align:center;}
+  .stat-num{font-family:"Playfair Display",serif;font-size:clamp(36px,4vw,56px);font-weight:900;color:var(--accent);line-height:1;display:block;margin-bottom:10px;}
+  .stat-label{font-family:"IBM Plex Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);}
+
+  /* ── PERSONAS ── */
+  .persona-section{padding:56px 0;}
+  .persona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .persona-card{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent);padding:32px 28px;}
+  .persona-role{font-family:"Playfair Display",serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:20px;line-height:1.3;}
+  .persona-list{list-style:none;padding:0;}
+  .persona-list li{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);line-height:1.7;padding:8px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
+  .persona-list li:last-child{border-bottom:none;}
+  .persona-list li::before{content:"›";color:var(--accent);font-size:14px;flex-shrink:0;margin-top:1px;}
+
+  /* ── SOURCES ── */
+  .sources-section{padding:56px 0;}
+  .sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 32px;margin-top:28px;}
+  .source-tag{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);background:var(--paper);border:1px solid #e8e4db;padding:6px 10px;border-radius:2px;display:inline-block;letter-spacing:0.04em;}
+
+  /* ── FEEDWATCH BOX ── */
+  .fw-section{padding:56px 0;}
+  .fw-box{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--accent);padding:44px 48px;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;}
+  .fw-box-headline{font-family:"Playfair Display",serif;font-size:26px;font-weight:900;color:var(--ink);margin-bottom:6px;}
+  .fw-box-headline span{color:var(--accent);}
+  .fw-box-eyebrow{font-family:"IBM Plex Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent-dark);margin-bottom:18px;}
+  .fw-box-body{font-size:15px;line-height:1.8;color:var(--muted);}
+  .fw-box-cta{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--ink);background:var(--accent);padding:14px 28px;text-decoration:none;display:inline-block;white-space:nowrap;border-radius:2px;transition:background 0.2s,color 0.2s;}
+  .fw-box-cta:hover{background:var(--accent-dark);color:#fff;}
+
+  /* ── INTELLIGENCE PLATFORM ── */
+  .platform-section{padding:56px 0;}
+  .platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+  .platform-col{background:var(--surface);padding:44px 40px;}
+  .platform-col.pro{background:var(--ink);}
+  .platform-tier-label{font-family:"IBM Plex Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.16em;margin-bottom:8px;}
+  .platform-col .platform-tier-label{color:var(--muted);}
+  .platform-col.pro .platform-tier-label{color:var(--accent);}
+  .platform-tier-name{font-family:"Playfair Display",serif;font-size:26px;font-weight:900;margin-bottom:28px;}
+  .platform-col .platform-tier-name{color:var(--ink);}
+  .platform-col.pro .platform-tier-name{color:#fff;}
+  .platform-list{list-style:none;padding:0;margin-bottom:32px;}
+  .platform-list li{font-size:14px;line-height:1.6;padding:10px 0;border-bottom:1px solid;display:flex;gap:12px;align-items:flex-start;}
+  .platform-col .platform-list li{color:var(--muted);border-color:var(--border);}
+  .platform-col.pro .platform-list li{color:#aaa;border-color:#222;}
+  .platform-list li::before{content:"✓";font-weight:700;flex-shrink:0;}
+  .platform-col .platform-list li::before{color:var(--green);}
+  .platform-col.pro .platform-list li::before{color:var(--accent);}
+  .platform-list li:last-child{border-bottom:none;}
+  .platform-cta{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--ink);background:var(--accent);padding:14px 28px;text-decoration:none;display:inline-block;border-radius:2px;transition:background 0.2s,color 0.2s;}
+  .platform-cta:hover{background:var(--accent-dark);color:#fff;}
+
+  /* ── INDEPENDENCE STATEMENT ── */
+  .independence-section{padding:56px 0 64px;text-align:center;}
+  .independence-statement{font-family:"Playfair Display",serif;font-size:18px;font-style:italic;color:var(--muted);max-width:680px;margin:0 auto 16px;line-height:1.65;}
+  .independence-contact{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:0.06em;}
+  .independence-contact a{color:var(--accent-dark);text-decoration:none;}
+  .independence-contact a:hover{color:var(--ink);}
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:900px){
+    nav{display:none;}#mobileBar{display:flex!important;}
+    .hero,.page-wrap,.fw-alertbar{padding-left:20px;padding-right:20px;}
+    .masthead-top{flex-direction:column;gap:12px;text-align:center;padding-left:20px;padding-right:20px;}
+    .tagline{text-align:center;}
+    .fw-alertbar-next,.fw-alertbar-cta,.fw-alertbar-label{display:none;}
+    footer{padding-left:20px;padding-right:20px;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .cover-grid{grid-template-columns:1fr;}
+    .stats-row{grid-template-columns:repeat(3,1fr);}
+    .persona-grid{grid-template-columns:1fr;}
+    .sources-grid{grid-template-columns:1fr 1fr;}
+    .fw-box{grid-template-columns:1fr;gap:24px;}
+    .platform-grid{grid-template-columns:1fr;}
+  }
+  @media(max-width:600px){
+    .stats-row{grid-template-columns:1fr 1fr;}
+    .sources-grid{grid-template-columns:1fr;}
+    .hero{padding-top:48px;padding-bottom:48px;}
+  }
+  @media(max-width:1200px){.nav-comp{display:none;}}
 </style>
 </head>
 <body>
+
 <!-- Ticker -->
 <div class="ticker-wrap"><div class="ticker">
   <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
   <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
-  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
-  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">OPRA 96-LINE MULTICAST EXPANSION: <span style="color:#ff9900">Q3 2026</span></span>
   <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
-  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">CAT PHASE 2D: <span style="color:#ff9900">Q3 2026</span></span>
+  <span class="ticker-item">NFN CTCI RETIREMENT: <span style="color:#ff9900">JUN 30, 2026</span></span>
   <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
   <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
-  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
-  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">OPRA 96-LINE MULTICAST EXPANSION: <span style="color:#ff9900">Q3 2026</span></span>
   <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
-  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">CAT PHASE 2D: <span style="color:#ff9900">Q3 2026</span></span>
+  <span class="ticker-item">NFN CTCI RETIREMENT: <span style="color:#ff9900">JUN 30, 2026</span></span>
 </div></div>
+
 <!-- FeedWatch Alert Bar -->
 <div class="fw-alertbar">
   <div class="fw-alertbar-inner">
@@ -215,21 +265,22 @@
       <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span id="fw-critical-count" class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
       <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span id="fw-high-count" class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
       <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span id="fw-action-count" class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
-      <a href="calendar.html" class="fw-alertbar-stat total"><span id="fw-active-count" class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span id="fw-active-count" class="fw-alertbar-num">30</span><span class="fw-alertbar-label">Active Entries</span></a>
     </div>
     <div class="fw-alertbar-divider"></div>
     <div class="fw-alertbar-next">
       <span class="fw-alertbar-next-label">Next deadline:</span>
-      <span id="fw-next-deadline" class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
+      <span id="fw-next-deadline" class="fw-alertbar-next-val">Loading…</span>
     </div>
     <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
   </div>
 </div>
+
 <!-- Masthead -->
 <div class="masthead">
   <div class="masthead-top">
     <div class="date-line" id="dateLine">Loading...</div>
-    <a href="index.html" class="site-title" style="text-decoration:none;color:inherit">Market Data <span>News</span></a>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
     <div class="tagline">The Industry Standard<br>Since 2025</div>
   </div>
   <nav>
@@ -294,128 +345,229 @@
   <a href="about.html" class="active">About</a>
   <a href="subscribe.html">Subscribe</a>
 </div>
-<!-- Page Banner -->
-<div class="page-banner">
-  <div class="page-banner-inner">
-    <div>
-      <div class="page-banner-title">About <span>Market Data News</span></div>
-      <div class="page-banner-desc">Mission · Philosophy · FeedWatch · Contact</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Market Data News · Est. 2025</div>
+    <h1 class="hero-headline">The Intelligence Layer for Market Data Infrastructure</h1>
+    <p class="hero-sub">Independent coverage of exchange connectivity, NMS plans, regulatory deadlines, and market data economics — built for the professionals who keep markets running.</p>
+    <div class="hero-divider"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 1 — THE PROBLEM
+════════════════════════════════════════════════════════════════ -->
+<hr class="section-rule">
+<div class="page-wrap">
+  <div class="pull-section">
+    <blockquote class="pull-quote">
+      Exchange notices get buried in PDFs. Regulatory deadlines slip through the cracks. Fee schedules change without warning. A 1Gbps connection quietly stops supporting multicast and someone's feed goes dark at 9:31am.
+    </blockquote>
+    <div class="pull-body">
+      <p>Market data infrastructure is the plumbing of financial markets. When it works, nobody notices. When it fails, trading halts, compliance teams scramble, and operations managers spend their weekends on calls with exchange support.</p>
+      <p>Market Data News exists to surface the changes that matter before they become problems.</p>
     </div>
   </div>
 </div>
 
-<div class="container">
-  <div class="layout">
-    <div class="main-col fade-in">
-
-      <div class="about-lede">
-        Market Data News exists because the plumbing of financial markets —
-        the feeds, the protocols, the deadlines, the migrations —
-        matters enormously to the people who build and operate them,
-        and <span>no one was covering it the way it deserved to be covered.</span>
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 2 — WHAT WE COVER
+════════════════════════════════════════════════════════════════ -->
+<hr class="section-rule">
+<div class="page-wrap">
+  <div class="cover-section">
+    <div class="sec-num">01 — What We Cover</div>
+    <div class="cover-grid" style="margin-top:28px;">
+      <div class="cover-card">
+        <span class="cover-icon">⚡</span>
+        <div class="cover-title">Exchange Notices &amp; Feed Changes</div>
+        <p class="cover-desc">Every material change to NYSE, Nasdaq, Cboe, CME, ICE, and 40+ global venues — connectivity updates, protocol migrations, bandwidth requirements, and port changes. Tracked in FeedWatch before they hit your inbox.</p>
       </div>
-
-      <div class="about-section">
-        <div class="about-section-label">Our Mission</div>
-        <h2>Intelligence for the people who keep markets running</h2>
-        <p>Exchange notices get buried in PDFs. Regulatory deadlines slip through the cracks. A 1Gbps connection quietly stops supporting multicast and someone's feed goes dark at 9:31am. Market Data News was built to prevent that — to surface the technical and regulatory changes that matter to data engineers, operations teams, compliance professionals, and infrastructure architects before they become problems.</p>
-        <p>We cover the full stack: exchange protocol updates, NMS plan amendments, regulatory deadlines, feed changes, port migrations, and the broader market structure shifts that shape how data moves. Our FeedWatch calendar is the operational backbone — a living reference for every deadline and action item affecting the industry.</p>
-        <p>We are editorially independent. We don't take direction from exchanges, data vendors, or financial sponsors. Our only obligation is to the professionals who rely on this information to do their jobs.</p>
+      <div class="cover-card">
+        <span class="cover-icon">📋</span>
+        <div class="cover-title">NMS Plan Intelligence</div>
+        <p class="cover-desc">All 8 National Market System Plans tracked in one place — CTA, CQ, UTP, OPRA, CAT, LULD, ISRA, and Rule 605. Amendment filings, compliance deadlines, and operational milestones for SIP-dependent firms.</p>
       </div>
-
-      <div class="about-section">
-        <div class="about-section-label">Founder</div>
-        <div class="founder-card">
-          <div class="founder-name">The Founder</div>
-          <div class="founder-title">Founder &amp; Editor · Market Data News</div>
-          <div class="founder-bio">
-          </div>
-        </div>
+      <div class="cover-card">
+        <span class="cover-icon">💰</span>
+        <div class="cover-title">Market Data Economics</div>
+        <p class="cover-desc">Interactive fee calculators, exchange cost benchmarks, and contract intelligence tools for market data managers. Know what you pay, why you pay it, and what alternatives exist before your next renewal.</p>
       </div>
-
-      <div class="about-section">
-        <div class="about-section-label">How It Works</div>
-        <h2>Inside FeedWatch</h2>
-        <p>FeedWatch is our flagship product — a continuously updated calendar of exchange notices, regulatory deadlines, feed changes, and infrastructure migrations that require action from market data professionals.</p>
-        <div class="fw-explainer">
-          <div class="fw-explainer-title">Feed<span>Watch</span></div>
-          <div class="fw-explainer-sub">Market Infrastructure Intelligence · How we build it</div>
-          <div class="fw-step">
-            <div class="fw-step-num">1</div>
-            <div class="fw-step-text"><strong>Source Monitoring</strong>We monitor primary sources directly — CME Globex notices, NYSE and NASDAQ SEC rule filings, FINRA regulatory notices, SEC Federal Register postings, CFTC advisories, and NMS Plan amendments — as they are published.</div>
-          </div>
-          <div class="fw-step">
-            <div class="fw-step-num">2</div>
-            <div class="fw-step-text"><strong>Triage & Classification</strong>Each item is reviewed, classified by impact level (Critical / High / Medium / Low), tagged by organization and category, and assessed for whether it requires direct action from firms.</div>
-          </div>
-          <div class="fw-step">
-            <div class="fw-step-num">3</div>
-            <div class="fw-step-text"><strong>Operational Summaries</strong>Every FeedWatch entry is written as an operational brief — what changed, what the deadline is, what firms need to do, and a direct link to the source notice. No fluff.</div>
-          </div>
-          <div class="fw-step">
-            <div class="fw-step-num">4</div>
-            <div class="fw-step-text"><strong>Ongoing Maintenance</strong>Entries are updated as situations evolve — when deadlines shift, when firms receive extensions, or when follow-on notices are published. The calendar reflects current reality, not just the original announcement.</div>
-          </div>
-        </div>
-        <p>FeedWatch Professional adds full historical archive access, email alerts by organization and category, and an Action Required digest delivered before the open. <a href="calendar.html" style="color:var(--accent-dark);text-decoration:none;font-weight:600;">View the calendar →</a></p>
-      </div>
-
-      <div class="about-section">
-        <div class="about-section-label">Editorial Standards</div>
-        <h2>How we approach coverage</h2>
-        <p>Every piece of information on this site traces back to a primary source — an official exchange notice, a regulatory filing, an SEC order. We link to the source on every FeedWatch entry. We don't publish rumors or unverified information.</p>
-        <p>When we characterize the impact of a change as Critical or High, that assessment reflects the operational consequence for firms running market data infrastructure — not a marketing judgment. We err on the side of surfacing things that matter and letting professionals decide what to act on.</p>
-        <p>We have no sponsored content, no paid placements, and no arrangements that could influence our coverage. If that changes, we'll say so clearly.</p>
-      </div>
-
-    </div>
-    <div class="side-col">
-      <div class="sidebar-section">
-        <div class="sidebar-head">By the Numbers</div>
-        <div class="sidebar-stat">
-          <div class="sidebar-stat-num">20</div>
-          <div class="sidebar-stat-label">Active FeedWatch Entries</div>
-        </div>
-        <div class="sidebar-stat">
-          <div class="sidebar-stat-num">15</div>
-          <div class="sidebar-stat-label">Action Required Items</div>
-        </div>
-        <div class="sidebar-stat">
-          <div class="sidebar-stat-num">6</div>
-          <div class="sidebar-stat-label">Organizations Tracked</div>
-        </div>
-        <div class="sidebar-stat">
-          <div class="sidebar-stat-num">2025</div>
-          <div class="sidebar-stat-label">Year Founded</div>
-        </div>
-      </div>
-      <div class="sidebar-section">
-        <div class="sidebar-head">Sources We Monitor</div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:2;color:var(--muted);">
-          CME Globex Notices<br>
-          NYSE Rule Filings (SEC)<br>
-          NASDAQ Technical Notices<br>
-          SEC Federal Register<br>
-          FINRA Regulatory Notices<br>
-          CFTC Advisory Notices<br>
-          NMS Plan Amendments<br>
-          ESMA / MiFID Publications
-        </div>
-      </div>
-      <div class="sidebar-section">
-        <div class="sidebar-head">Get In Touch</div>
-        <a href="mailto:marketdatabasenews@gmail.com" class="contact-link">marketdatabasenews@gmail.com</a>
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);line-height:1.7;margin-top:12px;">Tips, corrections, partnership inquiries, and feedback are all welcome.</p>
-      </div>
-      <div class="sidebar-section">
-        <div class="newsletter">
-          <h3>Daily Briefing</h3>
-          <p>Market data industry updates every morning before the open.</p>
-          <input type="email" placeholder="your@email.com" id="emailInput">
-          <button onclick="subscribe()">Subscribe Free</button>
-        </div>
+      <div class="cover-card">
+        <span class="cover-icon">⚖️</span>
+        <div class="cover-title">Regulatory Intelligence</div>
+        <p class="cover-desc">SEC, FINRA, and CFTC rulemaking that affects market data infrastructure — from CAT reporting requirements to prediction market regulation. Tracked from proposal through implementation.</p>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 3 — BY THE NUMBERS
+════════════════════════════════════════════════════════════════ -->
+<hr class="section-rule">
+<div class="page-wrap">
+  <div class="stats-section">
+    <div class="sec-num">02 — By the Numbers</div>
+    <div class="stats-row" style="margin-top:28px;">
+      <div class="stat-block">
+        <span class="stat-num">45</span>
+        <span class="stat-label">Feeds Monitored</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-num">30</span>
+        <span class="stat-label">FeedWatch Entries</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-num">8</span>
+        <span class="stat-label">NMS Plans Tracked</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-num">60+</span>
+        <span class="stat-label">Global Exchanges</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-num">6</span>
+        <span class="stat-label">Regulatory Bodies</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 4 — WHO READS THIS
+════════════════════════════════════════════════════════════════ -->
+<hr class="section-rule">
+<div class="page-wrap">
+  <div class="persona-section">
+    <div class="sec-num">03 — Who Reads This</div>
+    <div class="persona-grid" style="margin-top:28px;">
+      <div class="persona-card">
+        <div class="persona-role">Market Data Engineers &amp; Feed Handlers</div>
+        <ul class="persona-list">
+          <li>Protocol migration deadlines and connectivity changes</li>
+          <li>Bandwidth requirements and multicast group updates</li>
+          <li>CME iLink, NYSE Pillar, Nasdaq ITCH specifications</li>
+        </ul>
+      </div>
+      <div class="persona-card">
+        <div class="persona-role">Market Data Managers &amp; Operations</div>
+        <ul class="persona-list">
+          <li>Fee schedule changes and contract renewal alerts</li>
+          <li>Compliance deadlines across all NMS plans</li>
+          <li>Cost benchmarking and alternative feed analysis</li>
+        </ul>
+      </div>
+      <div class="persona-card">
+        <div class="persona-role">Compliance &amp; Regulatory Teams</div>
+        <ul class="persona-list">
+          <li>CAT reporting requirements and FINRA priorities</li>
+          <li>SEC rulemaking timelines and comment periods</li>
+          <li>NMS plan amendments and SRO filings</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 5 — SOURCES WE MONITOR
+════════════════════════════════════════════════════════════════ -->
+<hr class="section-rule">
+<div class="page-wrap">
+  <div class="sources-section">
+    <div class="sec-num">04 — Sources We Monitor</div>
+    <div class="sources-grid">
+      <span class="source-tag">CME Globex Notices</span>
+      <span class="source-tag">NYSE Rule Filings (SEC)</span>
+      <span class="source-tag">Nasdaq Rule Filings (SEC)</span>
+      <span class="source-tag">Cboe Rule Filings (SEC)</span>
+      <span class="source-tag">Federal Register (SRO filings)</span>
+      <span class="source-tag">FINRA Rules &amp; Guidance</span>
+      <span class="source-tag">SEC EDGAR (NMS Plan amendments)</span>
+      <span class="source-tag">CFTC Rulemaking</span>
+      <span class="source-tag">CAT NMS Plan</span>
+      <span class="source-tag">OPRA Plan Administrator</span>
+      <span class="source-tag">ICE Market Notices</span>
+      <span class="source-tag">Eurex Circular</span>
+      <span class="source-tag">FIA Tech Notices</span>
+      <span class="source-tag">DTCC Bulletins</span>
+      <span class="source-tag">USDA WASDE Releases</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 6 — FEEDWATCH
+════════════════════════════════════════════════════════════════ -->
+<hr class="section-rule">
+<div class="page-wrap">
+  <div class="fw-section">
+    <div class="sec-num">05 — FeedWatch</div>
+    <div class="fw-box" style="margin-top:28px;">
+      <div>
+        <div class="fw-box-eyebrow">Market Infrastructure Calendar</div>
+        <div class="fw-box-headline">Feed<span>Watch</span> — The Infrastructure Calendar</div>
+        <p class="fw-box-body">FeedWatch is our curated calendar of market data infrastructure deadlines. Every entry is researched from primary sources — exchange notices, SEC filings, and regulatory releases — and rated by severity and operational impact. FeedWatch currently tracks 30 active entries across CME, NYSE, Nasdaq, Cboe, SEC, FINRA, CFTC, and ICE.</p>
+      </div>
+      <div>
+        <a href="calendar.html" class="fw-box-cta">View FeedWatch Calendar →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 7 — INTELLIGENCE PLATFORM
+════════════════════════════════════════════════════════════════ -->
+<hr class="section-rule">
+<div class="page-wrap">
+  <div class="platform-section">
+    <div class="sec-num">06 — Intelligence Platform</div>
+    <div class="platform-grid" style="margin-top:28px;">
+      <div class="platform-col">
+        <div class="platform-tier-label">Always Free</div>
+        <div class="platform-tier-name">Free Tier</div>
+        <ul class="platform-list">
+          <li>All news feeds</li>
+          <li>FeedWatch calendar</li>
+          <li>NMS plan tracker</li>
+          <li>Exchange directory</li>
+          <li>Feed status dashboard</li>
+          <li>Fee calculator</li>
+          <li>Compensation benchmarks</li>
+          <li>Contract intelligence tool</li>
+        </ul>
+      </div>
+      <div class="platform-col pro">
+        <div class="platform-tier-label">Coming Soon</div>
+        <div class="platform-tier-name">Professional</div>
+        <ul class="platform-list">
+          <li>AI daily digest</li>
+          <li>Instant FeedWatch alerts</li>
+          <li>Full regulatory roundup</li>
+          <li>Priority feed change notifications</li>
+          <li>CFO report generator</li>
+          <li>API access (coming soon)</li>
+        </ul>
+        <a href="subscribe.html" class="platform-cta">Join the Waitlist →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 8 — INDEPENDENCE
+════════════════════════════════════════════════════════════════ -->
+<hr class="section-rule">
+<div class="page-wrap">
+  <div class="independence-section">
+    <p class="independence-statement">Market Data News is an independent publication. We have no affiliation with any exchange, data vendor, or financial institution.</p>
+    <p class="independence-contact">For inquiries: <a href="mailto:marketdatabasenews@gmail.com">marketdatabasenews@gmail.com</a></p>
   </div>
 </div>
 
@@ -432,14 +584,14 @@
       <a href="feed-status.html">Feed Status</a>
     </div>
     <div class="footer-col"><h4>FeedWatch</h4>
-          <a href="calendar.html">All Entries</a>
+      <a href="calendar.html">All Entries</a>
       <a href="calendar.html?filter=action">Action Required</a>
       <a href="calendar.html?filter=critical">Critical Alerts</a>
       <a href="calendar.html?filter=high">High Impact</a>
     </div>
     <div class="footer-col"><h4>Company</h4>
       <a href="about.html">About</a>
-  <a href="subscribe.html">Subscribe</a>
+      <a href="subscribe.html">Subscribe</a>
       <a href="mailto:marketdatabasenews@gmail.com">Contact</a>
       <a href="#">Privacy Policy</a>
       <a href="#">Terms of Use</a>
@@ -450,19 +602,15 @@
     <span>For market data professionals</span>
   </div>
 </footer>
+
 <script>
 function toggleMobileNav(){document.getElementById('mobileNav').classList.toggle('open');}
-function subscribe(){
-  const email=document.getElementById("emailInput").value;
-  if(!email||!email.includes("@")){alert("Please enter a valid email.");return;}
-  document.querySelector(".newsletter").innerHTML="<div style='text-align:center;padding:10px'><div style='font-family:Playfair Display,serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px'>You\'re in.</div><div style='font-size:12px;color:#aaa'>Daily briefing starts tomorrow morning.</div></div>";
-}
 const _d=new Date();
 const _dn=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const _mn=["January","February","March","April","May","June","July","August","September","October","November","December"];
 document.getElementById("dateLine").textContent=_dn[_d.getDay()]+", "+_mn[_d.getMonth()]+" "+_d.getDate()+", "+_d.getFullYear();
 </script>
-  <script src="search-global.js"></script>
+<script src="search-global.js"></script>
 <script src="chat-widget.js"></script>
 <script src="feedwatch-bar.js"></script>
 </body>
