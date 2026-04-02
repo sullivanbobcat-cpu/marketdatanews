@@ -369,9 +369,9 @@
   <div class="controls-bar">
     <input class="search-input" type="text" id="searchInput" placeholder="Search markets by title…" autocomplete="off">
     <div class="cat-tabs" id="catTabs">
-      <button class="cat-tab active" data-cat="ALL">All</button>
+      <button class="cat-tab" data-cat="ALL">All</button>
       <button class="cat-tab" data-cat="FINANCIAL">Financial</button>
-      <button class="cat-tab" data-cat="ECONOMIC">Economic</button>
+      <button class="cat-tab active" data-cat="ECONOMIC">Economic</button>
       <button class="cat-tab" data-cat="POLITICAL">Political</button>
       <button class="cat-tab" data-cat="SPORTS">Sports</button>
       <button class="cat-tab" data-cat="CRYPTO">Crypto</button>
@@ -534,13 +534,27 @@ function probClass(pct) {
 }
 
 // ── Card rendering ──
+function cleanTitle(raw) {
+  if (!raw) return '';
+  var t = raw.trim();
+  // Remove leading 'Will '
+  if (t.slice(0, 5).toLowerCase() === 'will ') t = t.slice(5);
+  // Capitalize first letter
+  if (t.length > 0) t = t.charAt(0).toUpperCase() + t.slice(1);
+  // Truncate to 80 chars
+  if (t.length > 80) t = t.slice(0, 80).trimEnd() + '\u2026';
+  return t;
+}
+
 function buildCard(m, featured) {
-  var pct = m.yesPrice !== null && m.yesPrice !== undefined
-    ? Math.round(m.yesPrice * 100) : null;
+  var rawPct = (m.yesPrice !== null && m.yesPrice !== undefined)
+    ? Math.round(parseFloat(m.yesPrice) * 100) : null;
+  var pct = (rawPct !== null && rawPct >= 1 && rawPct <= 99) ? rawPct : null;
   var cls = pct !== null ? probClass(pct) : 'gold';
   var category = detectCategory(m.title);
   var expiry = fmtDate(m.expiryDate);
   var vol = fmtVol(m.volumeDollars || m.volume);
+  var displayTitle = cleanTitle(m.title);
 
   var card = document.createElement('a');
   card.className = 'market-card ' + m.source + (featured ? ' featured fade-in' : ' fade-in');
@@ -550,13 +564,13 @@ function buildCard(m, featured) {
 
   card.innerHTML =
     '<div class="card-header">' +
-      '<div class="card-title">' + escHtml(m.title || 'Untitled Market') + '</div>' +
+      '<div class="card-title">' + escHtml(displayTitle || 'Untitled Market') + '</div>' +
       '<span class="card-source ' + m.source + '">' + (m.source === 'kalshi' ? 'Kalshi' : 'Polymarket') + '</span>' +
     '</div>' +
     (pct !== null
       ? '<div class="card-prob"><span class="prob-pct ' + cls + '">' + pct + '%</span><span class="prob-label">YES</span></div>' +
         '<div class="prob-bar"><div class="prob-bar-yes ' + cls + '" style="width:' + pct + '%"></div></div>'
-      : '<div class="card-prob"><span class="prob-pct gold" style="font-size:18px">No price</span></div>'
+      : '<div class="card-prob"><span class="prob-pct" style="font-size:16px;font-family:'IBM Plex Mono',monospace;color:var(--muted)">N/A</span><span class="prob-label">YES</span></div>'
     ) +
     '<div class="card-meta">' +
       '<span class="card-vol">Vol ' + vol + '</span>' +
@@ -573,7 +587,7 @@ function escHtml(s) {
 
 // ── State ──
 var allMarkets = [];
-var activeCategory = 'ALL';
+var activeCategory = 'ECONOMIC';
 var searchQuery = '';
 var refreshTimer = null;
 var countdownInterval = null;
@@ -607,10 +621,18 @@ function renderGrid() {
 }
 
 function renderFeatured(markets) {
-  var sorted = markets.slice().sort(function(a, b) {
+  // Only feature markets with valid prices
+  var eligible = markets.filter(function(m) {
+    var p = parseFloat(m.yesPrice);
+    return !isNaN(p) && p >= 0.01 && p <= 0.99;
+  });
+  // Sort: Polymarket first (better titles/volume), then by volume descending
+  eligible.sort(function(a, b) {
+    if (a.source === 'polymarket' && b.source !== 'polymarket') return -1;
+    if (b.source === 'polymarket' && a.source !== 'polymarket') return 1;
     return (b.volumeDollars || b.volume || 0) - (a.volumeDollars || a.volume || 0);
   });
-  var top3 = sorted.slice(0, 3);
+  var top3 = eligible.slice(0, 3);
   var grid = document.getElementById('featuredGrid');
   grid.innerHTML = '';
   top3.forEach(function(m) {
