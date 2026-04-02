@@ -25,6 +25,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://marketdatanews.com/rule-filings.html</loc>
+    <lastmod>2026-04-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://marketdatanews.com/exchanges.html</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>

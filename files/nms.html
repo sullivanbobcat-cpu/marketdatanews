@@ -18,6 +18,7 @@
 <meta property="og:site_name" content="Market Data News">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
   :root {
     --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
@@ -321,6 +322,7 @@
         <a href="nms.html" class="nav-drop-item">NMS / SIP Plans</a>
         <a href="regulation.html" class="nav-drop-item">Regulation</a>
         <a href="feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="rule-filings.html" class="nav-drop-item">Rule Filings</a>
         <a href="ai-digest.html" class="nav-drop-item">AI Digest</a>
       </div>
     </div>
@@ -333,7 +335,7 @@
       </div>
     </div>
     <a href="about.html" class="nav-item">About</a>
-    <a href="subscribe.html" class="nav-item nav-subscribe">Subscribe</a>
+    <a href="subscribe.html" class="nav-item">Subscribe</a>
     <div class="nav-right">
       <div class="search-wrap" id="searchWrap">
         <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
@@ -357,6 +359,7 @@
   <a href="nms.html" class="active">NMS / SIP Plans</a>
   <a href="regulation.html">Regulation</a>
   <a href="feed-status.html">Feed Status</a>
+  <a href="rule-filings.html">Rule Filings</a>
   <a href="ai-digest.html">AI Digest</a>
   <div class="mob-group-label">Tools</div>
   <a href="market-data-fees.html">Fee Calculator</a>
@@ -403,6 +406,17 @@
 
   <!-- Plan Cards -->
   <div class="plan-cards" id="planCards"></div>
+
+  <!-- Amendment Timeline -->
+  <div class="section-head" style="margin-top:32px">
+    <h2>Amendment Activity Timeline — All NMS Plans</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline-outer" style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px 20px 14px;margin:0 0 32px">
+    <div id="amendTimeline" style="min-height:520px;width:100%;overflow:hidden"></div>
+    <div id="amendLegend" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:6px 20px;align-items:center"></div>
+    <div id="amendStats" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px 20px;border-top:1px solid var(--border);padding-top:10px"></div>
+  </div>
 
   <!-- Updates Table -->
   <div class="section-head">
@@ -739,6 +753,244 @@ function showPlan(plan) {
 
 // ── INIT ──────────────────────────────────────────────────────────────────
 showPlan('all');
+
+// ── AMENDMENT TIMELINE ────────────────────────────────────────────────────
+window.addEventListener('load', function() { drawAmendmentTimeline(); });
+
+function drawAmendmentTimeline() {
+  var container = document.getElementById('amendTimeline');
+  if (!container || typeof d3 === 'undefined') return;
+
+  var PLAN_KEYS   = ['cta','cq','utp','opra','cat','luld','rule605'];
+  var PLAN_LABELS = { cta:'CTA', cq:'CQ', utp:'UTP', opra:'OPRA', cat:'CAT', luld:'LULD', rule605:'Rule 605' };
+  var PLAN_COLORS = { cta:'#2563eb', cq:'#7c3aed', utp:'#059669', opra:'#d97706', cat:'#dc2626', luld:'#db2777', rule605:'#b8860b' };
+
+  var SEV_R   = { 'sb-critical':10, 'sb-high':7, 'sb-medium':5, 'sb-low':4 };
+  var SEV_COL = { 'sb-critical':'#c0392b', 'sb-high':'#e67e22', 'sb-medium':'#b8860b', 'sb-low':'#2e7d32' };
+  var SEV_LBL = { 'sb-critical':'CRITICAL', 'sb-high':'HIGH', 'sb-medium':'MEDIUM', 'sb-low':'LOW' };
+
+  var margin = { top:24, right:32, bottom:52, left:88 };
+  var laneH  = 64;
+  var totalH = PLAN_KEYS.length * laneH;
+
+  var cW = container.offsetWidth || 800;
+  var width  = cW - margin.left - margin.right;
+  var height = totalH + margin.top + margin.bottom;
+
+  function parseSort(s) {
+    if (!s || s.length < 8) return null;
+    return new Date(+s.slice(0,4), +s.slice(4,6)-1, +s.slice(6,8));
+  }
+
+  // Build event list
+  var events = UPDATES
+    .filter(function(u) { return PLAN_KEYS.indexOf(u.plan) >= 0; })
+    .map(function(u) {
+      return { plan:u.plan, date:parseSort(u.sort), title:u.title,
+               desc:u.desc, sev:u.sev, ref:u.ref, completed:u.completed };
+    })
+    .filter(function(e) { return e.date !== null; });
+
+  // Overlap resolution per lane: within 30 days → alternate ±8px
+  var grouped = {};
+  PLAN_KEYS.forEach(function(k) { grouped[k] = []; });
+  events.forEach(function(e) { if (grouped[e.plan]) grouped[e.plan].push(e); });
+  PLAN_KEYS.forEach(function(k) {
+    var pts = grouped[k].sort(function(a,b) { return a.date - b.date; });
+    pts.forEach(function(p, i) {
+      if (i === 0) { p.yOff = 0; return; }
+      var prev = pts[i-1];
+      var diff = (p.date - prev.date) / 86400000;
+      p.yOff = (diff < 30) ? (prev.yOff <= 0 ? 8 : -8) : 0;
+    });
+  });
+
+  var xDomain = [new Date(2023, 0, 1), new Date(2026, 11, 31)];
+  var x = d3.scaleTime().domain(xDomain).range([0, width]);
+  var today = new Date(2026, 3, 1); // Apr 1 2026
+
+  d3.select(container).selectAll('*').remove();
+
+  var svg = d3.select(container).append('svg')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height)
+    .append('g')
+    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+  // Future shading
+  svg.append('rect')
+    .attr('x', x(today)).attr('y', 0)
+    .attr('width', Math.max(0, x(xDomain[1]) - x(today))).attr('height', totalH)
+    .attr('fill', 'rgba(184,134,11,0.04)');
+
+  // Quarter grid lines
+  x.ticks(d3.timeMonth.every(3)).forEach(function(q) {
+    svg.append('line')
+      .attr('x1', x(q)).attr('x2', x(q)).attr('y1', 0).attr('y2', totalH)
+      .attr('stroke', '#d4c9b0').attr('stroke-width', 0.3).attr('stroke-dasharray', '2,5');
+  });
+
+  // Lane backgrounds + labels + separators
+  PLAN_KEYS.forEach(function(k, i) {
+    svg.append('rect')
+      .attr('x', 0).attr('y', i * laneH)
+      .attr('width', width).attr('height', laneH)
+      .attr('fill', i % 2 === 0 ? 'rgba(0,0,0,0.018)' : 'none');
+    svg.append('line')
+      .attr('x1', 0).attr('x2', width)
+      .attr('y1', (i+1)*laneH).attr('y2', (i+1)*laneH)
+      .attr('stroke', '#d4c9b0').attr('stroke-width', 0.5);
+    svg.append('text')
+      .attr('x', -10).attr('y', i*laneH + laneH/2)
+      .attr('text-anchor', 'end').attr('dominant-baseline', 'middle')
+      .attr('font-family', 'IBM Plex Mono, monospace')
+      .attr('font-size', 11).attr('font-weight', 600)
+      .attr('fill', PLAN_COLORS[k])
+      .text(PLAN_LABELS[k]);
+  });
+  svg.append('line').attr('x1',0).attr('x2',width).attr('y1',0).attr('y2',0)
+    .attr('stroke','#d4c9b0').attr('stroke-width',0.5);
+
+  // X axis
+  svg.append('g')
+    .attr('transform', 'translate(0,' + totalH + ')')
+    .call(d3.axisBottom(x)
+      .ticks(d3.timeMonth.every(3))
+      .tickFormat(function(d) {
+        var q = Math.floor(d.getMonth()/3)+1;
+        return 'Q'+q+'\u2019'+(d.getFullYear()+'').slice(2);
+      })
+      .tickSize(4))
+    .call(function(g) {
+      g.select('.domain').attr('stroke','#d4c9b0');
+      g.selectAll('.tick line').attr('stroke','#d4c9b0');
+      g.selectAll('.tick text')
+        .attr('font-family','IBM Plex Mono, monospace')
+        .attr('font-size', 9).attr('fill','#6b6555');
+    });
+
+  // TODAY line + label
+  svg.append('line')
+    .attr('x1', x(today)).attr('x2', x(today))
+    .attr('y1', 0).attr('y2', totalH)
+    .attr('stroke', '#b8860b').attr('stroke-width', 1.5).attr('stroke-dasharray', '4,3');
+  svg.append('text')
+    .attr('x', x(today)+4).attr('y', 11)
+    .attr('font-family','IBM Plex Mono, monospace').attr('font-size',8)
+    .attr('fill','#b8860b').attr('font-weight',600).text('TODAY');
+
+  // Tooltip
+  d3.select('#amendTooltipEl').remove();
+  var tooltip = d3.select('body').append('div')
+    .attr('id','amendTooltipEl')
+    .style('position','fixed').style('background','#0d0d0d').style('color','#f5f2eb')
+    .style('padding','10px 14px').style('font-family','IBM Plex Sans, sans-serif')
+    .style('font-size','12px').style('border-radius','2px').style('pointer-events','none')
+    .style('opacity',0).style('max-width','280px').style('z-index',9999)
+    .style('line-height','1.5').style('box-shadow','0 4px 16px rgba(0,0,0,0.4)');
+
+  // Dots
+  var allDots = svg.selectAll('.amend-dot')
+    .data(events)
+    .enter().append('circle')
+    .attr('class','amend-dot')
+    .attr('cx', function(d) { return x(d.date); })
+    .attr('cy', function(d) { return PLAN_KEYS.indexOf(d.plan)*laneH + laneH/2 + (d.yOff||0); })
+    .attr('r',  function(d) { return SEV_R[d.sev]||4; })
+    .attr('fill', function(d) { return SEV_COL[d.sev]||'#6b6555'; })
+    .attr('stroke', function(d) { return d.completed ? '#aaa' : '#fff'; })
+    .attr('stroke-width', 1.5)
+    .attr('opacity', function(d) { return d.completed ? 0.4 : 1; })
+    .attr('cursor','pointer')
+    .on('mouseover', function(event, d) {
+      allDots.transition().duration(80)
+        .attr('opacity', function(o) { return o===d ? 1 : (o.completed ? 0.08 : 0.15); });
+      d3.select(this).raise().transition().duration(80)
+        .attr('r', (SEV_R[d.sev]||4)*1.4);
+      tooltip.style('opacity',1)
+        .html('<div style="font-weight:600;margin-bottom:4px;color:#b8860b;font-family:IBM Plex Mono,monospace;font-size:11px">' + d.ref + '</div>' +
+              '<div style="font-weight:600;margin-bottom:4px">' + d.title + '</div>' +
+              '<div style="color:#999;font-size:11px;margin-bottom:5px">' +
+              d.date.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) +
+              ' \xb7 ' + (SEV_LBL[d.sev]||d.sev) + (d.completed ? ' \xb7 Completed' : '') + '</div>' +
+              '<div style="font-size:11px;color:#bbb">' +
+              d.desc.substring(0,130) + (d.desc.length>130?'\u2026':'') + '</div>');
+    })
+    .on('mousemove', function(event) {
+      tooltip.style('left',(event.clientX+16)+'px').style('top',(event.clientY-8)+'px');
+    })
+    .on('mouseout', function(event, d) {
+      allDots.transition().duration(80)
+        .attr('opacity', function(o) { return o.completed ? 0.4 : 1; });
+      d3.select(this).transition().duration(80).attr('r', SEV_R[d.sev]||4);
+      tooltip.style('opacity',0);
+    })
+    .on('click', function(event, d) {
+      var tableHead = document.querySelector('.updates-table-wrap');
+      if (tableHead) tableHead.scrollIntoView({ behavior:'smooth', block:'start' });
+      setTimeout(function() {
+        document.querySelectorAll('.updates-table tbody tr').forEach(function(row) {
+          var a = row.querySelector('.ref-link');
+          if (a && a.textContent.trim() === d.ref) {
+            row.style.transition = 'background 0s';
+            row.style.background = 'rgba(184,134,11,0.3)';
+            setTimeout(function() {
+              row.style.transition = 'background 1.2s ease';
+              row.style.background = '';
+            }, 800);
+          }
+        });
+      }, 650);
+    });
+
+  // Legend
+  var legendEl = document.getElementById('amendLegend');
+  if (legendEl) {
+    var planHtml = PLAN_KEYS.map(function(k) {
+      return '<span style="display:inline-flex;align-items:center;gap:5px;font-family:IBM Plex Mono,monospace;font-size:10px;font-weight:600;color:'+PLAN_COLORS[k]+'">' +
+             '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'+PLAN_COLORS[k]+'"></span>' +
+             PLAN_LABELS[k] + '</span>';
+    }).join('');
+    var sevHtml = ['sb-critical','sb-high','sb-medium','sb-low'].map(function(s) {
+      var r = SEV_R[s];
+      return '<span style="display:inline-flex;align-items:center;gap:5px;font-family:IBM Plex Sans,sans-serif;font-size:10px;color:#0d0d0d">' +
+             '<svg width="'+(r*2+2)+'" height="'+(r*2+2)+'" style="flex-shrink:0"><circle cx="'+(r+1)+'" cy="'+(r+1)+'" r="'+r+'" fill="'+SEV_COL[s]+'" stroke="#fff" stroke-width="1.5"/></svg>' +
+             SEV_LBL[s] + '</span>';
+    }).join('');
+    legendEl.innerHTML =
+      '<span style="font-family:IBM Plex Mono,monospace;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#6b6555;margin-right:4px">Plans:</span>' +
+      planHtml +
+      '<span style="width:1px;background:#d4c9b0;height:14px;display:inline-block;margin:0 8px"></span>' +
+      '<span style="font-family:IBM Plex Mono,monospace;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#6b6555;margin-right:4px">Severity:</span>' +
+      sevHtml +
+      '<span style="width:1px;background:#d4c9b0;height:14px;display:inline-block;margin:0 8px"></span>' +
+      '<span style="display:inline-flex;align-items:center;gap:5px;font-size:10px;color:#6b6555"><svg width="12" height="12"><circle cx="6" cy="6" r="5" fill="#aaa" stroke="#aaa" stroke-width="1.5" opacity=".4"/></svg>Completed</span>';
+  }
+
+  // Stats
+  var statsEl = document.getElementById('amendStats');
+  if (statsEl) {
+    var crit = events.filter(function(e){return e.sev==='sb-critical'&&!e.completed;}).length;
+    var high = events.filter(function(e){return e.sev==='sb-high'&&!e.completed;}).length;
+    var med  = events.filter(function(e){return e.sev==='sb-medium'&&!e.completed;}).length;
+    var done = events.filter(function(e){return e.completed;}).length;
+    var future = events.filter(function(e){return !e.completed&&e.date>=today;}).length;
+    var statStyle = 'font-family:IBM Plex Mono,monospace;font-size:10px;color:#6b6555;';
+    statsEl.innerHTML =
+      '<span style="'+statStyle+'"><strong style="color:#c0392b;font-size:12px">'+crit+'</strong> Critical open</span>' +
+      '<span style="'+statStyle+'"><strong style="color:#e67e22;font-size:12px">'+high+'</strong> High open</span>' +
+      '<span style="'+statStyle+'"><strong style="color:#b8860b;font-size:12px">'+med+'</strong> Medium open</span>' +
+      '<span style="'+statStyle+'"><strong style="color:#0d0d0d;font-size:12px">'+future+'</strong> Upcoming events</span>' +
+      '<span style="'+statStyle+'"><strong style="color:#6b6555;font-size:12px">'+done+'</strong> Completed</span>';
+  }
+
+  // Resize handler
+  var resizeTO;
+  new ResizeObserver(function() {
+    clearTimeout(resizeTO);
+    resizeTO = setTimeout(drawAmendmentTimeline, 120);
+  }).observe(container);
+}
 
 // Handle direct link to rule605 via alert banner
 document.querySelector('.alert-banner-link').addEventListener('click', function(e) {

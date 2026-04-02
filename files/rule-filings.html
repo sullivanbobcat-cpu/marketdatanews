@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRO Rule Filing Intelligence — Market Data News</title>
+<meta name="description" content="Live feed of SEC SRO rule filings relevant to market data professionals. Filter by exchange, relevance, and comment status. AI-assisted comment letter generator.">
+<meta name="keywords" content="SEC rule filings, SRO filings, market data regulation, Federal Register, comment letters, SR-NYSE, SR-NASDAQ, SR-CBOE, exchange rules">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Market Data News">
+<link rel="canonical" href="https://marketdatanews.com/rule-filings.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://marketdatanews.com/rule-filings.html">
+<meta property="og:title" content="SRO Rule Filing Intelligence — Market Data News">
+<meta property="og:description" content="Live SEC SRO rule filings filtered for market data professionals, with AI comment letter generation.">
+<meta property="og:site_name" content="Market Data News">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; } .ticker-item .down { color: #ff4444; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: stretch; padding: 0 48px; border-bottom: 1px solid var(--rule); position: relative; flex-wrap: nowrap; overflow: visible; background: var(--cream); }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0 14px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; user-select: none; }
+  a.nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-dropdown { position: relative; display: flex; align-items: stretch; }
+  .nav-dropdown > .nav-item { border-left: none; }
+  .nav-dropdown-menu { display: block; position: absolute; top: 100%; left: 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; min-width: 220px; background: var(--ink); border-top: 2px solid var(--accent); z-index: 1000; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left: auto; right: 0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-drop-item { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #aaa; text-decoration: none; padding: 10px 20px; border-bottom: 1px solid #1e1e1e; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+  .nav-drop-item:last-child { border-bottom: none; }
+  .nav-drop-item:hover, .nav-drop-item.active { color: var(--accent); background: #111; }
+  a.nav-subscribe { background: var(--accent); color: var(--ink) !important; border-right: 1px solid var(--rule); }
+  a.nav-subscribe:hover { background: var(--accent-dark) !important; color: white !important; }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; border-left: 1px solid var(--rule); }
+  .search-wrap { position: relative; display: flex; align-items: center; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 180px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+  .search-drop { position: absolute; top: calc(100% + 4px); right: 0; width: 380px; background: var(--ink); border: 1px solid #333; z-index: 1000; display: none; max-height: 480px; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .search-drop.open { display: block; }
+
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
+  .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
+
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-stat:hover { background: rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num, .fw-alertbar-stat.critical .fw-alertbar-label { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num, .fw-alertbar-stat.high .fw-alertbar-label { color: #ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num, .fw-alertbar-stat.action .fw-alertbar-label { color: var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color: #888; } .fw-alertbar-stat.total .fw-alertbar-label { color: #555; }
+  .fw-alertbar-next { margin-left: auto; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #555; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
+  .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .skeleton { background: linear-gradient(90deg, var(--border) 25%, var(--paper) 50%, var(--border) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 2px; }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+  .fade-in { animation: fadeIn 0.35s ease forwards; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  /* ── PAGE LAYOUT ── */
+  .page-wrap { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+
+  /* ── HERO ── */
+  .rf-hero { background: var(--ink); color: white; padding: 48px 48px 40px; border-bottom: 3px solid var(--accent); }
+  .rf-hero-inner { max-width: 1280px; margin: 0 auto; }
+  .rf-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 14px; }
+  .rf-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 46px); font-weight: 900; line-height: 1.15; margin-bottom: 14px; }
+  .rf-hero-sub { font-size: 14px; color: #aaa; line-height: 1.7; max-width: 720px; margin-bottom: 24px; }
+  .rf-hero-meta { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .rf-hero-stat { display: flex; flex-direction: column; gap: 2px; }
+  .rf-hero-stat-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--accent); line-height: 1; }
+  .rf-hero-stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #666; }
+  .rf-hero-divider { width: 1px; height: 36px; background: #333; }
+  .rf-hero-source { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #555; margin-left: auto; }
+
+  /* ── SECTION HEADER ── */
+  .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
+  .section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .section-head h2 { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; }
+  .section-line { flex: 1; height: 1px; background: var(--rule); }
+
+  /* ── FILTER BAR ── */
+  .rf-filter-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 16px 20px; margin: 28px 0 24px; display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+  .rf-filter-group { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; flex: 1; min-width: 0; }
+  .rf-filter-divider { width: 1px; height: 28px; background: var(--border); flex-shrink: 0; }
+  .rf-pill { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 5px 11px; border: 1px solid var(--border); border-radius: 2px; cursor: pointer; background: var(--paper); color: var(--muted); transition: all 0.15s; white-space: nowrap; user-select: none; }
+  .rf-pill:hover { border-color: var(--accent); color: var(--accent); }
+  .rf-pill.active { background: var(--ink); border-color: var(--ink); color: var(--accent); }
+  .rf-sort-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .rf-sort-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); white-space: nowrap; }
+  .rf-sort { font-family: 'IBM Plex Mono', monospace; font-size: 10px; background: var(--paper); border: 1px solid var(--border); color: var(--ink); padding: 5px 10px; border-radius: 2px; cursor: pointer; }
+  .rf-sort:focus { outline: none; border-color: var(--accent); }
+  .rf-count { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); padding: 5px 0; white-space: nowrap; flex-shrink: 0; }
+
+  /* ── FILING CARDS ── */
+  .rf-feed { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); overflow: hidden; }
+  .rf-card { padding: 20px 24px; border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  .rf-card:last-child { border-bottom: none; }
+  .rf-card:hover { background: var(--paper); }
+  .rf-card-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+  .rf-file-badge { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; padding: 3px 8px; background: var(--ink); color: var(--accent); border-radius: 2px; white-space: nowrap; flex-shrink: 0; }
+  .rf-exchange-badge { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 3px 8px; border: 1px solid var(--border); border-radius: 2px; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+  .rf-relevance-tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; padding: 3px 8px; border-radius: 2px; white-space: nowrap; flex-shrink: 0; letter-spacing: 0.06em; }
+  .rf-relevance-tag.HIGH { background: rgba(184,134,11,0.12); color: var(--accent-dark); border: 1px solid rgba(184,134,11,0.3); }
+  .rf-relevance-tag.MEDIUM { background: rgba(30,80,160,0.08); color: #1e50a0; border: 1px solid rgba(30,80,160,0.2); }
+  .rf-relevance-tag.LOW { background: var(--paper); color: var(--muted); border: 1px solid var(--border); }
+  .rf-comment-badge { margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 3px 10px; border-radius: 2px; white-space: nowrap; flex-shrink: 0; }
+  .rf-comment-badge.open { background: rgba(46,125,50,0.1); color: #2e7d32; border: 1px solid rgba(46,125,50,0.3); }
+  .rf-comment-badge.closed { background: var(--paper); color: var(--muted); border: 1px solid var(--border); }
+  .rf-card-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; line-height: 1.35; color: var(--ink); margin-bottom: 8px; }
+  .rf-card-abstract { font-size: 13px; line-height: 1.65; color: var(--muted); margin-bottom: 12px; }
+  .rf-abstract-full { display: none; }
+  .rf-abstract-full.shown { display: inline; }
+  .rf-expand-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent-dark); cursor: pointer; border: none; background: none; padding: 0; text-decoration: underline; }
+  .rf-expand-btn:hover { color: var(--accent); }
+  .rf-card-footer { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .rf-pub-date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .rf-actions { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+  .rf-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 6px 14px; border-radius: 2px; cursor: pointer; transition: all 0.15s; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+  .rf-btn-outline { border: 1px solid var(--border); background: transparent; color: var(--muted); }
+  .rf-btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+  .rf-btn-primary { border: 1px solid var(--accent); background: transparent; color: var(--accent-dark); }
+  .rf-btn-primary:hover { background: var(--accent); color: var(--ink); }
+  .rf-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ── EMPTY / ERROR STATES ── */
+  .rf-empty { padding: 48px 24px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); border: 1px dashed var(--border); border-radius: 4px; }
+  .rf-loading { display: flex; flex-direction: column; gap: 12px; }
+
+  /* ── RULEBOOK NAVIGATOR ── */
+  .rulebook-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .rulebook-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 20px; text-decoration: none; color: inherit; display: block; transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; }
+  .rulebook-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); border-color: var(--accent); }
+  .rulebook-exch { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+  .rulebook-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 10px; }
+  .rulebook-desc { font-size: 12px; line-height: 1.6; color: var(--muted); margin-bottom: 14px; }
+  .rulebook-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent-dark); text-decoration: none; }
+  .rulebook-card:hover .rulebook-link { color: var(--accent); }
+
+  /* ── COMMENT MODAL ── */
+  .rf-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 2000; align-items: center; justify-content: center; padding: 24px; }
+  .rf-modal-overlay.open { display: flex; }
+  .rf-modal { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; max-width: 680px; width: 100%; max-height: 90vh; overflow-y: auto; }
+  .rf-modal-header { padding: 20px 24px 16px; border-bottom: 2px solid var(--ink); display: flex; align-items: center; justify-content: space-between; }
+  .rf-modal-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
+  .rf-modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); line-height: 1; padding: 2px 6px; }
+  .rf-modal-close:hover { color: var(--ink); }
+  .rf-modal-body { padding: 24px; }
+  .rf-modal-filing { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); background: var(--paper); padding: 10px 14px; border-radius: 2px; margin-bottom: 18px; border-left: 3px solid var(--accent); line-height: 1.5; }
+  .rf-modal-label { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink); margin-bottom: 6px; }
+  .rf-modal-textarea { width: 100%; min-height: 90px; padding: 10px 14px; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; border: 1px solid var(--border); border-radius: 2px; background: var(--paper); color: var(--ink); resize: vertical; line-height: 1.6; }
+  .rf-modal-textarea:focus { outline: none; border-color: var(--accent); }
+  .rf-modal-textarea::placeholder { color: var(--muted); }
+  .rf-modal-generate-btn { margin-top: 12px; width: 100%; padding: 11px; background: var(--ink); color: var(--accent); border: none; font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; border-radius: 2px; transition: background 0.15s; }
+  .rf-modal-generate-btn:hover { background: #1a1a1a; }
+  .rf-modal-generate-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .rf-modal-output-wrap { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 18px; display: none; }
+  .rf-modal-output-wrap.visible { display: block; }
+  .rf-modal-output { width: 100%; min-height: 240px; padding: 14px; font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; border: 1px solid var(--border); border-radius: 2px; background: var(--paper); color: var(--ink); resize: vertical; line-height: 1.8; }
+  .rf-modal-output:focus { outline: none; border-color: var(--accent); }
+  .rf-modal-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .rf-modal-action-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 7px 16px; border-radius: 2px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .rf-modal-action-btn.copy { background: var(--ink); color: var(--accent); border: none; }
+  .rf-modal-action-btn.copy:hover { background: #1a1a1a; }
+  .rf-modal-action-btn.sec { border: 1px solid var(--border); background: transparent; color: var(--muted); text-decoration: none; display: inline-flex; align-items: center; }
+  .rf-modal-action-btn.sec:hover { border-color: var(--ink); color: var(--ink); }
+  .rf-modal-disclaimer { margin-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--muted); line-height: 1.6; padding: 10px 14px; background: var(--paper); border-radius: 2px; border-left: 3px solid var(--border); }
+  .rf-modal-spinner { display: none; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); text-align: center; padding: 16px; }
+  .rf-modal-spinner.visible { display: block; }
+
+  @media (max-width: 900px) {
+    nav { display: none; } #mobileBar { display: flex !important; }
+    .page-wrap { padding: 0 20px; }
+    .rf-hero { padding: 32px 20px; }
+    .rf-hero-meta { gap: 12px; }
+    .rf-hero-source { display: none; }
+    .rulebook-grid { grid-template-columns: 1fr 1fr; }
+    footer, .fw-alertbar { padding-left: 20px; padding-right: 20px; }
+    .masthead-top { padding-left: 20px; padding-right: 20px; flex-direction: column; gap: 10px; text-align: center; }
+    .tagline { text-align: center; }
+    .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+    .rf-filter-bar { flex-direction: column; gap: 10px; }
+    .rf-filter-divider { display: none; }
+    .rf-sort-wrap { width: 100%; }
+    .rf-sort { flex: 1; }
+    .rf-actions { margin-left: 0; }
+    .rf-modal { max-height: 100%; border-radius: 0; }
+  }
+  @media (max-width: 640px) {
+    .rulebook-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+</div></div>
+
+<!-- FeedWatch Alert Bar -->
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span id="fw-critical-count" class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span id="fw-high-count" class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
+      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span id="fw-action-count" class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span id="fw-active-count" class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span id="fw-next-deadline" class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
+    </div>
+    <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="index.html" class="nav-item">All News</a>
+    <div class="nav-dropdown">
+      <span class="nav-item">Markets &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="exchanges.html" class="nav-drop-item">Exchanges</a>
+        <a href="prediction-markets-live.html" class="nav-drop-item">Live Markets</a>
+        <a href="prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item active">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="nms.html" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="rule-filings.html" class="nav-drop-item active">Rule Filings</a>
+        <a href="ai-digest.html" class="nav-drop-item">AI Digest</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Tools &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
+        <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
+        <a href="compensation.html" class="nav-drop-item">Compensation</a>
+      </div>
+    </div>
+    <a href="about.html" class="nav-item">About</a>
+    <a href="subscribe.html" class="nav-item">Subscribe</a>
+    <div class="nav-right">
+      <div class="search-wrap" id="searchWrap">
+        <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
+        <div class="search-drop" id="searchDrop"></div>
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">All News</a>
+  <div class="mob-group-label">Markets</div>
+  <a href="exchanges.html">Exchanges</a>
+  <a href="prediction-markets-live.html">Live Markets</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <div class="mob-group-label">Intelligence</div>
+  <a href="calendar.html">FeedWatch Calendar</a>
+  <a href="nms.html">NMS / SIP Plans</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="rule-filings.html" class="active">Rule Filings</a>
+  <a href="ai-digest.html">AI Digest</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="market-data-fees.html">Fee Calculator</a>
+  <a href="contract-intelligence.html">Contract Intelligence</a>
+  <a href="compensation.html">Compensation</a>
+  <div class="mob-group-label">About</div>
+  <a href="about.html">About</a>
+  <a href="subscribe.html">Subscribe</a>
+</div>
+
+<!-- Hero -->
+<div class="rf-hero">
+  <div class="rf-hero-inner">
+    <div class="rf-hero-label">Intelligence &rsaquo; Rule Filings</div>
+    <h1>SRO Rule Filing Intelligence</h1>
+    <div class="rf-hero-sub">Live feed of SEC self-regulatory organization rule filings from the Federal Register, filtered and scored for market data professionals. Track fee changes, connectivity rules, and infrastructure mandates — with AI-assisted comment letter generation.</div>
+    <div class="rf-hero-meta">
+      <div class="rf-hero-stat">
+        <div class="rf-hero-stat-num" id="heroTotalCount">—</div>
+        <div class="rf-hero-stat-label">SRO Filings Tracked</div>
+      </div>
+      <div class="rf-hero-divider"></div>
+      <div class="rf-hero-stat">
+        <div class="rf-hero-stat-num" id="heroOpenCount">—</div>
+        <div class="rf-hero-stat-label">Open for Comment</div>
+      </div>
+      <div class="rf-hero-divider"></div>
+      <div class="rf-hero-stat">
+        <div class="rf-hero-stat-num" id="heroHighCount">—</div>
+        <div class="rf-hero-stat-label">High Relevance</div>
+      </div>
+      <div class="rf-hero-source">Source: Federal Register / SEC EDGAR</div>
+    </div>
+  </div>
+</div>
+
+<!-- Main content -->
+<div class="page-wrap" style="padding-top:32px;padding-bottom:48px">
+
+  <!-- Section 01: Filing Feed -->
+  <div class="section-head">
+    <span class="section-num">01 —</span>
+    <h2>Live Filing Feed</h2>
+    <div class="section-line"></div>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)" id="feedUpdated"></span>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="rf-filter-bar">
+    <div class="rf-filter-group" id="filterPills">
+      <span class="rf-pill active" data-filter="ALL">ALL</span>
+      <span class="rf-pill" data-filter="OPEN">OPEN FOR COMMENT</span>
+      <span class="rf-pill" data-filter="HIGH">MARKET DATA</span>
+      <span class="rf-pill" data-filter="FEES">FEES</span>
+      <span class="rf-pill" data-filter="NYSE">NYSE</span>
+      <span class="rf-pill" data-filter="NASDAQ">NASDAQ</span>
+      <span class="rf-pill" data-filter="CBOE">CBOE</span>
+      <span class="rf-pill" data-filter="FINRA">FINRA</span>
+    </div>
+    <div class="rf-filter-divider"></div>
+    <div class="rf-sort-wrap">
+      <span class="rf-sort-label">Sort:</span>
+      <select class="rf-sort" id="sortSelect">
+        <option value="newest">Newest</option>
+        <option value="relevant">Most Relevant</option>
+        <option value="deadline">Comment Deadline</option>
+      </select>
+    </div>
+    <div class="rf-filter-divider"></div>
+    <div class="rf-count" id="filingCount">Loading...</div>
+  </div>
+
+  <!-- Filing Cards -->
+  <div id="filingFeed">
+    <div class="rf-loading">
+      <div class="skeleton" style="height:120px;border-radius:4px"></div>
+      <div class="skeleton" style="height:120px;border-radius:4px"></div>
+      <div class="skeleton" style="height:120px;border-radius:4px"></div>
+      <div class="skeleton" style="height:120px;border-radius:4px"></div>
+    </div>
+  </div>
+
+  <!-- Section 02: Rulebook Navigator -->
+  <div class="section-head" style="margin-top:48px">
+    <span class="section-num">02 —</span>
+    <h2>Rulebook Navigator</h2>
+    <div class="section-line"></div>
+  </div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6">Direct links to official SRO rulebooks. Open proposals are subject to SEC approval — always verify effective date before implementation.</p>
+  <div class="rulebook-grid">
+    <a href="https://www.nyse.com/rules/nyse" target="_blank" rel="noopener" class="rulebook-card">
+      <div class="rulebook-exch">NYSE</div>
+      <div class="rulebook-label">New York Stock Exchange</div>
+      <div class="rulebook-desc">Equity trading rules, market data fees, co-location services, and connectivity requirements for the flagship NYSE market.</div>
+      <div class="rulebook-link">nyse.com/rules/nyse ↗</div>
+    </a>
+    <a href="https://listingcenter.nasdaq.com/rulebook/nasdaq/rules" target="_blank" rel="noopener" class="rulebook-card">
+      <div class="rulebook-exch">Nasdaq</div>
+      <div class="rulebook-label">The Nasdaq Stock Market</div>
+      <div class="rulebook-desc">Equity rules including Nasdaq TotalView, market data products, port fees, and ITCH/OUCH protocol requirements.</div>
+      <div class="rulebook-link">listingcenter.nasdaq.com ↗</div>
+    </a>
+    <a href="https://www.cboe.com/us/equities/regulation/rules_and_bylaws/" target="_blank" rel="noopener" class="rulebook-card">
+      <div class="rulebook-exch">Cboe</div>
+      <div class="rulebook-label">Cboe Exchange / BZX / BYX</div>
+      <div class="rulebook-desc">Options and equity rules covering Cboe's market data products, Multicast PITCH feed, and connectivity pricing.</div>
+      <div class="rulebook-link">cboe.com/regulation ↗</div>
+    </a>
+    <a href="https://www.finra.org/rules-guidance/rulebooks/finra-rules" target="_blank" rel="noopener" class="rulebook-card">
+      <div class="rulebook-exch">FINRA</div>
+      <div class="rulebook-label">Financial Industry Regulatory Authority</div>
+      <div class="rulebook-desc">FINRA rules including SLATE market data platform, TRACE reporting, and member firm data requirements.</div>
+      <div class="rulebook-link">finra.org/rules-guidance ↗</div>
+    </a>
+    <a href="https://www.cmegroup.com/rulebook/CME/" target="_blank" rel="noopener" class="rulebook-card">
+      <div class="rulebook-exch">CME</div>
+      <div class="rulebook-label">CME Group</div>
+      <div class="rulebook-desc">Futures and options rules for CME Globex, MDP 3.0 market data feed, iLink connectivity, and cloud migration requirements.</div>
+      <div class="rulebook-link">cmegroup.com/rulebook ↗</div>
+    </a>
+    <a href="https://www.iextrading.com/regulation/" target="_blank" rel="noopener" class="rulebook-card">
+      <div class="rulebook-exch">IEX</div>
+      <div class="rulebook-label">Investors Exchange</div>
+      <div class="rulebook-desc">Rules for IEX market data products including TOPS, DEEP, and HIST feeds, plus colocation and connectivity specifications.</div>
+      <div class="rulebook-link">iextrading.com/regulation ↗</div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="exchanges.html">Exchanges</a>
+      <a href="regulation.html">Regulation</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>FeedWatch</h4>
+      <a href="calendar.html">All Entries</a>
+      <a href="calendar.html?filter=action">Action Required</a>
+      <a href="calendar.html?filter=critical">Critical Alerts</a>
+      <a href="calendar.html?filter=high">High Impact</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="subscribe.html">Subscribe</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<!-- Comment Draft Modal -->
+<div class="rf-modal-overlay" id="commentModal" onclick="handleModalClick(event)">
+  <div class="rf-modal" id="commentModalInner">
+    <div class="rf-modal-header">
+      <div class="rf-modal-title">Draft Comment Letter</div>
+      <button class="rf-modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+    </div>
+    <div class="rf-modal-body">
+      <div class="rf-modal-filing" id="modalFilingInfo"></div>
+      <div class="rf-modal-label">Your Perspective</div>
+      <textarea class="rf-modal-textarea" id="modalPerspective" placeholder="Optional: describe your specific concerns, your organization type (broker-dealer, asset manager, data vendor, exchange participant), or aspects you want emphasized..."></textarea>
+      <button class="rf-modal-generate-btn" id="modalGenerateBtn" onclick="generateComment()">Generate Comment Letter with AI</button>
+      <div class="rf-modal-spinner" id="modalSpinner">Generating comment letter via Claude AI...</div>
+      <div class="rf-modal-output-wrap" id="modalOutputWrap">
+        <div class="rf-modal-label" style="margin-bottom:8px">Generated Comment Letter</div>
+        <textarea class="rf-modal-output" id="modalOutput" spellcheck="true"></textarea>
+        <div class="rf-modal-actions">
+          <button class="rf-modal-action-btn copy" onclick="copyComment()">Copy to Clipboard</button>
+          <a class="rf-modal-action-btn sec" href="https://www.sec.gov/cgi-bin/ruling.pl" target="_blank" rel="noopener">Submit via SEC.gov ↗</a>
+        </div>
+        <div class="rf-modal-disclaimer">This letter was generated by AI and is provided as a drafting aid only. Review carefully, add your name and organization, verify all factual claims against the original filing, and consult counsel before submitting. Market Data News makes no representations about the accuracy or legal sufficiency of AI-generated content.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ──
+let allFilings = [];
+let activeFilter = 'ALL';
+let activeSort = 'newest';
+let modalFiling = null;
+
+// ── Date line ──
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+
+// ── Mobile nav ──
+function toggleMobileNav() { document.getElementById('mobileNav').classList.toggle('open'); }
+function checkMobile() {
+  const bar = document.getElementById('mobileBar');
+  if (bar) bar.style.display = window.innerWidth <= 900 ? 'flex' : 'none';
+}
+checkMobile();
+window.addEventListener('resize', checkMobile);
+
+// ── Filter pills ──
+document.getElementById('filterPills').addEventListener('click', function(e) {
+  const pill = e.target.closest('.rf-pill');
+  if (!pill) return;
+  document.querySelectorAll('.rf-pill').forEach(p => p.classList.remove('active'));
+  pill.classList.add('active');
+  activeFilter = pill.dataset.filter;
+  renderFilings();
+});
+
+document.getElementById('sortSelect').addEventListener('change', function() {
+  activeSort = this.value;
+  renderFilings();
+});
+
+// ── Load filings ──
+async function loadFilings() {
+  try {
+    const res = await fetch('/.netlify/functions/rule-filings', { signal: AbortSignal.timeout(20000) });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    allFilings = data.filings || [];
+
+    // Update hero stats
+    document.getElementById('heroTotalCount').textContent = allFilings.length;
+    document.getElementById('heroOpenCount').textContent = allFilings.filter(f => f.is_open_for_comment).length;
+    document.getElementById('heroHighCount').textContent = allFilings.filter(f => f.relevance === 'HIGH').length;
+
+    const ts = new Date(data.retrievedAt);
+    document.getElementById('feedUpdated').textContent = 'Updated ' + ts.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    renderFilings();
+  } catch (err) {
+    console.error('[rule-filings] Load error:', err.message);
+    document.getElementById('filingFeed').innerHTML = '<div class="rf-empty">Unable to load filings — please try again shortly.<br><span style="font-size:10px;margin-top:6px;display:block">Source: Federal Register SEC SRO filings</span></div>';
+    document.getElementById('filingCount').textContent = 'Error loading';
+  }
+}
+
+// ── Filter + sort ──
+function getFiltered() {
+  let filtered = allFilings.slice();
+
+  if (activeFilter === 'OPEN') {
+    filtered = filtered.filter(f => f.is_open_for_comment);
+  } else if (activeFilter === 'HIGH') {
+    filtered = filtered.filter(f => f.relevance === 'HIGH');
+  } else if (activeFilter === 'FEES') {
+    filtered = filtered.filter(f => {
+      const t = (f.title + ' ' + f.abstract).toLowerCase();
+      return t.includes('fee') || t.includes('pricing') || t.includes('charge');
+    });
+  } else if (activeFilter === 'NYSE') {
+    filtered = filtered.filter(f => f.exchange === 'NYSE' || (f.file_number || '').startsWith('SR-NYSE'));
+  } else if (activeFilter === 'NASDAQ') {
+    filtered = filtered.filter(f => (f.exchange || '').startsWith('Nasdaq') || (f.file_number || '').includes('SR-NASDAQ') || (f.file_number || '').includes('SR-BX') || (f.file_number || '').includes('SR-PHLX'));
+  } else if (activeFilter === 'CBOE') {
+    filtered = filtered.filter(f => (f.exchange || '').startsWith('Cboe') || (f.file_number || '').includes('SR-CBOE') || (f.file_number || '').includes('SR-C2') || (f.file_number || '').includes('SR-CFE') || (f.file_number || '').includes('SR-BYX') || (f.file_number || '').includes('SR-BZX') || (f.file_number || '').includes('SR-EDGA') || (f.file_number || '').includes('SR-EDGX'));
+  } else if (activeFilter === 'FINRA') {
+    filtered = filtered.filter(f => f.exchange === 'FINRA' || (f.file_number || '').startsWith('SR-FINRA'));
+  }
+
+  // Sort
+  if (activeSort === 'newest') {
+    filtered.sort((a, b) => (b.publication_date || '').localeCompare(a.publication_date || ''));
+  } else if (activeSort === 'relevant') {
+    const rv = { HIGH: 0, MEDIUM: 1, LOW: 2 };
+    filtered.sort((a, b) => {
+      if (rv[a.relevance] !== rv[b.relevance]) return rv[a.relevance] - rv[b.relevance];
+      return (b.publication_date || '').localeCompare(a.publication_date || '');
+    });
+  } else if (activeSort === 'deadline') {
+    const open = filtered.filter(f => f.is_open_for_comment).sort((a, b) => (a.comments_close_on || '').localeCompare(b.comments_close_on || ''));
+    const closed = filtered.filter(f => !f.is_open_for_comment).sort((a, b) => (b.publication_date || '').localeCompare(a.publication_date || ''));
+    filtered = open.concat(closed);
+  }
+
+  return filtered;
+}
+
+// ── Render ──
+function renderFilings() {
+  const filtered = getFiltered();
+  document.getElementById('filingCount').textContent = filtered.length + ' filing' + (filtered.length !== 1 ? 's' : '');
+
+  if (!filtered.length) {
+    document.getElementById('filingFeed').innerHTML = '<div class="rf-empty">No filings match the current filter.</div>';
+    return;
+  }
+
+  const html = filtered.map((f, i) => renderCard(f, i)).join('');
+  document.getElementById('filingFeed').innerHTML = '<div class="rf-feed fade-in">' + html + '</div>';
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  const dt = new Date(d + 'T12:00:00');
+  return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function renderCard(f, idx) {
+  const fileNum = f.file_number ? `<span class="rf-file-badge">${escHtml(f.file_number)}</span>` : '';
+  const exch = f.exchange ? `<span class="rf-exchange-badge">${escHtml(f.exchange)}</span>` : '';
+  const rel = `<span class="rf-relevance-tag ${f.relevance}">${f.relevance === 'HIGH' ? 'Market Data' : f.relevance === 'MEDIUM' ? 'Related' : 'General'}</span>`;
+
+  let commentBadge = '';
+  if (f.is_open_for_comment) {
+    const d = f.days_until_comment_close;
+    const label = d === 0 ? 'Closes today' : d === 1 ? 'Closes tomorrow' : `${d} days left`;
+    commentBadge = `<span class="rf-comment-badge open">&#9679; OPEN — ${label}</span>`;
+  } else if (f.comments_close_on) {
+    commentBadge = `<span class="rf-comment-badge closed">Comment period closed</span>`;
+  }
+
+  const abstract = f.abstract || '';
+  const ABSTRACT_LIMIT = 200;
+  let abstractHtml;
+  if (abstract.length <= ABSTRACT_LIMIT) {
+    abstractHtml = `<div class="rf-card-abstract">${escHtml(abstract)}</div>`;
+  } else {
+    const preview = escHtml(abstract.slice(0, ABSTRACT_LIMIT));
+    const rest = escHtml(abstract.slice(ABSTRACT_LIMIT));
+    abstractHtml = `<div class="rf-card-abstract">${preview}<span class="rf-abstract-full" id="abs-${idx}">${rest}</span>... <button class="rf-expand-btn" onclick="toggleAbstract(${idx}, this)">Read more</button></div>`;
+  }
+
+  const viewBtn = f.html_url
+    ? `<a class="rf-btn rf-btn-outline" href="${escHtml(f.html_url)}" target="_blank" rel="noopener">View Filing ↗</a>`
+    : '';
+
+  const commentBtn = `<button class="rf-btn rf-btn-primary" onclick='openModal(${idx})'>Draft Comment</button>`;
+
+  return `
+    <div class="rf-card">
+      <div class="rf-card-top">
+        ${fileNum}${exch}${rel}${commentBadge}
+      </div>
+      <div class="rf-card-title">${escHtml(f.title)}</div>
+      ${abstractHtml}
+      <div class="rf-card-footer">
+        <div class="rf-pub-date">${f.publication_date ? 'Published ' + formatDate(f.publication_date) : ''}</div>
+        <div class="rf-actions">${viewBtn}${commentBtn}</div>
+      </div>
+    </div>`;
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function toggleAbstract(idx, btn) {
+  const el = document.getElementById('abs-' + idx);
+  if (!el) return;
+  if (el.classList.contains('shown')) {
+    el.classList.remove('shown');
+    btn.previousSibling.textContent = '...';
+    btn.textContent = 'Read more';
+    // remove the ellipsis node (text node hack)
+  } else {
+    el.classList.add('shown');
+    btn.textContent = 'Show less';
+    // hide the "..." text
+    const prev = btn.previousSibling;
+    if (prev && prev.nodeType === 3) prev.textContent = '';
+  }
+}
+
+// ── Modal ──
+function openModal(idx) {
+  const filtered = getFiltered();
+  modalFiling = filtered[idx];
+  if (!modalFiling) return;
+
+  document.getElementById('modalFilingInfo').innerHTML =
+    (modalFiling.file_number ? `<strong>${escHtml(modalFiling.file_number)}</strong> — ` : '') +
+    escHtml(modalFiling.title) +
+    (modalFiling.publication_date ? `<br><span style="font-size:9px;color:var(--muted)">Published ${formatDate(modalFiling.publication_date)}</span>` : '');
+
+  document.getElementById('modalPerspective').value = '';
+  document.getElementById('modalOutput').value = '';
+  document.getElementById('modalOutputWrap').classList.remove('visible');
+  document.getElementById('modalSpinner').classList.remove('visible');
+  document.getElementById('modalGenerateBtn').disabled = false;
+  document.getElementById('commentModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('commentModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleModalClick(e) {
+  if (e.target === document.getElementById('commentModal')) closeModal();
+}
+
+async function generateComment() {
+  if (!modalFiling) return;
+  const btn = document.getElementById('modalGenerateBtn');
+  const spinner = document.getElementById('modalSpinner');
+  btn.disabled = true;
+  spinner.classList.add('visible');
+  document.getElementById('modalOutputWrap').classList.remove('visible');
+
+  const perspective = document.getElementById('modalPerspective').value.trim();
+
+  try {
+    const res = await fetch('/.netlify/functions/generate-comment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        filing_title: modalFiling.title,
+        filing_abstract: modalFiling.abstract,
+        document_number: modalFiling.document_number,
+        file_number: modalFiling.file_number,
+        user_perspective: perspective,
+      }),
+      signal: AbortSignal.timeout(35000),
+    });
+
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (!data.comment) throw new Error('No comment returned');
+
+    document.getElementById('modalOutput').value = data.comment;
+    document.getElementById('modalOutputWrap').classList.add('visible');
+  } catch (err) {
+    alert('Unable to generate comment letter: ' + err.message + '\nPlease try again.');
+  } finally {
+    btn.disabled = false;
+    spinner.classList.remove('visible');
+  }
+}
+
+function copyComment() {
+  const txt = document.getElementById('modalOutput').value;
+  if (!txt) return;
+  navigator.clipboard.writeText(txt).then(() => {
+    const btn = document.querySelector('.rf-modal-action-btn.copy');
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = orig; }, 2000);
+  }).catch(() => {
+    document.getElementById('modalOutput').select();
+    document.execCommand('copy');
+  });
+}
+
+// Close modal on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ── Boot ──
+loadFilings();
+</script>
+<script src="search-global.js"></script>
+<script src="chat-widget.js"></script>
+<script src="feedwatch-bar.js"></script>
+</body>
+</html>
