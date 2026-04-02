@@ -258,6 +258,21 @@
   a.nav-subscribe.active { background: var(--accent-dark) !important; color: white !important; }
   .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; border-left: 1px solid var(--rule); }
   .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
+
+  /* ── Exchange Fee Benchmark Bubble Chart ── */
+  .bench-wrap { background: var(--paper); border: 1px solid var(--border); border-radius: 3px; position: relative; }
+  .bench-wrap svg { display: block; width: 100%; }
+  .bench-legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; }
+  .bench-leg-item { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; padding: 4px 10px; border: 1px solid var(--rule); border-radius: 2px; background: var(--surface); transition: opacity 0.2s; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--ink); white-space: nowrap; user-select: none; }
+  .bench-leg-item.hidden { opacity: 0.35; }
+  .bench-leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .bench-insights { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 16px 0 32px; }
+  .bench-insight { background: var(--surface); border: 1px solid var(--border); padding: 16px 18px; border-radius: 3px; }
+  .bench-insight-val { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--accent); line-height: 1.1; }
+  .bench-insight-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-top: 4px; }
+  .bench-insight-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--ink); margin-top: 3px; }
+  .bench-disclaimer { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-bottom: 32px; }
+  @media (max-width: 600px) { .bench-insights { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -479,10 +494,45 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 2 — MARKET DATA FEE CALCULATOR -->
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 3 — EXCHANGE FEE BENCHMARK -->
   <!-- ═══════════════════════════════════════════════ -->
   <div class="section-head">
-    <span class="section-num">02 —</span>
+    <span class="section-num">03 —</span>
+    <h2>Exchange Fee Benchmark</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="bench-wrap" id="benchWrap">
+    <div id="benchChart" style="position:relative"></div>
+  </div>
+  <div class="bench-legend" id="benchLegend"></div>
+
+  <!-- Insight cards -->
+  <div class="bench-insights">
+    <div class="bench-insight">
+      <div class="bench-insight-val">$9,200/mo</div>
+      <div class="bench-insight-label">Most Expensive</div>
+      <div class="bench-insight-sub">OPRA (consolidated options)</div>
+    </div>
+    <div class="bench-insight">
+      <div class="bench-insight-val">12 feeds</div>
+      <div class="bench-insight-label">Most Feeds</div>
+      <div class="bench-insight-sub">CME — Google Cloud migration 2026</div>
+    </div>
+    <div class="bench-insight">
+      <div class="bench-insight-val">$0/mo</div>
+      <div class="bench-insight-label">Best Value</div>
+      <div class="bench-insight-sub">IEX — no market data fees</div>
+    </div>
+  </div>
+  <p class="bench-disclaimer">* Fee estimates based on standard non-display, single-terminal professional subscriber rates. Actual fees depend on access type, user counts, and redistribution terms. Data as of 2026.</p>
+
+  <!-- SECTION 4 — MARKET DATA FEE CALCULATOR -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">04 —</span>
     <h2>Market Data Fee Calculator</h2>
     <div class="section-line"></div>
   </div>
@@ -1147,7 +1197,313 @@ window.addEventListener('resize', function() {
 });
 </script>
 
-  <script src="search-global.js"></script>
+  <script src="search-global.js">
+// ══════════════════════════════════════════════════════════════════
+// SECTION 3 — EXCHANGE FEE BENCHMARK BUBBLE CHART
+// ══════════════════════════════════════════════════════════════════
+const BENCH_DATA = [
+  { name: 'NYSE',             family: 'NYSE',      feeds: 8,  avgCost: 4200, volume: 95,  color: '#b8860b' },
+  { name: 'NYSE Arca',        family: 'NYSE',      feeds: 6,  avgCost: 3800, volume: 72,  color: '#b8860b' },
+  { name: 'NYSE American',    family: 'NYSE',      feeds: 5,  avgCost: 2900, volume: 45,  color: '#b8860b' },
+  { name: 'NYSE National',    family: 'NYSE',      feeds: 3,  avgCost: 1200, volume: 18,  color: '#b8860b' },
+  { name: 'NYSE Texas',       family: 'NYSE',      feeds: 3,  avgCost: 1100, volume: 12,  color: '#b8860b' },
+  { name: 'Nasdaq',           family: 'Nasdaq',    feeds: 9,  avgCost: 5100, volume: 88,  color: '#1565C0' },
+  { name: 'Nasdaq BX',        family: 'Nasdaq',    feeds: 4,  avgCost: 1800, volume: 22,  color: '#1565C0' },
+  { name: 'Nasdaq PSX',       family: 'Nasdaq',    feeds: 4,  avgCost: 1600, volume: 19,  color: '#1565C0' },
+  { name: 'Nasdaq PHLX',      family: 'Nasdaq',    feeds: 5,  avgCost: 3200, volume: 55,  color: '#1565C0' },
+  { name: 'Cboe BZX',         family: 'Cboe',      feeds: 6,  avgCost: 2800, volume: 62,  color: '#2E7D32' },
+  { name: 'Cboe EDGX',        family: 'Cboe',      feeds: 5,  avgCost: 2400, volume: 48,  color: '#2E7D32' },
+  { name: 'Cboe EDGA',        family: 'Cboe',      feeds: 5,  avgCost: 2100, volume: 35,  color: '#2E7D32' },
+  { name: 'Cboe BYX',         family: 'Cboe',      feeds: 4,  avgCost: 1900, volume: 28,  color: '#2E7D32' },
+  { name: 'Cboe C1',          family: 'Cboe',      feeds: 6,  avgCost: 3500, volume: 68,  color: '#2E7D32' },
+  { name: 'CME',              family: 'CME Group', feeds: 12, avgCost: 8500, volume: 98,  color: '#E65100' },
+  { name: 'CBOT',             family: 'CME Group', feeds: 10, avgCost: 7200, volume: 85,  color: '#E65100' },
+  { name: 'NYMEX',            family: 'CME Group', feeds: 8,  avgCost: 6100, volume: 75,  color: '#E65100' },
+  { name: 'COMEX',            family: 'CME Group', feeds: 6,  avgCost: 4800, volume: 55,  color: '#E65100' },
+  { name: 'ICE Futures US',   family: 'ICE',       feeds: 7,  avgCost: 5200, volume: 70,  color: '#C62828' },
+  { name: 'ICE Futures EU',   family: 'ICE',       feeds: 8,  avgCost: 5800, volume: 78,  color: '#C62828' },
+  { name: 'ICE Endex',        family: 'ICE',       feeds: 4,  avgCost: 3100, volume: 42,  color: '#C62828' },
+  { name: 'OPRA (consolidated)', family: 'Options', feeds: 1, avgCost: 9200, volume: 100, color: '#6A1B9A' },
+  { name: 'MIAX',             family: 'Options',   feeds: 4,  avgCost: 2200, volume: 38,  color: '#6A1B9A' },
+  { name: 'BOX',              family: 'Options',   feeds: 3,  avgCost: 1400, volume: 20,  color: '#6A1B9A' },
+  { name: 'IEX',              family: 'Other',     feeds: 2,  avgCost: 0,    volume: 15,  color: '#455A64' },
+  { name: 'MEMX',             family: 'Other',     feeds: 3,  avgCost: 800,  volume: 14,  color: '#455A64' },
+  { name: 'MGEX',             family: 'Other',     feeds: 3,  avgCost: 2100, volume: 22,  color: '#455A64' },
+];
+
+const BENCH_FAMILIES = ['NYSE','Nasdaq','Cboe','CME Group','ICE','Options','Other'];
+const BENCH_FAMILY_COLORS = {
+  'NYSE': '#b8860b', 'Nasdaq': '#1565C0', 'Cboe': '#2E7D32',
+  'CME Group': '#E65100', 'ICE': '#C62828', 'Options': '#6A1B9A', 'Other': '#455A64'
+};
+
+const BENCH_INSIGHTS = {
+  'OPRA (consolidated)': 'Highest cost single feed in US markets',
+  'CME':    'Most feeds — Google Cloud migration 2026',
+  'IEX':    'Free — no market data fees',
+  'Nasdaq': 'Largest equities exchange by message volume',
+  'NYSE':   'Most exchange listings in US equities',
+  'CBOT':   'Rates & agricultural futures powerhouse',
+  'ICE Futures EU': 'Brent crude benchmark exchange',
+};
+
+function benchInsight(d) {
+  if (BENCH_INSIGHTS[d.name]) return BENCH_INSIGHTS[d.name];
+  const fam = d.family;
+  const famData = BENCH_DATA.filter(x => x.family === fam && x.avgCost > 0);
+  const minCost = Math.min(...famData.map(x => x.avgCost));
+  if (d.avgCost === minCost && famData.length > 1) return 'Best value in ' + fam + ' family';
+  const maxCost = Math.max(...famData.map(x => x.avgCost));
+  if (d.avgCost === maxCost) return 'Most expensive in ' + fam + ' family';
+  return fam + ' family — ' + d.feeds + ' feed' + (d.feeds !== 1 ? 's' : '');
+}
+
+function benchFmt(v) {
+  if (v === 0) return '$0';
+  if (v >= 1000) return '$' + (v / 1000).toFixed(v % 1000 === 0 ? 0 : 1) + 'K';
+  return '$' + v;
+}
+
+let benchHidden = new Set();
+let benchSvgG = null;
+let benchXScale, benchYScale, benchRScale;
+
+function drawBenchChart() {
+  const container = document.getElementById('benchChart');
+  if (!container || !window.d3) return;
+
+  const W = container.offsetWidth || 800;
+  const H = Math.min(520, Math.max(380, W * 0.55));
+  const margin = { top: 30, right: 30, bottom: 52, left: 72 };
+  const iW = W - margin.left - margin.right;
+  const iH = H - margin.top - margin.bottom;
+
+  container.innerHTML = '';
+
+  benchXScale = d3.scaleLinear().domain([0, 14]).range([0, iW]);
+  // IEX has avgCost: 0 — treat as 450 on log scale for placement, show $0 in tooltip
+  benchYScale = d3.scaleLog().domain([400, 15000]).range([iH, 0]).clamp(true);
+  benchRScale = d3.scaleSqrt().domain([0, 100]).range([6, 40]);
+
+  const svg = d3.select(container).append('svg')
+    .attr('width', W).attr('height', H)
+    .style('background', 'var(--paper)').style('display', 'block');
+
+  const defs = svg.append('defs');
+  defs.append('clipPath').attr('id', 'benchClip')
+    .append('rect').attr('width', iW).attr('height', iH + 10).attr('y', -5);
+
+  const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+  benchSvgG = g;
+
+  // Grid lines
+  const yGridTicks = [500, 1000, 2000, 5000, 10000];
+  g.selectAll('.bench-grid-h')
+    .data(yGridTicks).join('line').attr('class', 'bench-grid-h')
+    .attr('x1', 0).attr('x2', iW)
+    .attr('y1', d => benchYScale(d)).attr('y2', d => benchYScale(d))
+    .attr('stroke', '#e8e4db').attr('stroke-width', 1);
+
+  [2,4,6,8,10,12,14].forEach(v => {
+    g.append('line')
+      .attr('x1', benchXScale(v)).attr('x2', benchXScale(v))
+      .attr('y1', 0).attr('y2', iH)
+      .attr('stroke', '#e8e4db').attr('stroke-width', 1);
+  });
+
+  // Axes
+  g.append('g').attr('transform', `translate(0,${iH})`)
+    .call(d3.axisBottom(benchXScale).ticks(7).tickFormat(d => d))
+    .call(ax => {
+      ax.select('.domain').attr('stroke', '#d4c9b0');
+      ax.selectAll('.tick line').attr('stroke', '#d4c9b0');
+      ax.selectAll('text').style('font-family', "'IBM Plex Mono',monospace").style('font-size', '10px').style('fill', 'var(--ink)');
+    });
+
+  g.append('text')
+    .attr('x', iW / 2).attr('y', iH + 42)
+    .attr('text-anchor', 'middle')
+    .style('font-family', "'IBM Plex Mono',monospace").style('font-size', '10px').style('fill', 'var(--muted)')
+    .text('Number of Data Feeds');
+
+  g.append('g')
+    .call(d3.axisLeft(benchYScale).tickValues(yGridTicks).tickFormat(d => benchFmt(d)))
+    .call(ax => {
+      ax.select('.domain').attr('stroke', '#d4c9b0');
+      ax.selectAll('.tick line').attr('stroke', '#d4c9b0');
+      ax.selectAll('text').style('font-family', "'IBM Plex Mono',monospace").style('font-size', '10px').style('fill', 'var(--ink)');
+    });
+
+  g.append('text')
+    .attr('transform', 'rotate(-90)')
+    .attr('x', -iH / 2).attr('y', -58)
+    .attr('text-anchor', 'middle')
+    .style('font-family', "'IBM Plex Mono',monospace").style('font-size', '10px').style('fill', 'var(--muted)')
+    .text('Est. Monthly Cost (USD)');
+
+  // Tooltip
+  const tip = d3.select(container).append('div')
+    .style('position', 'absolute').style('pointer-events', 'none').style('opacity', 0)
+    .style('background', '#0d0d0d').style('border', '1px solid #2a2a2a')
+    .style('border-top', '2px solid #b8860b').style('padding', '10px 14px')
+    .style('font-family', "'IBM Plex Mono',monospace").style('font-size', '11px')
+    .style('z-index', '200').style('min-width', '200px').style('max-width', '280px');
+
+  // ── Annotations ──
+  const ANNOTS = [
+    { name: 'OPRA (consolidated)', dx: 22, dy: -28, text: 'Highest cost\nsingle feed' },
+    { name: 'CME',                 dx: 18, dy: -32, text: 'Most feeds\n(Google Cloud 2026)' },
+    { name: 'IEX',                 dx: 20, dy: -24, text: 'Free — $0/mo' },
+  ];
+
+  const annotsG = g.append('g').attr('class', 'bench-annots').attr('clip-path', 'url(#benchClip)');
+
+  ANNOTS.forEach(ann => {
+    const d = BENCH_DATA.find(x => x.name === ann.name);
+    if (!d) return;
+    const cx = benchXScale(d.feeds);
+    const cy = benchYScale(Math.max(d.avgCost, 450));
+    const r  = benchRScale(d.volume);
+    const tx = cx + ann.dx;
+    const ty = cy + ann.dy;
+    annotsG.append('line')
+      .attr('x1', cx + Math.sign(ann.dx) * r * 0.7)
+      .attr('y1', cy + Math.sign(ann.dy) * r * 0.7)
+      .attr('x2', tx).attr('y2', ty)
+      .attr('stroke', '#b8860b').attr('stroke-width', 1).attr('stroke-dasharray', '3,2');
+    const lines = ann.text.split('\n');
+    const tg = annotsG.append('g');
+    lines.forEach((line, li) => {
+      tg.append('text')
+        .attr('x', tx + (ann.dx > 0 ? 2 : -2))
+        .attr('y', ty + li * 11)
+        .attr('text-anchor', ann.dx > 0 ? 'start' : 'end')
+        .style('font-family', "'IBM Plex Mono',monospace")
+        .style('font-size', '9px').style('fill', '#b8860b').style('font-weight', '600')
+        .text(line);
+    });
+  });
+
+  // ── Bubbles ──
+  const bubblesG = g.append('g').attr('clip-path', 'url(#benchClip)');
+
+  const visible = BENCH_DATA.filter(d => !benchHidden.has(d.family));
+
+  const circles = bubblesG.selectAll('.bench-bubble')
+    .data(BENCH_DATA, d => d.name)
+    .join('circle')
+    .attr('class', 'bench-bubble')
+    .attr('cx', d => benchXScale(d.feeds))
+    .attr('cy', d => benchYScale(Math.max(d.avgCost, 450)))
+    .attr('r',  d => benchRScale(d.volume))
+    .attr('fill', d => d.color + 'bf')  // 0.75 opacity
+    .attr('stroke', d => d.color)
+    .attr('stroke-width', 1.5)
+    .style('opacity', d => benchHidden.has(d.family) ? 0 : 1)
+    .style('cursor', 'pointer')
+    .style('transition', 'opacity 0.3s');
+
+  // Labels inside large bubbles
+  bubblesG.selectAll('.bench-label')
+    .data(BENCH_DATA, d => d.name)
+    .join('text')
+    .attr('class', 'bench-label')
+    .attr('x', d => benchXScale(d.feeds))
+    .attr('y', d => benchYScale(Math.max(d.avgCost, 450)) + 3)
+    .attr('text-anchor', 'middle')
+    .style('font-family', "'IBM Plex Mono',monospace")
+    .style('font-size', '9px').style('fill', 'white').style('font-weight', '600')
+    .style('pointer-events', 'none')
+    .style('opacity', d => (benchRScale(d.volume) > 16 && !benchHidden.has(d.family)) ? 1 : 0)
+    .text(d => d.name.replace(' (consolidated)', ''));
+
+  // Interactions
+  circles
+    .on('mouseenter', function(event, d) {
+      // Dim others
+      circles.style('opacity', x => benchHidden.has(x.family) ? 0 : (x.name === d.name ? 1 : 0.2));
+      d3.select(this).raise().transition().duration(150)
+        .attr('r', benchRScale(d.volume) * 1.2);
+
+      const costStr = d.avgCost === 0 ? 'Free ($0)' : '$' + d.avgCost.toLocaleString() + '/mo';
+      tip.html(
+        `<div style="color:#b8860b;font-size:12px;font-weight:700;margin-bottom:6px">${d.name}</div>` +
+        `<div style="color:#888;margin-bottom:4px">Family: <span style="color:#ccc">${d.family}</span></div>` +
+        `<div style="color:#888;margin-bottom:4px">Feeds: <span style="color:#ccc">${d.feeds}</span></div>` +
+        `<div style="color:#888;margin-bottom:4px">Est. cost: <span style="color:#fff;font-weight:700">${costStr}</span></div>` +
+        `<div style="color:#888;margin-bottom:8px">Volume index: <span style="color:#ccc">${d.volume}/100</span></div>` +
+        `<div style="color:#b8860b;font-size:10px;border-top:1px solid #222;padding-top:6px">${benchInsight(d)}</div>`
+      ).style('opacity', 1);
+
+      const rect = container.getBoundingClientRect();
+      const ex = event.clientX - rect.left;
+      const ey = event.clientY - rect.top;
+      const tipW = 240;
+      tip.style('left', (ex + tipW + 20 > W ? ex - tipW - 10 : ex + 12) + 'px')
+         .style('top',  (ey - 20) + 'px');
+    })
+    .on('mousemove', function(event) {
+      const rect = container.getBoundingClientRect();
+      const ex = event.clientX - rect.left;
+      const ey = event.clientY - rect.top;
+      const tipW = 240;
+      tip.style('left', (ex + tipW + 20 > W ? ex - tipW - 10 : ex + 12) + 'px')
+         .style('top',  (ey - 20) + 'px');
+    })
+    .on('mouseleave', function(event, d) {
+      circles.style('opacity', x => benchHidden.has(x.family) ? 0 : 1);
+      d3.select(this).transition().duration(150).attr('r', benchRScale(d.volume));
+      tip.style('opacity', 0);
+    })
+    .on('click', function(event, d) {
+      window.location.href = 'exchanges.html';
+    });
+}
+
+function buildBenchLegend() {
+  const leg = document.getElementById('benchLegend');
+  if (!leg) return;
+  leg.innerHTML = '';
+  BENCH_FAMILIES.forEach(fam => {
+    const item = document.createElement('div');
+    item.className = 'bench-leg-item' + (benchHidden.has(fam) ? ' hidden' : '');
+    item.innerHTML = `<span class="bench-leg-dot" style="background:${BENCH_FAMILY_COLORS[fam]}"></span>${fam}`;
+    item.addEventListener('click', () => {
+      if (benchHidden.has(fam)) benchHidden.delete(fam);
+      else benchHidden.add(fam);
+      item.classList.toggle('hidden');
+      // Update bubble opacity
+      if (benchSvgG) {
+        benchSvgG.selectAll('.bench-bubble')
+          .style('opacity', d => benchHidden.has(d.family) ? 0 : 1)
+          .style('pointer-events', d => benchHidden.has(d.family) ? 'none' : 'all');
+        benchSvgG.selectAll('.bench-label')
+          .style('opacity', d => (benchRScale(d.volume) > 16 && !benchHidden.has(d.family)) ? 1 : 0);
+      }
+    });
+    leg.appendChild(item);
+  });
+}
+
+// ResizeObserver for responsiveness
+let _benchResizeTimer;
+const _benchObserver = new ResizeObserver(() => {
+  clearTimeout(_benchResizeTimer);
+  _benchResizeTimer = setTimeout(drawBenchChart, 80);
+});
+
+function initBenchChart() {
+  const el = document.getElementById('benchChart');
+  if (el) {
+    _benchObserver.observe(el);
+    drawBenchChart();
+    buildBenchLegend();
+  }
+}
+
+// Bench chart init
+initBenchChart();
+</script>
 <script src="chat-widget.js"></script>
 <script src="feedwatch-bar.js"></script>
 </body>
