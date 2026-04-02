@@ -218,6 +218,14 @@
   @media (min-width: 901px) and (max-width: 1100px) {
     .featured-grid, .market-grid { grid-template-columns: repeat(2, 1fr); }
   }
+
+  /* ── Probability Timeline Chart ── */
+  .timeline-wrap { background: var(--paper); border: 1px solid var(--border); border-radius: 3px; position: relative; overflow: visible; }
+  .timeline-wrap svg { display: block; }
+  .timeline-skeleton-bars { padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+  .timeline-legend { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 4px; }
+  .timeline-disclaimer { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-bottom: 32px; padding-top: 6px; }
+  @media (max-width: 900px) { .timeline-wrap svg { height: 280px !important; } }
 </style>
 </head>
 <body>
@@ -384,6 +392,28 @@
     <div class="market-card polymarket featured"><div class="skeleton" style="height:60px"></div></div>
     <div class="market-card kalshi featured"><div class="skeleton" style="height:60px"></div></div>
   </div>
+
+  <!-- Probability Timeline -->
+  <div class="section-head">
+    <h2>Probability Timeline — Top Markets</h2>
+    <div class="section-line"></div>
+    <span class="section-count">Last 7 days &middot; Top 10 by volume</span>
+  </div>
+  <div class="timeline-wrap" id="timelineWrap">
+    <div class="timeline-skeleton-bars" id="timelineSkeleton">
+      <div class="skeleton" style="height:14px;width:100%"></div>
+      <div class="skeleton" style="height:14px;width:100%"></div>
+      <div class="skeleton" style="height:14px;width:88%"></div>
+      <div class="skeleton" style="height:14px;width:95%"></div>
+      <div class="skeleton" style="height:14px;width:78%"></div>
+      <div class="skeleton" style="height:14px;width:100%"></div>
+      <div class="skeleton" style="height:14px;width:92%"></div>
+      <div class="skeleton" style="height:14px;width:85%"></div>
+    </div>
+    <div id="timelineChart" style="position:relative"></div>
+  </div>
+  <div class="timeline-legend" id="timelineLegend"></div>
+  <p class="timeline-disclaimer">* Historical probability data is simulated for visualization purposes. Current prices are live from Kalshi and Polymarket APIs.</p>
 
   <!-- All Markets -->
   <div class="section-head">
@@ -631,6 +661,7 @@ function loadData() {
       allMarkets = data.markets;
       updateSummary(data);
       renderFeatured(allMarkets);
+      renderTimeline(allMarkets);
       renderGrid();
       startCountdown();
     })
@@ -670,7 +701,304 @@ function scheduleRefresh() {
 // ── Init ──
 loadData();
 scheduleRefresh();
+
+// ── PROBABILITY TIMELINE CHART ──
+var LINE_COLORS = ['#b8860b','#2196F3','#E91E63','#4CAF50','#9C27B0','#FF9800','#00BCD4','#F44336','#607D8B','#795548'];
+
+function hashStr(str) {
+  var h = 0;
+  for (var i = 0; i < str.length; i++) {
+    h = Math.imul(31, h) + str.charCodeAt(i) | 0;
+  }
+  return h >>> 0;
+}
+
+function seededRng(seed) {
+  var s = (seed ^ 0xdeadbeef) >>> 0;
+  return function() {
+    s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+    s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+    s = (s ^ (s >>> 16)) >>> 0;
+    return s / 4294967296;
+  };
+}
+
+function generateHistory(market) {
+  var ticker = market.id || market.title || '';
+  var rng = seededRng(hashStr(ticker));
+  var endProb = (market.yesPrice !== null && market.yesPrice !== undefined)
+    ? parseFloat(market.yesPrice) : 0.5;
+  if (isNaN(endProb)) endProb = 0.5;
+
+  // Build backwards from today's price (7 points)
+  var probs = [endProb];
+  for (var i = 0; i < 6; i++) {
+    var prev = probs[probs.length - 1];
+    var noise = (rng() - 0.5) * 0.1; // -0.05 to +0.05
+    var next = Math.min(0.98, Math.max(0.02, prev + noise));
+    probs.push(next);
+  }
+  probs.reverse(); // oldest first
+
+  var today = new Date(); today.setHours(0,0,0,0);
+  return probs.map(function(v, i) {
+    return { date: new Date(today.getTime() - (6 - i) * 86400000), value: v };
+  });
+}
+
+var _timelineHighlight = null;
+
+function sanitizeId(s) {
+  return String(s).replace(/[^a-zA-Z0-9_-]/g, '_');
+}
+
+function renderTimeline(markets) {
+  if (!markets || markets.length === 0) return;
+
+  var skeleton = document.getElementById('timelineSkeleton');
+  var chartEl  = document.getElementById('timelineChart');
+  if (!chartEl) return;
+
+  // Wait for D3 to load then draw
+  function draw() {
+    if (!window.d3) { setTimeout(draw, 100); return; }
+    if (skeleton) skeleton.style.display = 'none';
+
+    var top10 = markets.slice().sort(function(a,b) {
+      return (b.volumeDollars||b.volume||0) - (a.volumeDollars||a.volume||0);
+    }).slice(0, 10);
+
+    var series = top10.map(function(m, i) {
+      return {
+        id:          m.id || m.title || String(i),
+        title:       m.title || ('Market ' + (i+1)),
+        color:       LINE_COLORS[i % LINE_COLORS.length],
+        data:        generateHistory(m),
+        currentProb: (m.yesPrice !== null && m.yesPrice !== undefined) ? Math.round(m.yesPrice * 100) : null,
+      };
+    });
+
+    chartEl.innerHTML = '';
+    drawTimeline(chartEl, series);
+    renderLegend(series);
+
+    if (window._tlObserver) window._tlObserver.disconnect();
+    var _resizeTimer;
+    window._tlObserver = new ResizeObserver(function() {
+      clearTimeout(_resizeTimer);
+      _resizeTimer = setTimeout(function() {
+        chartEl.innerHTML = '';
+        drawTimeline(chartEl, series);
+      }, 80);
+    });
+    window._tlObserver.observe(chartEl);
+  }
+  draw();
+}
+
+function drawTimeline(container, series) {
+  var W  = container.offsetWidth || 800;
+  var isMobile = W < 600;
+  var H  = isMobile ? 280 : 380;
+  var margin = { top: 20, right: 20, bottom: 36, left: 50 };
+  var iW = W - margin.left - margin.right;
+  var iH = H - margin.top - margin.bottom;
+
+  var allDates = (series[0] || {data:[]}).data.map(function(d){ return d.date; });
+
+  var xScale = d3.scaleTime().domain(d3.extent(allDates)).range([0, iW]);
+  var yScale = d3.scaleLinear().domain([0, 1]).range([iH, 0]);
+
+  var svg = d3.select(container).append('svg')
+    .attr('width', W).attr('height', H)
+    .style('background', 'var(--paper)').style('display', 'block');
+
+  var g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+  // Horizontal grid lines every 20%
+  [0, 0.2, 0.4, 0.6, 0.8, 1.0].forEach(function(v) {
+    g.append('line')
+      .attr('x1', 0).attr('x2', iW)
+      .attr('y1', yScale(v)).attr('y2', yScale(v))
+      .attr('stroke', '#e8e4db').attr('stroke-width', 1);
+  });
+
+  // X axis — daily ticks, Mon/Tue/Wed labels
+  var DAY_LABELS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  g.append('g')
+    .attr('transform', 'translate(0,' + iH + ')')
+    .call(d3.axisBottom(xScale)
+      .ticks(d3.timeDay.every(1))
+      .tickFormat(function(d) { return DAY_LABELS[d.getDay()]; })
+    )
+    .call(function(ax) {
+      ax.select('.domain').attr('stroke', '#d4c9b0');
+      ax.selectAll('.tick line').attr('stroke', '#d4c9b0');
+      ax.selectAll('text')
+        .style('font-family', "'IBM Plex Mono',monospace")
+        .style('font-size', '10px')
+        .style('fill', 'var(--ink)');
+    });
+
+  // Y axis
+  g.append('g')
+    .call(d3.axisLeft(yScale)
+      .tickValues([0, 0.2, 0.4, 0.6, 0.8, 1.0])
+      .tickFormat(function(d) { return Math.round(d*100) + '%'; })
+    )
+    .call(function(ax) {
+      ax.select('.domain').attr('stroke', '#d4c9b0');
+      ax.selectAll('.tick line').attr('stroke', '#d4c9b0');
+      ax.selectAll('text')
+        .style('font-family', "'IBM Plex Mono',monospace")
+        .style('font-size', '10px')
+        .style('fill', 'var(--ink)');
+    });
+
+  // Line generator (smooth)
+  var lineGen = d3.line()
+    .x(function(d) { return xScale(d.date); })
+    .y(function(d) { return yScale(d.value); })
+    .curve(d3.curveCatmullRom.alpha(0.5));
+
+  // Draw lines
+  var paths = g.selectAll('.tl-line')
+    .data(series)
+    .join('path')
+    .attr('class', 'tl-line')
+    .attr('id', function(d) { return 'tl-' + sanitizeId(d.id); })
+    .attr('fill', 'none')
+    .attr('stroke', function(d) { return d.color; })
+    .attr('stroke-width', 2.2)
+    .attr('stroke-linecap', 'round')
+    .attr('stroke-linejoin', 'round')
+    .attr('d', function(d) { return lineGen(d.data); })
+    .style('opacity', 1)
+    .style('cursor', 'pointer')
+    .on('click', function(event, d) { tlToggleHighlight(d.id, series, g); });
+
+  // Crosshair
+  var crosshair = g.append('line')
+    .attr('y1', 0).attr('y2', iH)
+    .attr('stroke', '#888').attr('stroke-width', 1)
+    .attr('stroke-dasharray', '4,3')
+    .style('opacity', 0).style('pointer-events', 'none');
+
+  // Tooltip
+  var tip = d3.select(container).append('div')
+    .style('position', 'absolute')
+    .style('background', '#0d0d0d')
+    .style('border', '1px solid #2a2a2a')
+    .style('border-top', '2px solid #b8860b')
+    .style('padding', '10px 14px')
+    .style('pointer-events', 'none')
+    .style('opacity', 0)
+    .style('z-index', '200')
+    .style('min-width', '220px')
+    .style('max-width', '300px')
+    .style('font-family', "'IBM Plex Mono',monospace")
+    .style('font-size', '10px');
+
+  // Mouse overlay
+  g.append('rect')
+    .attr('width', iW).attr('height', iH)
+    .style('fill', 'none').style('pointer-events', 'all')
+    .on('mousemove', function(event) {
+      var mx = Math.max(0, Math.min(iW, d3.pointer(event)[0]));
+      var x0 = xScale.invert(mx);
+      crosshair.attr('x1', mx).attr('x2', mx).style('opacity', 1);
+
+      var bisect = d3.bisector(function(d){ return d.date; }).left;
+      var pts = series.map(function(s) {
+        var idx = bisect(s.data, x0, 1);
+        var a   = s.data[Math.max(0, idx-1)];
+        var b   = s.data[Math.min(s.data.length-1, idx)];
+        var pt  = (!b || (x0 - a.date) < (b.date - x0)) ? a : b;
+        return { title: s.title, color: s.color, value: pt ? pt.value : null };
+      }).filter(function(p){ return p.value !== null; })
+        .sort(function(a,b){ return b.value - a.value; });
+
+      var DAY  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+      var MON  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var dlbl = DAY[x0.getDay()] + ' ' + MON[x0.getMonth()] + ' ' + x0.getDate();
+
+      var rows = pts.map(function(p) {
+        var short = p.title.length > 30 ? p.title.slice(0,30) + '…' : p.title;
+        return '<div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:3px">' +
+          '<span style="color:' + p.color + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:170px">' + escHtml(short) + '</span>' +
+          '<span style="color:white;font-weight:700;flex-shrink:0">' + Math.round(p.value*100) + '%</span>' +
+          '</div>';
+      }).join('');
+
+      tip.html('<div style="font-size:9px;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:7px">' + dlbl + '</div>' + rows)
+        .style('opacity', 1);
+
+      var tipW = 240;
+      var left = (mx + margin.left + tipW + 16 > W) ? (mx + margin.left - tipW - 8) : (mx + margin.left + 8);
+      tip.style('left', left + 'px').style('top', (margin.top + 8) + 'px');
+    })
+    .on('mouseleave', function() {
+      crosshair.style('opacity', 0);
+      tip.style('opacity', 0);
+    });
+
+  // Store for legend clicks
+  container._tlSeries = series;
+  container._tlG = g;
+}
+
+function tlToggleHighlight(marketId, series, g) {
+  if (_timelineHighlight === marketId) {
+    _timelineHighlight = null;
+    g.selectAll('.tl-line').style('opacity', 1).attr('stroke-width', 2.2);
+    document.querySelectorAll('.tl-legend-item').forEach(function(el) { el.style.opacity = '1'; });
+  } else {
+    _timelineHighlight = marketId;
+    g.selectAll('.tl-line').each(function(d) {
+      d3.select(this)
+        .style('opacity', d.id === marketId ? 1 : 0.1)
+        .attr('stroke-width', d.id === marketId ? 3.5 : 2.2);
+    });
+    document.querySelectorAll('.tl-legend-item').forEach(function(el) {
+      el.style.opacity = el.dataset.id === marketId ? '1' : '0.3';
+    });
+  }
+}
+
+function renderLegend(series) {
+  var leg = document.getElementById('timelineLegend');
+  if (!leg) return;
+  leg.innerHTML = '';
+  series.forEach(function(s) {
+    var item = document.createElement('div');
+    item.className = 'tl-legend-item';
+    item.dataset.id = s.id;
+    item.style.cssText = 'display:inline-flex;align-items:center;gap:6px;cursor:pointer;padding:4px 10px;border:1px solid var(--rule);border-radius:2px;background:var(--surface);transition:opacity 0.2s;';
+
+    var dot = document.createElement('span');
+    dot.style.cssText = 'width:9px;height:9px;border-radius:50%;flex-shrink:0;background:' + s.color;
+
+    var lbl = document.createElement('span');
+    lbl.style.cssText = "font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink);white-space:nowrap;";
+    lbl.textContent = s.title.length > 35 ? s.title.slice(0,35) + '…' : s.title;
+
+    var pct = document.createElement('span');
+    pct.style.cssText = "font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:" + s.color + ";flex-shrink:0;margin-left:2px;";
+    pct.textContent = s.currentProb !== null ? s.currentProb + '%' : '—';
+
+    item.appendChild(dot);
+    item.appendChild(lbl);
+    item.appendChild(pct);
+    item.addEventListener('click', function() {
+      var c = document.getElementById('timelineChart');
+      if (c && c._tlG) tlToggleHighlight(s.id, series, c._tlG);
+    });
+    leg.appendChild(item);
+  });
+}
+
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="chat-widget.js"></script>
 <script src="feedwatch-bar.js"></script>
 </body>
