@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prediction Markets Live — Kalshi &amp; Polymarket Real-Time Prices | Market Data News</title>
+<meta name="description" content="Real-time prediction market prices from Kalshi and Polymarket. Financial, economic, and geopolitical event contracts. Live YES/NO probabilities updated every 60 seconds.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Market Data News">
+<link rel="canonical" href="https://marketdatanews.com/prediction-markets-live.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://marketdatanews.com/prediction-markets-live.html">
+<meta property="og:title" content="Prediction Markets Live — Kalshi &amp; Polymarket">
+<meta property="og:description" content="Real-time prediction market prices from Kalshi and Polymarket. Financial, economic, and geopolitical event contracts.">
+<meta property="og:site_name" content="Market Data News">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+    --green: #27ae60; --purple: #7b2d8b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; } .ticker-item .down { color: #ff4444; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  /* FeedWatch Alert Bar */
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-stat:hover { background: rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num, .fw-alertbar-stat.critical .fw-alertbar-label { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num, .fw-alertbar-stat.high .fw-alertbar-label { color: #ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num, .fw-alertbar-stat.action .fw-alertbar-label { color: var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color: #888; } .fw-alertbar-stat.total .fw-alertbar-label { color: #555; }
+  .fw-alertbar-next { margin-left: auto; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #555; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
+  .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* Mobile nav */
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
+
+  /* ── REBUILT NAV: GROUPED DROPDOWNS ── */
+  nav { display: flex; align-items: stretch; padding: 0 48px; border-bottom: 1px solid var(--rule); position: relative; flex-wrap: nowrap; overflow: visible; background: var(--cream); }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0 14px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; user-select: none; }
+  a.nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-dropdown { position: relative; display: flex; align-items: stretch; }
+  .nav-dropdown > .nav-item { border-left: none; }
+  .nav-dropdown-menu { display: block; position: absolute; top: 100%; left: 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; min-width: 220px; background: var(--ink); border-top: 2px solid var(--accent); z-index: 1000; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left: auto; right: 0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-drop-item { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #aaa; text-decoration: none; padding: 10px 20px; border-bottom: 1px solid #1e1e1e; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+  .nav-drop-item:last-child { border-bottom: none; }
+  .nav-drop-item:hover { color: var(--accent); background: #111; }
+  a.nav-subscribe { background: var(--accent); color: var(--ink) !important; border-right: 1px solid var(--rule); }
+  a.nav-subscribe:hover { background: var(--accent-dark) !important; color: white !important; }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; border-left: 1px solid var(--rule); }
+  .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
+
+  /* Page layout */
+  .page-wrap { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+
+  /* Hero */
+  .hero { background: var(--ink); color: white; padding: 48px 0 40px; border-bottom: 3px solid var(--accent); }
+  .hero-inner { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+  .hero-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #27ae60; animation: pulse 2s infinite; flex-shrink: 0; display: inline-block; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; line-height: 1.1; margin-bottom: 14px; }
+  .hero-sub { font-size: 14px; color: #aaa; line-height: 1.7; max-width: 700px; }
+
+  /* Summary bar */
+  .summary-bar { background: var(--surface); border: 1px solid var(--border); border-top: none; display: flex; align-items: stretch; flex-wrap: wrap; }
+  .summary-stat { flex: 1; min-width: 140px; padding: 18px 24px; border-right: 1px solid var(--border); }
+  .summary-stat:last-child { border-right: none; }
+  .summary-val { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--ink); line-height: 1; }
+  .summary-val.gold { color: var(--accent); }
+  .summary-val.purple { color: var(--purple); }
+  .summary-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-top: 4px; }
+  .summary-refresh { flex: 1; min-width: 140px; padding: 18px 24px; display: flex; align-items: center; gap: 8px; border-left: 1px solid var(--border); margin-left: auto; }
+  .refresh-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+  .refresh-dot.animating { animation: pulse 1s ease 3; }
+  .refresh-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+
+  /* Controls bar */
+  .controls-bar { background: var(--cream); border: 1px solid var(--border); border-top: none; padding: 14px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .search-input { flex: 1; min-width: 200px; max-width: 360px; background: white; border: 1px solid var(--rule); padding: 8px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--ink); border-radius: 2px; }
+  .search-input:focus { outline: none; border-color: var(--accent); }
+  .search-input::placeholder { color: var(--muted); }
+
+  /* Category tabs */
+  .cat-tabs { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .cat-tab { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; padding: 5px 12px; border: 1px solid var(--rule); border-radius: 2px; cursor: pointer; color: var(--muted); background: transparent; transition: all 0.15s; white-space: nowrap; }
+  .cat-tab:hover { border-color: var(--accent); color: var(--accent); }
+  .cat-tab.active { background: var(--ink); color: var(--accent); border-color: var(--ink); }
+
+  /* Section head */
+  .section-head { display: flex; align-items: center; gap: 12px; margin: 32px 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .section-head h2 { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; }
+  .section-line { flex: 1; height: 1px; background: var(--rule); }
+  .section-count { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+
+  /* Featured cards */
+  .featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+
+  /* Market cards grid */
+  .market-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+  /* Market card */
+  .market-card { background: var(--surface); border: 1px solid var(--border); border-radius: 3px; padding: 16px; transition: box-shadow 0.2s, transform 0.2s; cursor: pointer; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 10px; position: relative; overflow: hidden; }
+  .market-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.10); transform: translateY(-2px); }
+  .market-card.kalshi { border-left: 3px solid var(--accent); }
+  .market-card.polymarket { border-left: 3px solid var(--purple); }
+  .market-card.featured { border-width: 1px 1px 1px 3px; }
+
+  /* Card fade-in */
+  .market-card.fade-in { animation: cardFadeIn 0.35s ease forwards; }
+  @keyframes cardFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .card-source { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; padding: 2px 7px; border-radius: 2px; flex-shrink: 0; }
+  .card-source.kalshi { background: #2a1a00; color: var(--accent); }
+  .card-source.polymarket { background: #1e0a28; color: #b47ed4; }
+
+  .card-title { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; line-height: 1.4; color: var(--ink); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+  .market-card.featured .card-title { font-size: 15px; -webkit-line-clamp: 3; }
+
+  .card-prob { display: flex; align-items: baseline; gap: 6px; }
+  .prob-pct { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; line-height: 1; }
+  .market-card.featured .prob-pct { font-size: 40px; }
+  .prob-pct.green { color: var(--green); }
+  .prob-pct.gold { color: var(--accent); }
+  .prob-pct.red { color: var(--red); }
+  .prob-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .prob-bar { width: 100%; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .market-card.featured .prob-bar { height: 8px; }
+  .prob-bar-yes { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+  .prob-bar-yes.green { background: var(--green); }
+  .prob-bar-yes.gold { background: var(--accent); }
+  .prob-bar-yes.red { background: var(--red); }
+
+  .card-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .card-vol { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .card-cat { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; padding: 2px 6px; background: var(--paper); border: 1px solid var(--rule); border-radius: 2px; color: var(--muted); }
+  .card-expiry { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--muted); margin-left: auto; }
+
+  /* Infrastructure note */
+  .infra-note { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--muted); padding: 16px 20px; margin: 32px 0; }
+  .infra-note p { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); line-height: 1.7; }
+  .infra-note strong { color: var(--ink); }
+
+  /* Empty / loading */
+  .empty-msg { grid-column: 1 / -1; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); padding: 40px; text-align: center; border: 1px dashed var(--border); border-radius: 2px; }
+  .skeleton { background: linear-gradient(90deg, var(--border) 25%, var(--paper) 50%, var(--border) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 2px; }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  /* Footer */
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  @media (max-width: 900px) {
+    nav { display: none; } #mobileBar { display: flex !important; }
+    .page-wrap, .hero-inner, footer, .fw-alertbar { padding-left: 20px; padding-right: 20px; }
+    .hero { padding: 32px 0 28px; }
+    .masthead-top { flex-direction: column; gap: 10px; text-align: center; padding: 16px 20px; }
+    .tagline { text-align: center; }
+    .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
+    .featured-grid, .market-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+    .summary-bar { flex-direction: column; }
+    .summary-stat { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+  @media (min-width: 901px) and (max-width: 1100px) {
+    .featured-grid, .market-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">PREDICTION MARKETS LIVE &nbsp;·&nbsp; KALSHI + POLYMARKET</span>
+  <span class="ticker-item">KALSHI: CFTC-REGISTERED DCM &nbsp;·&nbsp; REAL-TIME YES/NO PRICES</span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">POLYMARKET: CFTC-APPROVED FCM MODEL AS OF MARCH 2026</span>
+  <span class="ticker-item">PREDICTION MARKETS LIVE &nbsp;·&nbsp; KALSHI + POLYMARKET</span>
+  <span class="ticker-item">KALSHI: CFTC-REGISTERED DCM &nbsp;·&nbsp; REAL-TIME YES/NO PRICES</span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">POLYMARKET: CFTC-APPROVED FCM MODEL AS OF MARCH 2026</span>
+</div></div>
+
+<!-- FeedWatch Alert Bar -->
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span id="fw-critical-count" class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span id="fw-high-count" class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
+      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span id="fw-action-count" class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span id="fw-active-count" class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span id="fw-next-deadline" class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
+    </div>
+    <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="index.html" class="nav-item">All News</a>
+    <div class="nav-dropdown">
+      <span class="nav-item active">Markets &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="exchanges.html" class="nav-drop-item">Exchanges</a>
+        <a href="prediction-markets-live.html" class="nav-drop-item">Live Markets</a>
+        <a href="prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="nms.html" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="ai-digest.html" class="nav-drop-item">AI Digest</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Tools &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
+        <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
+        <a href="compensation.html" class="nav-drop-item">Compensation</a>
+      </div>
+    </div>
+    <a href="about.html" class="nav-item">About</a>
+    <a href="subscribe.html" class="nav-item nav-subscribe">Subscribe</a>
+    <div class="nav-right"></div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">All News</a>
+  <div class="mob-group-label">Markets</div>
+  <a href="exchanges.html">Exchanges</a>
+  <a href="prediction-markets-live.html" class="active">Live Markets</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <div class="mob-group-label">Intelligence</div>
+  <a href="calendar.html">FeedWatch Calendar</a>
+  <a href="nms.html">NMS / SIP Plans</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="ai-digest.html">AI Digest</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="market-data-fees.html">Fee Calculator</a>
+  <a href="contract-intelligence.html">Contract Intelligence</a>
+  <a href="compensation.html">Compensation</a>
+  <div class="mob-group-label">About</div>
+  <a href="about.html">About</a>
+  <a href="subscribe.html">Subscribe</a>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow"><span class="live-dot"></span> Live Data</div>
+    <h1>Prediction Markets Live</h1>
+    <p class="hero-sub">Real-time prices from Kalshi and Polymarket — financial, economic, and geopolitical event contracts. Data sourced directly from exchange APIs.</p>
+  </div>
+</div>
+
+<!-- Summary Bar -->
+<div class="page-wrap">
+  <div class="summary-bar">
+    <div class="summary-stat">
+      <div class="summary-val" id="statTotal">—</div>
+      <div class="summary-label">Total Live Markets</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-val gold" id="statKalshi">—</div>
+      <div class="summary-label">Kalshi Markets</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-val purple" id="statPoly">—</div>
+      <div class="summary-label">Polymarket Markets</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-val" id="statUpdated" style="font-size:14px;font-family:'IBM Plex Mono',monospace;padding-top:6px">—</div>
+      <div class="summary-label">Last Updated</div>
+    </div>
+    <div class="summary-refresh">
+      <span class="refresh-dot" id="refreshDot"></span>
+      <span class="refresh-text" id="refreshText">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-bar">
+    <input class="search-input" type="text" id="searchInput" placeholder="Search markets by title…" autocomplete="off">
+    <div class="cat-tabs" id="catTabs">
+      <button class="cat-tab active" data-cat="ALL">All</button>
+      <button class="cat-tab" data-cat="FINANCIAL">Financial</button>
+      <button class="cat-tab" data-cat="ECONOMIC">Economic</button>
+      <button class="cat-tab" data-cat="POLITICAL">Political</button>
+      <button class="cat-tab" data-cat="SPORTS">Sports</button>
+      <button class="cat-tab" data-cat="CRYPTO">Crypto</button>
+      <button class="cat-tab" data-cat="CLIMATE">Climate</button>
+      <button class="cat-tab" data-cat="OTHER">Other</button>
+    </div>
+  </div>
+
+  <!-- Featured Markets -->
+  <div class="section-head">
+    <span class="live-dot"></span>
+    <h2>Featured Markets</h2>
+    <div class="section-line"></div>
+    <span class="section-count">Top 3 by volume</span>
+  </div>
+  <div class="featured-grid" id="featuredGrid">
+    <div class="market-card kalshi featured"><div class="skeleton" style="height:60px"></div></div>
+    <div class="market-card polymarket featured"><div class="skeleton" style="height:60px"></div></div>
+    <div class="market-card kalshi featured"><div class="skeleton" style="height:60px"></div></div>
+  </div>
+
+  <!-- All Markets -->
+  <div class="section-head">
+    <h2>All Markets</h2>
+    <div class="section-line"></div>
+    <span class="section-count" id="marketCount">Loading…</span>
+  </div>
+  <div class="market-grid" id="marketGrid">
+    <!-- skeleton -->
+    <div class="market-card kalshi"><div class="skeleton" style="height:120px"></div></div>
+    <div class="market-card polymarket"><div class="skeleton" style="height:120px"></div></div>
+    <div class="market-card kalshi"><div class="skeleton" style="height:120px"></div></div>
+    <div class="market-card polymarket"><div class="skeleton" style="height:120px"></div></div>
+    <div class="market-card kalshi"><div class="skeleton" style="height:120px"></div></div>
+    <div class="market-card polymarket"><div class="skeleton" style="height:120px"></div></div>
+  </div>
+
+  <!-- Infrastructure Note -->
+  <div class="infra-note">
+    <p><strong>Market Data Infrastructure:</strong> Market data sourced directly from <strong>Kalshi REST API v2</strong> and <strong>Polymarket Gamma API</strong>. Kalshi is a CFTC-registered Designated Contract Market. Polymarket operates under CFTC approval for US participants via intermediated FCM model as of March 2026. Prices update every 60 seconds. YES probability displayed as percentage of contract value.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="exchanges.html">Exchanges</a>
+      <a href="regulation.html">Regulation</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>FeedWatch</h4>
+      <a href="calendar.html">All Entries</a>
+      <a href="calendar.html?filter=action">Action Required</a>
+      <a href="calendar.html?filter=critical">Critical Alerts</a>
+      <a href="calendar.html?filter=high">High Impact</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="subscribe.html">Subscribe</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+// ── Date line ──
+(function() {
+  var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var now = new Date();
+  document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+})();
+
+// ── Mobile nav ──
+function toggleMobileNav() {
+  var nav = document.getElementById('mobileNav');
+  nav.classList.toggle('open');
+}
+
+// ── Category detection ──
+var CAT_KEYWORDS = {
+  FINANCIAL: ['fed','rate','interest','inflation','cpi','gdp','yield','s&p','dow','nasdaq','stock','equity','market cap','recession','treasury','bond','debt','ipo','earnings','dividend'],
+  ECONOMIC: ['unemployment','jobs','gdp','economy','growth','trade','tariff','deficit','surplus','labor','wage','consumer','pmi','manufacturing','retail'],
+  POLITICAL: ['president','election','senate','congress','house','vote','democrat','republican','trump','biden','harris','governor','primary','ballot','legislation','bill','veto','impeach','supreme court','nato','eu','uk','ukraine','china','russia','iran'],
+  SPORTS: ['nfl','nba','mlb','nhl','super bowl','world series','champion','playoff','mvp','draft','trade','coach','season','league','cup','tournament','game','match','team'],
+  CRYPTO: ['bitcoin','btc','ethereum','eth','crypto','coin','token','defi','nft','blockchain','sol','xrp','doge','altcoin','stablecoin','halving','mining'],
+  CLIMATE: ['climate','temperature','co2','emission','hurricane','flood','wildfire','drought','sea level','arctic','carbon','renewable','solar','wind','storm','el nino'],
+};
+
+function detectCategory(title) {
+  if (!title) return 'OTHER';
+  var t = title.toLowerCase();
+  for (var cat in CAT_KEYWORDS) {
+    var kws = CAT_KEYWORDS[cat];
+    for (var i = 0; i < kws.length; i++) {
+      if (t.indexOf(kws[i]) !== -1) return cat;
+    }
+  }
+  return 'OTHER';
+}
+
+// ── Formatting ──
+function fmtVol(v) {
+  if (!v || isNaN(v)) return '—';
+  v = Number(v);
+  if (v >= 1e9) return '$' + (v / 1e9).toFixed(1) + 'B';
+  if (v >= 1e6) return '$' + (v / 1e6).toFixed(1) + 'M';
+  if (v >= 1e3) return '$' + (v / 1e3).toFixed(0) + 'K';
+  return '$' + Math.round(v);
+}
+
+function fmtDate(iso) {
+  if (!iso) return null;
+  try {
+    var d = new Date(iso);
+    if (isNaN(d)) return null;
+    var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return mo[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  } catch(e) { return null; }
+}
+
+function probClass(pct) {
+  if (pct >= 70) return 'green';
+  if (pct >= 40) return 'gold';
+  return 'red';
+}
+
+// ── Card rendering ──
+function buildCard(m, featured) {
+  var pct = m.yesPrice !== null && m.yesPrice !== undefined
+    ? Math.round(m.yesPrice * 100) : null;
+  var cls = pct !== null ? probClass(pct) : 'gold';
+  var category = detectCategory(m.title);
+  var expiry = fmtDate(m.expiryDate);
+  var vol = fmtVol(m.volumeDollars || m.volume);
+
+  var card = document.createElement('a');
+  card.className = 'market-card ' + m.source + (featured ? ' featured fade-in' : ' fade-in');
+  if (m.url) { card.href = m.url; card.target = '_blank'; card.rel = 'noopener noreferrer'; }
+  card.dataset.category = category;
+  card.dataset.title = (m.title || '').toLowerCase();
+
+  card.innerHTML =
+    '<div class="card-header">' +
+      '<div class="card-title">' + escHtml(m.title || 'Untitled Market') + '</div>' +
+      '<span class="card-source ' + m.source + '">' + (m.source === 'kalshi' ? 'Kalshi' : 'Polymarket') + '</span>' +
+    '</div>' +
+    (pct !== null
+      ? '<div class="card-prob"><span class="prob-pct ' + cls + '">' + pct + '%</span><span class="prob-label">YES</span></div>' +
+        '<div class="prob-bar"><div class="prob-bar-yes ' + cls + '" style="width:' + pct + '%"></div></div>'
+      : '<div class="card-prob"><span class="prob-pct gold" style="font-size:18px">No price</span></div>'
+    ) +
+    '<div class="card-meta">' +
+      '<span class="card-vol">Vol ' + vol + '</span>' +
+      '<span class="card-cat">' + category + '</span>' +
+      (expiry ? '<span class="card-expiry">Exp ' + expiry + '</span>' : '') +
+    '</div>';
+
+  return card;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── State ──
+var allMarkets = [];
+var activeCategory = 'ALL';
+var searchQuery = '';
+var refreshTimer = null;
+var countdownInterval = null;
+var nextRefreshAt = 0;
+
+function filteredMarkets() {
+  return allMarkets.filter(function(m) {
+    if (activeCategory !== 'ALL' && m._category !== activeCategory) return false;
+    if (searchQuery && m.title.toLowerCase().indexOf(searchQuery) === -1) return false;
+    return true;
+  });
+}
+
+function renderGrid() {
+  var markets = filteredMarkets();
+  var grid = document.getElementById('marketGrid');
+  grid.innerHTML = '';
+  document.getElementById('marketCount').textContent = markets.length + ' market' + (markets.length !== 1 ? 's' : '');
+
+  if (markets.length === 0) {
+    var empty = document.createElement('div');
+    empty.className = 'empty-msg';
+    empty.textContent = 'No markets match your filter.';
+    grid.appendChild(empty);
+    return;
+  }
+
+  markets.forEach(function(m) {
+    grid.appendChild(buildCard(m, false));
+  });
+}
+
+function renderFeatured(markets) {
+  var sorted = markets.slice().sort(function(a, b) {
+    return (b.volumeDollars || b.volume || 0) - (a.volumeDollars || a.volume || 0);
+  });
+  var top3 = sorted.slice(0, 3);
+  var grid = document.getElementById('featuredGrid');
+  grid.innerHTML = '';
+  top3.forEach(function(m) {
+    grid.appendChild(buildCard(m, true));
+  });
+  if (top3.length === 0) {
+    grid.innerHTML = '<div class="empty-msg">No featured markets available.</div>';
+  }
+}
+
+function updateSummary(data) {
+  document.getElementById('statTotal').textContent = data.markets.length;
+  document.getElementById('statKalshi').textContent = data.kalshiCount;
+  document.getElementById('statPoly').textContent = data.polymarketCount;
+  if (data.fetchedAt) {
+    var d = new Date(data.fetchedAt);
+    var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('statUpdated').textContent =
+      mo[d.getMonth()] + ' ' + d.getDate() + ' ' + d.toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit'});
+  }
+  var dot = document.getElementById('refreshDot');
+  dot.classList.add('animating');
+  setTimeout(function() { dot.classList.remove('animating'); }, 3000);
+}
+
+function startCountdown() {
+  if (countdownInterval) clearInterval(countdownInterval);
+  nextRefreshAt = Date.now() + 60000;
+  countdownInterval = setInterval(function() {
+    var remaining = Math.max(0, Math.ceil((nextRefreshAt - Date.now()) / 1000));
+    document.getElementById('refreshText').textContent = remaining > 0
+      ? 'Refreshing in ' + remaining + 's'
+      : 'Refreshing…';
+  }, 1000);
+}
+
+function loadData() {
+  fetch('/.netlify/functions/prediction-markets')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!Array.isArray(data.markets)) return;
+
+      // Tag each market with detected category
+      data.markets.forEach(function(m) {
+        m._category = detectCategory(m.title);
+      });
+
+      allMarkets = data.markets;
+      updateSummary(data);
+      renderFeatured(allMarkets);
+      renderGrid();
+      startCountdown();
+    })
+    .catch(function(err) {
+      console.error('[prediction-markets-live] fetch error:', err);
+      document.getElementById('refreshText').textContent = 'Error loading data';
+      document.getElementById('marketGrid').innerHTML =
+        '<div class="empty-msg">Unable to load market data. Please try again shortly.</div>';
+    });
+}
+
+// ── Category tabs ──
+document.getElementById('catTabs').addEventListener('click', function(e) {
+  var btn = e.target.closest('.cat-tab');
+  if (!btn) return;
+  document.querySelectorAll('.cat-tab').forEach(function(t) { t.classList.remove('active'); });
+  btn.classList.add('active');
+  activeCategory = btn.dataset.cat;
+  renderGrid();
+});
+
+// ── Search ──
+document.getElementById('searchInput').addEventListener('input', function() {
+  searchQuery = this.value.trim().toLowerCase();
+  renderGrid();
+});
+
+// ── Auto-refresh every 60s ──
+function scheduleRefresh() {
+  if (refreshTimer) clearTimeout(refreshTimer);
+  refreshTimer = setTimeout(function() {
+    loadData();
+    scheduleRefresh();
+  }, 60000);
+}
+
+// ── Init ──
+loadData();
+scheduleRefresh();
+</script>
+<script src="chat-widget.js"></script>
+<script src="feedwatch-bar.js"></script>
+</body>
+</html>
