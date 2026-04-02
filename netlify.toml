@@ -2,6 +2,12 @@
   publish = "files"
   functions = "netlify/functions"
 
+[build.environment]
+  NODE_VERSION = "18"
+
+[functions]
+  node_bundler = "esbuild"
+
 [functions."daily-feedwatch"]
   schedule = "0 11 * * *"
 

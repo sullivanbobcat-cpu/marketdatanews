@@ -1,4 +1,5 @@
-const https = require('https');
+// prediction-markets.js
+// Uses native fetch (Node 18+) — same approach as kalshi.js which is proven to work.
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -7,168 +8,131 @@ const CORS = {
   'Content-Type': 'application/json',
 };
 
-// Module-level cache
-let cache = null;
-let cacheTs = 0;
-const CACHE_TTL = 60 * 1000; // 60 seconds
-
 const KALSHI_CATEGORIES = ['economics', 'financials', 'politics', 'geopolitics', 'climate'];
 
-function fetchJson(url) {
-  return new Promise((resolve, reject) => {
-    const opts = new URL(url);
-    const req = https.request({
-      hostname: opts.hostname,
-      path: opts.pathname + opts.search,
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'User-Agent': 'MarketDataNews/1.0',
-      },
-      timeout: 8000,
-    }, (res) => {
-      // Treat 404 as empty result rather than error
-      if (res.statusCode === 404) {
-        res.resume();
-        resolve(null);
-        return;
-      }
-      let body = '';
-      res.on('data', chunk => { body += chunk; });
-      res.on('end', () => {
-        try { resolve(JSON.parse(body)); }
-        catch (e) { reject(new Error('JSON parse error: ' + e.message)); }
-      });
-    });
-    req.on('error', reject);
-    req.on('timeout', () => { req.destroy(); reject(new Error('Request timeout')); });
-    req.end();
+// Module-level cache (60 seconds)
+let _cache = null;
+let _cacheTs = 0;
+const CACHE_TTL = 60 * 1000;
+
+async function fetchJson(url) {
+  const res = await fetch(url, {
+    headers: { 'Accept': 'application/json', 'User-Agent': 'marketdatanews.com/1.0' },
+    signal: AbortSignal.timeout(8000),
   });
+  console.log('[prediction-markets] GET', url, '→', res.status);
+  if (!res.ok) {
+    if (res.status === 404) return null;
+    throw new Error(`HTTP ${res.status} from ${url}`);
+  }
+  return res.json();
 }
 
-function isValidKalshiPrice(v) {
-  return typeof v === 'number' && !isNaN(v) && v >= 0.01 && v <= 0.99;
-}
-
-function isQualityKalshiMarket(m) {
-  const title = m.title || m.question || '';
-  // Filter out multi-outcome markets (comma-separated options in title)
-  if (title.includes(',')) return false;
-  // Filter out garbled 'yes ...' prefixed titles
-  if (title.toLowerCase().startsWith('yes ')) return false;
-  // Filter out sports category
-  if ((m.category || '').toLowerCase() === 'sports') return false;
-  // Require valid price
+function isGoodKalshiMarket(m) {
+  const title = m.title || '';
   const price = m.yes_price_dollars;
-  if (!isValidKalshiPrice(price)) return false;
-  // Require some trading activity
+  if (title.includes(',')) return false;
+  if (title.toLowerCase().startsWith('yes ')) return false;
+  if ((m.category || '').toLowerCase() === 'sports') return false;
+  if (typeof price !== 'number' || price <= 0.01 || price >= 0.99) return false;
   if (!((m.volume_24h > 0) || (m.open_interest > 0))) return false;
   return true;
 }
 
-function mapKalshiMarket(m) {
-  let yesPrice = null;
-  if (isValidKalshiPrice(m.yes_price_dollars)) {
-    yesPrice = m.yes_price_dollars;
-  } else if (typeof m.yes_price === 'number' && m.yes_price > 0) {
-    // Legacy fallback: integer cents (e.g. 65 → 0.65)
-    yesPrice = m.yes_price / 100;
-    if (!isValidKalshiPrice(yesPrice)) yesPrice = null;
-  }
-  return {
-    source: 'kalshi',
-    id: m.ticker || m.id || '',
-    title: m.title || m.question || '',
-    subtitle: m.subtitle || '',
-    yesPrice,
-    volume: m.volume_24h || m.volume || 0,
-    volumeDollars: m.dollar_volume_24h || m.dollar_volume || 0,
-    openInterest: m.open_interest || 0,
-    expiryDate: m.close_time || m.expiration_time || null,
-    category: m.category || '',
-    url: m.ticker ? 'https://kalshi.com/markets/' + m.ticker : null,
-  };
-}
-
 async function fetchKalshi() {
-  try {
-    // Fetch all category endpoints in parallel; skip 404s gracefully
-    const results = await Promise.all(
-      KALSHI_CATEGORIES.map(cat =>
-        fetchJson(
-          `https://api.elections.kalshi.com/trade-api/v2/markets?status=open&limit=25&category=${cat}`
-        ).catch(() => null)
-      )
-    );
+  const seen = new Set();
+  const markets = [];
 
-    // Combine, deduplicate by ticker, apply quality filter
-    const seen = new Set();
-    const markets = [];
-    for (const data of results) {
-      if (!data || !Array.isArray(data.markets)) continue;
-      for (const m of data.markets) {
-        const ticker = m.ticker || m.id || '';
-        if (seen.has(ticker)) continue;
-        seen.add(ticker);
-        if (isQualityKalshiMarket(m)) {
-          markets.push(mapKalshiMarket(m));
-        }
+  // Fetch all category endpoints concurrently; ignore individual failures
+  const results = await Promise.all(
+    KALSHI_CATEGORIES.map(cat =>
+      fetchJson(
+        `https://api.elections.kalshi.com/trade-api/v2/markets?status=open&limit=25&category=${cat}`
+      ).catch(err => {
+        console.error('[prediction-markets] Kalshi category', cat, 'failed:', err.message);
+        return null;
+      })
+    )
+  );
+
+  for (const data of results) {
+    if (!data || !Array.isArray(data.markets)) continue;
+    for (const m of data.markets) {
+      const ticker = m.ticker || m.id || '';
+      if (!ticker || seen.has(ticker)) continue;
+      seen.add(ticker);
+      if (!isGoodKalshiMarket(m)) continue;
+
+      let yesPrice = m.yes_price_dollars;
+      // Legacy fallback (integer cents removed Mar 12 2026 but just in case)
+      if (typeof yesPrice !== 'number' && typeof m.yes_price === 'number') {
+        yesPrice = m.yes_price / 100;
       }
+
+      markets.push({
+        source: 'kalshi',
+        id: ticker,
+        title: m.title || '',
+        yesPrice: typeof yesPrice === 'number' ? yesPrice : null,
+        volume: m.volume_24h || m.volume || 0,
+        volumeDollars: m.dollar_volume_24h || m.dollar_volume || 0,
+        expiryDate: m.close_time || m.expiration_time || null,
+        category: m.category || '',
+        url: 'https://kalshi.com/markets/' + ticker,
+      });
     }
-    return markets;
-  } catch (err) {
-    console.error('[prediction-markets] Kalshi error:', err.message);
-    return null;
   }
+
+  console.log('[prediction-markets] Kalshi markets after filter:', markets.length);
+  return markets;
 }
 
 function parseOutcomePrices(raw) {
   if (!raw) return null;
-  // May be a JSON string: '["0.67","0.33"]' or already an array
-  let arr = raw;
-  if (typeof raw === 'string') {
-    try { arr = JSON.parse(raw); } catch { return null; }
-  }
-  if (!Array.isArray(arr) || arr.length === 0) return null;
-  const v = parseFloat(arr[0]);
-  return isNaN(v) ? null : v;
+  try {
+    const arr = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    if (!Array.isArray(arr) || arr.length === 0) return null;
+    const v = parseFloat(arr[0]);
+    return isNaN(v) ? null : v;
+  } catch { return null; }
 }
 
 async function fetchPolymarket() {
+  let data;
   try {
-    const data = await fetchJson(
+    data = await fetchJson(
       'https://gamma-api.polymarket.com/markets?active=true&limit=50&order=volume&ascending=false'
     );
-    const markets = Array.isArray(data) ? data : [];
-
-    return markets
-      .filter(m => {
-        // Filter to markets with meaningful volume
-        const vol = parseFloat(m.volume24hr || m.volume || 0);
-        return vol > 1000;
-      })
-      .map(m => {
-        let yesPrice = parseOutcomePrices(m.outcomePrices);
-        if (yesPrice === null && typeof m.bestAsk === 'number') yesPrice = m.bestAsk;
-        if (yesPrice === null && typeof m.lastTradePrice === 'number') yesPrice = m.lastTradePrice;
-
-        return {
-          source: 'polymarket',
-          id: m.id || m.conditionId || '',
-          title: m.question || m.title || '',
-          subtitle: m.description ? String(m.description).slice(0, 120) : '',
-          yesPrice,
-          volume: parseFloat(m.volume24hr || m.volume || 0),
-          volumeDollars: parseFloat(m.volume24hr || m.volume || 0),
-          expiryDate: m.endDateIso || m.endDate || null,
-          category: m.category || (Array.isArray(m.tags) ? m.tags[0] : '') || '',
-          url: m.slug ? 'https://polymarket.com/event/' + m.slug : null,
-        };
-      });
   } catch (err) {
-    console.error('[prediction-markets] Polymarket error:', err.message);
+    console.error('[prediction-markets] Polymarket failed:', err.message);
     return null;
   }
+
+  const markets = Array.isArray(data) ? data : [];
+  const filtered = markets
+    .filter(m => {
+      const vol = parseFloat(m.volume24hr || m.volume || 0);
+      return vol > 1000;
+    })
+    .map(m => {
+      let yesPrice = parseOutcomePrices(m.outcomePrices);
+      if (yesPrice === null && typeof m.bestAsk === 'number') yesPrice = m.bestAsk;
+      if (yesPrice === null && typeof m.lastTradePrice === 'number') yesPrice = m.lastTradePrice;
+      return {
+        source: 'polymarket',
+        id: m.id || m.conditionId || '',
+        title: m.question || m.title || '',
+        yesPrice,
+        volume: parseFloat(m.volume24hr || m.volume || 0),
+        volumeDollars: parseFloat(m.volume24hr || m.volume || 0),
+        expiryDate: m.endDateIso || m.endDate || null,
+        category: m.category || (Array.isArray(m.tags) ? m.tags[0] : '') || '',
+        url: m.slug ? 'https://polymarket.com/event/' + m.slug : null,
+      };
+    });
+
+  console.log('[prediction-markets] Polymarket markets after filter:', filtered.length);
+  return filtered;
 }
 
 exports.handler = async function(event) {
@@ -179,21 +143,24 @@ exports.handler = async function(event) {
     return { statusCode: 405, headers: CORS, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
-  // Check module-level cache
-  if (cache && Date.now() - cacheTs < CACHE_TTL) {
+  // Serve from cache if fresh
+  if (_cache && Date.now() - _cacheTs < CACHE_TTL) {
+    return { statusCode: 200, headers: { ...CORS, 'X-Cache': 'HIT' }, body: JSON.stringify(_cache) };
+  }
+
+  let kalshiMarkets, polymarkets;
+  try {
+    [kalshiMarkets, polymarkets] = await Promise.all([fetchKalshi(), fetchPolymarket()]);
+  } catch (err) {
+    console.error('[prediction-markets] Top-level error:', err.message);
     return {
-      statusCode: 200,
-      headers: { ...CORS, 'X-Cache': 'HIT' },
-      body: JSON.stringify(cache),
+      statusCode: 500,
+      headers: CORS,
+      body: JSON.stringify({ error: 'Failed to fetch market data: ' + err.message, markets: [] }),
     };
   }
 
-  const [kalshiMarkets, polymarkets] = await Promise.all([fetchKalshi(), fetchPolymarket()]);
-
-  const markets = [
-    ...(kalshiMarkets || []),
-    ...(polymarkets || []),
-  ];
+  const markets = [...(kalshiMarkets || []), ...(polymarkets || [])];
 
   const result = {
     markets,
@@ -204,12 +171,8 @@ exports.handler = async function(event) {
     fetchedAt: new Date().toISOString(),
   };
 
-  cache = result;
-  cacheTs = Date.now();
+  _cache = result;
+  _cacheTs = Date.now();
 
-  return {
-    statusCode: 200,
-    headers: { ...CORS, 'X-Cache': 'MISS' },
-    body: JSON.stringify(result),
-  };
+  return { statusCode: 200, headers: { ...CORS, 'X-Cache': 'MISS' }, body: JSON.stringify(result) };
 };

@@ -669,18 +669,36 @@ function startCountdown() {
   }, 1000);
 }
 
+function showLoadError(msg) {
+  var errStyle = 'color:var(--red);font-family:\'IBM Plex Mono\',monospace;font-size:12px;';
+  document.getElementById('refreshText').innerHTML =
+    '<span style="' + errStyle + '">Error — check console</span>';
+  document.getElementById('featuredGrid').innerHTML =
+    '<div class="empty-msg" style="' + errStyle + '">Failed to load markets: ' + escHtml(msg) + '</div>';
+  document.getElementById('marketGrid').innerHTML = '';
+  document.getElementById('marketCount').textContent = '0 markets';
+  var skeleton = document.getElementById('timelineSkeleton');
+  if (skeleton) skeleton.style.display = 'none';
+}
+
 function loadData() {
   fetch('/.netlify/functions/prediction-markets')
-    .then(function(r) { return r.json(); })
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status + ' from prediction-markets function');
+      return r.json();
+    })
     .then(function(data) {
-      if (!Array.isArray(data.markets)) return;
+      if (data.error) throw new Error(data.error);
+      var markets = Array.isArray(data.markets) ? data.markets : [];
+      if (markets.length === 0 && (data.kalshiError || data.polymarketError)) {
+        console.warn('[prediction-markets-live] Both APIs returned errors');
+      }
 
-      // Tag each market with detected category
-      data.markets.forEach(function(m) {
+      markets.forEach(function(m) {
         m._category = detectCategory(m.title);
       });
 
-      allMarkets = data.markets;
+      allMarkets = markets;
       updateSummary(data);
       renderFeatured(allMarkets);
       renderTimeline(allMarkets);
@@ -688,10 +706,8 @@ function loadData() {
       startCountdown();
     })
     .catch(function(err) {
-      console.error('[prediction-markets-live] fetch error:', err);
-      document.getElementById('refreshText').textContent = 'Error loading data';
-      document.getElementById('marketGrid').innerHTML =
-        '<div class="empty-msg">Unable to load market data. Please try again shortly.</div>';
+      console.error('[prediction-markets-live] fetch error:', err.message, err);
+      showLoadError(err.message);
     });
 }
 
