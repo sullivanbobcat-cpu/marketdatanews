@@ -392,6 +392,24 @@
         <td class="eff-date">Feb 1, 2026</td>
         <td>Depth of book surcharge of $3.00/professional user/month added to Cboe One Feed Premium tier. Applies to subscribers accessing full depth of book across BZX, BYX, EDGX, and EDGA. Standard Cboe One Feed unaffected.</td>
       </tr>
+      <tr>
+        <td>CBOT Agricultural Data Feeds <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:1px 6px;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:2px;margin-left:4px;font-weight:600">AGRICULTURAL</span></td>
+        <td><span class="change-badge" style="background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7">No Change</span></td>
+        <td class="eff-date">No change</td>
+        <td>CME Group agricultural data fees unchanged from 2025 schedule. No changes in Q1 2026. Next fee schedule review Q3 2026. CBOT grain, oilseed, livestock, and dairy feed fees remain at 2025 published rates.</td>
+      </tr>
+      <tr>
+        <td>ICE Softs — iMpact Feed <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:1px 6px;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:2px;margin-left:4px;font-weight:600">AGRICULTURAL</span></td>
+        <td><span class="change-badge" style="background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7">No Fee Change</span></td>
+        <td class="eff-date">Mar 2026</td>
+        <td>ICE increased multicast capacity for soft commodity feeds following elevated cocoa market volatility in Q4 2025 and Q1 2026. No fee changes. Infrastructure upgrade only. Capacity increase effective March 2026.</td>
+      </tr>
+      <tr class="fee-row-high">
+        <td>South Asia Vegetable Oil — New Feed <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:1px 6px;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:2px;margin-left:4px;font-weight:600">AGRICULTURAL</span></td>
+        <td><span class="change-badge badge-new">New Channel</span></td>
+        <td class="eff-date">Mar 2, 2026</td>
+        <td>New MDP 3.0 channel activated for South Asia Vegetable Oil (Fastmarkets) suite. Firms connecting to CBOT agricultural feeds should update channel configurations. Contact CME Global Account Manager for channel details.</td>
+      </tr>
     </tbody>
   </table>
   <div class="fee-reviewed">Last reviewed: April 01, 2026 &nbsp;·&nbsp; Source: exchange fee schedules and SEC filings &nbsp;·&nbsp; <a href="market-data-fees.html" style="color:var(--accent);text-decoration:none;">Fee calculator →</a></div>
@@ -408,17 +426,17 @@
   <div class="fd-summary-bar">
     <div class="fd-summary-item">
       <div class="fd-summary-label">Total Feeds</div>
-      <div class="fd-summary-val">33</div>
+      <div class="fd-summary-val">45</div>
     </div>
     <div class="fd-summary-divider"></div>
     <div class="fd-summary-item">
       <div class="fd-summary-label">Operational</div>
-      <div class="fd-summary-val green">33</div>
+      <div class="fd-summary-val green">45</div>
     </div>
     <div class="fd-summary-divider"></div>
     <div class="fd-summary-item">
       <div class="fd-summary-label">Active Notices</div>
-      <div class="fd-summary-val accent">5</div>
+      <div class="fd-summary-val accent">8</div>
     </div>
     <div class="fd-summary-updated">Last Updated: April 1, 2026 &nbsp;·&nbsp; All systems normal &nbsp;·&nbsp; Next check in 5 min</div>
   </div>
@@ -668,6 +686,128 @@
         <span class="fd-badge-proto">LMEsmart</span>
       </div>
       <div class="fd-card-desc">Base metals — aluminum, copper, nickel, zinc, lead, and tin. LME is global benchmark for industrial metals pricing.</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="fd-category" id="cat-agricultural" style="border-color:#a5d6a7">
+    <div class="fd-cat-header" onclick="fdToggle(this)" style="background:#f0f9f1;border-bottom-color:#a5d6a7">
+      <span class="fd-cat-name" style="color:#2e7d32">🌾 Agricultural Commodity Feeds</span>
+      <span class="fd-cat-count">12 feeds</span>
+      <span class="fd-cat-toggle">&#9660;</span>
+    </div>
+    <div class="fd-cat-body">
+    <div class="fd-card">
+      <div class="fd-card-name">CBOT Grains &amp; Oilseeds MDP 3.0</div>
+      <div class="fd-card-operator">CME Group / CBOT</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">Core US agricultural feed — Corn, Soybeans, Wheat, Soybean Meal, Soybean Oil, Oats futures and options. Highest volume ag feed globally. Contract months: Corn/Wheat Mar/May/Jul/Sep/Dec, Soybeans Jan/Mar/May/Jul/Aug/Sep/Nov.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">CBOT Livestock MDP 3.0</div>
+      <div class="fd-card-operator">CME Group / CBOT</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">Live Cattle, Feeder Cattle, Lean Hogs, Pork Belly futures and options. Cash-settled and physically delivered contracts. Quotes in cents per pound.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">CBOT Dairy &amp; Fertilizer MDP 3.0</div>
+      <div class="fd-card-operator">CME Group / CBOT</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">Class III Milk, Class IV Milk, Dry Whey, Cheese futures. Record open interest February 2026 — 403,113 contracts peak. Also covers Urea, DAP, UAN fertilizer futures.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">CBOT Lumber &amp; Softs MDP 3.0</div>
+      <div class="fd-card-operator">CME Group / CBOT</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MDP 3.0</span>
+        <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">New South Asia Vegetable Oil contracts launched March 2, 2026. Crude palm oil and soybean oil suite for CFR India market. Update channel configurations.</span></span>
+      </div>
+      <div class="fd-card-desc">Random Length Lumber futures and options. South Asia Vegetable Oil (Fastmarkets) futures launched March 2, 2026 — new crude palm oil and soybean oil suite for CFR India.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">MGEX Hard Red Spring Wheat</div>
+      <div class="fd-card-operator">Minneapolis Grain Exchange / CME</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">Hard Red Spring Wheat futures and options — global benchmark for spring wheat pricing. Minneapolis delivery. Key feed for North American wheat market participants. Quotes in cents per bushel.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">KCBT Hard Red Winter Wheat</div>
+      <div class="fd-card-operator">CME Group / CBOT</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">Kansas City Hard Red Winter Wheat futures — merged into CBOT infrastructure 2012. Key input for USDA season-average price models alongside Chicago SRW and Minneapolis HRS contracts.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">ICE Softs US — Cotton, Coffee, Sugar, Cocoa</div>
+      <div class="fd-card-operator">ICE Futures US</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">iMpact</span>
+      </div>
+      <div class="fd-card-desc">Global benchmarks for soft commodities — Cotton No. 2, Arabica Coffee C, Raw Sugar No. 11, Cocoa. Delivered via ICE iMpact multicast from ICE's New York infrastructure. ICE is exclusive global market for Cotton No. 2 and FCOJ benchmarks.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">ICE FCOJ &amp; Canola</div>
+      <div class="fd-card-operator">ICE Futures US / ICE Futures Canada</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">iMpact</span>
+        <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">Cocoa prices volatile — drought concerns in West Africa elevated message traffic Q1 2026. Verify feed handler capacity for peak volume periods.</span></span>
+      </div>
+      <div class="fd-card-desc">Frozen Concentrated Orange Juice benchmark contract and ICE Canola futures — global benchmark for canola/rapeseed pricing. Cocoa market elevated traffic Q1 2026 due to West Africa drought concerns.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">ICE UK Feed Wheat</div>
+      <div class="fd-card-operator">ICE Futures Europe</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">iMpact</span>
+      </div>
+      <div class="fd-card-desc">UK Feed Wheat futures and options from ICE Futures Europe London — key European wheat pricing benchmark. Complements CME Chicago and Kansas City wheat contracts for global spread trading.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">USDA WASDE Data Release</div>
+      <div class="fd-card-operator">USDA / ERS</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">REST API</span>
+        <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">Market-moving report — feed handlers should implement surge capacity for WASDE release days. Report published 12:00pm ET monthly. Not a streaming feed — REST endpoint updated monthly.</span></span>
+      </div>
+      <div class="fd-card-desc">World Agricultural Supply and Demand Estimates — monthly report moving all grain and oilseed markets. Extreme volume spikes at 12:00pm ET on release days. REST endpoint updated monthly — not a streaming feed.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">CME DataMine Agricultural Historical</div>
+      <div class="fd-card-operator">CME Group</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">HTTPS / SFTP</span>
+      </div>
+      <div class="fd-card-desc">Downloadable historical tick data for all CBOT agricultural futures — corn, wheat, soybean, livestock, dairy. Available via CME DataMine. Used for backtesting, research, and regulatory reporting. Not real-time.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">South Asia Vegetable Oil (Fastmarkets)</div>
+      <div class="fd-card-operator">CME Group / CBOT</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MDP 3.0</span>
+        <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">Newly launched March 2, 2026 — limited liquidity history. Confirm feed connectivity and channel configuration with CME Global Account Manager. First block trades executed March 5, 2026.</span></span>
+      </div>
+      <div class="fd-card-desc">New futures suite launched March 2, 2026 — crude palm oil and soybean oil outright and spread contracts for CFR India market. Fastmarkets price assessments as settlement reference. First block trades Avere Commodities / Olam Agri, March 5, 2026.</div>
     </div>
     </div>
   </div>
