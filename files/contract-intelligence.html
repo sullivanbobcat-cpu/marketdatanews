@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Data Contract Intelligence | Market Data News</title>
+<meta name="description" content="Track your exchange data agreements, renewal deadlines, fee escalations, and compliance requirements. Generate CFO-ready cost reports instantly.">
+<meta name="keywords" content="market data contracts, exchange data agreements, market data renewal, compliance requirements, market data spend, CFO report">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Market Data News">
+<link rel="canonical" href="https://marketdatanews.com/contract-intelligence.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://marketdatanews.com/contract-intelligence.html">
+<meta property="og:title" content="Market Data Contract Intelligence | Market Data News">
+<meta property="og:description" content="Track exchange data agreements, renewal deadlines, and compliance requirements. Generate CFO-ready cost reports.">
+<meta property="og:site_name" content="Market Data News">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+    --green: #2e7d32; --orange: #e67e22;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  /* ── TICKER ── */
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* ── MASTHEAD ── */
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: center; padding: 0 48px; border-bottom: 1px solid var(--rule); overflow: visible; flex-wrap: nowrap; white-space: nowrap; }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 8px 12px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-block; white-space: nowrap; }
+  .nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; }
+  .search-wrap { position: relative; display: flex; align-items: center; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 180px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+  .search-drop { position: absolute; top: calc(100% + 4px); right: 0; width: 380px; background: var(--ink); border: 1px solid #333; z-index: 1000; display: none; max-height: 480px; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .search-drop.open { display: block; }
+  .search-drop-group { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #555; padding: 10px 14px 4px; border-top: 1px solid #1a1a1a; }
+  .search-drop-group:first-child { border-top: none; }
+  .search-drop-item { display: flex; flex-direction: column; padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #111; text-decoration: none; }
+  .search-drop-item:hover, .search-drop-item.active { background: #1a1a1a; }
+  .search-drop-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ccc; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
+  .search-drop-item:hover .search-drop-title, .search-drop-item.active .search-drop-title { color: var(--accent); }
+  .search-drop-snippet { font-size: 11px; color: #555; line-height: 1.4; }
+  .search-drop-cat { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 1px 5px; border-radius: 1px; margin-left: auto; flex-shrink: 0; }
+  .search-drop-cat.pages { background: #12263a; color: #5b9bd5; }
+  .search-drop-cat.feedwatch { background: #2a1500; color: #b8860b; }
+  .search-drop-footer { padding: 10px 14px; border-top: 1px solid #222; }
+  .search-drop-footer a { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); text-decoration: none; }
+  .search-drop-empty { padding: 16px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #444; }
+
+  /* ── FEEDWATCH ALERT BAR ── */
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-stat:hover { background: rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num, .fw-alertbar-stat.critical .fw-alertbar-label { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num, .fw-alertbar-stat.high .fw-alertbar-label { color: #ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num, .fw-alertbar-stat.action .fw-alertbar-label { color: var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color: #888; } .fw-alertbar-stat.total .fw-alertbar-label { color: #555; }
+  .fw-alertbar-next { margin-left: auto; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #555; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
+  .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
+
+  /* ── MOBILE NAV ── */
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @media (max-width: 1200px) { .nav-comp { display: none; } }
+  @media (max-width: 900px) {
+    nav { display: none; } #mobileBar { display: flex !important; }
+    .masthead-top, .fw-alertbar { padding-left: 20px; padding-right: 20px; }
+    .masthead-top { flex-direction: column; gap: 10px; text-align: center; }
+    .tagline { text-align: center; }
+    .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
+  }
+
+  /* ── PAGE HERO ── */
+  .page-hero { background: var(--cream); border-bottom: 2px solid var(--ink); padding: 36px 48px 32px; }
+  .page-hero-inner { max-width: 1280px; margin: 0 auto; }
+  .page-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-dark); margin-bottom: 10px; }
+  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3.5vw, 42px); font-weight: 900; line-height: 1.15; margin-bottom: 12px; color: var(--ink); }
+  .page-hero h1 span { color: var(--accent); }
+  .page-hero-sub { font-size: 15px; line-height: 1.7; color: var(--muted); max-width: 720px; }
+
+  /* ── LAYOUT ── */
+  .page-container { max-width: 1280px; margin: 0 auto; padding: 0 48px 64px; }
+
+  /* ── SECTION HEAD ── */
+  .section-head { display: flex; align-items: center; gap: 16px; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .section-head h2 { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink); white-space: nowrap; }
+  .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.1em; }
+  .section-line { flex: 1; height: 1px; background: var(--rule); }
+
+  /* ── SUMMARY BAR ── */
+  .summary-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 24px; }
+  .summary-cell { background: var(--surface); padding: 18px 20px; }
+  .summary-val { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+  .summary-val.gold { color: var(--accent); }
+  .summary-val.orange { color: var(--orange); }
+  .summary-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+
+  /* ── CONTRACT CARDS ── */
+  .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .contract-card { background: var(--surface); border: 1px solid var(--border); padding: 20px; position: relative; transition: border-color 0.15s, box-shadow 0.15s; }
+  .contract-card:hover { border-color: var(--rule); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px; }
+  .card-exchange { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .card-product { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; line-height: 1.3; margin-bottom: 12px; color: var(--ink); }
+  .status-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 8px; border-radius: 2px; flex-shrink: 0; }
+  .status-active { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+  .status-renewing { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+  .status-expired { background: #fce4ec; color: #c62828; border: 1px solid #ef9a9a; }
+  .status-pending { background: #f5f5f5; color: #616161; border: 1px solid #bdbdbd; }
+  .card-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin-bottom: 14px; }
+  .card-meta-item { }
+  .card-meta-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 2px; }
+  .card-meta-val { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: var(--ink); }
+  .card-meta-val.warn { color: var(--orange); }
+  .card-meta-val.danger { color: var(--red); }
+  .card-actions { display: flex; gap: 8px; }
+  .btn-view { flex: 1; background: var(--ink); color: var(--accent); border: none; padding: 7px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; transition: background 0.15s; }
+  .btn-view:hover { background: #222; }
+  .btn-delete { background: none; border: 1px solid var(--border); color: var(--muted); padding: 7px 10px; font-size: 12px; cursor: pointer; transition: all 0.15s; font-family: 'IBM Plex Mono', monospace; }
+  .btn-delete:hover { border-color: var(--red); color: var(--red); }
+  .empty-state { background: var(--surface); border: 1px dashed var(--rule); padding: 48px; text-align: center; }
+  .empty-state p { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); line-height: 1.8; }
+  .empty-icon { font-size: 32px; margin-bottom: 12px; }
+  .loading-state { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); padding: 32px; text-align: center; }
+
+  /* ── ADD CONTRACT FORM ── */
+  .form-panel { background: var(--surface); border: 1px solid var(--border); padding: 32px 36px; }
+  .form-row { margin-bottom: 20px; }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .form-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); display: block; margin-bottom: 6px; }
+  .form-input, .form-select, .form-textarea { width: 100%; background: var(--paper); border: 1px solid var(--border); color: var(--ink); padding: 9px 12px; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; border-radius: 0; appearance: none; -webkit-appearance: none; }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--accent); }
+  .form-select-wrap { position: relative; }
+  .form-select-wrap::after { content: '▾'; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--muted); pointer-events: none; }
+  .form-textarea { resize: vertical; min-height: 80px; }
+  .toggle-group { display: flex; border: 1px solid var(--border); overflow: hidden; }
+  .toggle-group input[type=radio] { display: none; }
+  .toggle-group label { flex: 1; padding: 9px 16px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; cursor: pointer; background: var(--paper); color: var(--ink); user-select: none; border-right: 1px solid var(--border); transition: all 0.15s; }
+  .toggle-group label:last-child { border-right: none; }
+  .toggle-group input:checked + label { background: var(--ink); color: var(--accent); }
+  .form-hint { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; }
+  .btn-save { background: var(--accent); color: var(--ink); border: none; padding: 12px 32px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer; transition: background 0.15s; }
+  .btn-save:hover { background: var(--accent-dark); color: white; }
+  .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+  .form-success { display: none; background: #e8f5e9; border: 1px solid #a5d6a7; color: #2e7d32; font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 10px 16px; margin-top: 16px; }
+  .form-error { display: none; background: #fce4ec; border: 1px solid #ef9a9a; color: #c62828; font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 10px 16px; margin-top: 16px; }
+
+  /* ── D3 TIMELINE ── */
+  .timeline-wrap { background: var(--surface); border: 1px solid var(--border); padding: 24px; overflow-x: auto; }
+  .timeline-wrap svg { display: block; min-width: 600px; }
+  .timeline-legend { display: flex; gap: 20px; margin-bottom: 16px; flex-wrap: wrap; }
+  .timeline-legend-item { display: flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--ink); }
+  .timeline-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .tl-tooltip { position: fixed; background: var(--ink); border: 1px solid #333; padding: 10px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #e8e8e8; pointer-events: none; border-radius: 2px; z-index: 9000; white-space: nowrap; line-height: 1.7; display: none; }
+  .tl-tooltip strong { color: var(--accent); display: block; margin-bottom: 2px; }
+  .timeline-empty { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); padding: 32px; text-align: center; }
+
+  /* ── COMPLIANCE TABLE ── */
+  .compliance-table { width: 100%; border-collapse: collapse; background: var(--surface); }
+  .compliance-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); text-align: left; padding: 10px 16px; border-bottom: 2px solid var(--ink); background: var(--cream); }
+  .compliance-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; }
+  .compliance-table tr:hover td { background: var(--paper); }
+  .comp-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 7px; border-radius: 2px; white-space: nowrap; }
+  .comp-due { background: #fce4ec; color: #c62828; border: 1px solid #ef9a9a; }
+  .comp-upcoming { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+  .comp-ok { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+  .comp-ex { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-dark); }
+
+  /* ── CFO REPORT ── */
+  .report-panel { background: var(--surface); border: 1px solid var(--border); padding: 32px 36px; }
+  .report-preview { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .report-preview-item { background: var(--cream); border: 1px solid var(--border); padding: 16px; }
+  .report-preview-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 4px; }
+  .report-preview-val { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; color: var(--ink); }
+  .btn-report { background: var(--ink); color: var(--accent); border: none; padding: 14px 36px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer; transition: background 0.15s; display: inline-flex; align-items: center; gap: 10px; }
+  .btn-report:hover { background: #222; }
+  .btn-report:disabled { opacity: 0.5; cursor: not-allowed; }
+  .report-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 12px; }
+
+  /* ── MODAL ── */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 8000; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border); max-width: 560px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 32px; position: relative; }
+  .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); }
+  .modal-close:hover { color: var(--ink); }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 20px; }
+  .modal-section { margin-bottom: 16px; }
+  .modal-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 4px; }
+  .modal-val { font-size: 14px; color: var(--ink); }
+  .modal-val.mono { font-family: 'IBM Plex Mono', monospace; font-size: 13px; }
+  .modal-divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+  /* ── FOOTER ── */
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  @media (max-width: 900px) {
+    .page-hero, .page-container { padding-left: 20px; padding-right: 20px; }
+    .summary-bar { grid-template-columns: 1fr 1fr; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .form-row-2, .form-row-3 { grid-template-columns: 1fr; }
+    .report-preview { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    footer { padding: 32px 20px; }
+    .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+  }
+  @media (max-width: 600px) {
+    .summary-bar { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+</div></div>
+
+<!-- FeedWatch Alert Bar -->
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
+      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span class="fw-alertbar-next-val">CME iLink v8 Sunset — Apr 24, 2026</span>
+    </div>
+    <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="index.html" class="nav-item">All News</a>
+    <a href="calendar.html" class="nav-item">FeedWatch</a>
+    <a href="exchanges.html" class="nav-item">Exchanges</a>
+    <a href="regulation.html" class="nav-item">Regulation</a>
+    <a href="nms.html" class="nav-item">NMS / SIP</a>
+    <a href="feed-status.html" class="nav-item">Feed Status</a>
+    <a href="market-data-fees.html" class="nav-item">Fees</a>
+    <a href="contract-intelligence.html" class="nav-item active">Contracts</a>
+    <a href="prediction-markets.html" class="nav-item">Prediction Markets</a>
+    <a href="about.html" class="nav-item">About</a>
+    <a href="compensation.html" class="nav-item nav-comp">Compensation</a>
+    <a href="subscribe.html" class="nav-item">Subscribe</a>
+    <div class="nav-right">
+      <div class="search-wrap" id="searchWrap">
+        <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
+        <div class="search-drop" id="searchDrop"></div>
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">All News</a>
+  <a href="calendar.html">FeedWatch</a>
+  <a href="exchanges.html">Exchanges</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="nms.html">NMS / SIP</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="market-data-fees.html">Fees</a>
+  <a href="contract-intelligence.html" class="active">Contracts</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <a href="about.html">About</a>
+  <a href="compensation.html">Compensation</a>
+  <a href="subscribe.html">Subscribe</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-label">Contract Intelligence</div>
+    <h1>Market Data <span>Contract</span> Intelligence</h1>
+    <div class="page-hero-sub">Track your exchange data agreements, renewal deadlines, fee escalations, and compliance requirements — all in one place. Generate CFO-ready cost reports instantly.</div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="page-container">
+
+  <!-- ── SECTION 1: DASHBOARD ── -->
+  <div class="section-head">
+    <span class="section-num">01</span>
+    <h2>Contract Dashboard</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="summary-bar" id="summaryBar">
+    <div class="summary-cell">
+      <div class="summary-val" id="stat-total">—</div>
+      <div class="summary-label">Total Contracts</div>
+    </div>
+    <div class="summary-cell">
+      <div class="summary-val orange" id="stat-renewing">—</div>
+      <div class="summary-label">Renewing in 90 Days</div>
+    </div>
+    <div class="summary-cell">
+      <div class="summary-val gold" id="stat-spend">—</div>
+      <div class="summary-label">Total Annual Spend</div>
+    </div>
+    <div class="summary-cell">
+      <div class="summary-val" id="stat-compliance">—</div>
+      <div class="summary-label">Compliance Items Pending</div>
+    </div>
+  </div>
+
+  <div id="cardsContainer">
+    <div class="loading-state">Loading contracts...</div>
+  </div>
+
+  <!-- ── SECTION 2: ADD CONTRACT ── -->
+  <div class="section-head">
+    <span class="section-num">02</span>
+    <h2>Add New Contract</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="form-panel">
+    <form id="contractForm" onsubmit="handleSave(event)">
+      <div class="form-row-2">
+        <div class="form-row" style="margin-bottom:0">
+          <label class="form-label" for="f-exchange">Exchange</label>
+          <div class="form-select-wrap">
+            <select id="f-exchange" class="form-select" required>
+              <option value="">Select exchange…</option>
+              <option value="NYSE">NYSE</option>
+              <option value="Nasdaq">Nasdaq</option>
+              <option value="Cboe">Cboe</option>
+              <option value="ICE">ICE</option>
+              <option value="CME">CME</option>
+              <option value="OPRA">OPRA</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row" style="margin-bottom:0">
+          <label class="form-label" for="f-product">Product Name</label>
+          <input id="f-product" class="form-input" type="text" placeholder="e.g. NYSE Integrated Feed" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Access Type</label>
+        <div class="toggle-group">
+          <input type="radio" id="at-direct" name="accessType" value="Direct" checked>
+          <label for="at-direct">Direct</label>
+          <input type="radio" id="at-indirect" name="accessType" value="Indirect">
+          <label for="at-indirect">Indirect</label>
+        </div>
+      </div>
+
+      <div class="form-row-3">
+        <div>
+          <label class="form-label" for="f-prof">Professional Users</label>
+          <input id="f-prof" class="form-input" type="number" min="0" value="0">
+        </div>
+        <div>
+          <label class="form-label" for="f-nonprof">Non-Professional Users</label>
+          <input id="f-nonprof" class="form-input" type="number" min="0" value="0">
+        </div>
+        <div>
+          <label class="form-label" for="f-machines">Machines / Devices</label>
+          <input id="f-machines" class="form-input" type="number" min="0" value="0">
+        </div>
+      </div>
+
+      <div class="form-row-2">
+        <div>
+          <label class="form-label" for="f-fee">Monthly Fee ($)</label>
+          <input id="f-fee" class="form-input" type="number" min="0" step="0.01" placeholder="0.00" required>
+        </div>
+        <div>
+          <label class="form-label" for="f-notice">Notice Period for Cancellation</label>
+          <div class="form-select-wrap">
+            <select id="f-notice" class="form-select">
+              <option value="30">30 Days</option>
+              <option value="60">60 Days</option>
+              <option value="90" selected>90 Days</option>
+              <option value="180">6 Months</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row-2">
+        <div>
+          <label class="form-label" for="f-start">Contract Start Date</label>
+          <input id="f-start" class="form-input" type="date">
+        </div>
+        <div>
+          <label class="form-label" for="f-renewal">Renewal / End Date</label>
+          <input id="f-renewal" class="form-input" type="date" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Auto-Renewal</label>
+        <div class="toggle-group">
+          <input type="radio" id="ar-yes" name="autoRenewal" value="yes">
+          <label for="ar-yes">Yes</label>
+          <input type="radio" id="ar-no" name="autoRenewal" value="no" checked>
+          <label for="ar-no">No</label>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label" for="f-notes">Notes</label>
+        <textarea id="f-notes" class="form-textarea" placeholder="Key terms, contacts, negotiation notes…"></textarea>
+      </div>
+
+      <button type="submit" class="btn-save" id="saveBtn">Save Contract</button>
+      <div class="form-success" id="formSuccess">Contract saved successfully.</div>
+      <div class="form-error" id="formError">Failed to save contract. Please try again.</div>
+    </form>
+  </div>
+
+  <!-- ── SECTION 3: TIMELINE ── -->
+  <div class="section-head">
+    <span class="section-num">03</span>
+    <h2>Renewal Timeline — Next 24 Months</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="timeline-legend">
+    <div class="timeline-legend-item"><div class="timeline-legend-dot" style="background:#c0392b"></div> Renewing &lt;90 days</div>
+    <div class="timeline-legend-item"><div class="timeline-legend-dot" style="background:#e67e22"></div> Renewing &lt;180 days</div>
+    <div class="timeline-legend-item"><div class="timeline-legend-dot" style="background:#2e7d32"></div> Renewing &gt;180 days</div>
+    <div class="timeline-legend-item"><div class="timeline-legend-dot" style="background:#6b6555;border-radius:0"></div> Notice period deadline</div>
+  </div>
+  <div class="timeline-wrap" id="timelineWrap">
+    <div class="timeline-empty" id="timelineEmpty">Add contracts to see the renewal timeline.</div>
+  </div>
+  <div class="tl-tooltip" id="tlTooltip"></div>
+
+  <!-- ── SECTION 4: COMPLIANCE ── -->
+  <div class="section-head">
+    <span class="section-num">04</span>
+    <h2>Compliance Requirements</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div style="overflow-x:auto">
+    <table class="compliance-table" id="complianceTable">
+      <thead>
+        <tr>
+          <th style="width:120px">Exchange</th>
+          <th>Requirement</th>
+          <th style="width:150px">Frequency</th>
+          <th style="width:130px">Status</th>
+        </tr>
+      </thead>
+      <tbody id="complianceTbody">
+        <tr><td colspan="4" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);padding:24px 16px;text-align:center">Loading compliance data...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── SECTION 5: CFO REPORT ── -->
+  <div class="section-head">
+    <span class="section-num">05</span>
+    <h2>CFO Report Generator</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="report-panel">
+    <div class="report-preview" id="reportPreview">
+      <div class="report-preview-item">
+        <div class="report-preview-label">Total Annual Spend</div>
+        <div class="report-preview-val" id="rp-spend">$0</div>
+      </div>
+      <div class="report-preview-item">
+        <div class="report-preview-label">Active Agreements</div>
+        <div class="report-preview-val" id="rp-active">0</div>
+      </div>
+      <div class="report-preview-item">
+        <div class="report-preview-label">Upcoming Renewals (12mo)</div>
+        <div class="report-preview-val" id="rp-renewals">0</div>
+      </div>
+    </div>
+    <button class="btn-report" id="reportBtn" onclick="generateReport()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Generate CFO Report
+    </button>
+    <div class="report-note">Opens as a printable HTML page in a new tab with Market Data News branding.</div>
+  </div>
+
+</div><!-- end page-container -->
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalContent">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-title" id="modalTitle"></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="exchanges.html">Exchanges</a>
+      <a href="regulation.html">Regulation</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+      <a href="market-data-fees.html">Market Data Fees</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>FeedWatch</h4>
+      <a href="calendar.html">All Entries</a>
+      <a href="calendar.html?filter=action">Action Required</a>
+      <a href="calendar.html?filter=critical">Critical Alerts</a>
+      <a href="calendar.html?filter=high">High Impact</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="subscribe.html">Subscribe</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+// ── DATE ──────────────────────────────────────────────────────────────────
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('dateLine').textContent =
+  days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+
+// ── MOBILE NAV ────────────────────────────────────────────────────────────
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+
+// ── SESSION ID ────────────────────────────────────────────────────────────
+let sessionId = localStorage.getItem('fw-session-id');
+if (!sessionId) {
+  sessionId = 'sess-' + Date.now() + '-' + Math.random().toString(36).slice(2, 9);
+  localStorage.setItem('fw-session-id', sessionId);
+}
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let contracts = [];
+
+// ── COMPLIANCE KNOWLEDGE BASE ─────────────────────────────────────────────
+const COMPLIANCE_KB = {
+  NYSE: [
+    { req: 'Annual attestation of subscriber compliance', freq: 'Annual', month: 1 },
+    { req: 'Usage reporting — professional and non-professional user counts', freq: 'Quarterly', month: null },
+    { req: 'Audit rights clause — exchange may audit usage records', freq: 'On-demand', month: null },
+    { req: '90-day termination notice required', freq: 'At termination', month: null },
+  ],
+  Nasdaq: [
+    { req: 'Annual certification of authorized distributor status', freq: 'Annual', month: 1 },
+    { req: 'Monthly usage reports for professional users', freq: 'Monthly', month: null },
+    { req: 'External distributor agreements required for redistribution', freq: 'Ongoing', month: null },
+    { req: '60-day termination notice required', freq: 'At termination', month: null },
+  ],
+  Cboe: [
+    { req: 'Annual usage declaration — all product categories', freq: 'Annual', month: 1 },
+    { req: 'Quarterly professional user counts submitted to Cboe', freq: 'Quarterly', month: null },
+    { req: 'Sub-distributor agreements required if redistributing', freq: 'Ongoing', month: null },
+    { req: '30-day termination notice required', freq: 'At termination', month: null },
+  ],
+  OPRA: [
+    { req: 'Annual subscriber certification submitted to OPRA', freq: 'Annual', month: 1 },
+    { req: 'Monthly options volume reporting', freq: 'Monthly', month: null },
+    { req: 'Vendor of record designation required for redistribution', freq: 'Ongoing', month: null },
+  ],
+  CME: [
+    { req: 'Annual market data audit — usage and distribution', freq: 'Annual', month: 1 },
+    { req: 'Usage reporting for automated systems and derived data', freq: 'Quarterly', month: null },
+    { req: 'Derived data restrictions apply — review license terms', freq: 'Ongoing', month: null },
+  ],
+  ICE: [
+    { req: 'Annual renewal review and usage declaration', freq: 'Annual', month: 1 },
+    { req: 'Usage reporting — professional user counts', freq: 'Quarterly', month: null },
+    { req: '30-day termination notice required', freq: 'At termination', month: null },
+  ],
+  Other: [
+    { req: 'Review contract for specific compliance obligations', freq: 'Per contract', month: null },
+  ],
+};
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+function fmt(n) {
+  return '$' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+
+function daysUntil(dateStr) {
+  if (!dateStr) return null;
+  return Math.ceil((new Date(dateStr) - new Date()) / 86400000);
+}
+
+function getStatus(contract) {
+  const d = daysUntil(contract.renewalDate);
+  if (d === null) return 'PENDING';
+  if (d < 0) return 'EXPIRED';
+  if (d <= 90) return 'RENEWING SOON';
+  return 'ACTIVE';
+}
+
+function statusBadge(status) {
+  const map = {
+    'ACTIVE': 'status-active',
+    'RENEWING SOON': 'status-renewing',
+    'EXPIRED': 'status-expired',
+    'PENDING': 'status-pending',
+  };
+  return `<span class="status-badge ${map[status] || 'status-pending'}">${status}</span>`;
+}
+
+function noticeDateStr(renewalDate, noticeDays) {
+  if (!renewalDate || !noticeDays) return null;
+  const d = new Date(renewalDate);
+  d.setDate(d.getDate() - Number(noticeDays));
+  return d.toISOString().split('T')[0];
+}
+
+// ── API ───────────────────────────────────────────────────────────────────
+const API = `/.netlify/functions/contracts?sessionId=${encodeURIComponent(sessionId)}`;
+
+async function loadContracts() {
+  try {
+    const res = await fetch(API);
+    const data = await res.json();
+    contracts = Array.isArray(data.contracts) ? data.contracts : [];
+    render();
+  } catch (e) {
+    console.error('[contracts] load error', e);
+    contracts = [];
+    render();
+  }
+}
+
+async function saveContractAPI(contract) {
+  const res = await fetch(API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ contract }),
+  });
+  if (!res.ok) throw new Error('Save failed');
+  const data = await res.json();
+  return data.contract;
+}
+
+async function deleteContractAPI(id) {
+  const res = await fetch(API, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id }),
+  });
+  if (!res.ok) throw new Error('Delete failed');
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────
+function render() {
+  renderSummary();
+  renderCards();
+  renderTimeline();
+  renderCompliance();
+  renderReportPreview();
+}
+
+function renderSummary() {
+  const total = contracts.length;
+  const renewing = contracts.filter(c => { const d = daysUntil(c.renewalDate); return d !== null && d >= 0 && d <= 90; }).length;
+  const spend = contracts.reduce((s, c) => s + (Number(c.monthlyFee) * 12 || 0), 0);
+  const activeExchanges = [...new Set(contracts.map(c => c.exchange).filter(Boolean))];
+  let compliancePending = 0;
+  activeExchanges.forEach(ex => {
+    const items = COMPLIANCE_KB[ex] || [];
+    // Annual items due in current month = pending
+    const m = new Date().getMonth() + 1;
+    items.forEach(item => {
+      if (item.freq === 'Annual' && item.month === m) compliancePending++;
+      if (item.freq === 'Monthly') compliancePending++;
+    });
+  });
+
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-renewing').textContent = renewing;
+  document.getElementById('stat-spend').textContent = total ? fmt(spend) : '—';
+  document.getElementById('stat-compliance').textContent = compliancePending;
+}
+
+function renderCards() {
+  const container = document.getElementById('cardsContainer');
+  if (contracts.length === 0) {
+    container.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <p>No contracts yet.<br>Use the form below to add your first market data agreement.</p>
+    </div>`;
+    return;
+  }
+
+  const sorted = [...contracts].sort((a, b) => {
+    const da = daysUntil(a.renewalDate) ?? 99999;
+    const db = daysUntil(b.renewalDate) ?? 99999;
+    return da - db;
+  });
+
+  const cards = sorted.map(c => {
+    const status = getStatus(c);
+    const d = daysUntil(c.renewalDate);
+    const annual = Number(c.monthlyFee || 0) * 12;
+    const dClass = d !== null && d <= 90 ? 'danger' : d !== null && d <= 180 ? 'warn' : '';
+    const noticeDL = noticeDateStr(c.renewalDate, c.noticePeriod);
+
+    return `<div class="contract-card">
+      <div class="card-header">
+        <div class="card-exchange">${c.exchange || '—'}</div>
+        ${statusBadge(status)}
+      </div>
+      <div class="card-product">${c.productName || '—'}</div>
+      <div class="card-meta">
+        <div class="card-meta-item">
+          <div class="card-meta-label">Annual Cost</div>
+          <div class="card-meta-val">${fmt(annual)}</div>
+        </div>
+        <div class="card-meta-item">
+          <div class="card-meta-label">Renewal Date</div>
+          <div class="card-meta-val ${dClass}">${c.renewalDate || '—'}${d !== null ? ` <span style="font-size:10px">(${d}d)</span>` : ''}</div>
+        </div>
+        <div class="card-meta-item">
+          <div class="card-meta-label">Access Type</div>
+          <div class="card-meta-val">${c.accessType || '—'}</div>
+        </div>
+        <div class="card-meta-item">
+          <div class="card-meta-label">Users / Machines</div>
+          <div class="card-meta-val">${Number(c.profUsers||0) + Number(c.nonprofUsers||0)} / ${c.machines||0}</div>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="btn-view" onclick="showDetail('${c.id}')">View Details</button>
+        <button class="btn-delete" onclick="handleDelete('${c.id}')" title="Delete">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  container.innerHTML = `<div class="cards-grid">${cards}</div>`;
+}
+
+function renderTimeline() {
+  const wrap = document.getElementById('timelineWrap');
+  const empty = document.getElementById('timelineEmpty');
+
+  if (contracts.length === 0) {
+    wrap.innerHTML = `<div class="timeline-empty" id="timelineEmpty">Add contracts to see the renewal timeline.</div>`;
+    return;
+  }
+
+  const withDates = contracts.filter(c => c.renewalDate);
+  if (withDates.length === 0) {
+    wrap.innerHTML = `<div class="timeline-empty">No contracts have renewal dates set.</div>`;
+    return;
+  }
+
+  // D3 timeline
+  const margin = { top: 20, right: 30, bottom: 40, left: 160 };
+  const width = Math.max(wrap.clientWidth - 32, 600);
+  const rowH = 36;
+  const innerH = withDates.length * rowH;
+  const height = innerH + margin.top + margin.bottom;
+
+  const today = new Date();
+  const end24 = new Date(today);
+  end24.setMonth(end24.getMonth() + 24);
+
+  const x = d3.scaleTime().domain([today, end24]).range([0, width - margin.left - margin.right]);
+
+  wrap.innerHTML = '';
+  const svg = d3.select(wrap).append('svg')
+    .attr('width', width)
+    .attr('height', height);
+
+  const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+  const innerW = width - margin.left - margin.right;
+
+  // Grid lines
+  g.append('g')
+    .attr('class', 'grid')
+    .attr('transform', `translate(0,${innerH})`)
+    .call(d3.axisBottom(x).ticks(d3.timeMonth.every(3)).tickSize(-innerH).tickFormat(''))
+    .select('.domain').remove();
+  g.selectAll('.grid line').style('stroke', '#e8e0d0').style('stroke-dasharray', '3,3');
+
+  // X axis
+  g.append('g')
+    .attr('transform', `translate(0,${innerH})`)
+    .call(d3.axisBottom(x).ticks(d3.timeMonth.every(3).filter(d => d.getMonth() % 3 === 0)).tickFormat(d3.timeFormat('%b %Y')))
+    .selectAll('text')
+    .style('font-family', "'IBM Plex Mono', monospace")
+    .style('font-size', '10px')
+    .style('fill', '#6b6555');
+
+  g.select('.domain').style('stroke', '#d4c9b0');
+
+  // TODAY line
+  g.append('line')
+    .attr('x1', x(today)).attr('x2', x(today))
+    .attr('y1', 0).attr('y2', innerH)
+    .style('stroke', '#0d0d0d').style('stroke-width', 2).style('stroke-dasharray', '4,3');
+
+  g.append('text')
+    .attr('x', x(today) + 4).attr('y', -6)
+    .style('font-family', "'IBM Plex Mono', monospace").style('font-size', '9px')
+    .style('fill', '#0d0d0d').style('font-weight', '600')
+    .text('TODAY');
+
+  const tooltip = document.getElementById('tlTooltip');
+
+  withDates.forEach((c, i) => {
+    const y = i * rowH + rowH / 2;
+    const renewal = new Date(c.renewalDate);
+    const d = daysUntil(c.renewalDate);
+    const color = d <= 90 ? '#c0392b' : d <= 180 ? '#e67e22' : '#2e7d32';
+    const rx = x(renewal);
+    const clampedRx = Math.min(Math.max(rx, 0), innerW);
+
+    // Row label
+    g.append('text')
+      .attr('x', -8).attr('y', y + 4)
+      .attr('text-anchor', 'end')
+      .style('font-family', "'IBM Plex Mono', monospace").style('font-size', '10px')
+      .style('fill', '#0d0d0d')
+      .text((c.exchange || '') + ' ' + (c.productName || '').slice(0, 20) + (c.productName && c.productName.length > 20 ? '…' : ''));
+
+    // Horizontal line from today to renewal
+    if (rx >= 0 && rx <= innerW) {
+      g.append('line')
+        .attr('x1', x(today)).attr('x2', rx)
+        .attr('y1', y).attr('y2', y)
+        .style('stroke', color).style('stroke-width', 1.5).style('stroke-opacity', 0.3);
+    }
+
+    // Notice period marker
+    const noticeDays = Number(c.noticePeriod || 90);
+    const noticeDate = new Date(renewal);
+    noticeDate.setDate(noticeDate.getDate() - noticeDays);
+    const nx = x(noticeDate);
+    if (nx >= 0 && nx <= innerW) {
+      g.append('line')
+        .attr('x1', nx).attr('x2', nx)
+        .attr('y1', y - 10).attr('y2', y + 10)
+        .style('stroke', '#6b6555').style('stroke-width', 2).style('stroke-dasharray', '2,2');
+    }
+
+    // Renewal dot
+    if (clampedRx >= 0 && clampedRx <= innerW) {
+      const circle = g.append('circle')
+        .attr('cx', clampedRx).attr('cy', y)
+        .attr('r', 8)
+        .style('fill', color).style('stroke', '#fff').style('stroke-width', 2)
+        .style('cursor', 'pointer');
+
+      circle
+        .on('mousemove', function(event) {
+          const noticeDL = noticeDateStr(c.renewalDate, c.noticePeriod);
+          tooltip.style.display = 'block';
+          tooltip.style.left = (event.clientX + 14) + 'px';
+          tooltip.style.top = (event.clientY - 10) + 'px';
+          tooltip.innerHTML = `<strong>${c.exchange} — ${c.productName || '—'}</strong>
+Renewal: ${c.renewalDate} (${d} days)
+Annual cost: ${fmt(Number(c.monthlyFee || 0) * 12)}
+Notice deadline: ${noticeDL || '—'} (${c.noticePeriod || 90}d notice)
+Status: ${getStatus(c)}`;
+        })
+        .on('mouseleave', function() { tooltip.style.display = 'none'; });
+    }
+  });
+}
+
+function renderCompliance() {
+  const tbody = document.getElementById('complianceTbody');
+  const activeExchanges = [...new Set(contracts.map(c => c.exchange).filter(Boolean))];
+
+  if (activeExchanges.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="4" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);padding:24px 16px;text-align:center">Add contracts to see compliance requirements.</td></tr>`;
+    return;
+  }
+
+  const currMonth = new Date().getMonth() + 1;
+  const rows = [];
+
+  activeExchanges.forEach(ex => {
+    const items = COMPLIANCE_KB[ex] || COMPLIANCE_KB.Other;
+    items.forEach((item, idx) => {
+      let statusClass = 'comp-ok', statusLabel = 'COMPLETED';
+      if (item.freq === 'Monthly') { statusClass = 'comp-due'; statusLabel = 'DUE THIS MONTH'; }
+      else if (item.freq === 'Annual' && item.month === currMonth) { statusClass = 'comp-due'; statusLabel = 'DUE THIS MONTH'; }
+      else if (item.freq === 'Annual' && ((item.month - currMonth + 12) % 12) <= 2) { statusClass = 'comp-upcoming'; statusLabel = 'UPCOMING'; }
+      else if (item.freq === 'Quarterly') {
+        const qMonths = [1, 4, 7, 10];
+        if (qMonths.includes(currMonth)) { statusClass = 'comp-due'; statusLabel = 'DUE THIS MONTH'; }
+        else if (qMonths.some(m => ((m - currMonth + 12) % 12) === 1)) { statusClass = 'comp-upcoming'; statusLabel = 'UPCOMING'; }
+        else { statusClass = 'comp-ok'; statusLabel = 'ON TRACK'; }
+      }
+
+      rows.push(`<tr>
+        <td>${idx === 0 ? `<span class="comp-ex">${ex}</span>` : ''}</td>
+        <td>${item.req}</td>
+        <td style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">${item.freq}</td>
+        <td><span class="comp-badge ${statusClass}">${statusLabel}</span></td>
+      </tr>`);
+    });
+  });
+
+  tbody.innerHTML = rows.join('');
+}
+
+function renderReportPreview() {
+  const spend = contracts.reduce((s, c) => s + (Number(c.monthlyFee) * 12 || 0), 0);
+  const active = contracts.filter(c => getStatus(c) !== 'EXPIRED').length;
+  const renewing12 = contracts.filter(c => { const d = daysUntil(c.renewalDate); return d !== null && d >= 0 && d <= 365; }).length;
+  document.getElementById('rp-spend').textContent = fmt(spend);
+  document.getElementById('rp-active').textContent = active;
+  document.getElementById('rp-renewals').textContent = renewing12;
+}
+
+// ── FORM HANDLER ──────────────────────────────────────────────────────────
+async function handleSave(e) {
+  e.preventDefault();
+  const btn = document.getElementById('saveBtn');
+  const success = document.getElementById('formSuccess');
+  const error = document.getElementById('formError');
+  success.style.display = 'none';
+  error.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+
+  const contract = {
+    exchange: document.getElementById('f-exchange').value,
+    productName: document.getElementById('f-product').value,
+    accessType: document.querySelector('input[name="accessType"]:checked')?.value || 'Direct',
+    profUsers: document.getElementById('f-prof').value,
+    nonprofUsers: document.getElementById('f-nonprof').value,
+    machines: document.getElementById('f-machines').value,
+    monthlyFee: document.getElementById('f-fee').value,
+    startDate: document.getElementById('f-start').value,
+    renewalDate: document.getElementById('f-renewal').value,
+    autoRenewal: document.querySelector('input[name="autoRenewal"]:checked')?.value || 'no',
+    noticePeriod: document.getElementById('f-notice').value,
+    notes: document.getElementById('f-notes').value,
+  };
+
+  try {
+    const saved = await saveContractAPI(contract);
+    contracts.push(saved);
+    render();
+    document.getElementById('contractForm').reset();
+    success.style.display = 'block';
+    setTimeout(() => { success.style.display = 'none'; }, 3000);
+  } catch {
+    error.style.display = 'block';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Save Contract';
+}
+
+// ── DELETE ────────────────────────────────────────────────────────────────
+async function handleDelete(id) {
+  if (!confirm('Remove this contract?')) return;
+  try {
+    await deleteContractAPI(id);
+    contracts = contracts.filter(c => c.id !== id);
+    render();
+  } catch (e) {
+    alert('Failed to delete contract. Please try again.');
+  }
+}
+
+// ── DETAIL MODAL ──────────────────────────────────────────────────────────
+function showDetail(id) {
+  const c = contracts.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('modalTitle').textContent = (c.productName || 'Contract') + ' — ' + (c.exchange || '');
+  const noticeDL = noticeDateStr(c.renewalDate, c.noticePeriod);
+  document.getElementById('modalBody').innerHTML = `
+    ${statusBadge(getStatus(c))}
+    <hr class="modal-divider">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin-top:16px">
+      <div class="modal-section"><div class="modal-label">Exchange</div><div class="modal-val mono">${c.exchange||'—'}</div></div>
+      <div class="modal-section"><div class="modal-label">Access Type</div><div class="modal-val mono">${c.accessType||'—'}</div></div>
+      <div class="modal-section"><div class="modal-label">Monthly Fee</div><div class="modal-val mono">${fmt(c.monthlyFee)}/mo</div></div>
+      <div class="modal-section"><div class="modal-label">Annual Cost</div><div class="modal-val mono">${fmt(Number(c.monthlyFee||0)*12)}/yr</div></div>
+      <div class="modal-section"><div class="modal-label">Professional Users</div><div class="modal-val mono">${c.profUsers||0}</div></div>
+      <div class="modal-section"><div class="modal-label">Non-Prof Users</div><div class="modal-val mono">${c.nonprofUsers||0}</div></div>
+      <div class="modal-section"><div class="modal-label">Machines</div><div class="modal-val mono">${c.machines||0}</div></div>
+      <div class="modal-section"><div class="modal-label">Auto-Renewal</div><div class="modal-val mono">${c.autoRenewal||'—'}</div></div>
+      <div class="modal-section"><div class="modal-label">Start Date</div><div class="modal-val mono">${c.startDate||'—'}</div></div>
+      <div class="modal-section"><div class="modal-label">Renewal Date</div><div class="modal-val mono">${c.renewalDate||'—'}</div></div>
+      <div class="modal-section"><div class="modal-label">Notice Period</div><div class="modal-val mono">${c.noticePeriod||'—'} days</div></div>
+      <div class="modal-section"><div class="modal-label">Notice Deadline</div><div class="modal-val mono">${noticeDL||'—'}</div></div>
+    </div>
+    ${c.notes ? `<hr class="modal-divider"><div class="modal-section"><div class="modal-label">Notes</div><div class="modal-val" style="font-size:13px;line-height:1.6;white-space:pre-wrap">${c.notes}</div></div>` : ''}
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalOverlay') || e.type === 'click' && !e.currentTarget) {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') document.getElementById('modalOverlay').classList.remove('open'); });
+
+// ── CFO REPORT ────────────────────────────────────────────────────────────
+async function generateReport() {
+  const btn = document.getElementById('reportBtn');
+  btn.disabled = true;
+  btn.querySelector('svg').style.opacity = '0.5';
+  const origText = btn.childNodes[1]?.nodeValue || btn.textContent;
+
+  try {
+    const res = await fetch('/.netlify/functions/generate-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contracts }),
+    });
+    const data = await res.json();
+    if (data.html) {
+      const win = window.open('', '_blank');
+      win.document.write(data.html);
+      win.document.close();
+    } else {
+      alert('Failed to generate report. Please try again.');
+    }
+  } catch {
+    alert('Failed to generate report. Please try again.');
+  }
+
+  btn.disabled = false;
+  btn.querySelector('svg').style.opacity = '1';
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────
+loadContracts();
+
+// Resize observer to redraw timeline on width change
+const ro = new ResizeObserver(() => renderTimeline());
+ro.observe(document.getElementById('timelineWrap'));
+</script>
+<script src="search-global.js"></script>
+<script src="chat-widget.js"></script>
+</body>
+</html>
