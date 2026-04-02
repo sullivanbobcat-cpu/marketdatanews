@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Data Fee Intelligence | Market Data News</title>
+<meta name="description" content="Interactive fee flow visualization and cost calculator for NYSE, Nasdaq, and Cboe market data products. Estimate your monthly and annual market data spend.">
+  <meta name="keywords" content="market data fees, market data fee calculator, NYSE fees, Nasdaq fees, Cboe fees, market data pricing, fee flow visualization, professional user fees, non-display fees">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Market Data News">
+  <link rel="canonical" href="https://marketdatanews.com/market-data-fees.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://marketdatanews.com/market-data-fees.html">
+  <meta property="og:title" content="Market Data Fee Intelligence | Market Data News">
+  <meta property="og:description" content="Interactive fee flow visualization and cost calculator for NYSE, Nasdaq, and Cboe market data products.">
+  <meta property="og:site_name" content="Market Data News">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Market Data Fee Intelligence | Market Data News">
+  <meta name="twitter:description" content="Interactive fee flow visualization and cost calculator for NYSE, Nasdaq, and Cboe market data products.">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+    --green: #2a7a50; --green-bg: #edf7f2; --green-border: #b0ddc5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; } .ticker-item .down { color: #ff4444; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: center; padding: 0 48px; border-bottom: 1px solid var(--rule); overflow: visible; flex-wrap: nowrap; white-space: nowrap; }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 8px 12px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-block; white-space: nowrap; }
+  .nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;padding-left:16px;}
+  .search-wrap{position:relative;display:flex;align-items:center;}
+  .search-box{background:transparent;border:1px solid var(--rule);padding:5px 12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink);border-radius:2px;width:180px;}
+  .search-box:focus{outline:none;border-color:var(--accent);}
+  .search-box::placeholder{color:var(--muted);}
+  .search-drop{position:absolute;top:calc(100% + 4px);right:0;width:380px;background:var(--ink);border:1px solid #333;z-index:1000;display:none;max-height:480px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+  .search-drop.open{display:block;}
+  .search-drop-group{font-family:"IBM Plex Mono",monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#555;padding:10px 14px 4px;border-top:1px solid #1a1a1a;}
+  .search-drop-group:first-child{border-top:none;}
+  .search-drop-item{display:flex;flex-direction:column;padding:10px 14px;cursor:pointer;border-bottom:1px solid #111;text-decoration:none;}
+  .search-drop-item:hover,.search-drop-item.active{background:#1a1a1a;}
+  .search-drop-title{font-family:"IBM Plex Mono",monospace;font-size:11px;color:#ccc;margin-bottom:3px;display:flex;align-items:center;gap:6px;}
+  .search-drop-item:hover .search-drop-title,.search-drop-item.active .search-drop-title{color:var(--accent);}
+  .search-drop-snippet{font-size:11px;color:#555;line-height:1.4;}
+  .search-drop-cat{font-family:"IBM Plex Mono",monospace;font-size:9px;padding:1px 5px;border-radius:1px;margin-left:auto;flex-shrink:0;}
+  .search-drop-cat.pages{background:#12263a;color:#5b9bd5;}
+  .search-drop-cat.feedwatch{background:#2a1500;color:#b8860b;}
+  .search-drop-cat.topics{background:#0d2b0d;color:#4a9a4a;}
+  .search-drop-footer{padding:10px 14px;border-top:1px solid #222;}
+  .search-drop-footer a{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--accent);text-decoration:none;}
+  .search-drop-footer a:hover{text-decoration:underline;}
+  .search-drop-empty{padding:16px 14px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:#444;}
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  /* FeedWatch Alert Bar */
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-stat:hover { background: rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num, .fw-alertbar-stat.critical .fw-alertbar-label { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num, .fw-alertbar-stat.high .fw-alertbar-label { color: #ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num, .fw-alertbar-stat.action .fw-alertbar-label { color: var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color: #888; } .fw-alertbar-stat.total .fw-alertbar-label { color: #555; }
+  .fw-alertbar-next { margin-left: auto; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #555; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
+  .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
+
+  /* Mobile nav */
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @media (max-width: 1200px) { .nav-comp { display: none; } }
+
+  @media (max-width: 900px) {
+    nav { display: none; } #mobileBar { display: flex !important; }
+    .masthead-top, .fw-alertbar { padding-left: 20px; padding-right: 20px; }
+    .masthead-top { flex-direction: column; gap: 10px; text-align: center; }
+    .tagline { text-align: center; }
+    .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
+  }
+
+  /* ── PAGE HERO ── */
+  .page-hero { background: var(--cream); border-bottom: 2px solid var(--ink); padding: 36px 48px 32px; }
+  .page-hero-inner { max-width: 1280px; margin: 0 auto; }
+  .page-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-dark); margin-bottom: 10px; }
+  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3.5vw, 42px); font-weight: 900; line-height: 1.15; margin-bottom: 12px; color: var(--ink); }
+  .page-hero h1 span { color: var(--accent); }
+  .page-hero-sub { font-size: 15px; line-height: 1.7; color: var(--muted); max-width: 720px; }
+
+  /* ── MAIN LAYOUT ── */
+  .page-container { max-width: 1280px; margin: 0 auto; padding: 0 48px 64px; }
+
+  /* ── SECTION HEADS ── */
+  .section-head { display: flex; align-items: center; gap: 16px; margin: 40px 0 20px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .section-head h2 { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink); white-space: nowrap; }
+  .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.1em; }
+  .section-line { flex: 1; height: 1px; background: var(--rule); }
+
+  /* ── FEE CALCULATOR ── */
+  .calc-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: var(--surface); border: 1px solid var(--border); }
+  .calc-inputs { padding: 32px 36px; border-right: 1px solid var(--border); }
+  .calc-output { padding: 32px 36px; background: var(--cream); }
+
+  .calc-field { margin-bottom: 22px; }
+  .calc-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); display: block; margin-bottom: 7px; }
+  .calc-select, .calc-number { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--ink); padding: 8px 12px; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; appearance: none; -webkit-appearance: none; border-radius: 0; }
+  .calc-select:focus, .calc-number:focus { outline: none; border-color: var(--accent); }
+  .calc-select-wrap { position: relative; }
+  .calc-select-wrap::after { content: '▾'; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--muted); pointer-events: none; }
+  .calc-number { -moz-appearance: textfield; }
+  .calc-number::-webkit-outer-spin-button, .calc-number::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .calc-number-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .calc-checkboxes { display: flex; flex-direction: column; gap: 8px; }
+  .calc-check-item { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .calc-check-item input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--accent); cursor: pointer; }
+  .calc-check-item span { font-size: 13px; color: var(--ink); }
+
+  /* Output panel */
+  .calc-out-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 6px; }
+  .calc-monthly { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 48px); font-weight: 900; color: var(--ink); line-height: 1; margin-bottom: 4px; }
+  .calc-monthly span { color: var(--accent); font-size: 0.55em; vertical-align: super; }
+  .calc-annual { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+  .calc-annual strong { color: var(--ink); }
+
+  .calc-breakdown-head { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 14px; border-top: 1px solid var(--rule); padding-top: 20px; }
+  .calc-bar-row { margin-bottom: 14px; }
+  .calc-bar-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
+  .calc-bar-name { font-size: 12px; color: var(--ink); font-weight: 500; }
+  .calc-bar-amount { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+  .calc-bar-track { height: 8px; background: var(--border); border-radius: 1px; overflow: hidden; }
+  .calc-bar-fill { height: 100%; background: var(--accent); border-radius: 1px; transition: width 0.3s ease; }
+  .calc-bar-fill.nyse { background: #b8860b; }
+  .calc-bar-fill.nasdaq { background: #7a5c08; }
+  .calc-bar-fill.cboe { background: #c4a040; }
+
+  .calc-disclaimer { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); line-height: 1.6; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--rule); }
+
+  .calc-zero-state { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); padding: 20px 0; text-align: center; border: 1px dashed var(--rule); }
+
+  /* ── FEE VISUALIZATION ── */
+  .fv-section { }
+  .fv-summary-row { display:flex; flex-wrap:wrap; gap:24px; padding:16px 20px; background:var(--cream); border:1px solid var(--border); margin-bottom:16px; }
+  .fv-summary-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:2px; }
+  .fv-summary-val { font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:700; color:var(--accent); }
+  .fv-summary-val.sm { font-size:16px; color:var(--ink); }
+  .fv-controls { display:flex; flex-wrap:wrap; gap:20px; align-items:flex-end; padding:14px 20px; background:var(--cream); border:1px solid var(--border); margin-bottom:16px; }
+  .fv-ctrl-group { display:flex; flex-direction:column; gap:4px; }
+  .fv-ctrl-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+  .fv-toggle { display:flex; border:1px solid var(--rule); overflow:hidden; border-radius:2px; }
+  .fv-toggle input[type=radio] { display:none; }
+  .fv-toggle label { padding:5px 14px; font-size:11px; font-family:'IBM Plex Mono',monospace; cursor:pointer; background:transparent; color:var(--ink); user-select:none; border-right:1px solid var(--rule); }
+  .fv-toggle label:last-child { border-right:none; }
+  .fv-toggle input:checked + label { background:var(--ink); color:var(--accent); }
+  .fv-ctrl-input { width:80px; padding:5px 10px; font-family:'IBM Plex Mono',monospace; font-size:12px; border:1px solid var(--rule); background:var(--paper); color:var(--ink); border-radius:2px; }
+  .fv-checkboxes { display:flex; flex-direction:column; gap:4px; }
+  .fv-check-item { display:flex; align-items:center; gap:6px; font-size:11px; cursor:pointer; }
+  .fv-view-tabs { display:flex; border-bottom:2px solid var(--rule); margin-bottom:16px; }
+  .fv-tab { padding:8px 20px; font-size:10px; font-family:'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:0.08em; cursor:pointer; border:none; background:none; color:var(--muted); border-bottom:3px solid transparent; margin-bottom:-2px; }
+  .fv-tab.active { color:var(--ink); border-bottom-color:var(--accent); font-weight:600; }
+  .fv-view { display:none; }
+  .fv-view.active { display:block; }
+  .fv-chart-area { position:relative; min-height:400px; }
+  .fv-chart-area svg { display:block; width:100%; }
+  .fv-legend { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
+  .fv-legend-item { display:flex; align-items:center; gap:5px; font-size:10px; font-family:'IBM Plex Mono',monospace; color:var(--ink); }
+  .fv-legend-dot { width:10px; height:10px; border-radius:1px; flex-shrink:0; }
+  .fv-tooltip { display:none; position:absolute; background:var(--ink); border:1px solid #333; padding:8px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#e8e8e8; pointer-events:none; border-radius:2px; z-index:100; white-space:nowrap; line-height:1.6; }
+  .fv-tooltip strong { color:var(--accent); display:block; margin-bottom:2px; }
+  .fv-tbl { width:100%; border-collapse:collapse; font-size:12px; }
+  .fv-tbl th { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; padding:8px 12px; text-align:left; border-bottom:2px solid var(--rule); cursor:pointer; user-select:none; white-space:nowrap; background:var(--cream); }
+  .fv-tbl th:hover { color:var(--accent); }
+  .fv-tbl td { padding:8px 12px; border-bottom:1px solid var(--border); }
+  .fv-tbl tr:nth-child(even) td { background:var(--paper); }
+  .fv-tbl tr:nth-child(odd) td { background:#fff; }
+  .fv-tbl tr:hover td { background:var(--cream); }
+  .fv-disclaimer { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-top:16px; padding-top:12px; border-top:1px solid var(--border); line-height:1.6; }
+
+  @media (max-width: 900px) {
+    .page-hero, .page-container { padding-left: 20px; padding-right: 20px; }
+    .fv-controls { gap: 12px; }
+    .fv-view-tabs .fv-tab:nth-child(2) { display: none; }
+    #fv-view-sankey { display: none !important; }
+    .calc-layout { grid-template-columns: 1fr; }
+    .calc-inputs { border-right: none; border-bottom: 1px solid var(--border); }
+    .calc-number-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    footer { padding: 32px 20px; }
+  }
+  @media (max-width: 600px) {
+    .calc-number-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+</div></div>
+
+<!-- FeedWatch Alert Bar -->
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
+      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
+    </div>
+    <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="index.html" class="nav-item">All News</a>
+    <a href="calendar.html" class="nav-item">FeedWatch</a>
+    <a href="exchanges.html" class="nav-item">Exchanges</a>
+    <a href="regulation.html" class="nav-item">Regulation</a>
+    <a href="nms.html" class="nav-item">NMS / SIP</a>
+    <a href="feed-status.html" class="nav-item">Feed Status</a>
+    <a href="market-data-fees.html" class="nav-item active">Fees</a>
+    <a href="prediction-markets.html" class="nav-item">Prediction Markets</a>
+    <a href="about.html" class="nav-item">About</a>
+    <a href="compensation.html" class="nav-item nav-comp">Compensation</a>
+    <a href="subscribe.html" class="nav-item">Subscribe</a>
+    <div class="nav-right">
+      <div class="search-wrap" id="searchWrap">
+        <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
+        <div class="search-drop" id="searchDrop"></div>
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">All News</a>
+  <a href="calendar.html">FeedWatch</a>
+  <a href="exchanges.html">Exchanges</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="nms.html">NMS / SIP</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="market-data-fees.html" class="active">Fees</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <a href="about.html">About</a>
+  <a href="compensation.html">Compensation</a>
+  <a href="subscribe.html">Subscribe</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-label">Pricing &amp; Cost Intelligence</div>
+    <h1>Market Data <span>Fee Intelligence</span></h1>
+    <div class="page-hero-sub">Interactive fee flow visualization and cost calculator for NYSE, Nasdaq, and Cboe market data products. Estimate your monthly and annual market data spend.</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="page-container">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 1 — FEE FLOW VISUALIZATION -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">01 —</span>
+    <h2>Fee Flow Visualization</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="fv-section">
+
+    <!-- Summary Row -->
+    <div class="fv-summary-row">
+      <div class="fv-summary-item">
+        <div class="fv-summary-label">Total Monthly</div>
+        <div class="fv-summary-val" id="fv-monthly">$0</div>
+      </div>
+      <div class="fv-summary-item">
+        <div class="fv-summary-label">Total Annual</div>
+        <div class="fv-summary-val sm" id="fv-annual">$0</div>
+      </div>
+      <div class="fv-summary-item">
+        <div class="fv-summary-label">Exchanges Selected</div>
+        <div class="fv-summary-val sm" id="fv-exch-count">3</div>
+      </div>
+      <div class="fv-summary-item">
+        <div class="fv-summary-label">Fee Types</div>
+        <div class="fv-summary-val sm" id="fv-fee-count">5</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="fv-controls">
+      <div class="fv-ctrl-group">
+        <div class="fv-ctrl-label">Access Type</div>
+        <div class="fv-toggle">
+          <input type="radio" name="fv-access" id="fv-access-indirect" value="indirect" checked onchange="fvUpdate()">
+          <label for="fv-access-indirect">Indirect</label>
+          <input type="radio" name="fv-access" id="fv-access-direct" value="direct" onchange="fvUpdate()">
+          <label for="fv-access-direct">Direct</label>
+        </div>
+      </div>
+      <div class="fv-ctrl-group">
+        <label class="fv-ctrl-label" for="fv-prof">Professional Users</label>
+        <input class="fv-ctrl-input" type="number" id="fv-prof" value="1" min="0" oninput="fvUpdate()">
+      </div>
+      <div class="fv-ctrl-group">
+        <label class="fv-ctrl-label" for="fv-machines">Machines</label>
+        <input class="fv-ctrl-input" type="number" id="fv-machines" value="1" min="0" oninput="fvUpdate()">
+      </div>
+      <div class="fv-ctrl-group">
+        <div class="fv-ctrl-label">Exchange Families</div>
+        <div class="fv-checkboxes">
+          <label class="fv-check-item"><input type="checkbox" id="fv-chk-nyse" checked onchange="fvUpdate()"> NYSE Family</label>
+          <label class="fv-check-item"><input type="checkbox" id="fv-chk-nasdaq" checked onchange="fvUpdate()"> Nasdaq Family</label>
+          <label class="fv-check-item"><input type="checkbox" id="fv-chk-cboe" checked onchange="fvUpdate()"> Cboe Family</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Tabs -->
+    <div class="fv-view-tabs">
+      <button class="fv-tab active" onclick="fvSwitchView('bar',this)">Stacked Bar</button>
+      <button class="fv-tab" onclick="fvSwitchView('sankey',this)">Sankey Flow</button>
+      <button class="fv-tab" onclick="fvSwitchView('table',this)">Table View</button>
+    </div>
+
+    <!-- Stacked Bar View -->
+    <div class="fv-view active fv-chart-area" id="fv-view-bar">
+      <div class="fv-legend" id="fv-legend"></div>
+      <svg id="fv-bar-svg"></svg>
+    </div>
+
+    <!-- Sankey View -->
+    <div class="fv-view fv-chart-area" id="fv-view-sankey" style="position:relative">
+      <div class="fv-tooltip" id="fv-tooltip"></div>
+      <svg id="fv-sankey-svg"></svg>
+    </div>
+
+    <!-- Table View -->
+    <div class="fv-view" id="fv-view-table">
+      <table class="fv-tbl" id="fv-tbl">
+        <thead>
+          <tr>
+            <th onclick="fvSortTable(0,this)">Exchange Family <span class="fv-sort-arrow"></span></th>
+            <th onclick="fvSortTable(1,this)">Exchange <span class="fv-sort-arrow"></span></th>
+            <th onclick="fvSortTable(2,this)">Fee Type <span class="fv-sort-arrow"></span></th>
+            <th onclick="fvSortTable(3,this)" style="text-align:right">Monthly Est. <span class="fv-sort-arrow"> ↓</span></th>
+            <th onclick="fvSortTable(4,this)" style="text-align:right">Annual Est. <span class="fv-sort-arrow"></span></th>
+          </tr>
+        </thead>
+        <tbody id="fv-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="fv-disclaimer">Fee estimates are based on published exchange fee schedules. Enterprise options and volume discounts not included. Consult exchange fee schedules for precise billing.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 2 — MARKET DATA FEE CALCULATOR -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">02 —</span>
+    <h2>Market Data Fee Calculator</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="calc-layout">
+    <div class="calc-inputs">
+
+      <div class="calc-field">
+        <label class="calc-label" for="accessType">Access Type</label>
+        <div class="calc-select-wrap">
+          <select class="calc-select" id="accessType" onchange="recalc()">
+            <option value="indirect">Indirect Access</option>
+            <option value="direct">Direct Access</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="calc-field">
+        <label class="calc-label">Users &amp; Machines</label>
+        <div class="calc-number-row">
+          <div>
+            <label class="calc-label" for="profUsers" style="margin-bottom:4px;font-size:9px;">Professional</label>
+            <input class="calc-number" type="number" id="profUsers" value="0" min="0" oninput="recalc()">
+          </div>
+          <div>
+            <label class="calc-label" for="nonprofUsers" style="margin-bottom:4px;font-size:9px;">Non-Prof.</label>
+            <input class="calc-number" type="number" id="nonprofUsers" value="0" min="0" oninput="recalc()">
+          </div>
+          <div>
+            <label class="calc-label" for="machines" style="margin-bottom:4px;font-size:9px;">Machines</label>
+            <input class="calc-number" type="number" id="machines" value="0" min="0" oninput="recalc()">
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-field">
+        <label class="calc-label">Exchange Family</label>
+        <div class="calc-checkboxes">
+          <label class="calc-check-item">
+            <input type="checkbox" id="chkNYSE" onchange="recalc()" checked>
+            <span>NYSE Family (NYSE, Arca, American, National, Texas)</span>
+          </label>
+          <label class="calc-check-item">
+            <input type="checkbox" id="chkNasdaq" onchange="recalc()" checked>
+            <span>Nasdaq Family (Nasdaq, BX, PSX)</span>
+          </label>
+          <label class="calc-check-item">
+            <input type="checkbox" id="chkCboe" onchange="recalc()">
+            <span>Cboe Family (BZX, BYX, EDGX, EDGA)</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="calc-field" style="margin-bottom:0;">
+        <label class="calc-label" for="useCase">Use Case</label>
+        <div class="calc-select-wrap">
+          <select class="calc-select" id="useCase" onchange="recalc()">
+            <option value="display">Display Only</option>
+            <option value="trading">Trading</option>
+            <option value="risk">Risk Management</option>
+            <option value="all">All Uses</option>
+          </select>
+        </div>
+      </div>
+
+    </div><!-- end calc-inputs -->
+
+    <div class="calc-output">
+      <div class="calc-out-label">Estimated Monthly Fee</div>
+      <div class="calc-monthly" id="outMonthly"><span>$</span>0</div>
+      <div class="calc-annual" id="outAnnual">Annual estimate: <strong>$0</strong></div>
+
+      <div id="breakdownSection">
+        <div class="calc-breakdown-head">Breakdown by Exchange Family</div>
+        <div id="barNYSE" class="calc-bar-row" style="display:none">
+          <div class="calc-bar-label">
+            <span class="calc-bar-name">NYSE Family</span>
+            <span class="calc-bar-amount" id="amtNYSE">$0</span>
+          </div>
+          <div class="calc-bar-track"><div class="calc-bar-fill nyse" id="fillNYSE" style="width:0%"></div></div>
+        </div>
+        <div id="barNasdaq" class="calc-bar-row" style="display:none">
+          <div class="calc-bar-label">
+            <span class="calc-bar-name">Nasdaq Family</span>
+            <span class="calc-bar-amount" id="amtNasdaq">$0</span>
+          </div>
+          <div class="calc-bar-track"><div class="calc-bar-fill nasdaq" id="fillNasdaq" style="width:0%"></div></div>
+        </div>
+        <div id="barCboe" class="calc-bar-row" style="display:none">
+          <div class="calc-bar-label">
+            <span class="calc-bar-name">Cboe Family</span>
+            <span class="calc-bar-amount" id="amtCboe">$0</span>
+          </div>
+          <div class="calc-bar-track"><div class="calc-bar-fill cboe" id="fillCboe" style="width:0%"></div></div>
+        </div>
+        <div id="zeroState" class="calc-zero-state">Select exchange families and enter user counts to see estimates.</div>
+      </div>
+
+      <div class="calc-disclaimer">
+        Estimates based on published fee schedules as of Q1 2026. Actual fees vary by contract type, display vs. non-display, entitlement level, and vendor agreements. Does not include platform fees, connectivity charges, or co-location costs. Consult your exchange representative for binding quotes.
+      </div>
+    </div><!-- end calc-output -->
+  </div><!-- end calc-layout -->
+
+</div><!-- end page-container -->
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="exchanges.html">Exchanges</a>
+      <a href="regulation.html">Regulation</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+      <a href="market-data-fees.html">Market Data Fees</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>FeedWatch</h4>
+      <a href="calendar.html">All Entries</a>
+      <a href="calendar.html?filter=action">Action Required</a>
+      <a href="calendar.html?filter=critical">Critical Alerts</a>
+      <a href="calendar.html?filter=high">High Impact</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="subscribe.html">Subscribe</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+// ── DATE / TIMESTAMPS ──────────────────────────────────────────────────────
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('dateLine').textContent =
+  days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+
+// ── MOBILE NAV ─────────────────────────────────────────────────────────────
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+
+// ── FEE CALCULATOR ─────────────────────────────────────────────────────────
+const RATES = {
+  NYSE:   { prof: 21,   machine: 1500, directMult: 1.40 },
+  Nasdaq: { prof: 24,   machine: 1750, directMult: 1.35 },
+  Cboe:   { prof: 18,   machine: 1200, directMult: 1.30 }
+};
+const NONPROF_RATIO = 0.10;
+const USE_MULT = { display: 1.0, trading: 1.25, risk: 1.15, all: 1.40 };
+
+function fmt(n) {
+  if (n === 0) return '$0';
+  if (n >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
+  if (n >= 1000) return '$' + n.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+  return '$' + n.toFixed(0);
+}
+
+function recalc() {
+  const direct   = document.getElementById('accessType').value === 'direct';
+  const profU    = Math.max(0, parseInt(document.getElementById('profUsers').value) || 0);
+  const nonprofU = Math.max(0, parseInt(document.getElementById('nonprofUsers').value) || 0);
+  const mach     = Math.max(0, parseInt(document.getElementById('machines').value) || 0);
+  const useCase  = document.getElementById('useCase').value;
+  const useMult  = USE_MULT[useCase];
+
+  const sel = {
+    NYSE:   document.getElementById('chkNYSE').checked,
+    Nasdaq: document.getElementById('chkNasdaq').checked,
+    Cboe:   document.getElementById('chkCboe').checked
+  };
+
+  const amounts = {};
+  let total = 0;
+
+  ['NYSE','Nasdaq','Cboe'].forEach(fam => {
+    if (!sel[fam]) { amounts[fam] = 0; return; }
+    const r = RATES[fam];
+    let base = profU * r.prof + nonprofU * r.prof * NONPROF_RATIO + mach * r.machine;
+    if (direct) base *= r.directMult;
+    base *= useMult;
+    amounts[fam] = Math.round(base);
+    total += amounts[fam];
+  });
+
+  // Update main display
+  document.getElementById('outMonthly').innerHTML = '<span>$</span>' + total.toLocaleString('en-US');
+  document.getElementById('outAnnual').innerHTML = 'Annual estimate: <strong>' + fmt(total * 12) + '</strong>';
+
+  // Update bars
+  const maxAmt = Math.max(...Object.values(amounts), 1);
+  const anySelected = sel.NYSE || sel.Nasdaq || sel.Cboe;
+
+  document.getElementById('zeroState').style.display = (anySelected && total > 0) ? 'none' : 'block';
+  if (!anySelected || total === 0) {
+    document.getElementById('zeroState').textContent = anySelected
+      ? 'Enter user counts or machines to see estimates.'
+      : 'Select at least one exchange family to see estimates.';
+  }
+
+  ['NYSE','Nasdaq','Cboe'].forEach(fam => {
+    const barRow = document.getElementById('bar' + fam);
+    const fillEl = document.getElementById('fill' + fam);
+    const amtEl  = document.getElementById('amt' + fam);
+    const show   = sel[fam];
+    barRow.style.display = show ? 'block' : 'none';
+    if (show) {
+      amtEl.textContent = fmt(amounts[fam]);
+      fillEl.style.width = (amounts[fam] / maxAmt * 100).toFixed(1) + '%';
+    }
+  });
+
+}
+
+// ── FEE VISUALIZATION ─────────────────────────────────────────────────────
+
+const FV_RATES = {
+  NYSE: {
+    prof: 21, machine: 1500, directMult: 1.4, dist: 500, color: '#b8860b',
+    exchanges: { 'NYSE': 0.30, 'NYSE Arca': 0.25, 'NYSE American': 0.25, 'NYSE (Other)': 0.20 }
+  },
+  Nasdaq: {
+    prof: 24, machine: 1750, directMult: 1.35, dist: 450, color: '#1565C0',
+    exchanges: { 'Nasdaq': 0.45, 'BX': 0.25, 'PSX': 0.20, 'Nasdaq (Other)': 0.10 }
+  },
+  Cboe: {
+    prof: 18, machine: 1200, directMult: 1.30, dist: 400, color: '#2E7D32',
+    exchanges: { 'BZX': 0.20, 'EDGX': 0.20, 'EDGA': 0.15, 'BYX': 0.15, 'Cboe (Other)': 0.30 }
+  }
+};
+
+const FV_FEE_COLORS = {
+  'User Fees':         '#4CAF50',
+  'Non-Display Fees':  '#E91E63',
+  'Distribution Fees': '#2196F3',
+  'Flat Fees':         '#FF9800',
+  'Other Fees':        '#9C27B0'
+};
+const FV_FEE_TYPES = Object.keys(FV_FEE_COLORS);
+
+let fvCurrentView = 'bar';
+let fvLastData = null;
+let fvSortColIdx = 3;
+let fvSortAscending = false;
+
+function fvFmt(n) {
+  if (!n || n === 0) return '$0';
+  if (n >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
+  if (n >= 1000) return '$' + Math.round(n).toLocaleString();
+  return '$' + Math.round(n);
+}
+
+function fvCalc() {
+  const isDirect = document.getElementById('fv-access-direct').checked;
+  const prof     = Math.max(0, parseInt(document.getElementById('fv-prof').value)     || 0);
+  const machines = Math.max(0, parseInt(document.getElementById('fv-machines').value) || 0);
+  const sel = {
+    NYSE:   document.getElementById('fv-chk-nyse').checked,
+    Nasdaq: document.getElementById('fv-chk-nasdaq').checked,
+    Cboe:   document.getElementById('fv-chk-cboe').checked
+  };
+
+  const families = Object.keys(FV_RATES).filter(f => sel[f]);
+  const byFamilyFeeType = {}; // fam -> { feeType -> amount }
+  const famTotals = {};
+  const feeTotals = {};
+  const tableRows = [];
+  FV_FEE_TYPES.forEach(ft => { feeTotals[ft] = 0; });
+  let grandTotal = 0;
+
+  families.forEach(fam => {
+    const r = FV_RATES[fam];
+    const mult = isDirect ? r.directMult : 1;
+    const userFees   = prof     * r.prof    * mult;
+    const nonDisplay = machines * r.machine * mult;
+    const distFees   = r.dist;
+    const flatFees   = (userFees + nonDisplay) * 0.06 + 50;
+    const otherFees  = (userFees + nonDisplay) * 0.03;
+    const famTotal   = userFees + nonDisplay + distFees + flatFees + otherFees;
+
+    const feeBreakdown = {
+      'User Fees':         userFees,
+      'Non-Display Fees':  nonDisplay,
+      'Distribution Fees': distFees,
+      'Flat Fees':         flatFees,
+      'Other Fees':        otherFees
+    };
+
+    byFamilyFeeType[fam] = feeBreakdown;
+    famTotals[fam] = famTotal;
+    grandTotal += famTotal;
+    FV_FEE_TYPES.forEach(ft => { feeTotals[ft] += feeBreakdown[ft]; });
+
+    Object.entries(r.exchanges).forEach(([exch, weight]) => {
+      FV_FEE_TYPES.forEach(ft => {
+        const monthly = feeBreakdown[ft] * weight;
+        tableRows.push({
+          family: fam + ' Family', famKey: fam,
+          exchange: exch, feeType: ft,
+          monthly, annual: monthly * 12,
+          famColor: r.color
+        });
+      });
+    });
+  });
+
+  return { families, byFamilyFeeType, famTotals, feeTotals, tableRows, grandTotal, sel };
+}
+
+function fvUpdate() {
+  const data = fvCalc();
+  fvLastData = data;
+
+  document.getElementById('fv-monthly').textContent    = fvFmt(data.grandTotal);
+  document.getElementById('fv-annual').textContent     = fvFmt(data.grandTotal * 12);
+  document.getElementById('fv-exch-count').textContent = data.families.length;
+  document.getElementById('fv-fee-count').textContent  = FV_FEE_TYPES.length;
+
+  if (fvCurrentView === 'bar')    fvRenderBar(data);
+  else if (fvCurrentView === 'sankey') fvRenderSankey(data);
+  else fvRenderTable(data);
+}
+
+function fvSwitchView(view, btn) {
+  fvCurrentView = view;
+  document.querySelectorAll('.fv-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.fv-view').forEach(v => v.classList.remove('active'));
+  document.getElementById('fv-view-' + view).classList.add('active');
+  if (fvLastData) {
+    if (view === 'bar')    fvRenderBar(fvLastData);
+    else if (view === 'sankey') fvRenderSankey(fvLastData);
+    else fvRenderTable(fvLastData);
+  }
+}
+
+// ── STACKED BAR CHART ──────────────────────────────────────────────────────
+
+function fvRenderBar(data) {
+  const { families, byFamilyFeeType, famTotals } = data;
+  const svgEl = document.getElementById('fv-bar-svg');
+  const legendEl = document.getElementById('fv-legend');
+
+  // Legend
+  legendEl.innerHTML = FV_FEE_TYPES.map(ft =>
+    '<div class="fv-legend-item">' +
+    '<div class="fv-legend-dot" style="background:' + FV_FEE_COLORS[ft] + '"></div>' + ft + '</div>'
+  ).join('');
+
+  if (!families.length) {
+    d3.select(svgEl).selectAll('*').remove();
+    return;
+  }
+
+  const container = svgEl.parentElement;
+  const W = Math.max(container.clientWidth - 4, 320);
+  const rowH = 54;
+  const margin = { top: 8, bottom: 28, left: 115, right: 100 };
+  const H = margin.top + families.length * rowH + margin.bottom;
+  const innerW = W - margin.left - margin.right;
+
+  const maxVal = Math.max(...families.map(f => famTotals[f]), 1);
+  const xScale = d3.scaleLinear().domain([0, maxVal]).range([0, innerW]);
+
+  const svg = d3.select(svgEl)
+    .attr('width', W).attr('height', H)
+    .attr('viewBox', '0 0 ' + W + ' ' + H);
+  svg.selectAll('*').remove();
+
+  // X-axis grid + labels
+  const g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+  g.append('g')
+    .attr('transform', 'translate(0,' + (families.length * rowH) + ')')
+    .call(d3.axisBottom(xScale).ticks(4).tickFormat(d => fvFmt(d)))
+    .call(ax => { ax.select('.domain').attr('stroke', '#d4c9b0'); ax.selectAll('line').attr('stroke', '#d4c9b0'); })
+    .call(ax => ax.selectAll('text').style('font-family', "'IBM Plex Mono',monospace").style('font-size', '9px').attr('fill', '#6b6555'));
+
+  // Grid lines
+  xScale.ticks(4).forEach(tick => {
+    g.append('line')
+      .attr('x1', xScale(tick)).attr('x2', xScale(tick))
+      .attr('y1', 0).attr('y2', families.length * rowH)
+      .attr('stroke', '#e8e0d0').attr('stroke-width', 1).attr('stroke-dasharray', '3,3');
+  });
+
+  // Bars per family
+  families.forEach(function(fam, i) {
+    const rowG = g.append('g').attr('transform', 'translate(0,' + (i * rowH + 4) + ')');
+    const barH = rowH - 14;
+
+    // Family label
+    rowG.append('text')
+      .attr('x', -8).attr('y', barH / 2)
+      .attr('dy', '0.35em').attr('text-anchor', 'end')
+      .attr('fill', FV_RATES[fam].color)
+      .style('font-family', "'IBM Plex Sans',sans-serif")
+      .style('font-size', '11px').style('font-weight', '600')
+      .text(fam + ' Family');
+
+    let xPos = 0;
+    FV_FEE_TYPES.forEach(function(ft) {
+      const val = byFamilyFeeType[fam][ft] || 0;
+      const barW = xScale(val);
+      if (barW <= 0) return;
+      const rect = rowG.append('rect')
+        .attr('x', xPos).attr('y', 0)
+        .attr('width', 0).attr('height', barH)
+        .attr('fill', FV_FEE_COLORS[ft]);
+      rect.transition().duration(600).ease(d3.easeCubicOut).attr('width', barW);
+      xPos += barW;
+    });
+
+    // Total label at end of bar
+    const total = famTotals[fam];
+    const endX = xScale(total);
+    rowG.append('text')
+      .attr('x', endX + 6).attr('y', barH / 2)
+      .attr('dy', '0.35em').attr('fill', '#0d0d0d')
+      .style('font-family', "'IBM Plex Mono',monospace")
+      .style('font-size', '10px').style('font-weight', '600')
+      .attr('opacity', 0)
+      .transition().delay(600).duration(200)
+      .attr('opacity', 1)
+      .text(fvFmt(total) + '/mo');
+  });
+}
+
+// ── SANKEY FLOW CHART ──────────────────────────────────────────────────────
+
+function fvRenderSankey(data) {
+  const { families, byFamilyFeeType, feeTotals } = data;
+  const svgEl = document.getElementById('fv-sankey-svg');
+
+  if (!families.length) { d3.select(svgEl).selectAll('*').remove(); return; }
+
+  // Build nodes list
+  const nodes = [];
+  const famNodeIdx = {};
+  families.forEach(function(fam) {
+    famNodeIdx[fam] = nodes.length;
+    nodes.push({ name: fam + ' Family', col: 0, color: FV_RATES[fam].color });
+  });
+
+  const feeNodeIdx = {};
+  const activeFeeTypes = FV_FEE_TYPES.filter(ft => feeTotals[ft] > 0);
+  activeFeeTypes.forEach(function(ft) {
+    feeNodeIdx[ft] = nodes.length;
+    nodes.push({ name: ft, col: 1, color: FV_FEE_COLORS[ft] });
+  });
+
+  const rightNodeIdx = {};
+  const rightNodes = [
+    { name: 'Professional Users', color: '#6c3483' },
+    { name: 'Machines',           color: '#1565C0' },
+    { name: 'Platform / Other',   color: '#455A64' }
+  ];
+  rightNodes.forEach(function(rn) {
+    rightNodeIdx[rn.name] = nodes.length;
+    nodes.push({ name: rn.name, col: 2, color: rn.color });
+  });
+
+  const links = [];
+
+  // Family → Fee Type
+  families.forEach(function(fam) {
+    activeFeeTypes.forEach(function(ft) {
+      const val = byFamilyFeeType[fam][ft] || 0;
+      if (val > 0) links.push({ source: famNodeIdx[fam], target: feeNodeIdx[ft], value: val });
+    });
+  });
+
+  // Fee Type → Right column
+  function addLink(ft, rightName, fraction) {
+    if (feeNodeIdx[ft] === undefined || feeTotals[ft] <= 0) return;
+    const val = feeTotals[ft] * fraction;
+    if (val > 0) links.push({ source: feeNodeIdx[ft], target: rightNodeIdx[rightName], value: val });
+  }
+  addLink('User Fees',         'Professional Users', 1.0);
+  addLink('Non-Display Fees',  'Machines',           1.0);
+  addLink('Distribution Fees', 'Professional Users', 0.5);
+  addLink('Distribution Fees', 'Machines',           0.5);
+  addLink('Flat Fees',         'Platform / Other',   1.0);
+  addLink('Other Fees',        'Platform / Other',   1.0);
+
+  const container = document.getElementById('fv-view-sankey');
+  const W = Math.max(container.clientWidth - 4, 500);
+  const H = 380;
+
+  const svg = d3.select(svgEl).attr('width', W).attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H);
+  svg.selectAll('*').remove();
+  svg.append('rect').attr('width', W).attr('height', H).attr('fill', '#f5f2eb');
+
+  let sData;
+  try {
+    sData = d3.sankey()
+      .nodeId(function(d, i) { return i; })
+      .nodeWidth(14).nodePadding(12)
+      .extent([[80, 24], [W - 80, H - 16]])({ nodes: nodes.map(d => Object.assign({}, d)), links: links.map(d => Object.assign({}, d)) });
+  } catch(e) { return; }
+
+  const tooltip = document.getElementById('fv-tooltip');
+  let pinnedKey = null;
+  const linkKey = function(d) { return d.source.index + '-' + d.target.index; };
+  const DEF_OPACITY = 0.45;
+
+  const linkPath = d3.sankeyLinkHorizontal();
+  const linkSel = svg.append('g').selectAll('path').data(sData.links).join('path')
+    .attr('d', linkPath)
+    .attr('fill', 'none')
+    .attr('stroke', function(d) { return d.source.color; })
+    .attr('stroke-width', function(d) { return Math.max(1, d.width); })
+    .attr('opacity', DEF_OPACITY)
+    .style('cursor', 'pointer')
+    .on('mouseenter', function(event, d) {
+      if (pinnedKey) return;
+      linkSel.attr('opacity', function(l) { return linkKey(l) === linkKey(d) ? 1 : 0.1; });
+      tooltip.innerHTML = '<strong>' + d.source.name + ' → ' + d.target.name + '</strong>' + fvFmt(d.value) + '/mo';
+      tooltip.style.display = 'block';
+    })
+    .on('mousemove', function(event) {
+      if (pinnedKey) return;
+      const rect = container.getBoundingClientRect();
+      tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
+      tooltip.style.top  = (event.clientY - rect.top - 40) + 'px';
+    })
+    .on('mouseleave', function() {
+      if (pinnedKey) return;
+      linkSel.attr('opacity', DEF_OPACITY);
+      tooltip.style.display = 'none';
+    })
+    .on('click', function(event, d) {
+      const key = linkKey(d);
+      if (pinnedKey === key) {
+        pinnedKey = null;
+        linkSel.transition().duration(200).attr('opacity', DEF_OPACITY);
+        tooltip.style.display = 'none';
+      } else {
+        pinnedKey = key;
+        linkSel.transition().duration(200).attr('opacity', function(l) { return linkKey(l) === key ? 1 : 0.1; });
+        tooltip.innerHTML = '<strong>' + d.source.name + ' → ' + d.target.name + '</strong>' + fvFmt(d.value) + '/mo' +
+          '<span style="display:block;font-size:9px;color:#888;margin-top:2px">click to unpin</span>';
+        tooltip.style.display = 'block';
+        const rect = container.getBoundingClientRect();
+        tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
+        tooltip.style.top  = (event.clientY - rect.top - 40) + 'px';
+      }
+    });
+
+  const nodeG = svg.append('g').selectAll('g').data(sData.nodes).join('g');
+
+  nodeG.append('rect')
+    .attr('x', function(d) { return d.x0; }).attr('y', function(d) { return d.y0; })
+    .attr('width', function(d) { return d.x1 - d.x0; })
+    .attr('height', function(d) { return Math.max(1, d.y1 - d.y0); })
+    .attr('fill', function(d) { return d.color; }).attr('rx', 1)
+    .style('cursor', 'pointer')
+    .on('mouseenter', function(event, d) {
+      if (pinnedKey) return;
+      const idx = d.index;
+      linkSel.transition().duration(150).attr('opacity', function(l) {
+        return (l.source.index === idx || l.target.index === idx) ? 0.9 : 0.08;
+      });
+      tooltip.innerHTML = '<strong>' + d.name + '</strong>' + fvFmt(d.value) + '/mo';
+      tooltip.style.display = 'block';
+    })
+    .on('mousemove', function(event) {
+      if (pinnedKey) return;
+      const rect = container.getBoundingClientRect();
+      tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
+      tooltip.style.top  = (event.clientY - rect.top - 40) + 'px';
+    })
+    .on('mouseleave', function() {
+      if (pinnedKey) return;
+      linkSel.transition().duration(150).attr('opacity', DEF_OPACITY);
+      tooltip.style.display = 'none';
+    })
+    .on('click', function(event, d) {
+      if (pinnedKey && pinnedKey.startsWith('node')) {
+        pinnedKey = null;
+        linkSel.transition().duration(200).attr('opacity', DEF_OPACITY);
+        tooltip.style.display = 'none';
+      } else {
+        const idx = d.index;
+        pinnedKey = 'node-' + idx;
+        linkSel.transition().duration(200).attr('opacity', function(l) {
+          return (l.source.index === idx || l.target.index === idx) ? 0.9 : 0.08;
+        });
+      }
+    });
+
+  // Node labels
+  nodeG.append('text')
+    .attr('x', function(d) { return d.col === 2 ? d.x1 + 8 : d.col === 0 ? d.x0 - 8 : (d.x0 + d.x1) / 2; })
+    .attr('y', function(d) { return (d.y0 + d.y1) / 2; })
+    .attr('dy', '0.35em')
+    .attr('text-anchor', function(d) { return d.col === 2 ? 'start' : d.col === 0 ? 'end' : 'middle'; })
+    .attr('fill', '#0d0d0d')
+    .style('font-family', "'IBM Plex Mono',monospace").style('font-size', '10px')
+    .text(function(d) { return d.name; });
+
+  // Column header labels
+  [['Exchange Families', 72, 'end'], ['Fee Types', W / 2, 'middle'], ['Client Types', W - 72, 'start']].forEach(function(h) {
+    svg.append('text').attr('x', h[1]).attr('y', 14).attr('text-anchor', h[2])
+      .attr('fill', '#6b6555').style('font-family', "'IBM Plex Mono',monospace")
+      .style('font-size', '9px').style('text-transform', 'uppercase').style('letter-spacing', '0.1em')
+      .text(h[0]);
+  });
+}
+
+// ── TABLE VIEW ────────────────────────────────────────────────────────────
+
+function fvRenderTable(data) {
+  const rows = data.tableRows;
+  const cols = ['family', 'exchange', 'feeType', 'monthly', 'annual'];
+  const sorted = rows.slice().sort(function(a, b) {
+    const va = a[cols[fvSortColIdx]], vb = b[cols[fvSortColIdx]];
+    if (typeof va === 'string') return fvSortAscending ? va.localeCompare(vb) : vb.localeCompare(va);
+    return fvSortAscending ? va - vb : vb - va;
+  });
+
+  document.getElementById('fv-tbody').innerHTML = sorted.map(function(r) {
+    return '<tr>' +
+      '<td style="color:' + r.famColor + ';font-weight:600">' + r.family + '</td>' +
+      '<td>' + r.exchange + '</td>' +
+      '<td><span style="display:inline-block;width:8px;height:8px;background:' + FV_FEE_COLORS[r.feeType] + ';border-radius:1px;margin-right:5px;vertical-align:middle"></span>' + r.feeType + '</td>' +
+      '<td style="font-family:\'IBM Plex Mono\',monospace;text-align:right">' + fvFmt(r.monthly) + '</td>' +
+      '<td style="font-family:\'IBM Plex Mono\',monospace;text-align:right">' + fvFmt(r.annual) + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+function fvSortTable(colIdx, th) {
+  if (fvSortColIdx === colIdx) { fvSortAscending = !fvSortAscending; }
+  else { fvSortColIdx = colIdx; fvSortAscending = colIdx < 3; }
+  document.querySelectorAll('#fv-tbl th .fv-sort-arrow').forEach(function(el, i) {
+    el.textContent = i === colIdx ? (fvSortAscending ? ' ↑' : ' ↓') : '';
+  });
+  if (fvLastData) fvRenderTable(fvLastData);
+}
+
+// Init — wait for full page load so D3 and layout are ready
+window.addEventListener('load', function() {
+  fvUpdate();
+  recalc();
+});
+
+window.addEventListener('resize', function() {
+  if (!fvLastData) return;
+  if (fvCurrentView === 'bar') fvRenderBar(fvLastData);
+  else if (fvCurrentView === 'sankey') fvRenderSankey(fvLastData);
+});
+</script>
+
+  <script src="search-global.js"></script>
+</body>
+</html>

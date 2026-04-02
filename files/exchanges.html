@@ -224,6 +224,15 @@
     /* Hero sub text */
     .page-hero-sub { font-size: 13px; }
   }
+  @media (max-width: 768px) {
+    body { overflow-x: hidden; }
+    * { max-width: 100%; box-sizing: border-box; }
+    .page-hero { padding: 16px 20px; }
+    .page-container { overflow-x: hidden; }
+    .session-tabs { overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; display: block; }
+    .session-tab { display: inline-block; }
+    .next-holiday { max-width: none; }
+  }
   @media (max-width: 600px) {
     .footer-grid { grid-template-columns: 1fr; }
   }
@@ -282,6 +291,7 @@
     <a href="regulation.html" class="nav-item">Regulation</a>
     <a href="nms.html" class="nav-item">NMS / SIP</a>
     <a href="feed-status.html" class="nav-item">Feed Status</a>
+    <a href="market-data-fees.html" class="nav-item">Fees</a>
     <a href="prediction-markets.html" class="nav-item">Prediction Markets</a>
     <a href="about.html" class="nav-item">About</a>
     <a href="compensation.html" class="nav-item nav-comp">Compensation</a>
@@ -306,6 +316,7 @@
   <a href="regulation.html">Regulation</a>
   <a href="nms.html">NMS / SIP</a>
   <a href="feed-status.html">Feed Status</a>
+  <a href="market-data-fees.html">Fees</a>
   <a href="prediction-markets.html">Prediction Markets</a>
   <a href="about.html">About</a>
   <a href="compensation.html">Compensation</a>
@@ -452,7 +463,7 @@
         <!-- NYSE -->
         <div id="session-nyse" class="session-panel active">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE — Tape A · CTS/CQS Consolidated Feed</div>
-          <table class="session-table">
+          <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%;"><table class="session-table">
             <thead>
               <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
             </thead>
@@ -476,13 +487,13 @@
                 <td><div class="session-desc">NYSE Closing Auction determines official closing prices. MOC/LOC orders execute. Critical for index rebalances and ETF NAV calculations.</div></td>
               </tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         <!-- NYSE Arca -->
         <div id="session-arca" class="session-panel">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE Arca Equities — Tapes B &amp; C · UTP/CTA Feeds · 23/5 Extended Hours</div>
-          <table class="session-table">
+          <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%;"><table class="session-table">
             <thead>
               <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
             </thead>
@@ -512,13 +523,13 @@
                 <td><div class="session-desc">After-hours trading continues on Arca. Limit orders only. Reduced liquidity.</div></td>
               </tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         <!-- NYSE American -->
         <div id="session-amex" class="session-panel">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE American (formerly AMEX) — Tape B · CTA Feed</div>
-          <table class="session-table">
+          <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%;"><table class="session-table">
             <thead>
               <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
             </thead>
@@ -548,13 +559,13 @@
                 <td><div class="session-desc">After-hours session. Limit orders only. Reduced liquidity.</div></td>
               </tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         <!-- NYSE National -->
         <div id="session-national" class="session-panel">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE National — Tapes A, B &amp; C · CTS/CQS/UTP Feeds</div>
-          <table class="session-table">
+          <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%;"><table class="session-table">
             <thead>
               <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
             </thead>
@@ -584,13 +595,13 @@
                 <td><div class="session-desc">After-hours session. Limit orders only.</div></td>
               </tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         <!-- NYSE Texas -->
         <div id="session-texas" class="session-panel">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE Texas — Tapes A, B &amp; C · CTS/CQS/UTP Feeds</div>
-          <table class="session-table">
+          <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%;"><table class="session-table">
             <thead>
               <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
             </thead>
@@ -620,13 +631,13 @@
                 <td><div class="session-desc">After-hours session. Limit orders only.</div></td>
               </tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         <!-- Options -->
         <div id="session-options" class="session-panel">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE Arca Options / NYSE American Options — OPRA Feed</div>
-          <table class="session-table">
+          <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%;"><table class="session-table">
             <thead>
               <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
             </thead>
@@ -644,13 +655,13 @@
                 <td><div class="session-desc">Regular options trading. OPRA processes full quote and trade data. On early close days, options close at 1:15pm ET.</div></td>
               </tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         <!-- Bonds -->
         <div id="session-bonds" class="session-panel">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">NYSE Bonds — Fixed Income Platform</div>
-          <table class="session-table">
+          <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%;"><table class="session-table">
             <thead>
               <tr><th>Session</th><th>Hours (ET)</th><th>Type</th><th>Notes</th></tr>
             </thead>
@@ -674,7 +685,7 @@
                 <td><div class="session-desc">After-hours bond trading. Reduced dealer participation.</div></td>
               </tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
       </div>
 

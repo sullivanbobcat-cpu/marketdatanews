@@ -5,24 +5,22 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="favicon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feed Status & Market Data Fee Calculator | Market Data News</title>
-<meta name="description" content="Real-time market data feed status dashboard and interactive fee calculator for NYSE, Nasdaq, Cboe, CME, and OPRA market data subscriptions.">
-  <meta name="keywords" content="market data feed status, market data fee calculator, NYSE feed, Nasdaq ITCH, OPRA, CTA SIP, CME Globex MDP, Cboe One Feed, market data pricing">
+<title>Feed Status Dashboard | Market Data News</title>
+<meta name="description" content="Live operational status of 33 major market data feeds across equities, options, futures, commodities, prediction markets, and fixed income. Includes recent fee change alerts.">
+  <meta name="keywords" content="market data feed status, market data feeds, NYSE feed, Nasdaq ITCH, OPRA, CTA SIP, CME Globex MDP, Cboe One Feed, feed directory">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Market Data News">
   <link rel="canonical" href="https://marketdatanews.com/feed-status.html">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://marketdatanews.com/feed-status.html">
-  <meta property="og:title" content="Feed Status & Market Data Fee Calculator | Market Data News">
-  <meta property="og:description" content="Real-time market data feed status and interactive fee calculator for major U.S. market data subscriptions.">
+  <meta property="og:title" content="Feed Status Dashboard | Market Data News">
+  <meta property="og:description" content="Live operational status of 33 major market data feeds across equities, options, futures, commodities, prediction markets, and fixed income.">
   <meta property="og:site_name" content="Market Data News">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Feed Status & Market Data Fee Calculator | Market Data News">
-  <meta name="twitter:description" content="Real-time market data feed status and interactive fee calculator.">
+  <meta name="twitter:title" content="Feed Status Dashboard | Market Data News">
+  <meta name="twitter:description" content="Live operational status of 33 major market data feeds. Includes recent fee change alerts.">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
 <style>
   :root {
     --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
@@ -49,8 +47,8 @@
   .site-title span { color: var(--accent); }
   .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
 
-  nav { display: flex; align-items: center; padding: 0 48px; border-bottom: 1px solid var(--rule); overflow-x: auto; }
-  .nav-item { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 10px 18px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-block; white-space: nowrap; }
+  nav { display: flex; align-items: center; padding: 0 48px; border-bottom: 1px solid var(--rule); overflow: visible; flex-wrap: nowrap; white-space: nowrap; }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 8px 12px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-block; white-space: nowrap; }
   .nav-item:first-child { border-left: 1px solid var(--rule); }
   .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
   .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;padding-left:16px;}
@@ -75,7 +73,6 @@
   .search-drop-footer a{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--accent);text-decoration:none;}
   .search-drop-footer a:hover{text-decoration:underline;}
   .search-drop-empty{padding:16px 14px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:#444;}
-
 
   footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
   .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
@@ -119,6 +116,7 @@
   .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
 
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @media (max-width: 1200px) { .nav-comp { display: none; } }
 
   @media (max-width: 900px) {
     nav { display: none; } #mobileBar { display: flex !important; }
@@ -145,126 +143,66 @@
   .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.1em; }
   .section-line { flex: 1; height: 1px; background: var(--rule); }
 
-  /* ── STATUS GRID ── */
-  .status-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 8px; }
-  .status-card { background: var(--surface); padding: 20px 22px; }
-  .status-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-  .status-pill { display: flex; align-items: center; gap: 6px; background: var(--green-bg); border: 1px solid var(--green-border); padding: 3px 10px; border-radius: 2px; }
-  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 3s infinite; flex-shrink: 0; }
-  .status-pill-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green); }
-  .status-card-name { font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 5px; line-height: 1.3; }
-  .status-card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
-  .status-card-footer { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 8px; display: flex; align-items: center; gap: 6px; }
-  .status-card-footer-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
-  .status-summary { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); padding: 10px 0; }
-
-  /* ── FEE CALCULATOR ── */
-  .calc-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: var(--surface); border: 1px solid var(--border); }
-  .calc-inputs { padding: 32px 36px; border-right: 1px solid var(--border); }
-  .calc-output { padding: 32px 36px; background: var(--cream); }
-
-  .calc-field { margin-bottom: 22px; }
-  .calc-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); display: block; margin-bottom: 7px; }
-  .calc-select, .calc-number { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--ink); padding: 8px 12px; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; appearance: none; -webkit-appearance: none; border-radius: 0; }
-  .calc-select:focus, .calc-number:focus { outline: none; border-color: var(--accent); }
-  .calc-select-wrap { position: relative; }
-  .calc-select-wrap::after { content: '▾'; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--muted); pointer-events: none; }
-  .calc-number { -moz-appearance: textfield; }
-  .calc-number::-webkit-outer-spin-button, .calc-number::-webkit-inner-spin-button { -webkit-appearance: none; }
-  .calc-number-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-
-  .calc-checkboxes { display: flex; flex-direction: column; gap: 8px; }
-  .calc-check-item { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-  .calc-check-item input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--accent); cursor: pointer; }
-  .calc-check-item span { font-size: 13px; color: var(--ink); }
-
-  /* Output panel */
-  .calc-out-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 6px; }
-  .calc-monthly { font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 48px); font-weight: 900; color: var(--ink); line-height: 1; margin-bottom: 4px; }
-  .calc-monthly span { color: var(--accent); font-size: 0.55em; vertical-align: super; }
-  .calc-annual { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--muted); margin-bottom: 28px; }
-  .calc-annual strong { color: var(--ink); }
-
-  .calc-breakdown-head { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 14px; border-top: 1px solid var(--rule); padding-top: 20px; }
-  .calc-bar-row { margin-bottom: 14px; }
-  .calc-bar-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
-  .calc-bar-name { font-size: 12px; color: var(--ink); font-weight: 500; }
-  .calc-bar-amount { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
-  .calc-bar-track { height: 8px; background: var(--border); border-radius: 1px; overflow: hidden; }
-  .calc-bar-fill { height: 100%; background: var(--accent); border-radius: 1px; transition: width 0.3s ease; }
-  .calc-bar-fill.nyse { background: #b8860b; }
-  .calc-bar-fill.nasdaq { background: #7a5c08; }
-  .calc-bar-fill.cboe { background: #c4a040; }
-
-  .calc-disclaimer { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); line-height: 1.6; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--rule); }
-
-  .calc-zero-state { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); padding: 20px 0; text-align: center; border: 1px dashed var(--rule); }
-
   /* ── FEE CHANGES TABLE ── */
   .fee-table { width: 100%; border-collapse: collapse; font-size: 13px; }
   .fee-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); text-align: left; padding: 8px 14px; border-bottom: 2px solid var(--ink); background: var(--cream); }
   .fee-table td { padding: 13px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; background: var(--surface); }
   .fee-table tr:hover td { background: var(--cream); }
   .fee-table td:first-child { font-weight: 600; white-space: nowrap; }
+  .fee-row-high td:first-child { border-left: 3px solid var(--accent); padding-left: 11px; }
   .change-badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 2px; white-space: nowrap; }
   .badge-increase { background: #fef0ed; color: #a02010; border: 1px solid #f0b8a8; }
   .badge-new      { background: #eef3fb; color: #2e5fa3; border: 1px solid #b0c8e8; }
   .badge-pending  { background: #fef9f0; color: var(--accent-dark); border: 1px solid #e8c97a; }
   .eff-date { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+  .fee-live-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:#c0392b; animation:pulse 2s infinite; margin-right:8px; vertical-align:middle; flex-shrink:0; }
+  .fee-reviewed { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-top:10px; padding:8px 14px; background:var(--cream); border-top:1px solid var(--border); }
 
-  /* ── FEE VISUALIZATION ── */
-  .fv-section { }
-  .fv-summary-row { display:flex; flex-wrap:wrap; gap:24px; padding:16px 20px; background:var(--cream); border:1px solid var(--border); margin-bottom:16px; }
-  .fv-summary-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:2px; }
-  .fv-summary-val { font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:700; color:var(--accent); }
-  .fv-summary-val.sm { font-size:16px; color:var(--ink); }
-  .fv-controls { display:flex; flex-wrap:wrap; gap:20px; align-items:flex-end; padding:14px 20px; background:var(--cream); border:1px solid var(--border); margin-bottom:16px; }
-  .fv-ctrl-group { display:flex; flex-direction:column; gap:4px; }
-  .fv-ctrl-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
-  .fv-toggle { display:flex; border:1px solid var(--rule); overflow:hidden; border-radius:2px; }
-  .fv-toggle input[type=radio] { display:none; }
-  .fv-toggle label { padding:5px 14px; font-size:11px; font-family:'IBM Plex Mono',monospace; cursor:pointer; background:transparent; color:var(--ink); user-select:none; border-right:1px solid var(--rule); }
-  .fv-toggle label:last-child { border-right:none; }
-  .fv-toggle input:checked + label { background:var(--ink); color:var(--accent); }
-  .fv-ctrl-input { width:80px; padding:5px 10px; font-family:'IBM Plex Mono',monospace; font-size:12px; border:1px solid var(--rule); background:var(--paper); color:var(--ink); border-radius:2px; }
-  .fv-checkboxes { display:flex; flex-direction:column; gap:4px; }
-  .fv-check-item { display:flex; align-items:center; gap:6px; font-size:11px; cursor:pointer; }
-  .fv-view-tabs { display:flex; border-bottom:2px solid var(--rule); margin-bottom:16px; }
-  .fv-tab { padding:8px 20px; font-size:10px; font-family:'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:0.08em; cursor:pointer; border:none; background:none; color:var(--muted); border-bottom:3px solid transparent; margin-bottom:-2px; }
-  .fv-tab.active { color:var(--ink); border-bottom-color:var(--accent); font-weight:600; }
-  .fv-view { display:none; }
-  .fv-view.active { display:block; }
-  .fv-chart-area { position:relative; }
-  .fv-chart-area svg { display:block; width:100%; }
-  .fv-legend { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
-  .fv-legend-item { display:flex; align-items:center; gap:5px; font-size:10px; font-family:'IBM Plex Mono',monospace; color:var(--ink); }
-  .fv-legend-dot { width:10px; height:10px; border-radius:1px; flex-shrink:0; }
-  .fv-tooltip { display:none; position:absolute; background:var(--ink); border:1px solid #333; padding:8px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#e8e8e8; pointer-events:none; border-radius:2px; z-index:100; white-space:nowrap; line-height:1.6; }
-  .fv-tooltip strong { color:var(--accent); display:block; margin-bottom:2px; }
-  .fv-tbl { width:100%; border-collapse:collapse; font-size:12px; }
-  .fv-tbl th { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; padding:8px 12px; text-align:left; border-bottom:2px solid var(--rule); cursor:pointer; user-select:none; white-space:nowrap; background:var(--cream); }
-  .fv-tbl th:hover { color:var(--accent); }
-  .fv-tbl td { padding:8px 12px; border-bottom:1px solid var(--border); }
-  .fv-tbl tr:nth-child(even) td { background:var(--paper); }
-  .fv-tbl tr:nth-child(odd) td { background:#fff; }
-  .fv-tbl tr:hover td { background:var(--cream); }
-  .fv-disclaimer { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-top:16px; padding-top:12px; border-top:1px solid var(--border); line-height:1.6; }
+  /* ── FEED DIRECTORY ── */
+  .fd-summary-bar { display:flex; flex-wrap:wrap; gap:24px; padding:14px 20px; background:var(--cream); border:1px solid var(--border); margin-bottom:20px; align-items:center; }
+  .fd-summary-item { display:flex; flex-direction:column; gap:2px; }
+  .fd-summary-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+  .fd-summary-val { font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:700; color:var(--ink); line-height:1; }
+  .fd-summary-val.green { color:var(--green); }
+  .fd-summary-val.accent { color:var(--accent); }
+  .fd-summary-divider { width:1px; height:36px; background:var(--border); align-self:center; }
+  .fd-summary-updated { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-left:auto; line-height:1.6; }
+
+  .fd-category { margin-bottom:16px; border:1px solid var(--border); }
+  .fd-cat-header { display:flex; align-items:center; gap:12px; padding:11px 16px; background:var(--cream); cursor:pointer; user-select:none; border-bottom:1px solid var(--border); }
+  .fd-cat-header:hover { background:#f0ece3; }
+  .fd-cat-name { font-family:'IBM Plex Sans',sans-serif; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink); flex:1; }
+  .fd-cat-count { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); padding:1px 8px; background:var(--border); border-radius:10px; }
+  .fd-cat-toggle { font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--muted); display:inline-block; transition:transform 0.2s; }
+  .fd-cat-header.collapsed .fd-cat-toggle { transform:rotate(-90deg); }
+  .fd-cat-body { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); }
+  .fd-cat-body.collapsed { display:none; }
+
+  .fd-card { background:var(--surface); padding:16px 18px; transition:background 0.12s; }
+  .fd-card:hover { background:var(--cream); }
+  .fd-card-name { font-family:'Playfair Display',serif; font-size:14px; font-weight:700; color:var(--ink); line-height:1.2; margin-bottom:3px; }
+  .fd-card-operator { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; }
+  .fd-card-badges { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:8px; }
+  .fd-badge-op { display:flex; align-items:center; gap:4px; background:var(--green-bg); border:1px solid var(--green-border); padding:2px 7px; border-radius:2px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--green); text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap; }
+  .fd-badge-op-dot { width:5px; height:5px; border-radius:50%; background:var(--green); animation:pulse 3s infinite; flex-shrink:0; }
+  .fd-badge-proto { font-family:'IBM Plex Mono',monospace; font-size:9px; padding:2px 7px; border:1px solid var(--rule); color:var(--muted); border-radius:2px; background:var(--paper); white-space:nowrap; }
+  .fd-badge-notice { position:relative; font-family:'IBM Plex Mono',monospace; font-size:9px; padding:2px 7px; border:1px solid #d4a843; color:var(--accent-dark); border-radius:2px; background:#fef9f0; cursor:help; white-space:nowrap; font-weight:600; }
+  .fd-badge-notice:hover .fd-notice-tip { display:block; }
+  .fd-notice-tip { display:none; position:absolute; bottom:calc(100% + 7px); left:0; width:240px; background:var(--ink); color:#e8e8e8; font-family:'IBM Plex Mono',monospace; font-size:10px; padding:9px 11px; border-radius:2px; z-index:200; line-height:1.6; white-space:normal; pointer-events:none; box-shadow:0 4px 16px rgba(0,0,0,0.3); }
+  .fd-notice-tip::after { content:''; position:absolute; top:100%; left:10px; border:5px solid transparent; border-top-color:var(--ink); }
+  .fd-card-desc { font-size:11px; color:var(--muted); line-height:1.55; }
 
   @media (max-width: 900px) {
     .page-hero, .page-container { padding-left: 20px; padding-right: 20px; }
-    .fv-controls { gap: 12px; }
-    .fv-view-tabs .fv-tab:nth-child(2) { display: none; }
-    #fv-view-sankey { display: none !important; }
-    .status-grid { grid-template-columns: 1fr 1fr; }
-    .calc-layout { grid-template-columns: 1fr; }
-    .calc-inputs { border-right: none; border-bottom: 1px solid var(--border); }
-    .calc-number-row { grid-template-columns: 1fr; }
+    .fd-cat-body { grid-template-columns:1fr; }
+    .fd-summary-divider { display:none; }
+    .fd-summary-updated { margin-left:0; width:100%; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
     footer { padding: 32px 20px; }
     .fee-table th:nth-child(3), .fee-table td:nth-child(3) { display: none; }
   }
   @media (max-width: 600px) {
-    .status-grid { grid-template-columns: 1fr; }
+    .fee-table th:nth-child(3), .fee-table td:nth-child(3) { display: none; }
   }
 </style>
 </head>
@@ -314,14 +252,16 @@
     <div class="tagline">The Industry Standard<br>Since 2025</div>
   </div>
   <nav>
-    <a href="calendar.html" class="nav-item">FeedWatch</a>
     <a href="index.html" class="nav-item">All News</a>
+    <a href="calendar.html" class="nav-item">FeedWatch</a>
     <a href="exchanges.html" class="nav-item">Exchanges</a>
     <a href="regulation.html" class="nav-item">Regulation</a>
     <a href="nms.html" class="nav-item">NMS / SIP</a>
     <a href="feed-status.html" class="nav-item active">Feed Status</a>
+    <a href="market-data-fees.html" class="nav-item">Fees</a>
     <a href="prediction-markets.html" class="nav-item">Prediction Markets</a>
     <a href="about.html" class="nav-item">About</a>
+    <a href="compensation.html" class="nav-item nav-comp">Compensation</a>
     <a href="subscribe.html" class="nav-item">Subscribe</a>
     <div class="nav-right">
       <div class="search-wrap" id="searchWrap">
@@ -336,23 +276,25 @@
   </div>
 </div>
 <div class="mobile-nav" id="mobileNav">
-  <a href="calendar.html">FeedWatch</a>
   <a href="index.html">All News</a>
+  <a href="calendar.html">FeedWatch</a>
   <a href="exchanges.html">Exchanges</a>
   <a href="regulation.html">Regulation</a>
   <a href="nms.html">NMS / SIP</a>
   <a href="feed-status.html" class="active">Feed Status</a>
+  <a href="market-data-fees.html">Fees</a>
   <a href="prediction-markets.html">Prediction Markets</a>
   <a href="about.html">About</a>
+  <a href="compensation.html">Compensation</a>
   <a href="subscribe.html">Subscribe</a>
 </div>
 
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="page-hero-inner">
-    <div class="page-hero-label">Operations &amp; Pricing</div>
-    <h1>Feed Status &amp; <span>Fee Calculator</span></h1>
-    <div class="page-hero-sub">Live operational status for major U.S. market data feeds, plus an interactive calculator to estimate monthly subscription costs across NYSE, Nasdaq, Cboe, CME, and OPRA.</div>
+    <div class="page-hero-label">Operations &amp; Market Data Infrastructure</div>
+    <h1>Feed Status <span>Dashboard</span></h1>
+    <div class="page-hero-sub">Live operational status of 33 major market data feeds across equities, options, futures, commodities, prediction markets, and fixed income.</div>
   </div>
 </div>
 
@@ -360,305 +302,11 @@
 <div class="page-container">
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 1 — FEED STATUS DASHBOARD -->
+  <!-- SECTION 1 — RECENT & UPCOMING FEE CHANGES -->
   <!-- ═══════════════════════════════════════════════ -->
   <div class="section-head">
     <span class="section-num">01 —</span>
-    <h2>Feed Status Dashboard</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="status-grid">
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">NYSE Integrated Feed</div>
-      <div class="status-card-desc">Tape A last-sale and quote data. Full depth of book for NYSE-listed securities. Pillar-based infrastructure.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-nyse"></span></div>
-    </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">NYSE Arca Integrated Feed</div>
-      <div class="status-card-desc">Tapes B &amp; C. NYSE Arca equities and options market data. Co-located SIP feed via NYSE Data Services.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-arca"></span></div>
-    </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">Nasdaq TotalView ITCH</div>
-      <div class="status-card-desc">Full order book depth for all Nasdaq-listed securities. ITCH 5.0 protocol. Highest message rate equity feed.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-itch"></span></div>
-    </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">Nasdaq Basic / UTP SIP</div>
-      <div class="status-card-desc">Consolidated BBO and last-sale for UTP Plan securities. Nasdaq operates the SIP. UQDF and UTDF feeds.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-utp"></span></div>
-    </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">OPRA</div>
-      <div class="status-card-desc">Options Price Reporting Authority. Highest-volume U.S. feed. 48-line multicast; 96-line expansion Q3 2026.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-opra"></span></div>
-    </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">CTA SIP</div>
-      <div class="status-card-desc">Consolidated Tape. NYSE operates the SIP. CTS (Tape A) and CQS (Tape B) last-sale and quote consolidation.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-cta"></span></div>
-    </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">CME Globex MDP 3.0</div>
-      <div class="status-card-desc">CME Group futures and options. MDP 3.0 multicast SBE. 1 Gbps bandwidth requirement effective March 2026.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-cme"></span></div>
-    </div>
-
-    <div class="status-card">
-      <div class="status-card-top">
-        <div class="status-pill"><div class="status-dot"></div><span class="status-pill-text">Operational</span></div>
-      </div>
-      <div class="status-card-name">Cboe One Feed</div>
-      <div class="status-card-desc">Consolidated best bid/offer and last sale across all Cboe U.S. equity exchanges. Premium depth-of-book variant available.</div>
-      <div class="status-card-footer"><div class="status-card-footer-dot"></div>Last checked: <span id="ts-cboe"></span></div>
-    </div>
-
-  </div>
-
-  <div class="status-summary">All 8 feeds operational · Updated <span id="lastUpdated"></span> · Next scheduled check in 5 minutes</div>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 2 — FEE FLOW VISUALIZATION -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-head">
-    <span class="section-num">02 —</span>
-    <h2>Fee Flow Visualization</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="fv-section">
-
-    <!-- Summary Row -->
-    <div class="fv-summary-row">
-      <div class="fv-summary-item">
-        <div class="fv-summary-label">Total Monthly</div>
-        <div class="fv-summary-val" id="fv-monthly">$0</div>
-      </div>
-      <div class="fv-summary-item">
-        <div class="fv-summary-label">Total Annual</div>
-        <div class="fv-summary-val sm" id="fv-annual">$0</div>
-      </div>
-      <div class="fv-summary-item">
-        <div class="fv-summary-label">Exchanges Selected</div>
-        <div class="fv-summary-val sm" id="fv-exch-count">3</div>
-      </div>
-      <div class="fv-summary-item">
-        <div class="fv-summary-label">Fee Types</div>
-        <div class="fv-summary-val sm" id="fv-fee-count">5</div>
-      </div>
-    </div>
-
-    <!-- Controls -->
-    <div class="fv-controls">
-      <div class="fv-ctrl-group">
-        <div class="fv-ctrl-label">Access Type</div>
-        <div class="fv-toggle">
-          <input type="radio" name="fv-access" id="fv-access-indirect" value="indirect" checked onchange="fvUpdate()">
-          <label for="fv-access-indirect">Indirect</label>
-          <input type="radio" name="fv-access" id="fv-access-direct" value="direct" onchange="fvUpdate()">
-          <label for="fv-access-direct">Direct</label>
-        </div>
-      </div>
-      <div class="fv-ctrl-group">
-        <label class="fv-ctrl-label" for="fv-prof">Professional Users</label>
-        <input class="fv-ctrl-input" type="number" id="fv-prof" value="1" min="0" oninput="fvUpdate()">
-      </div>
-      <div class="fv-ctrl-group">
-        <label class="fv-ctrl-label" for="fv-machines">Machines</label>
-        <input class="fv-ctrl-input" type="number" id="fv-machines" value="1" min="0" oninput="fvUpdate()">
-      </div>
-      <div class="fv-ctrl-group">
-        <div class="fv-ctrl-label">Exchange Families</div>
-        <div class="fv-checkboxes">
-          <label class="fv-check-item"><input type="checkbox" id="fv-chk-nyse" checked onchange="fvUpdate()"> NYSE Family</label>
-          <label class="fv-check-item"><input type="checkbox" id="fv-chk-nasdaq" checked onchange="fvUpdate()"> Nasdaq Family</label>
-          <label class="fv-check-item"><input type="checkbox" id="fv-chk-cboe" checked onchange="fvUpdate()"> Cboe Family</label>
-        </div>
-      </div>
-    </div>
-
-    <!-- View Tabs -->
-    <div class="fv-view-tabs">
-      <button class="fv-tab active" onclick="fvSwitchView('bar',this)">Stacked Bar</button>
-      <button class="fv-tab" onclick="fvSwitchView('sankey',this)">Sankey Flow</button>
-      <button class="fv-tab" onclick="fvSwitchView('table',this)">Table View</button>
-    </div>
-
-    <!-- Stacked Bar View -->
-    <div class="fv-view active fv-chart-area" id="fv-view-bar">
-      <div class="fv-legend" id="fv-legend"></div>
-      <svg id="fv-bar-svg"></svg>
-    </div>
-
-    <!-- Sankey View -->
-    <div class="fv-view fv-chart-area" id="fv-view-sankey" style="position:relative">
-      <div class="fv-tooltip" id="fv-tooltip"></div>
-      <svg id="fv-sankey-svg"></svg>
-    </div>
-
-    <!-- Table View -->
-    <div class="fv-view" id="fv-view-table">
-      <table class="fv-tbl" id="fv-tbl">
-        <thead>
-          <tr>
-            <th onclick="fvSortTable(0,this)">Exchange Family <span class="fv-sort-arrow"></span></th>
-            <th onclick="fvSortTable(1,this)">Exchange <span class="fv-sort-arrow"></span></th>
-            <th onclick="fvSortTable(2,this)">Fee Type <span class="fv-sort-arrow"></span></th>
-            <th onclick="fvSortTable(3,this)" style="text-align:right">Monthly Est. <span class="fv-sort-arrow"> ↓</span></th>
-            <th onclick="fvSortTable(4,this)" style="text-align:right">Annual Est. <span class="fv-sort-arrow"></span></th>
-          </tr>
-        </thead>
-        <tbody id="fv-tbody"></tbody>
-      </table>
-    </div>
-
-    <div class="fv-disclaimer">Fee estimates are based on published exchange fee schedules. Enterprise options and volume discounts not included. Consult exchange fee schedules for precise billing.</div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 3 — FEE CALCULATOR -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-head">
-    <span class="section-num">03 —</span>
-    <h2>Market Data Fee Calculator</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="calc-layout">
-    <div class="calc-inputs">
-
-      <div class="calc-field">
-        <label class="calc-label" for="accessType">Access Type</label>
-        <div class="calc-select-wrap">
-          <select class="calc-select" id="accessType" onchange="recalc()">
-            <option value="indirect">Indirect Access</option>
-            <option value="direct">Direct Access</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="calc-field">
-        <label class="calc-label">Users &amp; Machines</label>
-        <div class="calc-number-row">
-          <div>
-            <label class="calc-label" for="profUsers" style="margin-bottom:4px;font-size:9px;">Professional</label>
-            <input class="calc-number" type="number" id="profUsers" value="0" min="0" oninput="recalc()">
-          </div>
-          <div>
-            <label class="calc-label" for="nonprofUsers" style="margin-bottom:4px;font-size:9px;">Non-Prof.</label>
-            <input class="calc-number" type="number" id="nonprofUsers" value="0" min="0" oninput="recalc()">
-          </div>
-          <div>
-            <label class="calc-label" for="machines" style="margin-bottom:4px;font-size:9px;">Machines</label>
-            <input class="calc-number" type="number" id="machines" value="0" min="0" oninput="recalc()">
-          </div>
-        </div>
-      </div>
-
-      <div class="calc-field">
-        <label class="calc-label">Exchange Family</label>
-        <div class="calc-checkboxes">
-          <label class="calc-check-item">
-            <input type="checkbox" id="chkNYSE" onchange="recalc()" checked>
-            <span>NYSE Family (NYSE, Arca, American, National, Texas)</span>
-          </label>
-          <label class="calc-check-item">
-            <input type="checkbox" id="chkNasdaq" onchange="recalc()" checked>
-            <span>Nasdaq Family (Nasdaq, BX, PSX)</span>
-          </label>
-          <label class="calc-check-item">
-            <input type="checkbox" id="chkCboe" onchange="recalc()">
-            <span>Cboe Family (BZX, BYX, EDGX, EDGA)</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="calc-field" style="margin-bottom:0;">
-        <label class="calc-label" for="useCase">Use Case</label>
-        <div class="calc-select-wrap">
-          <select class="calc-select" id="useCase" onchange="recalc()">
-            <option value="display">Display Only</option>
-            <option value="trading">Trading</option>
-            <option value="risk">Risk Management</option>
-            <option value="all">All Uses</option>
-          </select>
-        </div>
-      </div>
-
-    </div><!-- end calc-inputs -->
-
-    <div class="calc-output">
-      <div class="calc-out-label">Estimated Monthly Fee</div>
-      <div class="calc-monthly" id="outMonthly"><span>$</span>0</div>
-      <div class="calc-annual" id="outAnnual">Annual estimate: <strong>$0</strong></div>
-
-      <div id="breakdownSection">
-        <div class="calc-breakdown-head">Breakdown by Exchange Family</div>
-        <div id="barNYSE" class="calc-bar-row" style="display:none">
-          <div class="calc-bar-label">
-            <span class="calc-bar-name">NYSE Family</span>
-            <span class="calc-bar-amount" id="amtNYSE">$0</span>
-          </div>
-          <div class="calc-bar-track"><div class="calc-bar-fill nyse" id="fillNYSE" style="width:0%"></div></div>
-        </div>
-        <div id="barNasdaq" class="calc-bar-row" style="display:none">
-          <div class="calc-bar-label">
-            <span class="calc-bar-name">Nasdaq Family</span>
-            <span class="calc-bar-amount" id="amtNasdaq">$0</span>
-          </div>
-          <div class="calc-bar-track"><div class="calc-bar-fill nasdaq" id="fillNasdaq" style="width:0%"></div></div>
-        </div>
-        <div id="barCboe" class="calc-bar-row" style="display:none">
-          <div class="calc-bar-label">
-            <span class="calc-bar-name">Cboe Family</span>
-            <span class="calc-bar-amount" id="amtCboe">$0</span>
-          </div>
-          <div class="calc-bar-track"><div class="calc-bar-fill cboe" id="fillCboe" style="width:0%"></div></div>
-        </div>
-        <div id="zeroState" class="calc-zero-state">Select exchange families and enter user counts to see estimates.</div>
-      </div>
-
-      <div class="calc-disclaimer">
-        Estimates based on published fee schedules as of Q1 2026. Actual fees vary by contract type, display vs. non-display, entitlement level, and vendor agreements. Does not include platform fees, connectivity charges, or co-location costs. Consult your exchange representative for binding quotes.
-      </div>
-    </div><!-- end calc-output -->
-  </div><!-- end calc-layout -->
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 4 — RECENT FEE CHANGES -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-head">
-    <span class="section-num">04 —</span>
-    <h2>Recent Fee Changes</h2>
+    <h2><span class="fee-live-dot"></span>Recent &amp; Upcoming Fee Changes</h2>
     <div class="section-line"></div>
   </div>
 
@@ -672,7 +320,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr class="fee-row-high">
         <td>NYSE Integrated Feed</td>
         <td><span class="change-badge badge-increase">+8% Pro User Fee</span></td>
         <td class="eff-date">Jan 1, 2026</td>
@@ -696,7 +344,7 @@
         <td class="eff-date">Decision Q2 2026</td>
         <td>Annual fee schedule review underway by CTA and UTP Operating Committees. Consolidated tape fee adjustments, if any, expected to be announced Q2 2026. Industry comment period likely to precede any changes.</td>
       </tr>
-      <tr>
+      <tr class="fee-row-high">
         <td>Cboe One Feed Premium</td>
         <td><span class="change-badge badge-increase">+$3/User Surcharge</span></td>
         <td class="eff-date">Feb 1, 2026</td>
@@ -704,6 +352,386 @@
       </tr>
     </tbody>
   </table>
+  <div class="fee-reviewed">Last reviewed: April 01, 2026 &nbsp;·&nbsp; Source: exchange fee schedules and SEC filings &nbsp;·&nbsp; <a href="market-data-fees.html" style="color:var(--accent);text-decoration:none;">Fee calculator →</a></div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 2 — FEED STATUS DASHBOARD -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">02 —</span>
+    <h2>Feed Directory</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="fd-summary-bar">
+    <div class="fd-summary-item">
+      <div class="fd-summary-label">Total Feeds</div>
+      <div class="fd-summary-val">33</div>
+    </div>
+    <div class="fd-summary-divider"></div>
+    <div class="fd-summary-item">
+      <div class="fd-summary-label">Operational</div>
+      <div class="fd-summary-val green">33</div>
+    </div>
+    <div class="fd-summary-divider"></div>
+    <div class="fd-summary-item">
+      <div class="fd-summary-label">Active Notices</div>
+      <div class="fd-summary-val accent">5</div>
+    </div>
+    <div class="fd-summary-updated">Last Updated: April 1, 2026 &nbsp;·&nbsp; All systems normal &nbsp;·&nbsp; Next check in 5 min</div>
+  </div>
+
+  <div class="fd-category" id="cat-equity">
+    <div class="fd-cat-header" onclick="fdToggle(this)">
+      <span class="fd-cat-name">US Equity Feeds</span>
+      <span class="fd-cat-count">8 feeds</span>
+      <span class="fd-cat-toggle">&#9660;</span>
+    </div>
+    <div class="fd-cat-body">
+    <div class="fd-card">
+      <div class="fd-card-name">NYSE Integrated Feed</div>
+      <div class="fd-card-operator">NYSE / ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">Pillar</span>
+      </div>
+      <div class="fd-card-desc">Tape A equities — trades, quotes, imbalances, and full depth of book for NYSE-listed securities. Pillar-based infrastructure.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">NYSE Arca Integrated Feed</div>
+      <div class="fd-card-operator">NYSE / ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">Pillar</span>
+      </div>
+      <div class="fd-card-desc">Tape B/C ETFs and equities. Early session begins 4am ET. Includes NYSE Arca options market data via NYSE Data Services.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Nasdaq TotalView ITCH</div>
+      <div class="fd-card-operator">Nasdaq</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">ITCH 5.0</span>
+      </div>
+      <div class="fd-card-desc">Full order book depth for all Nasdaq-listed securities. Highest message rate equity feed. ITCH 5.0 protocol.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Nasdaq Basic / UTP SIP</div>
+      <div class="fd-card-operator">Nasdaq</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">UTP</span>
+      </div>
+      <div class="fd-card-desc">Consolidated last sale and NBBO for Nasdaq-listed securities. Nasdaq operates the SIP. UQDF and UTDF feeds.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">CTA SIP (Tape A/B)</div>
+      <div class="fd-card-operator">NYSE / ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">CTS / CQS</span>
+      </div>
+      <div class="fd-card-desc">Consolidated tape for NYSE and regional exchange securities. CTS (Tape A) last sale and CQS (Tape B/C) quote consolidation.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">IEX TOPS / DEEP</div>
+      <div class="fd-card-operator">IEX</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">IEXTP</span>
+      </div>
+      <div class="fd-card-desc">Real-time top of book and full depth from IEX exchange. Includes IEX signal data. Low-latency multicast and TCP variants.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Cboe BZX / BYX / EDGA / EDGX</div>
+      <div class="fd-card-operator">Cboe</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">PITCH</span>
+      </div>
+      <div class="fd-card-desc">Four Cboe equity venues providing full depth and summary feeds. BZX and EDGX are primary liquidity venues.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">FINRA ADF</div>
+      <div class="fd-card-operator">FINRA</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">ADF</span>
+      </div>
+      <div class="fd-card-desc">Alternative Display Facility quotes and trades. OTC equity securities. Required for FINRA member reporting obligations.</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="fd-category" id="cat-options">
+    <div class="fd-cat-header" onclick="fdToggle(this)">
+      <span class="fd-cat-name">Options Feeds</span>
+      <span class="fd-cat-count">6 feeds</span>
+      <span class="fd-cat-toggle">&#9660;</span>
+    </div>
+    <div class="fd-cat-body">
+    <div class="fd-card">
+      <div class="fd-card-name">OPRA Consolidated</div>
+      <div class="fd-card-operator">DTCC / OPRA</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">OPRA</span>
+        <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">96-line network expansion launching Q3 2026. Surcharge under review by OPRA Operating Committee. SEC filing anticipated Q2 2026 ahead of production launch.</span></span>
+      </div>
+      <div class="fd-card-desc">All US equity options last sale and NBBO — highest volume feed in US markets. 96-line multicast expansion launching Q3 2026.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Cboe One Feed</div>
+      <div class="fd-card-operator">Cboe</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">PITCH</span>
+      </div>
+      <div class="fd-card-desc">Consolidated options data from all four Cboe options exchanges — BZX, C1, C2, and EDGX. Premium depth-of-book variant available.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Cboe Depth of Book</div>
+      <div class="fd-card-operator">Cboe</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">PITCH</span>
+      </div>
+      <div class="fd-card-desc">Full order book depth for Cboe options across BZX, C1, C2, and EDGX exchanges. For latency-sensitive options market makers.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Nasdaq PHLX / NOM / BX Options</div>
+      <div class="fd-card-operator">Nasdaq</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">ITCH</span>
+      </div>
+      <div class="fd-card-desc">Options feeds from three Nasdaq-operated options exchanges. PHLX is largest US options exchange by volume.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">MIAX Options / Pearl / Emerald</div>
+      <div class="fd-card-operator">MIAX</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MACH</span>
+      </div>
+      <div class="fd-card-desc">Three MIAX options venues providing top of book and depth-of-book market data. MIAX Pearl equity market also available.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">NYSE American Options</div>
+      <div class="fd-card-operator">NYSE / ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">Pillar</span>
+      </div>
+      <div class="fd-card-desc">Options on NYSE American (formerly AMEX) and NYSE Arca exchanges. Full depth and top of book variants.</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="fd-category" id="cat-futures">
+    <div class="fd-cat-header" onclick="fdToggle(this)">
+      <span class="fd-cat-name">Futures &amp; Commodities Feeds</span>
+      <span class="fd-cat-count">10 feeds</span>
+      <span class="fd-cat-toggle">&#9660;</span>
+    </div>
+    <div class="fd-cat-body">
+    <div class="fd-card">
+      <div class="fd-card-name">CME Globex MDP 3.0</div>
+      <div class="fd-card-operator">CME Group</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MDP 3.0</span>
+        <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">Bandwidth requirement increased to 10Gbps effective March 2026. 1Gbps connections are no longer supported. Firms must upgrade network infrastructure immediately.</span></span>
+      </div>
+      <div class="fd-card-desc">All CME futures and options — equity index, rates, FX, metals, energy, agricultural. 10Gbps bandwidth now required.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">CBOT Agricultural Futures</div>
+      <div class="fd-card-operator">CME / CBOT</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">Corn, wheat, soybean, oat, and rice futures and options. Chicago Board of Trade. World benchmark agricultural contracts.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">NYMEX Energy / Metals</div>
+      <div class="fd-card-operator">CME / NYMEX</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">WTI crude oil, natural gas, gasoline, heating oil, gold, silver, and copper futures. Global energy price benchmarks.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">COMEX Metals</div>
+      <div class="fd-card-operator">CME / COMEX</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">Gold, silver, copper, and aluminum futures and options. COMEX gold is the global benchmark for precious metals pricing.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">ICE Brent Crude / Energy</div>
+      <div class="fd-card-operator">ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">iMpact</span>
+      </div>
+      <div class="fd-card-desc">Brent crude oil, gasoil, and natural gas futures — covers 50% of global crude trading. Volumes surged post-Iran war.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">ICE Endex European Gas</div>
+      <div class="fd-card-operator">ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">iMpact</span>
+        <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">TTF Natural Gas feed volumes up 340% since February 28 due to Iran war LNG disruption. ICE has extended trading hours for key energy contracts. Check capacity immediately.</span></span>
+      </div>
+      <div class="fd-card-desc">TTF natural gas, power, and emissions futures. Elevated volumes due to Iran war LNG disruption to European supply.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">ICE Softs / Agricultural</div>
+      <div class="fd-card-operator">ICE</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">iMpact</span>
+      </div>
+      <div class="fd-card-desc">Cotton, coffee, cocoa, sugar, MSCI indices, and US Dollar Index futures. Global soft commodity benchmarks.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Eurex Derivatives</div>
+      <div class="fd-card-operator">Deutsche Boerse / Eurex</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">T7 ETI</span>
+      </div>
+      <div class="fd-card-desc">European equity index, fixed income, and single stock options and futures. EURO STOXX 50 and Bund futures are flagship contracts.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Minneapolis Grain Exchange</div>
+      <div class="fd-card-operator">MGEX</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">Hard red spring wheat futures and options. MGEX is the primary price discovery venue for spring wheat globally.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">LME Metals</div>
+      <div class="fd-card-operator">London Metal Exchange</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">LMEsmart</span>
+      </div>
+      <div class="fd-card-desc">Base metals — aluminum, copper, nickel, zinc, lead, and tin. LME is global benchmark for industrial metals pricing.</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="fd-category" id="cat-prediction">
+    <div class="fd-cat-header" onclick="fdToggle(this)">
+      <span class="fd-cat-name">Prediction Market Feeds</span>
+      <span class="fd-cat-count">4 feeds</span>
+      <span class="fd-cat-toggle">&#9660;</span>
+    </div>
+    <div class="fd-cat-body">
+    <div class="fd-card">
+      <div class="fd-card-name">Kalshi REST / WebSocket API</div>
+      <div class="fd-card-operator">Kalshi</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">REST / WS</span>
+      </div>
+      <div class="fd-card-desc">CFTC-registered DCM — real-time event contract prices, order book, and trade data. Free API access currently available.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Polymarket CLOB API</div>
+      <div class="fd-card-operator">Polymarket / QCEX</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">REST / WS</span>
+        <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">US intermediated model via registered FCMs only. Geographic restrictions apply. Phased rollout commenced March 2026 — not all contracts available to all participants.</span></span>
+      </div>
+      <div class="fd-card-desc">CFTC-approved conditional liquidity order book. US intermediated model via FCMs. Phased rollout March 2026.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Robinhood Prediction Markets</div>
+      <div class="fd-card-operator">Robinhood</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">REST</span>
+      </div>
+      <div class="fd-card-desc">Sports and event contracts via Robinhood platform. Geographic restrictions by state. Retail-focused event contract access.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Interactive Brokers Events</div>
+      <div class="fd-card-operator">IBKR</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">TWS API</span>
+      </div>
+      <div class="fd-card-desc">Event contracts via IBKR platform and TWS API. Available to eligible accounts. Integrated with IBKR order management.</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="fd-category" id="cat-fi">
+    <div class="fd-cat-header" onclick="fdToggle(this)">
+      <span class="fd-cat-name">Fixed Income &amp; FX Feeds</span>
+      <span class="fd-cat-count">5 feeds</span>
+      <span class="fd-cat-toggle">&#9660;</span>
+    </div>
+    <div class="fd-cat-body">
+    <div class="fd-card">
+      <div class="fd-card-name">BrokerTec US Treasuries</div>
+      <div class="fd-card-operator">CME / BrokerTec</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">FIX</span>
+        <span class="fd-badge-notice">&#9888; Notice<span class="fd-notice-tip">New Chicago co-location venue launched February 2026. Supplemental certification required for firms connecting to the Chicago venue. Review production readiness checklist.</span></span>
+      </div>
+      <div class="fd-card-desc">On-the-run and off-the-run US Treasury CLOB. New Chicago co-location venue launched February 2026.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">eSpeed / BGC Treasuries</div>
+      <div class="fd-card-operator">BGC Partners</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">FIX</span>
+      </div>
+      <div class="fd-card-desc">US Treasury inter-dealer broker feed via BGC Partners. Supports on-the-run and off-the-run Treasuries across the yield curve.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">EBS FX</div>
+      <div class="fd-card-operator">CME / EBS</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">FIX</span>
+      </div>
+      <div class="fd-card-desc">Spot FX and precious metals — EUR/USD, USD/JPY, and major pairs. Primary inter-dealer FX liquidity venue for core pairs.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">Reuters FXall</div>
+      <div class="fd-card-operator">LSEG</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">FIX</span>
+      </div>
+      <div class="fd-card-desc">Multi-dealer FX platform via LSEG. Spot, forwards, and swap data. Connects buy-side to sell-side FX liquidity globally.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-card-name">CME FX Futures</div>
+      <div class="fd-card-operator">CME Group</div>
+      <div class="fd-card-badges">
+        <span class="fd-badge-op"><span class="fd-badge-op-dot"></span>Operational</span>
+        <span class="fd-badge-proto">MDP 3.0</span>
+      </div>
+      <div class="fd-card-desc">EUR/USD, USD/JPY, GBP/USD, and 30+ currency pair futures. World's largest regulated FX futures marketplace.</div>
+    </div>
+    </div>
+  </div>
 
 </div><!-- end page-container -->
 
@@ -718,17 +746,18 @@
       <a href="regulation.html">Regulation</a>
       <a href="nms.html">NMS / SIP</a>
       <a href="feed-status.html">Feed Status</a>
+      <a href="market-data-fees.html">Market Data Fees</a>
       <a href="prediction-markets.html">Prediction Markets</a>
     </div>
     <div class="footer-col"><h4>FeedWatch</h4>
-          <a href="calendar.html">All Entries</a>
+      <a href="calendar.html">All Entries</a>
       <a href="calendar.html?filter=action">Action Required</a>
       <a href="calendar.html?filter=critical">Critical Alerts</a>
       <a href="calendar.html?filter=high">High Impact</a>
     </div>
     <div class="footer-col"><h4>Company</h4>
       <a href="about.html">About</a>
-  <a href="subscribe.html">Subscribe</a>
+      <a href="subscribe.html">Subscribe</a>
       <a href="mailto:contact@marketdatanews.com">Contact</a>
       <a href="#">Privacy Policy</a>
       <a href="#">Terms of Use</a>
@@ -748,545 +777,16 @@ const now = new Date();
 document.getElementById('dateLine').textContent =
   days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
 
-function fmtTime(d) {
-  let h = d.getHours(), m = d.getMinutes(), s = d.getSeconds();
-  const ampm = h >= 12 ? 'PM' : 'AM';
-  h = h % 12 || 12;
-  return h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0') + ' ' + ampm + ' ET';
-}
-
-const feedIds = ['nyse','arca','itch','utp','opra','cta','cme','cboe'];
-feedIds.forEach((id, i) => {
-  const t = new Date(now.getTime() - (i * 23 + 7) * 1000);
-  const el = document.getElementById('ts-' + id);
-  if (el) el.textContent = fmtTime(t);
-});
-document.getElementById('lastUpdated').textContent = fmtTime(now);
-
 // ── MOBILE NAV ─────────────────────────────────────────────────────────────
 function toggleMobileNav() {
   document.getElementById('mobileNav').classList.toggle('open');
 }
 
-// ── FEE CALCULATOR ─────────────────────────────────────────────────────────
-const RATES = {
-  NYSE:   { prof: 21,   machine: 1500, directMult: 1.40 },
-  Nasdaq: { prof: 24,   machine: 1750, directMult: 1.35 },
-  Cboe:   { prof: 18,   machine: 1200, directMult: 1.30 }
-};
-const NONPROF_RATIO = 0.10;
-const USE_MULT = { display: 1.0, trading: 1.25, risk: 1.15, all: 1.40 };
-
-function fmt(n) {
-  if (n === 0) return '$0';
-  if (n >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
-  if (n >= 1000) return '$' + n.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
-  return '$' + n.toFixed(0);
+// ── FEED DIRECTORY TOGGLE ──────────────────────────────────────────────────
+function fdToggle(hdr) {
+  hdr.classList.toggle('collapsed');
+  hdr.nextElementSibling.classList.toggle('collapsed');
 }
-
-function recalc() {
-  const direct   = document.getElementById('accessType').value === 'direct';
-  const profU    = Math.max(0, parseInt(document.getElementById('profUsers').value) || 0);
-  const nonprofU = Math.max(0, parseInt(document.getElementById('nonprofUsers').value) || 0);
-  const mach     = Math.max(0, parseInt(document.getElementById('machines').value) || 0);
-  const useCase  = document.getElementById('useCase').value;
-  const useMult  = USE_MULT[useCase];
-
-  const sel = {
-    NYSE:   document.getElementById('chkNYSE').checked,
-    Nasdaq: document.getElementById('chkNasdaq').checked,
-    Cboe:   document.getElementById('chkCboe').checked
-  };
-
-  const amounts = {};
-  let total = 0;
-
-  ['NYSE','Nasdaq','Cboe'].forEach(fam => {
-    if (!sel[fam]) { amounts[fam] = 0; return; }
-    const r = RATES[fam];
-    let base = profU * r.prof + nonprofU * r.prof * NONPROF_RATIO + mach * r.machine;
-    if (direct) base *= r.directMult;
-    base *= useMult;
-    amounts[fam] = Math.round(base);
-    total += amounts[fam];
-  });
-
-  // Update main display
-  document.getElementById('outMonthly').innerHTML = '<span>$</span>' + total.toLocaleString('en-US');
-  document.getElementById('outAnnual').innerHTML = 'Annual estimate: <strong>' + fmt(total * 12) + '</strong>';
-
-  // Update bars
-  const maxAmt = Math.max(...Object.values(amounts), 1);
-  const anySelected = sel.NYSE || sel.Nasdaq || sel.Cboe;
-
-  document.getElementById('zeroState').style.display = (anySelected && total > 0) ? 'none' : 'block';
-  if (!anySelected || total === 0) {
-    document.getElementById('zeroState').textContent = anySelected
-      ? 'Enter user counts or machines to see estimates.'
-      : 'Select at least one exchange family to see estimates.';
-  }
-
-  ['NYSE','Nasdaq','Cboe'].forEach(fam => {
-    const barRow = document.getElementById('bar' + fam);
-    const fillEl = document.getElementById('fill' + fam);
-    const amtEl  = document.getElementById('amt' + fam);
-    const show   = sel[fam];
-    barRow.style.display = show ? 'block' : 'none';
-    if (show) {
-      amtEl.textContent = fmt(amounts[fam]);
-      fillEl.style.width = (amounts[fam] / maxAmt * 100).toFixed(1) + '%';
-    }
-  });
-
-}
-
-// ── FEE VISUALIZATION ─────────────────────────────────────────────────────
-
-const FV_RATES = {
-  NYSE: {
-    prof: 21, machine: 1500, directMult: 1.4, dist: 500, color: '#b8860b',
-    exchanges: { 'NYSE': 0.30, 'NYSE Arca': 0.25, 'NYSE American': 0.25, 'NYSE (Other)': 0.20 }
-  },
-  Nasdaq: {
-    prof: 24, machine: 1750, directMult: 1.35, dist: 450, color: '#1565C0',
-    exchanges: { 'Nasdaq': 0.45, 'BX': 0.25, 'PSX': 0.20, 'Nasdaq (Other)': 0.10 }
-  },
-  Cboe: {
-    prof: 18, machine: 1200, directMult: 1.30, dist: 400, color: '#2E7D32',
-    exchanges: { 'BZX': 0.20, 'EDGX': 0.20, 'EDGA': 0.15, 'BYX': 0.15, 'Cboe (Other)': 0.30 }
-  }
-};
-
-const FV_FEE_COLORS = {
-  'User Fees':         '#4CAF50',
-  'Non-Display Fees':  '#E91E63',
-  'Distribution Fees': '#2196F3',
-  'Flat Fees':         '#FF9800',
-  'Other Fees':        '#9C27B0'
-};
-const FV_FEE_TYPES = Object.keys(FV_FEE_COLORS);
-
-let fvCurrentView = 'bar';
-let fvLastData = null;
-let fvSortColIdx = 3;
-let fvSortAscending = false;
-
-function fvFmt(n) {
-  if (!n || n === 0) return '$0';
-  if (n >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
-  if (n >= 1000) return '$' + Math.round(n).toLocaleString();
-  return '$' + Math.round(n);
-}
-
-function fvCalc() {
-  const isDirect = document.getElementById('fv-access-direct').checked;
-  const prof     = Math.max(0, parseInt(document.getElementById('fv-prof').value)     || 0);
-  const machines = Math.max(0, parseInt(document.getElementById('fv-machines').value) || 0);
-  const sel = {
-    NYSE:   document.getElementById('fv-chk-nyse').checked,
-    Nasdaq: document.getElementById('fv-chk-nasdaq').checked,
-    Cboe:   document.getElementById('fv-chk-cboe').checked
-  };
-
-  const families = Object.keys(FV_RATES).filter(f => sel[f]);
-  const byFamilyFeeType = {}; // fam -> { feeType -> amount }
-  const famTotals = {};
-  const feeTotals = {};
-  const tableRows = [];
-  FV_FEE_TYPES.forEach(ft => { feeTotals[ft] = 0; });
-  let grandTotal = 0;
-
-  families.forEach(fam => {
-    const r = FV_RATES[fam];
-    const mult = isDirect ? r.directMult : 1;
-    const userFees   = prof     * r.prof    * mult;
-    const nonDisplay = machines * r.machine * mult;
-    const distFees   = r.dist;
-    const flatFees   = (userFees + nonDisplay) * 0.06 + 50;
-    const otherFees  = (userFees + nonDisplay) * 0.03;
-    const famTotal   = userFees + nonDisplay + distFees + flatFees + otherFees;
-
-    const feeBreakdown = {
-      'User Fees':         userFees,
-      'Non-Display Fees':  nonDisplay,
-      'Distribution Fees': distFees,
-      'Flat Fees':         flatFees,
-      'Other Fees':        otherFees
-    };
-
-    byFamilyFeeType[fam] = feeBreakdown;
-    famTotals[fam] = famTotal;
-    grandTotal += famTotal;
-    FV_FEE_TYPES.forEach(ft => { feeTotals[ft] += feeBreakdown[ft]; });
-
-    Object.entries(r.exchanges).forEach(([exch, weight]) => {
-      FV_FEE_TYPES.forEach(ft => {
-        const monthly = feeBreakdown[ft] * weight;
-        tableRows.push({
-          family: fam + ' Family', famKey: fam,
-          exchange: exch, feeType: ft,
-          monthly, annual: monthly * 12,
-          famColor: r.color
-        });
-      });
-    });
-  });
-
-  return { families, byFamilyFeeType, famTotals, feeTotals, tableRows, grandTotal, sel };
-}
-
-function fvUpdate() {
-  const data = fvCalc();
-  fvLastData = data;
-
-  document.getElementById('fv-monthly').textContent    = fvFmt(data.grandTotal);
-  document.getElementById('fv-annual').textContent     = fvFmt(data.grandTotal * 12);
-  document.getElementById('fv-exch-count').textContent = data.families.length;
-  document.getElementById('fv-fee-count').textContent  = FV_FEE_TYPES.length;
-
-  if (fvCurrentView === 'bar')    fvRenderBar(data);
-  else if (fvCurrentView === 'sankey') fvRenderSankey(data);
-  else fvRenderTable(data);
-}
-
-function fvSwitchView(view, btn) {
-  fvCurrentView = view;
-  document.querySelectorAll('.fv-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.fv-view').forEach(v => v.classList.remove('active'));
-  document.getElementById('fv-view-' + view).classList.add('active');
-  if (fvLastData) {
-    if (view === 'bar')    fvRenderBar(fvLastData);
-    else if (view === 'sankey') fvRenderSankey(fvLastData);
-    else fvRenderTable(fvLastData);
-  }
-}
-
-// ── STACKED BAR CHART ──────────────────────────────────────────────────────
-
-function fvRenderBar(data) {
-  const { families, byFamilyFeeType, famTotals } = data;
-  const svgEl = document.getElementById('fv-bar-svg');
-  const legendEl = document.getElementById('fv-legend');
-
-  // Legend
-  legendEl.innerHTML = FV_FEE_TYPES.map(ft =>
-    '<div class="fv-legend-item">' +
-    '<div class="fv-legend-dot" style="background:' + FV_FEE_COLORS[ft] + '"></div>' + ft + '</div>'
-  ).join('');
-
-  if (!families.length) {
-    d3.select(svgEl).selectAll('*').remove();
-    return;
-  }
-
-  const container = svgEl.parentElement;
-  const W = Math.max(container.clientWidth - 4, 320);
-  const rowH = 54;
-  const margin = { top: 8, bottom: 28, left: 115, right: 100 };
-  const H = margin.top + families.length * rowH + margin.bottom;
-  const innerW = W - margin.left - margin.right;
-
-  const maxVal = Math.max(...families.map(f => famTotals[f]), 1);
-  const xScale = d3.scaleLinear().domain([0, maxVal]).range([0, innerW]);
-
-  const svg = d3.select(svgEl)
-    .attr('width', W).attr('height', H)
-    .attr('viewBox', '0 0 ' + W + ' ' + H);
-  svg.selectAll('*').remove();
-
-  // X-axis grid + labels
-  const g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-  g.append('g')
-    .attr('transform', 'translate(0,' + (families.length * rowH) + ')')
-    .call(d3.axisBottom(xScale).ticks(4).tickFormat(d => fvFmt(d)))
-    .call(ax => { ax.select('.domain').attr('stroke', '#d4c9b0'); ax.selectAll('line').attr('stroke', '#d4c9b0'); })
-    .call(ax => ax.selectAll('text').style('font-family', "'IBM Plex Mono',monospace").style('font-size', '9px').attr('fill', '#6b6555'));
-
-  // Grid lines
-  xScale.ticks(4).forEach(tick => {
-    g.append('line')
-      .attr('x1', xScale(tick)).attr('x2', xScale(tick))
-      .attr('y1', 0).attr('y2', families.length * rowH)
-      .attr('stroke', '#e8e0d0').attr('stroke-width', 1).attr('stroke-dasharray', '3,3');
-  });
-
-  // Bars per family
-  families.forEach(function(fam, i) {
-    const rowG = g.append('g').attr('transform', 'translate(0,' + (i * rowH + 4) + ')');
-    const barH = rowH - 14;
-
-    // Family label
-    rowG.append('text')
-      .attr('x', -8).attr('y', barH / 2)
-      .attr('dy', '0.35em').attr('text-anchor', 'end')
-      .attr('fill', FV_RATES[fam].color)
-      .style('font-family', "'IBM Plex Sans',sans-serif")
-      .style('font-size', '11px').style('font-weight', '600')
-      .text(fam + ' Family');
-
-    let xPos = 0;
-    FV_FEE_TYPES.forEach(function(ft) {
-      const val = byFamilyFeeType[fam][ft] || 0;
-      const barW = xScale(val);
-      if (barW <= 0) return;
-      const rect = rowG.append('rect')
-        .attr('x', xPos).attr('y', 0)
-        .attr('width', 0).attr('height', barH)
-        .attr('fill', FV_FEE_COLORS[ft]);
-      rect.transition().duration(600).ease(d3.easeCubicOut).attr('width', barW);
-      xPos += barW;
-    });
-
-    // Total label at end of bar
-    const total = famTotals[fam];
-    const endX = xScale(total);
-    rowG.append('text')
-      .attr('x', endX + 6).attr('y', barH / 2)
-      .attr('dy', '0.35em').attr('fill', '#0d0d0d')
-      .style('font-family', "'IBM Plex Mono',monospace")
-      .style('font-size', '10px').style('font-weight', '600')
-      .attr('opacity', 0)
-      .transition().delay(600).duration(200)
-      .attr('opacity', 1)
-      .text(fvFmt(total) + '/mo');
-  });
-}
-
-// ── SANKEY FLOW CHART ──────────────────────────────────────────────────────
-
-function fvRenderSankey(data) {
-  const { families, byFamilyFeeType, feeTotals } = data;
-  const svgEl = document.getElementById('fv-sankey-svg');
-
-  if (!families.length) { d3.select(svgEl).selectAll('*').remove(); return; }
-
-  // Build nodes list
-  const nodes = [];
-  const famNodeIdx = {};
-  families.forEach(function(fam) {
-    famNodeIdx[fam] = nodes.length;
-    nodes.push({ name: fam + ' Family', col: 0, color: FV_RATES[fam].color });
-  });
-
-  const feeNodeIdx = {};
-  const activeFeeTypes = FV_FEE_TYPES.filter(ft => feeTotals[ft] > 0);
-  activeFeeTypes.forEach(function(ft) {
-    feeNodeIdx[ft] = nodes.length;
-    nodes.push({ name: ft, col: 1, color: FV_FEE_COLORS[ft] });
-  });
-
-  const rightNodeIdx = {};
-  const rightNodes = [
-    { name: 'Professional Users', color: '#6c3483' },
-    { name: 'Machines',           color: '#1565C0' },
-    { name: 'Platform / Other',   color: '#455A64' }
-  ];
-  rightNodes.forEach(function(rn) {
-    rightNodeIdx[rn.name] = nodes.length;
-    nodes.push({ name: rn.name, col: 2, color: rn.color });
-  });
-
-  const links = [];
-
-  // Family → Fee Type
-  families.forEach(function(fam) {
-    activeFeeTypes.forEach(function(ft) {
-      const val = byFamilyFeeType[fam][ft] || 0;
-      if (val > 0) links.push({ source: famNodeIdx[fam], target: feeNodeIdx[ft], value: val });
-    });
-  });
-
-  // Fee Type → Right column
-  function addLink(ft, rightName, fraction) {
-    if (feeNodeIdx[ft] === undefined || feeTotals[ft] <= 0) return;
-    const val = feeTotals[ft] * fraction;
-    if (val > 0) links.push({ source: feeNodeIdx[ft], target: rightNodeIdx[rightName], value: val });
-  }
-  addLink('User Fees',         'Professional Users', 1.0);
-  addLink('Non-Display Fees',  'Machines',           1.0);
-  addLink('Distribution Fees', 'Professional Users', 0.5);
-  addLink('Distribution Fees', 'Machines',           0.5);
-  addLink('Flat Fees',         'Platform / Other',   1.0);
-  addLink('Other Fees',        'Platform / Other',   1.0);
-
-  const container = document.getElementById('fv-view-sankey');
-  const W = Math.max(container.clientWidth - 4, 500);
-  const H = 380;
-
-  const svg = d3.select(svgEl).attr('width', W).attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H);
-  svg.selectAll('*').remove();
-  svg.append('rect').attr('width', W).attr('height', H).attr('fill', '#f5f2eb');
-
-  let sData;
-  try {
-    sData = d3.sankey()
-      .nodeId(function(d, i) { return i; })
-      .nodeWidth(14).nodePadding(12)
-      .extent([[80, 24], [W - 80, H - 16]])({ nodes: nodes.map(d => Object.assign({}, d)), links: links.map(d => Object.assign({}, d)) });
-  } catch(e) { return; }
-
-  const tooltip = document.getElementById('fv-tooltip');
-  let pinnedKey = null;
-  const linkKey = function(d) { return d.source.index + '-' + d.target.index; };
-  const DEF_OPACITY = 0.45;
-
-  const linkPath = d3.sankeyLinkHorizontal();
-  const linkSel = svg.append('g').selectAll('path').data(sData.links).join('path')
-    .attr('d', linkPath)
-    .attr('fill', 'none')
-    .attr('stroke', function(d) { return d.source.color; })
-    .attr('stroke-width', function(d) { return Math.max(1, d.width); })
-    .attr('opacity', DEF_OPACITY)
-    .style('cursor', 'pointer')
-    .on('mouseenter', function(event, d) {
-      if (pinnedKey) return;
-      linkSel.attr('opacity', function(l) { return linkKey(l) === linkKey(d) ? 1 : 0.1; });
-      tooltip.innerHTML = '<strong>' + d.source.name + ' → ' + d.target.name + '</strong>' + fvFmt(d.value) + '/mo';
-      tooltip.style.display = 'block';
-    })
-    .on('mousemove', function(event) {
-      if (pinnedKey) return;
-      const rect = container.getBoundingClientRect();
-      tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
-      tooltip.style.top  = (event.clientY - rect.top - 40) + 'px';
-    })
-    .on('mouseleave', function() {
-      if (pinnedKey) return;
-      linkSel.attr('opacity', DEF_OPACITY);
-      tooltip.style.display = 'none';
-    })
-    .on('click', function(event, d) {
-      const key = linkKey(d);
-      if (pinnedKey === key) {
-        pinnedKey = null;
-        linkSel.transition().duration(200).attr('opacity', DEF_OPACITY);
-        tooltip.style.display = 'none';
-      } else {
-        pinnedKey = key;
-        linkSel.transition().duration(200).attr('opacity', function(l) { return linkKey(l) === key ? 1 : 0.1; });
-        tooltip.innerHTML = '<strong>' + d.source.name + ' → ' + d.target.name + '</strong>' + fvFmt(d.value) + '/mo' +
-          '<span style="display:block;font-size:9px;color:#888;margin-top:2px">click to unpin</span>';
-        tooltip.style.display = 'block';
-        const rect = container.getBoundingClientRect();
-        tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
-        tooltip.style.top  = (event.clientY - rect.top - 40) + 'px';
-      }
-    });
-
-  const nodeG = svg.append('g').selectAll('g').data(sData.nodes).join('g');
-
-  nodeG.append('rect')
-    .attr('x', function(d) { return d.x0; }).attr('y', function(d) { return d.y0; })
-    .attr('width', function(d) { return d.x1 - d.x0; })
-    .attr('height', function(d) { return Math.max(1, d.y1 - d.y0); })
-    .attr('fill', function(d) { return d.color; }).attr('rx', 1)
-    .style('cursor', 'pointer')
-    .on('mouseenter', function(event, d) {
-      if (pinnedKey) return;
-      const idx = d.index;
-      linkSel.transition().duration(150).attr('opacity', function(l) {
-        return (l.source.index === idx || l.target.index === idx) ? 0.9 : 0.08;
-      });
-      tooltip.innerHTML = '<strong>' + d.name + '</strong>' + fvFmt(d.value) + '/mo';
-      tooltip.style.display = 'block';
-    })
-    .on('mousemove', function(event) {
-      if (pinnedKey) return;
-      const rect = container.getBoundingClientRect();
-      tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
-      tooltip.style.top  = (event.clientY - rect.top - 40) + 'px';
-    })
-    .on('mouseleave', function() {
-      if (pinnedKey) return;
-      linkSel.transition().duration(150).attr('opacity', DEF_OPACITY);
-      tooltip.style.display = 'none';
-    })
-    .on('click', function(event, d) {
-      if (pinnedKey && pinnedKey.startsWith('node')) {
-        pinnedKey = null;
-        linkSel.transition().duration(200).attr('opacity', DEF_OPACITY);
-        tooltip.style.display = 'none';
-      } else {
-        const idx = d.index;
-        pinnedKey = 'node-' + idx;
-        linkSel.transition().duration(200).attr('opacity', function(l) {
-          return (l.source.index === idx || l.target.index === idx) ? 0.9 : 0.08;
-        });
-      }
-    });
-
-  // Node labels
-  nodeG.append('text')
-    .attr('x', function(d) { return d.col === 2 ? d.x1 + 8 : d.col === 0 ? d.x0 - 8 : (d.x0 + d.x1) / 2; })
-    .attr('y', function(d) { return (d.y0 + d.y1) / 2; })
-    .attr('dy', '0.35em')
-    .attr('text-anchor', function(d) { return d.col === 2 ? 'start' : d.col === 0 ? 'end' : 'middle'; })
-    .attr('fill', '#0d0d0d')
-    .style('font-family', "'IBM Plex Mono',monospace").style('font-size', '10px')
-    .text(function(d) { return d.name; });
-
-  // Column header labels
-  [['Exchange Families', 72, 'end'], ['Fee Types', W / 2, 'middle'], ['Client Types', W - 72, 'start']].forEach(function(h) {
-    svg.append('text').attr('x', h[1]).attr('y', 14).attr('text-anchor', h[2])
-      .attr('fill', '#6b6555').style('font-family', "'IBM Plex Mono',monospace")
-      .style('font-size', '9px').style('text-transform', 'uppercase').style('letter-spacing', '0.1em')
-      .text(h[0]);
-  });
-}
-
-// ── TABLE VIEW ────────────────────────────────────────────────────────────
-
-function fvRenderTable(data) {
-  const rows = data.tableRows;
-  const cols = ['family', 'exchange', 'feeType', 'monthly', 'annual'];
-  const sorted = rows.slice().sort(function(a, b) {
-    const va = a[cols[fvSortColIdx]], vb = b[cols[fvSortColIdx]];
-    if (typeof va === 'string') return fvSortAscending ? va.localeCompare(vb) : vb.localeCompare(va);
-    return fvSortAscending ? va - vb : vb - va;
-  });
-
-  document.getElementById('fv-tbody').innerHTML = sorted.map(function(r) {
-    return '<tr>' +
-      '<td style="color:' + r.famColor + ';font-weight:600">' + r.family + '</td>' +
-      '<td>' + r.exchange + '</td>' +
-      '<td><span style="display:inline-block;width:8px;height:8px;background:' + FV_FEE_COLORS[r.feeType] + ';border-radius:1px;margin-right:5px;vertical-align:middle"></span>' + r.feeType + '</td>' +
-      '<td style="font-family:\'IBM Plex Mono\',monospace;text-align:right">' + fvFmt(r.monthly) + '</td>' +
-      '<td style="font-family:\'IBM Plex Mono\',monospace;text-align:right">' + fvFmt(r.annual) + '</td>' +
-      '</tr>';
-  }).join('');
-}
-
-function fvSortTable(colIdx, th) {
-  if (fvSortColIdx === colIdx) { fvSortAscending = !fvSortAscending; }
-  else { fvSortColIdx = colIdx; fvSortAscending = colIdx < 3; }
-  document.querySelectorAll('#fv-tbl th .fv-sort-arrow').forEach(function(el, i) {
-    el.textContent = i === colIdx ? (fvSortAscending ? ' ↑' : ' ↓') : '';
-  });
-  if (fvLastData) fvRenderTable(fvLastData);
-}
-
-// Init fee visualization
-fvUpdate();
-window.addEventListener('resize', function() {
-  if (!fvLastData) return;
-  if (fvCurrentView === 'bar') fvRenderBar(fvLastData);
-  else if (fvCurrentView === 'sankey') fvRenderSankey(fvLastData);
-});
-
-
-// Run on load with defaults
-recalc();
-
-// Redraw on window resize
-window.addEventListener('resize', () => {
-  const amounts = {
-    NYSE:   document.getElementById('chkNYSE').checked ? (parseInt(document.getElementById('profUsers').value)||0) * 21 : 0,
-    Nasdaq: document.getElementById('chkNasdaq').checked ? (parseInt(document.getElementById('profUsers').value)||0) * 24 : 0,
-    Cboe:   document.getElementById('chkCboe').checked ? (parseInt(document.getElementById('profUsers').value)||0) * 18 : 0
-  };
-  recalc();
-});
 </script>
 
   <script src="search-global.js"></script>
