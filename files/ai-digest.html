@@ -326,6 +326,7 @@
     <div class="digest-card-head">
       <span class="digest-card-num">01</span>
       <span class="digest-card-title">Daily FeedWatch Digest</span>
+      <span class="digest-card-date" id="digestDate" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);font-weight:600;letter-spacing:0.06em;white-space:nowrap;padding:0 8px;background:rgba(184,134,11,0.08);border-radius:2px"></span>
       <div class="digest-card-line"></div>
       <span class="digest-card-ts" id="digestTs"></span>
     </div>
@@ -440,6 +441,40 @@ function fmt(iso) {
   return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
 }
 
+// Set today's date on the digest card header
+(function() {
+  var el = document.getElementById('digestDate');
+  if (el) {
+    el.textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+  }
+})();
+
+function renderDigest(fw) {
+  var digestTs = document.getElementById('digestTs');
+  var digestBody = document.getElementById('digestBody');
+  if (!digestBody) return;
+  if (fw && fw.html) {
+    if (digestTs) digestTs.textContent = fmt(fw.generatedAt);
+    digestBody.innerHTML = '<div class="ai-content fade-in">' + fw.html + '</div>';
+  } else {
+    digestBody.innerHTML = '<p style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--muted);padding:8px 0">' + (fw && fw.message ? fw.message : 'No digest available yet.') + '</p>';
+  }
+}
+
+function triggerRegen() {
+  var digestTs = document.getElementById('digestTs');
+  var digestBody = document.getElementById('digestBody');
+  if (digestTs) digestTs.textContent = 'Regenerating…';
+  if (digestBody) digestBody.innerHTML = '<p style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--muted);padding:8px 0">Generating today\'s digest — this takes about 20 seconds…</p>';
+  fetch('/.netlify/functions/daily-feedwatch?refresh=true')
+    .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(fresh) { renderDigest(fresh); })
+    .catch(function(err) {
+      console.warn('[ai-digest] Regen failed:', err.message);
+      if (digestTs) digestTs.textContent = 'Regen failed — will retry at 6am ET';
+    });
+}
+
 async function loadContent() {
   try {
     var res = await fetch('/.netlify/functions/get-content');
@@ -447,13 +482,11 @@ async function loadContent() {
     var data = await res.json();
 
     // ── Card 1: Daily Digest ──
-    var digestTs = document.getElementById('digestTs');
-    var digestBody = document.getElementById('digestBody');
-    if (data.feedwatch && data.feedwatch.html) {
-      if (digestTs) digestTs.textContent = fmt(data.feedwatch.generatedAt);
-      digestBody.innerHTML = '<div class="ai-content fade-in">' + data.feedwatch.html + '</div>';
+    if (data.feedwatch && data.feedwatch.stale) {
+      // Cached digest is from a previous day — trigger fresh generation
+      triggerRegen();
     } else {
-      digestBody.innerHTML = '<p style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--muted);padding:8px 0">' + (data.feedwatch && data.feedwatch.message ? data.feedwatch.message : 'No digest available yet.') + '</p>';
+      renderDigest(data.feedwatch);
     }
 
     // ── Card 2: Fee Monitor ──

@@ -30,11 +30,23 @@ exports.handler = async function (event) {
     }),
   ]);
 
+  // Cache-busting: flag the digest as stale if its date doesn't match today.
+  // The frontend will trigger ?refresh=true regeneration when it sees stale=true.
+  const today = new Date().toISOString().split('T')[0];
+  const digestStale = !feedwatch || !feedwatch.date || feedwatch.date !== today;
+
+  const feedwatchOut = feedwatch
+    ? { ...feedwatch, stale: digestStale }
+    : { message: 'No digest available yet. Runs daily at 6am ET.', stale: true };
+
+  // Don't let CDN cache a stale response — let the browser always re-check.
+  const cacheControl = digestStale ? 'no-cache, no-store, must-revalidate' : 'public, max-age=300';
+
   return {
     statusCode: 200,
     headers: {
       'Content-Type': 'application/json',
-      'Cache-Control': 'public, max-age=300',
+      'Cache-Control': cacheControl,
     },
     body: JSON.stringify({
       retrievedAt: new Date().toISOString(),
@@ -43,7 +55,7 @@ exports.handler = async function (event) {
         regulatory: !!regulatory,
         feeAlerts: !!feeAlerts,
       },
-      feedwatch: feedwatch ?? { message: 'No digest available yet. Runs daily at 6am ET.' },
+      feedwatch: feedwatchOut,
       regulatory: regulatory ?? { message: 'No roundup available yet. Runs every Monday at 7am ET.' },
       feeAlerts: feeAlerts ?? { message: 'No fee change alerts on file. Monitor runs daily at 8am ET.' },
     }),
