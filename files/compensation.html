@@ -209,6 +209,25 @@
     .role-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 1200px) { .nav-comp { display: none; } }
+
+  /* ── REBUILT NAV: GROUPED DROPDOWNS ── */
+  nav { display: flex; align-items: stretch; padding: 0 48px; border-bottom: 1px solid var(--rule); position: relative; flex-wrap: nowrap; overflow: visible; background: var(--cream); }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0 14px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; user-select: none; }
+  a.nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-dropdown { position: relative; display: flex; align-items: stretch; }
+  .nav-dropdown > .nav-item { border-left: none; }
+  .nav-dropdown-menu { display: block; position: absolute; top: 100%; left: 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; min-width: 220px; background: var(--ink); border-top: 2px solid var(--accent); z-index: 1000; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left: auto; right: 0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-drop-item { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #aaa; text-decoration: none; padding: 10px 20px; border-bottom: 1px solid #1e1e1e; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+  .nav-drop-item:last-child { border-bottom: none; }
+  .nav-drop-item:hover { color: var(--accent); background: #111; }
+  a.nav-subscribe { background: var(--accent); color: var(--ink) !important; border-right: 1px solid var(--rule); }
+  a.nav-subscribe:hover { background: var(--accent-dark) !important; color: white !important; }
+  a.nav-subscribe.active { background: var(--accent-dark) !important; color: white !important; }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; border-left: 1px solid var(--rule); }
+  .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
 </style>
 </head>
 <body>
@@ -258,17 +277,33 @@
   </div>
   <nav>
     <a href="index.html" class="nav-item">All News</a>
-    <a href="calendar.html" class="nav-item">FeedWatch</a>
-    <a href="exchanges.html" class="nav-item">Exchanges</a>
-    <a href="regulation.html" class="nav-item">Regulation</a>
-    <a href="nms.html" class="nav-item">NMS / SIP</a>
-    <a href="feed-status.html" class="nav-item">Feed Status</a>
-    <a href="market-data-fees.html" class="nav-item">Fees</a>
-    <a href="contract-intelligence.html" class="nav-item">Contracts</a>
-    <a href="prediction-markets.html" class="nav-item">Prediction Markets</a>
+    <div class="nav-dropdown">
+      <span class="nav-item">Markets &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="exchanges.html" class="nav-drop-item">Exchanges</a>
+        <a href="prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="nms.html" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="ai-digest.html" class="nav-drop-item">AI Digest</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item active">Tools &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
+        <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
+        <a href="compensation.html" class="nav-drop-item">Compensation</a>
+      </div>
+    </div>
     <a href="about.html" class="nav-item">About</a>
-    <a href="compensation.html" class="nav-item nav-comp active">Compensation</a>
-    <a href="subscribe.html" class="nav-item">Subscribe</a>
+    <a href="subscribe.html" class="nav-item nav-subscribe">Subscribe</a>
     <div class="nav-right">
       <div class="search-wrap" id="searchWrap">
         <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
@@ -283,17 +318,21 @@
 </div>
 <div class="mobile-nav" id="mobileNav">
   <a href="index.html">All News</a>
-  <a href="calendar.html">FeedWatch</a>
-
+  <div class="mob-group-label">Markets</div>
   <a href="exchanges.html">Exchanges</a>
-  <a href="regulation.html">Regulation</a>
-  <a href="nms.html">NMS / SIP</a>
-  <a href="feed-status.html">Feed Status</a>
-  <a href="market-data-fees.html">Fees</a>
-  <a href="contract-intelligence.html">Contracts</a>
   <a href="prediction-markets.html">Prediction Markets</a>
-  <a href="about.html">About</a>
+  <div class="mob-group-label">Intelligence</div>
+  <a href="calendar.html">FeedWatch Calendar</a>
+  <a href="nms.html">NMS / SIP Plans</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="ai-digest.html">AI Digest</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="market-data-fees.html">Fee Calculator</a>
+  <a href="contract-intelligence.html">Contract Intelligence</a>
   <a href="compensation.html" class="active">Compensation</a>
+  <div class="mob-group-label">About</div>
+  <a href="about.html">About</a>
   <a href="subscribe.html">Subscribe</a>
 </div>
 
