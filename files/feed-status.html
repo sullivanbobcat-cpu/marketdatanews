@@ -21,6 +21,7 @@
   <meta name="twitter:description" content="Live operational status of 33 major market data feeds. Includes recent fee change alerts.">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
   :root {
     --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
@@ -192,11 +193,28 @@
   .fd-notice-tip::after { content:''; position:absolute; top:100%; left:10px; border:5px solid transparent; border-top-color:var(--ink); }
   .fd-card-desc { font-size:11px; color:var(--muted); line-height:1.55; }
 
+  /* ── LATENCY CHART ── */
+  .lc-controls { margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .lc-control-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .lc-control-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); min-width: 86px; }
+  .lc-toggle, .lc-cat { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 4px 12px; border: 1px solid var(--rule); background: transparent; color: var(--muted); cursor: pointer; border-radius: 2px; letter-spacing: 0.04em; transition: all 0.15s; }
+  .lc-toggle:hover, .lc-cat:hover { border-color: var(--accent); color: var(--accent-dark); }
+  .lc-toggle.active, .lc-cat.active { background: var(--accent); border-color: var(--accent); color: var(--ink); font-weight: 600; }
+  .lc-chart-wrap { background: var(--surface); border: 1px solid var(--border); overflow: hidden; margin-bottom: 12px; }
+  .lc-disclaimer { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); line-height: 1.75; background: var(--cream); border: 1px solid var(--border); padding: 12px 16px; margin-bottom: 24px; font-style: italic; }
+  .lc-insight-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 8px; }
+  .lc-insight-card { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--rule); padding: 18px 20px; }
+  .lc-insight-card.lc-insight-watch { border-top-color: var(--accent); }
+  .lc-insight-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 7px; }
+  .lc-insight-value { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; line-height: 1.25; }
+  .lc-insight-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent-dark); }
+
   @media (max-width: 900px) {
     .page-hero, .page-container { padding-left: 20px; padding-right: 20px; }
     .fd-cat-body { grid-template-columns:1fr; }
     .fd-summary-divider { display:none; }
     .fd-summary-updated { margin-left:0; width:100%; }
+    .lc-insight-grid { grid-template-columns: 1fr 1fr; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
     footer { padding: 32px 20px; }
     .fee-table th:nth-child(3), .fee-table td:nth-child(3) { display: none; }
@@ -417,10 +435,69 @@
   <div class="fee-reviewed">Last reviewed: April 01, 2026 &nbsp;·&nbsp; Source: exchange fee schedules and SEC filings &nbsp;·&nbsp; <a href="market-data-fees.html" style="color:var(--accent);text-decoration:none;">Fee calculator →</a></div>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 2 — FEED STATUS DASHBOARD -->
+  <!-- SECTION 3 — FEED LATENCY BENCHMARKS -->
   <!-- ═══════════════════════════════════════════════ -->
   <div class="section-head">
-    <span class="section-num">02 —</span>
+    <span class="section-num">03 —</span>
+    <h2>Feed Latency Benchmarks</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="lc-controls">
+    <div class="lc-control-row">
+      <span class="lc-control-label">Access Tier:</span>
+      <button class="lc-toggle active" data-access="all">All</button>
+      <button class="lc-toggle" data-access="direct-colo">Direct Colo</button>
+      <button class="lc-toggle" data-access="managed-network">Managed</button>
+      <button class="lc-toggle" data-access="cloud">Cloud</button>
+      <button class="lc-toggle" data-access="internet">Internet</button>
+    </div>
+    <div class="lc-control-row">
+      <span class="lc-control-label">Category:</span>
+      <button class="lc-cat active" data-cat="all">All</button>
+      <button class="lc-cat" data-cat="us-equity">US Equity</button>
+      <button class="lc-cat" data-cat="options">Options</button>
+      <button class="lc-cat" data-cat="futures">Futures</button>
+      <button class="lc-cat" data-cat="prediction-markets">Prediction Markets</button>
+    </div>
+  </div>
+
+  <div class="lc-chart-wrap">
+    <div id="lcContainer" style="min-height:400px;width:100%;overflow:hidden"></div>
+  </div>
+
+  <div class="lc-disclaimer">
+    Latency estimates represent typical observed ranges under normal market conditions at specified access tier. Direct colocated figures assume proximity to primary exchange matching engine. Actual latency varies by network path, message size, market conditions, and time of day. IEX 350µs figure reflects intentional speed bump by design. Cloud figures reflect 2026 preview phase estimates. Not suitable for trading decisions.
+  </div>
+
+  <div class="lc-insight-grid">
+    <div class="lc-insight-card">
+      <div class="lc-insight-label">Fastest Feed</div>
+      <div class="lc-insight-value">NYSE Integrated Feed</div>
+      <div class="lc-insight-sub">3µs median · direct colo</div>
+    </div>
+    <div class="lc-insight-card">
+      <div class="lc-insight-label">Highest Latency by Design</div>
+      <div class="lc-insight-value">IEX TOPS</div>
+      <div class="lc-insight-sub">358µs · intentional speed bump</div>
+    </div>
+    <div class="lc-insight-card">
+      <div class="lc-insight-label">Biggest Range</div>
+      <div class="lc-insight-value">CTA SIP Internet</div>
+      <div class="lc-insight-sub">250µs to 20ms</div>
+    </div>
+    <div class="lc-insight-card lc-insight-watch">
+      <div class="lc-insight-label">2026 Watch</div>
+      <div class="lc-insight-value">CME Google Cloud</div>
+      <div class="lc-insight-sub">350µs median · preview phase</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 4 — FEED DIRECTORY -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">04 —</span>
     <h2>Feed Directory</h2>
     <div class="section-line"></div>
   </div>
@@ -971,6 +1048,318 @@ function fdToggle(hdr) {
   hdr.classList.toggle('collapsed');
   hdr.nextElementSibling.classList.toggle('collapsed');
 }
+
+// ── FEED LATENCY CHART ─────────────────────────────────────────────────────
+window.addEventListener('load', function() {
+  if (typeof d3 === 'undefined') return;
+
+  var latencyData = [
+    { feed:'NYSE Integrated Feed',        protocol:'Pillar',    access:'direct-colo',     category:'US Equity',
+      min:1,   p25:2,   median:3,   p75:5,   max:12,
+      note:'NYSE MDC Aurora colocated. Sub-5µs typical for top-of-book.' },
+    { feed:'Nasdaq TotalView ITCH',        protocol:'ITCH 5.0', access:'direct-colo',     category:'US Equity',
+      min:1,   p25:2,   median:4,   p75:6,   max:15,
+      note:'Carteret NJ colocated. Full depth adds processing overhead.' },
+    { feed:'Cboe BZX Depth',               protocol:'PITCH',    access:'direct-colo',     category:'US Equity',
+      min:2,   p25:3,   median:5,   p75:8,   max:18,
+      note:'Secaucus NJ colocated. PITCH protocol highly optimized.' },
+    { feed:'IEX TOPS',                     protocol:'IEXTP',    access:'direct-colo',     category:'US Equity',
+      min:350, p25:355, median:358, p75:362, max:380,
+      note:'350µs intentional speed bump — IEX by design.' },
+    { feed:'OPRA Consolidated',            protocol:'OPRA',     access:'direct-colo',     category:'Options',
+      min:5,   p25:8,   median:15,  p75:35,  max:120,
+      note:'96-line multicast. Latency spikes at open/close due to volume.' },
+    { feed:'Cboe One Feed',                protocol:'PITCH',    access:'direct-colo',     category:'Options',
+      min:3,   p25:5,   median:8,   p75:14,  max:40,
+      note:'Consolidated options from 4 Cboe venues. Lower volume than OPRA.' },
+    { feed:'Nasdaq PHLX',                  protocol:'ITCH',     access:'direct-colo',     category:'Options',
+      min:2,   p25:4,   median:7,   p75:12,  max:35,
+      note:'Philadelphia colocated. SQF port migration completed 2025.' },
+    { feed:'CME Globex MDP 3.0',           protocol:'MDP 3.0',  access:'direct-colo',     category:'Futures',
+      min:2,   p25:4,   median:8,   p75:18,  max:55,
+      note:'Aurora IL colocated. Requires 10Gbps — 1Gbps deprecated March 2026.' },
+    { feed:'CBOT Agricultural MDP 3.0',    protocol:'MDP 3.0',  access:'direct-colo',     category:'Futures',
+      min:3,   p25:5,   median:10,  p75:22,  max:65,
+      note:'Corn/Wheat/Soybean. WASDE release days see 10x normal volume spikes.' },
+    { feed:'ICE Brent Crude',              protocol:'iMpact',   access:'direct-colo',     category:'Futures',
+      min:4,   p25:7,   median:12,  p75:25,  max:70,
+      note:'London primary. Elevated volumes post Iran war March 2026.' },
+    { feed:'NYSE (Managed Network)',       protocol:'Pillar',   access:'managed-network', category:'US Equity',
+      min:15,  p25:25,  median:45,  p75:80,  max:250,
+      note:'TNS/BT Radianz managed extranet. No colo required.' },
+    { feed:'Nasdaq (Managed Network)',     protocol:'ITCH 5.0', access:'managed-network', category:'US Equity',
+      min:18,  p25:30,  median:55,  p75:95,  max:280,
+      note:'Managed connectivity via approved network providers.' },
+    { feed:'CME (Managed Network)',        protocol:'MDP 3.0',  access:'managed-network', category:'Futures',
+      min:20,  p25:40,  median:75,  p75:140, max:400,
+      note:'CME Globex Hub managed connectivity. Aurora to Chicago typical.' },
+    { feed:'NYSE (Google Cloud \u20142026)',  protocol:'Pillar',   access:'cloud',           category:'US Equity',
+      min:50,  p25:120, median:280, p75:650, max:2000,
+      note:'NYSE Google Cloud preview phase. Private Chicago region. 2026 launch.' },
+    { feed:'CME (Google Cloud \u2014Preview)', protocol:'MDP 3.0', access:'cloud',           category:'Futures',
+      min:80,  p25:180, median:350, p75:800, max:2500,
+      note:'Google Cloud Dallas sandbox testing open Q2 2026. Preview phase.' },
+    { feed:'Kalshi (REST API)',             protocol:'REST/WS',  access:'cloud',           category:'Prediction Markets',
+      min:40,  p25:80,  median:150, p75:350, max:1200,
+      note:'Public REST API. WebSocket for real-time. No colo option.' },
+    { feed:'UTP SIP (Internet)',            protocol:'UTP',      access:'internet',        category:'US Equity',
+      min:200, p25:500, median:1200,p75:3000,max:15000,
+      note:'Consolidated SIP via internet. Not suitable for latency-sensitive use.' },
+    { feed:'CTA SIP (Internet)',            protocol:'CTS/CQS',  access:'internet',        category:'US Equity',
+      min:250, p25:600, median:1500,p75:4000,max:20000,
+      note:'Consolidated tape via internet. Regulatory baseline only.' },
+    { feed:'Polymarket (REST API)',         protocol:'REST/WS',  access:'internet',        category:'Prediction Markets',
+      min:50,  p25:100, median:200, p75:500, max:2000,
+      note:'Gamma and CLOB APIs. WebSocket for orderbook streaming.' },
+  ];
+
+  var ACCESS_COLORS = {
+    'direct-colo':     '#b8860b',
+    'managed-network': '#1565C0',
+    'cloud':           '#6A1B9A',
+    'internet':        '#455A64'
+  };
+  var ACCESS_GROUPS = [
+    { key:'direct-colo',     label:'DIRECT COLOCATED' },
+    { key:'managed-network', label:'MANAGED NETWORK' },
+    { key:'cloud',           label:'CLOUD' },
+    { key:'internet',        label:'INTERNET / PUBLIC API' }
+  ];
+
+  var activeAccess = 'all';
+  var activeCat    = 'all';
+  var resizeTO;
+  var ROW_H = 36, GROUP_H = 28;
+  var M = { top:24, right:48, bottom:52, left:205 };
+
+  function normCat(c) { return (c||'').toLowerCase().replace(/\s+/g,'-'); }
+
+  function fmtLat(v) {
+    if (v < 1000) return v + '\u00b5s';
+    return (v >= 10000 ? Math.round(v/1000) : (v/1000).toFixed(1)) + 'ms';
+  }
+
+  function getItems() {
+    var fil = latencyData.filter(function(d) {
+      return (activeAccess==='all' || d.access===activeAccess) &&
+             (activeCat==='all'   || normCat(d.category)===activeCat);
+    });
+    var items = [];
+    ACCESS_GROUPS.forEach(function(grp) {
+      var rows = fil.filter(function(d) { return d.access===grp.key; });
+      if (rows.length) {
+        items.push({ type:'header', label:grp.label, access:grp.key });
+        rows.forEach(function(r) { items.push({ type:'row', data:r }); });
+      }
+    });
+    return items;
+  }
+
+  function drawLatencyChart() {
+    var cont = document.getElementById('lcContainer');
+    if (!cont) return;
+
+    d3.select(cont).selectAll('*').remove();
+    d3.select('#lcTip').remove();
+
+    var items  = getItems();
+    var totalH = items.reduce(function(s,i){ return s+(i.type==='header'?GROUP_H:ROW_H); }, 0);
+    var cW     = cont.offsetWidth || 900;
+    var W      = Math.max(200, cW - M.left - M.right);
+    var svgH   = Math.max(400, totalH + M.top + M.bottom);
+
+    cont.style.minHeight = svgH + 'px';
+
+    var svg = d3.select(cont).append('svg').attr('width', cW).attr('height', svgH);
+    var g   = svg.append('g').attr('transform','translate('+M.left+','+M.top+')');
+
+    var x = d3.scaleLog().domain([0.9, 30000]).range([0, W]).clamp(true);
+    var tickVals = [1, 10, 100, 1000, 10000, 20000];
+
+    // Vertical grid
+    tickVals.forEach(function(v) {
+      g.append('line')
+        .attr('x1',x(v)).attr('x2',x(v)).attr('y1',0).attr('y2',totalH)
+        .attr('stroke','#e8e0d0').attr('stroke-width',0.5)
+        .attr('stroke-dasharray', v===1 ? 'none' : '3,6');
+    });
+
+    // X axis
+    g.append('g')
+      .attr('transform','translate(0,'+totalH+')')
+      .call(d3.axisBottom(x)
+        .tickValues(tickVals)
+        .tickFormat(function(v) {
+          var n=+v;
+          if (n<1000)  return n+'\u00b5s';
+          if (n===1000) return '1ms';
+          if (n===10000) return '10ms';
+          return '20ms';
+        })
+        .tickSize(5))
+      .call(function(ax) {
+        ax.select('.domain').attr('stroke','#d4c9b0');
+        ax.selectAll('.tick line').attr('stroke','#d4c9b0');
+        ax.selectAll('.tick text')
+          .attr('font-family','IBM Plex Mono, monospace')
+          .attr('font-size',9).attr('fill','#6b6555');
+      });
+
+    // Axis label
+    g.append('text')
+      .attr('x',W/2).attr('y',totalH+44)
+      .attr('text-anchor','middle')
+      .attr('font-family','IBM Plex Mono, monospace')
+      .attr('font-size',9).attr('fill','#6b6555')
+      .text('End-to-end latency \u00b7 log scale \u00b7 µs = microseconds, ms = milliseconds');
+
+    // Tooltip
+    var tip = d3.select('body').append('div')
+      .attr('id','lcTip')
+      .style('position','fixed').style('pointer-events','none')
+      .style('background','#0d0d0d').style('border','1px solid #b8860b')
+      .style('padding','12px 14px').style('border-radius','2px')
+      .style('font-family','IBM Plex Mono, monospace').style('font-size','11px')
+      .style('color','#f5f2eb').style('line-height','1.6')
+      .style('max-width','300px').style('z-index','9999')
+      .style('box-shadow','0 4px 20px rgba(0,0,0,0.5)').style('opacity','0');
+
+    // Y positions
+    var yPos = 0;
+    items.forEach(function(item) { item.y=yPos; yPos+=(item.type==='header'?GROUP_H:ROW_H); });
+
+    // Draw
+    items.forEach(function(item) {
+      if (item.type==='header') {
+        var hc = ACCESS_COLORS[item.access];
+        g.append('rect')
+          .attr('x',-M.left).attr('y',item.y)
+          .attr('width',cW).attr('height',GROUP_H)
+          .attr('fill','rgba(0,0,0,0.025)');
+        g.append('text')
+          .attr('x',-M.left+8).attr('y',item.y+GROUP_H/2)
+          .attr('dominant-baseline','middle')
+          .attr('font-family','IBM Plex Mono, monospace')
+          .attr('font-size',9).attr('font-weight','600')
+          .attr('letter-spacing','0.12em').attr('fill',hc)
+          .text(item.label);
+        g.append('line')
+          .attr('x1',-M.left).attr('x2',W+M.right)
+          .attr('y1',item.y+GROUP_H).attr('y2',item.y+GROUP_H)
+          .attr('stroke','#d4c9b0').attr('stroke-width',0.5);
+      } else {
+        var d   = item.data;
+        var col = ACCESS_COLORS[d.access];
+        var cy  = item.y + ROW_H/2;
+
+        var rbg = g.append('rect')
+          .attr('x',-M.left).attr('y',item.y)
+          .attr('width',cW).attr('height',ROW_H)
+          .attr('fill','transparent').attr('cursor','pointer');
+
+        // Row separator
+        g.append('line')
+          .attr('x1',-M.left).attr('x2',W+M.right)
+          .attr('y1',item.y+ROW_H).attr('y2',item.y+ROW_H)
+          .attr('stroke','#e8e0d0').attr('stroke-width',0.5);
+
+        // Full range band
+        var rx1 = x(Math.max(0.9,d.min)), rx2 = x(d.max);
+        g.append('rect')
+          .attr('x',rx1).attr('y',cy-7)
+          .attr('width',Math.max(2,rx2-rx1)).attr('height',14)
+          .attr('fill',col).attr('opacity',0.2).attr('rx',2)
+          .attr('pointer-events','none');
+
+        // IQR band
+        var qx1 = x(Math.max(0.9,d.p25)), qx2 = x(d.p75);
+        g.append('rect')
+          .attr('x',qx1).attr('y',cy-5)
+          .attr('width',Math.max(2,qx2-qx1)).attr('height',10)
+          .attr('fill',col).attr('opacity',0.5).attr('rx',1.5)
+          .attr('pointer-events','none');
+
+        // Median tick
+        g.append('rect')
+          .attr('x',x(d.median)-1.5).attr('y',cy-9)
+          .attr('width',3).attr('height',18)
+          .attr('fill',col).attr('rx',0.5)
+          .attr('pointer-events','none');
+
+        // Feed name (line 1)
+        g.append('text')
+          .attr('x',-12).attr('y',cy-4)
+          .attr('text-anchor','end').attr('dominant-baseline','auto')
+          .attr('font-family','IBM Plex Mono, monospace').attr('font-size',10)
+          .attr('fill',col).attr('pointer-events','none')
+          .text(d.feed);
+
+        // Protocol (line 2)
+        g.append('text')
+          .attr('x',-12).attr('y',cy+8)
+          .attr('text-anchor','end').attr('dominant-baseline','auto')
+          .attr('font-family','IBM Plex Mono, monospace').attr('font-size',8)
+          .attr('fill','#999').attr('pointer-events','none')
+          .text(d.protocol);
+
+        // Hover
+        var aLbl = { 'direct-colo':'Direct Colocated','managed-network':'Managed Network','cloud':'Cloud','internet':'Internet / Public API' };
+        rbg.on('mouseover', function(ev) {
+          rbg.attr('fill','rgba(184,134,11,0.07)');
+          tip.style('opacity',1).html(
+            '<div style="color:'+col+';font-weight:600;font-size:12px;margin-bottom:5px">'+d.feed+'</div>'+
+            '<div style="color:#666;font-size:10px;margin-bottom:9px">'+(aLbl[d.access]||d.access)+' \u00b7 '+d.protocol+' \u00b7 '+d.category+'</div>'+
+            '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px 12px;margin-bottom:8px">'+
+              '<div><div style="color:#555;font-size:9px;letter-spacing:.06em">MIN</div><div style="color:#ccc">'+fmtLat(d.min)+'</div></div>'+
+              '<div><div style="color:#555;font-size:9px;letter-spacing:.06em">MEDIAN</div><div style="color:'+col+';font-weight:600">'+fmtLat(d.median)+'</div></div>'+
+              '<div><div style="color:#555;font-size:9px;letter-spacing:.06em">MAX</div><div style="color:#ccc">'+fmtLat(d.max)+'</div></div>'+
+            '</div>'+
+            '<div style="color:#555;font-size:9px;margin-bottom:7px">P25: <span style="color:#888">'+fmtLat(d.p25)+'</span> &nbsp;\u00b7&nbsp; P75: <span style="color:#888">'+fmtLat(d.p75)+'</span></div>'+
+            '<div style="color:#888;font-size:10px;font-style:italic;border-top:1px solid #1e1e1e;padding-top:7px">'+d.note+'</div>'
+          );
+          posTip(ev);
+        })
+        .on('mousemove', function(ev) { posTip(ev); })
+        .on('mouseout', function() { rbg.attr('fill','transparent'); tip.style('opacity',0); });
+      }
+    });
+  }
+
+  function posTip(ev) {
+    var left=ev.clientX+16, top=ev.clientY-20;
+    if (left+310>window.innerWidth-8)  left=ev.clientX-322;
+    if (top+240>window.innerHeight-8)  top=ev.clientY-250;
+    d3.select('#lcTip').style('left',left+'px').style('top',top+'px');
+  }
+
+  // Controls
+  document.querySelectorAll('.lc-toggle').forEach(function(b) {
+    b.addEventListener('click', function() {
+      activeAccess = this.dataset.access;
+      document.querySelectorAll('.lc-toggle').forEach(function(t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      drawLatencyChart();
+    });
+  });
+  document.querySelectorAll('.lc-cat').forEach(function(b) {
+    b.addEventListener('click', function() {
+      activeCat = this.dataset.cat;
+      document.querySelectorAll('.lc-cat').forEach(function(t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      drawLatencyChart();
+    });
+  });
+
+  var lcCont = document.getElementById('lcContainer');
+  if (lcCont) {
+    new ResizeObserver(function() {
+      clearTimeout(resizeTO);
+      resizeTO = setTimeout(drawLatencyChart, 100);
+    }).observe(lcCont);
+  }
+
+  drawLatencyChart();
+});
 </script>
 
   <script src="search-global.js"></script>
