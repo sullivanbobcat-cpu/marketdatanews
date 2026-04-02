@@ -237,6 +237,41 @@
     .footer-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 1200px) { .nav-comp { display: none; } }
+
+  /* ── EXCHANGE DIRECTORY ── */
+  .exdir-section { padding: 36px 0 0; }
+  .exdir-tabs { display: flex; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; border-bottom: 2px solid var(--ink); margin-bottom: 24px; scrollbar-width: none; }
+  .exdir-tabs::-webkit-scrollbar { display: none; }
+  .exdir-tab { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; padding: 9px 18px; cursor: pointer; border: none; background: none; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -2px; white-space: nowrap; flex-shrink: 0; transition: color 0.15s, border-color 0.15s; }
+  .exdir-tab:hover { color: var(--ink); }
+  .exdir-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 700; }
+
+  .exdir-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 40px; }
+  .exdir-card { display: flex; gap: 14px; padding: 16px 18px; background: var(--surface); text-decoration: none; color: inherit; transition: background 0.12s; cursor: pointer; align-items: flex-start; }
+  .exdir-card:hover { background: var(--cream); }
+  .exdir-card.hidden { display: none; }
+
+  .exdir-badge { flex-shrink: 0; width: 42px; height: 42px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 700; color: white; text-align: center; line-height: 1.2; letter-spacing: 0; text-transform: uppercase; padding: 2px; }
+  .exdir-info { flex: 1; min-width: 0; }
+  .exdir-abbr { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
+  .exdir-name { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.25; margin-bottom: 3px; }
+  .exdir-location { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .exdir-assets { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 6px; }
+  .exdir-tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 1px 5px; background: var(--paper); border: 1px solid var(--rule); border-radius: 1px; color: var(--muted); white-space: nowrap; }
+  .exdir-proto { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--accent-dark); font-weight: 600; }
+  .exdir-count { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-bottom: 16px; }
+
+  .exdir-fade { animation: exdir-fadein 0.18s ease; }
+  @keyframes exdir-fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  @media (max-width: 900px) {
+    .exdir-grid { grid-template-columns: repeat(2, 1fr); }
+    .exdir-section { padding: 24px 0 0; }
+  }
+  @media (max-width: 480px) {
+    .exdir-grid { grid-template-columns: 1fr; }
+    .exdir-badge { width: 36px; height: 36px; font-size: 8px; }
+  }
 </style>
 </head>
 <body>
@@ -334,6 +369,621 @@
 
 <!-- Main Content -->
 <div class="page-container">
+
+  <!-- ── GLOBAL EXCHANGE DIRECTORY ── -->
+  <div class="exdir-section">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--ink);">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.1em;">00 —</span>
+      <h2 style="font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--ink);white-space:nowrap;">Global Exchange Directory</h2>
+      <div style="flex:1;height:1px;background:var(--rule);"></div>
+    </div>
+    <div class="exdir-tabs" id="exdirTabs">
+      <button class="exdir-tab active" onclick="exdirFilter(this,'all')">All</button>
+      <button class="exdir-tab" onclick="exdirFilter(this,'us-equity')">US Equity</button>
+      <button class="exdir-tab" onclick="exdirFilter(this,'us-options')">US Options</button>
+      <button class="exdir-tab" onclick="exdirFilter(this,'us-futures')">US Futures</button>
+      <button class="exdir-tab" onclick="exdirFilter(this,'commodities')">Commodities</button>
+      <button class="exdir-tab" onclick="exdirFilter(this,'european')">European</button>
+      <button class="exdir-tab" onclick="exdirFilter(this,'asia-pacific')">Asia Pacific</button>
+    </div>
+    <div class="exdir-count" id="exdirCount">58 exchanges</div>
+    <div class="exdir-grid" id="exdirGrid">
+
+      <!-- ── US EQUITY (15) ── -->
+      <a class="exdir-card" data-cat="us-equity" href="https://www.nyse.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">NYSE</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">NYSE</div>
+          <div class="exdir-name">New York Stock Exchange</div>
+          <div class="exdir-location">New York, NY</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span><span class="exdir-tag">ETFs</span></div>
+          <div class="exdir-proto">Pillar / CTA</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.nasdaq.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">NSDQ</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">Nasdaq</div>
+          <div class="exdir-name">Nasdaq Stock Market</div>
+          <div class="exdir-location">New York, NY</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span><span class="exdir-tag">ETFs</span></div>
+          <div class="exdir-proto">ITCH / UTP</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.cboe.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">BZX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">Cboe BZX</div>
+          <div class="exdir-name">Cboe BZX Exchange</div>
+          <div class="exdir-location">Chicago, IL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span><span class="exdir-tag">ETFs</span></div>
+          <div class="exdir-proto">PITCH / CTA</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.cboe.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">BYX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">Cboe BYX</div>
+          <div class="exdir-name">Cboe BYX Exchange</div>
+          <div class="exdir-location">Chicago, IL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span></div>
+          <div class="exdir-proto">PITCH / CTA</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.cboe.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">EDGA</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">Cboe EDGA</div>
+          <div class="exdir-name">Cboe EDGA Exchange</div>
+          <div class="exdir-location">Chicago, IL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span></div>
+          <div class="exdir-proto">PITCH / CTA</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.cboe.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">EDGX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">Cboe EDGX</div>
+          <div class="exdir-name">Cboe EDGX Exchange</div>
+          <div class="exdir-location">Chicago, IL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span></div>
+          <div class="exdir-proto">PITCH / CTA</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.nyse.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">ARCA</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">NYSE Arca</div>
+          <div class="exdir-name">NYSE Arca</div>
+          <div class="exdir-location">New York, NY</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span><span class="exdir-tag">ETFs</span></div>
+          <div class="exdir-proto">Pillar / CTA</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.nyse.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">AMEX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">NYSE American</div>
+          <div class="exdir-name">NYSE American</div>
+          <div class="exdir-location">New York, NY</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span><span class="exdir-tag">ETFs</span></div>
+          <div class="exdir-proto">Pillar / CTA</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.nyse.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">NYSN</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">NYSE National</div>
+          <div class="exdir-name">NYSE National</div>
+          <div class="exdir-location">Chicago, IL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span></div>
+          <div class="exdir-proto">Pillar / CTA</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.nyse.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">NYST</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">NYSE Texas</div>
+          <div class="exdir-name">NYSE Texas</div>
+          <div class="exdir-location">Dallas, TX</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span></div>
+          <div class="exdir-proto">Pillar / CTA</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.iexexchange.io" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">IEX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">IEX</div>
+          <div class="exdir-name">Investors Exchange</div>
+          <div class="exdir-location">New York, NY</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span></div>
+          <div class="exdir-proto">IEXTP</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.memx.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">MEMX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">MEMX</div>
+          <div class="exdir-name">Members Exchange</div>
+          <div class="exdir-location">New York, NY</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span></div>
+          <div class="exdir-proto">MEMOIR</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.nasdaq.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">BX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">Nasdaq BX</div>
+          <div class="exdir-name">Nasdaq BX</div>
+          <div class="exdir-location">Boston, MA</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span></div>
+          <div class="exdir-proto">ITCH / UTP</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.nasdaq.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">PSX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">Nasdaq PSX</div>
+          <div class="exdir-name">Nasdaq PSX</div>
+          <div class="exdir-location">Philadelphia, PA</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span></div>
+          <div class="exdir-proto">ITCH / UTP</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-equity" href="https://www.ltse.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#1565C0">LTSE</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#1565C0">LTSE</div>
+          <div class="exdir-name">Long-Term Stock Exchange</div>
+          <div class="exdir-location">San Francisco, CA</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equities</span></div>
+          <div class="exdir-proto">CTA</div>
+        </div>
+      </a>
+
+      <!-- ── US OPTIONS (13) ── -->
+      <a class="exdir-card" data-cat="us-options" href="https://www.cboe.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#6c3483">C1</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#6c3483">Cboe C1</div>
+          <div class="exdir-name">Cboe Options Exchange</div>
+          <div class="exdir-location">Chicago, IL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Options</span></div>
+          <div class="exdir-proto">PITCH</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-options" href="https://www.cboe.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#6c3483">C2</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#6c3483">Cboe C2</div>
+          <div class="exdir-name">Cboe C2 Options Exchange</div>
+          <div class="exdir-location">Chicago, IL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Options</span></div>
+          <div class="exdir-proto">PITCH</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-options" href="https://www.cboe.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#6c3483">EDGX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#6c3483">Cboe EDGX Opts</div>
+          <div class="exdir-name">Cboe EDGX Options</div>
+          <div class="exdir-location">Chicago, IL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Options</span></div>
+          <div class="exdir-proto">PITCH</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-options" href="https://www.cboe.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#6c3483">BZX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#6c3483">Cboe BZX Opts</div>
+          <div class="exdir-name">Cboe BZX Options</div>
+          <div class="exdir-location">Chicago, IL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Options</span></div>
+          <div class="exdir-proto">PITCH</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-options" href="https://www.nasdaq.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#6c3483">PHLX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#6c3483">Nasdaq PHLX</div>
+          <div class="exdir-name">Nasdaq PHLX</div>
+          <div class="exdir-location">Philadelphia, PA</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Options</span></div>
+          <div class="exdir-proto">ITCH</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-options" href="https://www.nasdaq.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#6c3483">NOM</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#6c3483">Nasdaq NOM</div>
+          <div class="exdir-name">Nasdaq Options Market</div>
+          <div class="exdir-location">New York, NY</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Options</span></div>
+          <div class="exdir-proto">ITCH</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-options" href="https://www.nasdaq.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#6c3483">BX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#6c3483">Nasdaq BX Opts</div>
+          <div class="exdir-name">Nasdaq BX Options</div>
+          <div class="exdir-location">Boston, MA</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Options</span></div>
+          <div class="exdir-proto">ITCH</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-options" href="https://www.nyse.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#6c3483">AMXO</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#6c3483">NYSE American Opts</div>
+          <div class="exdir-name">NYSE American Options</div>
+          <div class="exdir-location">New York, NY</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Options</span></div>
+          <div class="exdir-proto">Pillar</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-options" href="https://www.nyse.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#6c3483">ARCA</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#6c3483">NYSE Arca Opts</div>
+          <div class="exdir-name">NYSE Arca Options</div>
+          <div class="exdir-location">New York, NY</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Options</span></div>
+          <div class="exdir-proto">Pillar</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-options" href="https://www.miaxglobal.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#6c3483">MIAX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#6c3483">MIAX</div>
+          <div class="exdir-name">Miami International Securities Exchange</div>
+          <div class="exdir-location">Miami, FL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Options</span></div>
+          <div class="exdir-proto">MACH</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-options" href="https://www.miaxglobal.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#6c3483">MPRL</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#6c3483">MIAX Pearl</div>
+          <div class="exdir-name">MIAX Pearl Options</div>
+          <div class="exdir-location">Miami, FL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Options</span></div>
+          <div class="exdir-proto">MACH</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-options" href="https://www.miaxglobal.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#6c3483">EMLD</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#6c3483">MIAX Emerald</div>
+          <div class="exdir-name">MIAX Emerald Options</div>
+          <div class="exdir-location">Miami, FL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Options</span></div>
+          <div class="exdir-proto">MACH</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-options" href="https://www.boxoptions.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#6c3483">BOX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#6c3483">BOX</div>
+          <div class="exdir-name">BOX Exchange</div>
+          <div class="exdir-location">Boston, MA</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Options</span></div>
+          <div class="exdir-proto">BOX</div>
+        </div>
+      </a>
+
+      <!-- ── US FUTURES (8) ── -->
+      <a class="exdir-card" data-cat="us-futures" href="https://www.cmegroup.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#E65100">CME</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#E65100">CME</div>
+          <div class="exdir-name">Chicago Mercantile Exchange</div>
+          <div class="exdir-location">Chicago, IL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Interest Rates</span><span class="exdir-tag">FX</span><span class="exdir-tag">Equity Index</span><span class="exdir-tag">Crypto</span></div>
+          <div class="exdir-proto">MDP 3.0</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-futures" href="https://www.cmegroup.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#E65100">CBOT</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#E65100">CBOT</div>
+          <div class="exdir-name">Chicago Board of Trade</div>
+          <div class="exdir-location">Chicago, IL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Agricultural</span><span class="exdir-tag">Interest Rates</span><span class="exdir-tag">Equity Index</span></div>
+          <div class="exdir-proto">MDP 3.0</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-futures" href="https://www.cmegroup.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#E65100">NYMX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#E65100">NYMEX</div>
+          <div class="exdir-name">New York Mercantile Exchange</div>
+          <div class="exdir-location">New York, NY</div>
+          <div class="exdir-assets"><span class="exdir-tag">Energy</span><span class="exdir-tag">Metals</span></div>
+          <div class="exdir-proto">MDP 3.0</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-futures" href="https://www.cmegroup.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#E65100">COMX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#E65100">COMEX</div>
+          <div class="exdir-name">Commodity Exchange</div>
+          <div class="exdir-location">New York, NY</div>
+          <div class="exdir-assets"><span class="exdir-tag">Metals</span></div>
+          <div class="exdir-proto">MDP 3.0</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-futures" href="https://www.theice.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#E65100">IFUS</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#E65100">ICE Futures US</div>
+          <div class="exdir-name">ICE Futures US</div>
+          <div class="exdir-location">New York, NY</div>
+          <div class="exdir-assets"><span class="exdir-tag">Softs</span><span class="exdir-tag">Energy</span><span class="exdir-tag">FX</span></div>
+          <div class="exdir-proto">iMpact</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-futures" href="https://www.mgex.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#E65100">MGEX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#E65100">MGEX</div>
+          <div class="exdir-name">Minneapolis Grain Exchange</div>
+          <div class="exdir-location">Minneapolis, MN</div>
+          <div class="exdir-assets"><span class="exdir-tag">Hard Red Spring Wheat</span></div>
+          <div class="exdir-proto">MDP 3.0</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-futures" href="https://www.cboe.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#E65100">CFE</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#E65100">CFE</div>
+          <div class="exdir-name">Cboe Futures Exchange</div>
+          <div class="exdir-location">Chicago, IL</div>
+          <div class="exdir-assets"><span class="exdir-tag">VIX Futures</span><span class="exdir-tag">Volatility</span></div>
+          <div class="exdir-proto">PITCH</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="us-futures" href="https://www.thesmallexchange.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#E65100">SMFE</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#E65100">Small Exchange</div>
+          <div class="exdir-name">Small Exchange</div>
+          <div class="exdir-location">Chicago, IL</div>
+          <div class="exdir-assets"><span class="exdir-tag">Small Futures</span></div>
+          <div class="exdir-proto">FIX</div>
+        </div>
+      </a>
+
+      <!-- ── COMMODITIES (6) ── -->
+      <a class="exdir-card" data-cat="commodities" href="https://www.theice.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#2E7D32">IFEU</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#2E7D32">ICE Futures Europe</div>
+          <div class="exdir-name">ICE Futures Europe</div>
+          <div class="exdir-location">London, UK</div>
+          <div class="exdir-assets"><span class="exdir-tag">Brent Crude</span><span class="exdir-tag">Gasoil</span><span class="exdir-tag">Natural Gas</span><span class="exdir-tag">Emissions</span></div>
+          <div class="exdir-proto">iMpact</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="commodities" href="https://www.theice.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#2E7D32">ENDX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#2E7D32">ICE Endex</div>
+          <div class="exdir-name">ICE Endex</div>
+          <div class="exdir-location">Amsterdam, NL</div>
+          <div class="exdir-assets"><span class="exdir-tag">European Natural Gas</span><span class="exdir-tag">Power</span></div>
+          <div class="exdir-proto">iMpact</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="commodities" href="https://www.lme.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#2E7D32">LME</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#2E7D32">LME</div>
+          <div class="exdir-name">London Metal Exchange</div>
+          <div class="exdir-location">London, UK</div>
+          <div class="exdir-assets"><span class="exdir-tag">Base Metals</span></div>
+          <div class="exdir-proto">LMEsmart</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="commodities" href="https://www.jpx.co.jp" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#2E7D32">TOCOM</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#2E7D32">TOCOM</div>
+          <div class="exdir-name">Tokyo Commodity Exchange</div>
+          <div class="exdir-location">Tokyo, Japan</div>
+          <div class="exdir-assets"><span class="exdir-tag">Energy</span><span class="exdir-tag">Metals</span><span class="exdir-tag">Rubber</span></div>
+          <div class="exdir-proto">J-GATE</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="commodities" href="https://www.dce.com.cn" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#2E7D32">DCE</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#2E7D32">DCE</div>
+          <div class="exdir-name">Dalian Commodity Exchange</div>
+          <div class="exdir-location">Dalian, China</div>
+          <div class="exdir-assets"><span class="exdir-tag">Agricultural</span><span class="exdir-tag">Energy</span><span class="exdir-tag">Plastics</span></div>
+          <div class="exdir-proto">Proprietary</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="commodities" href="https://www.shfe.com.cn" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#2E7D32">SHFE</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#2E7D32">SHFE</div>
+          <div class="exdir-name">Shanghai Futures Exchange</div>
+          <div class="exdir-location">Shanghai, China</div>
+          <div class="exdir-assets"><span class="exdir-tag">Metals</span><span class="exdir-tag">Energy</span><span class="exdir-tag">Rubber</span></div>
+          <div class="exdir-proto">Proprietary</div>
+        </div>
+      </a>
+
+      <!-- ── EUROPEAN (8) ── -->
+      <a class="exdir-card" data-cat="european" href="https://www.eurex.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#C0392B">EURX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#C0392B">Eurex</div>
+          <div class="exdir-name">Eurex Exchange</div>
+          <div class="exdir-location">Frankfurt, Germany</div>
+          <div class="exdir-assets"><span class="exdir-tag">Equity Index</span><span class="exdir-tag">Fixed Income</span><span class="exdir-tag">Single Stock</span></div>
+          <div class="exdir-proto">T7 ETI</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="european" href="https://www.deutsche-boerse.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#C0392B">XETR</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#C0392B">Xetra</div>
+          <div class="exdir-name">Deutsche Boerse Xetra</div>
+          <div class="exdir-location">Frankfurt, Germany</div>
+          <div class="exdir-assets"><span class="exdir-tag">German Equities</span><span class="exdir-tag">European Equities</span></div>
+          <div class="exdir-proto">T7 MBI</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="european" href="https://www.londonstockexchange.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#C0392B">LSE</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#C0392B">LSE</div>
+          <div class="exdir-name">London Stock Exchange</div>
+          <div class="exdir-location">London, UK</div>
+          <div class="exdir-assets"><span class="exdir-tag">UK Equities</span><span class="exdir-tag">ETFs</span></div>
+          <div class="exdir-proto">Millennium Exchange</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="european" href="https://www.euronext.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#C0392B">ENX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#C0392B">Euronext</div>
+          <div class="exdir-name">Euronext</div>
+          <div class="exdir-location">Amsterdam / Paris / Brussels</div>
+          <div class="exdir-assets"><span class="exdir-tag">European Equities</span><span class="exdir-tag">Derivatives</span></div>
+          <div class="exdir-proto">Optiq</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="european" href="https://www.cboe.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#C0392B">CEUR</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#C0392B">Cboe Europe</div>
+          <div class="exdir-name">Cboe Europe Equities</div>
+          <div class="exdir-location">London, UK</div>
+          <div class="exdir-assets"><span class="exdir-tag">Pan-European Equities</span></div>
+          <div class="exdir-proto">PITCH</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="european" href="https://www.six-group.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#C0392B">SIX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#C0392B">SIX</div>
+          <div class="exdir-name">SIX Swiss Exchange</div>
+          <div class="exdir-location">Zurich, Switzerland</div>
+          <div class="exdir-assets"><span class="exdir-tag">Swiss Equities</span><span class="exdir-tag">ETFs</span></div>
+          <div class="exdir-proto">SWXess</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="european" href="https://www.nasdaq.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#C0392B">XSTO</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#C0392B">Nasdaq Nordic</div>
+          <div class="exdir-name">Nasdaq Nordic</div>
+          <div class="exdir-location">Stockholm, Sweden</div>
+          <div class="exdir-assets"><span class="exdir-tag">Nordic &amp; Baltic Equities</span></div>
+          <div class="exdir-proto">INET</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="european" href="https://www.oslobors.no" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#C0392B">OSE</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#C0392B">Oslo Bors</div>
+          <div class="exdir-name">Oslo Bors</div>
+          <div class="exdir-location">Oslo, Norway</div>
+          <div class="exdir-assets"><span class="exdir-tag">Norwegian Equities</span></div>
+          <div class="exdir-proto">INET</div>
+        </div>
+      </a>
+
+      <!-- ── ASIA PACIFIC (8) ── -->
+      <a class="exdir-card" data-cat="asia-pacific" href="https://www.jpx.co.jp" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#00695C">JPX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#00695C">JPX / TSE</div>
+          <div class="exdir-name">Japan Exchange Group</div>
+          <div class="exdir-location">Tokyo, Japan</div>
+          <div class="exdir-assets"><span class="exdir-tag">Japanese Equities</span><span class="exdir-tag">Derivatives</span></div>
+          <div class="exdir-proto">arrowhead</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="asia-pacific" href="https://www.hkex.com.hk" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#00695C">HKEX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#00695C">HKEX</div>
+          <div class="exdir-name">Hong Kong Exchange</div>
+          <div class="exdir-location">Hong Kong</div>
+          <div class="exdir-assets"><span class="exdir-tag">HK Equities</span><span class="exdir-tag">Derivatives</span></div>
+          <div class="exdir-proto">OMD</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="asia-pacific" href="https://www.sse.com.cn" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#00695C">SSE</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#00695C">SSE</div>
+          <div class="exdir-name">Shanghai Stock Exchange</div>
+          <div class="exdir-location">Shanghai, China</div>
+          <div class="exdir-assets"><span class="exdir-tag">Chinese A-shares</span></div>
+          <div class="exdir-proto">Proprietary</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="asia-pacific" href="https://www.szse.cn" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#00695C">SZSE</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#00695C">SZSE</div>
+          <div class="exdir-name">Shenzhen Stock Exchange</div>
+          <div class="exdir-location">Shenzhen, China</div>
+          <div class="exdir-assets"><span class="exdir-tag">Chinese A-shares</span></div>
+          <div class="exdir-proto">Proprietary</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="asia-pacific" href="https://www.krx.co.kr" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#00695C">KRX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#00695C">KRX</div>
+          <div class="exdir-name">Korea Exchange</div>
+          <div class="exdir-location">Seoul, South Korea</div>
+          <div class="exdir-assets"><span class="exdir-tag">Korean Equities</span><span class="exdir-tag">Derivatives</span></div>
+          <div class="exdir-proto">EXTURE+</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="asia-pacific" href="https://www.asx.com.au" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#00695C">ASX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#00695C">ASX</div>
+          <div class="exdir-name">Australian Securities Exchange</div>
+          <div class="exdir-location">Sydney, Australia</div>
+          <div class="exdir-assets"><span class="exdir-tag">Australian Equities</span><span class="exdir-tag">Derivatives</span></div>
+          <div class="exdir-proto">ASX Trade</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="asia-pacific" href="https://www.sgx.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#00695C">SGX</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#00695C">SGX</div>
+          <div class="exdir-name">Singapore Exchange</div>
+          <div class="exdir-location">Singapore</div>
+          <div class="exdir-assets"><span class="exdir-tag">Singapore Equities</span><span class="exdir-tag">Asian Derivatives</span></div>
+          <div class="exdir-proto">SGX Titan</div>
+        </div>
+      </a>
+      <a class="exdir-card" data-cat="asia-pacific" href="https://www.nseindia.com" target="_blank" rel="noopener">
+        <div class="exdir-badge" style="background:#00695C">NSE</div>
+        <div class="exdir-info">
+          <div class="exdir-abbr" style="color:#00695C">NSE India</div>
+          <div class="exdir-name">National Stock Exchange of India</div>
+          <div class="exdir-location">Mumbai, India</div>
+          <div class="exdir-assets"><span class="exdir-tag">Indian Equities</span><span class="exdir-tag">Derivatives</span></div>
+          <div class="exdir-proto">NEAT</div>
+        </div>
+      </a>
+
+    </div><!-- end exdir-grid -->
+  </div><!-- end exdir-section -->
+
   <div class="page-layout">
     <div class="page-main">
 
@@ -882,6 +1532,31 @@ if (next) {
 } else {
   document.getElementById('nextHolidayCard').style.display = 'none';
 }
+
+// ── EXCHANGE DIRECTORY FILTER ──────────────────────────────────────────────
+const CAT_LABELS = {
+  'all': 'All', 'us-equity': 'US Equity', 'us-options': 'US Options',
+  'us-futures': 'US Futures', 'commodities': 'Commodities',
+  'european': 'European', 'asia-pacific': 'Asia Pacific'
+};
+function exdirFilter(tab, cat) {
+  document.querySelectorAll('.exdir-tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  const cards = document.querySelectorAll('.exdir-card');
+  let shown = 0;
+  cards.forEach(card => {
+    const match = cat === 'all' || card.dataset.cat === cat;
+    card.classList.toggle('hidden', !match);
+    if (match) shown++;
+  });
+  const grid = document.getElementById('exdirGrid');
+  grid.classList.remove('exdir-fade');
+  void grid.offsetWidth; // force reflow
+  grid.classList.add('exdir-fade');
+  const label = cat === 'all' ? '58 exchanges' : shown + ' exchange' + (shown !== 1 ? 's' : '') + ' — ' + CAT_LABELS[cat];
+  document.getElementById('exdirCount').textContent = label;
+}
+
 </script>
 
   <script src="search-global.js"></script>
