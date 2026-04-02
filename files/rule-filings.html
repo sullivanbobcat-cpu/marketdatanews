@@ -585,8 +585,9 @@ async function loadFilings() {
     document.getElementById('heroOpenCount').textContent = allFilings.filter(f => f.is_open_for_comment).length;
     document.getElementById('heroHighCount').textContent = allFilings.filter(f => f.relevance === 'HIGH').length;
 
-    const ts = new Date(data.retrievedAt);
-    document.getElementById('feedUpdated').textContent = 'Updated ' + ts.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const ts = new Date(data.fetched_at || data.retrievedAt);
+    const liveLabel = data.live_count > 0 ? ` · ${data.live_count} live` : ' · seeded only';
+    document.getElementById('feedUpdated').textContent = 'Updated ' + ts.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + liveLabel;
 
     renderFilings();
   } catch (err) {
@@ -662,9 +663,13 @@ function renderCard(f, idx) {
   const exch = f.exchange ? `<span class="rf-exchange-badge">${escHtml(f.exchange)}</span>` : '';
   const rel = `<span class="rf-relevance-tag ${f.relevance}">${f.relevance === 'HIGH' ? 'Market Data' : f.relevance === 'MEDIUM' ? 'Related' : 'General'}</span>`;
 
+  const sourceBadge = f.source === 'federal_register'
+    ? `<span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:3px 7px;border-radius:2px;background:rgba(46,125,50,0.1);color:#2e7d32;border:1px solid rgba(46,125,50,0.25);flex-shrink:0">LIVE</span>`
+    : `<span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:3px 7px;border-radius:2px;background:var(--paper);color:var(--muted);border:1px solid var(--border);flex-shrink:0">ARCHIVED</span>`;
+
   let commentBadge = '';
   if (f.is_open_for_comment) {
-    const d = f.days_until_comment_close;
+    const d = f.days_until_close;
     const label = d === 0 ? 'Closes today' : d === 1 ? 'Closes tomorrow' : `${d} days left`;
     commentBadge = `<span class="rf-comment-badge open">&#9679; OPEN — ${label}</span>`;
   } else if (f.comments_close_on) {
@@ -691,7 +696,7 @@ function renderCard(f, idx) {
   return `
     <div class="rf-card">
       <div class="rf-card-top">
-        ${fileNum}${exch}${rel}${commentBadge}
+        ${fileNum}${exch}${rel}${sourceBadge}${commentBadge}
       </div>
       <div class="rf-card-title">${escHtml(f.title)}</div>
       ${abstractHtml}
