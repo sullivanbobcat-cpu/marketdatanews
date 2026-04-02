@@ -273,15 +273,15 @@
     <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
     <div class="fw-alertbar-divider"></div>
     <div class="fw-alertbar-stats">
-      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
-      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
-      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
-      <a href="calendar.html" class="fw-alertbar-stat total"><span class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
+      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span id="fw-critical-count" class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span id="fw-high-count" class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
+      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span id="fw-action-count" class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span id="fw-active-count" class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
     </div>
     <div class="fw-alertbar-divider"></div>
     <div class="fw-alertbar-next">
       <span class="fw-alertbar-next-label">Next deadline:</span>
-      <span class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
+      <span id="fw-next-deadline" class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
     </div>
     <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
   </div>
@@ -718,5 +718,6 @@ loadDigest();
 </script>
   <script src="search-global.js"></script>
 <script src="chat-widget.js"></script>
+<script src="feedwatch-bar.js"></script>
 </body>
 </html>
