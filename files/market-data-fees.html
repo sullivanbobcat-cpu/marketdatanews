@@ -260,7 +260,7 @@
   .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
 
   /* ── Exchange Fee Benchmark Bubble Chart ── */
-  .bench-wrap { background: var(--paper); border: 1px solid var(--border); border-radius: 3px; position: relative; }
+  .bench-wrap { background: var(--paper); border: 1px solid var(--border); border-radius: 3px; position: relative; min-height: 520px; }
   .bench-wrap svg { display: block; width: 100%; }
   .bench-legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; }
   .bench-leg-item { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; padding: 4px 10px; border: 1px solid var(--rule); border-radius: 2px; background: var(--surface); transition: opacity 0.2s; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--ink); white-space: nowrap; user-select: none; }
@@ -1197,7 +1197,8 @@ window.addEventListener('resize', function() {
 });
 </script>
 
-  <script src="search-global.js">
+  <script src="search-global.js"></script>
+<script>
 // ══════════════════════════════════════════════════════════════════
 // SECTION 3 — EXCHANGE FEE BENCHMARK BUBBLE CHART
 // ══════════════════════════════════════════════════════════════════
@@ -1501,8 +1502,8 @@ function initBenchChart() {
   }
 }
 
-// Bench chart init
-initBenchChart();
+// Bench chart init — wait for full load so layout is computed and D3 is available
+window.addEventListener('load', initBenchChart);
 </script>
 <script src="chat-widget.js"></script>
 <script src="feedwatch-bar.js"></script>
