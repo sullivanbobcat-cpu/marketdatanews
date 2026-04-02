@@ -485,25 +485,19 @@ function toggleMobileNav() {
   nav.classList.toggle('open');
 }
 
-// ── Category detection ──
-var CAT_KEYWORDS = {
-  FINANCIAL: ['fed','rate','interest','inflation','cpi','gdp','yield','s&p','dow','nasdaq','stock','equity','market cap','recession','treasury','bond','debt','ipo','earnings','dividend'],
-  ECONOMIC: ['unemployment','jobs','gdp','economy','growth','trade','tariff','deficit','surplus','labor','wage','consumer','pmi','manufacturing','retail'],
-  POLITICAL: ['president','election','senate','congress','house','vote','democrat','republican','trump','biden','harris','governor','primary','ballot','legislation','bill','veto','impeach','supreme court','nato','eu','uk','ukraine','china','russia','iran'],
-  SPORTS: ['nfl','nba','mlb','nhl','super bowl','world series','champion','playoff','mvp','draft','trade','coach','season','league','cup','tournament','game','match','team'],
-  CRYPTO: ['bitcoin','btc','ethereum','eth','crypto','coin','token','defi','nft','blockchain','sol','xrp','doge','altcoin','stablecoin','halving','mining'],
-  CLIMATE: ['climate','temperature','co2','emission','hurricane','flood','wildfire','drought','sea level','arctic','carbon','renewable','solar','wind','storm','el nino'],
-};
+// ── API URLs (direct browser calls — Kalshi and Polymarket both support CORS) ──
+var KALSHI_URL = 'https://api.elections.kalshi.com/trade-api/v2/markets?status=open&limit=200';
+var POLY_URL   = 'https://gamma-api.polymarket.com/markets?active=true&limit=100&volume_num_min=5000';
 
+// ── Category detection ──
 function detectCategory(title) {
-  if (!title) return 'OTHER';
-  var t = title.toLowerCase();
-  for (var cat in CAT_KEYWORDS) {
-    var kws = CAT_KEYWORDS[cat];
-    for (var i = 0; i < kws.length; i++) {
-      if (t.indexOf(kws[i]) !== -1) return cat;
-    }
-  }
+  var t = (title || '').toLowerCase();
+  if (['fed','rate','cpi','inflation','gdp','recession','unemployment','payroll','powell','interest','tariff','jobs'].some(function(k){ return t.indexOf(k)!==-1; })) return 'ECONOMIC';
+  if (['trump','election','congress','senate','president','vote','democrat','republican'].some(function(k){ return t.indexOf(k)!==-1; })) return 'POLITICAL';
+  if (['bitcoin','crypto','eth','solana','btc','coin'].some(function(k){ return t.indexOf(k)!==-1; })) return 'CRYPTO';
+  if (['iran','war','russia','ukraine','nato','china','military'].some(function(k){ return t.indexOf(k)!==-1; })) return 'POLITICAL';
+  if (['oil','stock','market','price','dollar','s&p','nasdaq','dow','bond','equity'].some(function(k){ return t.indexOf(k)!==-1; })) return 'FINANCIAL';
+  if (['hurricane','climate','temperature','storm','flood','wildfire'].some(function(k){ return t.indexOf(k)!==-1; })) return 'CLIMATE';
   return 'OTHER';
 }
 
@@ -547,13 +541,11 @@ function cleanTitle(raw) {
 }
 
 function buildCard(m, featured) {
-  var rawPct = (m.yesPrice !== null && m.yesPrice !== undefined)
-    ? Math.round(parseFloat(m.yesPrice) * 100) : null;
-  var pct = (rawPct !== null && rawPct >= 1 && rawPct <= 99) ? rawPct : null;
+  var pct = (m.probability != null && m.probability >= 1 && m.probability <= 99) ? m.probability : null;
   var cls = pct !== null ? probClass(pct) : 'gold';
-  var category = detectCategory(m.title);
-  var expiry = fmtDate(m.expiryDate);
-  var vol = fmtVol(m.volumeDollars || m.volume);
+  var category = m.category || detectCategory(m.title);
+  var expiry = fmtDate(m.expiry);
+  var vol = fmtVol(m.volume);
   var displayTitle = cleanTitle(m.title);
 
   var card = document.createElement('a');
@@ -595,7 +587,7 @@ var nextRefreshAt = 0;
 
 function filteredMarkets() {
   return allMarkets.filter(function(m) {
-    if (activeCategory !== 'ALL' && m._category !== activeCategory) return false;
+    if (activeCategory !== 'ALL' && (m.category || 'OTHER') !== activeCategory) return false;
     if (searchQuery && m.title.toLowerCase().indexOf(searchQuery) === -1) return false;
     return true;
   });
@@ -621,16 +613,13 @@ function renderGrid() {
 }
 
 function renderFeatured(markets) {
-  // Only feature markets with valid prices
   var eligible = markets.filter(function(m) {
-    var p = parseFloat(m.yesPrice);
-    return !isNaN(p) && p >= 0.01 && p <= 0.99;
+    return m.probability != null && m.probability >= 1 && m.probability <= 99;
   });
-  // Sort: Polymarket first (better titles/volume), then by volume descending
   eligible.sort(function(a, b) {
     if (a.source === 'polymarket' && b.source !== 'polymarket') return -1;
     if (b.source === 'polymarket' && a.source !== 'polymarket') return 1;
-    return (b.volumeDollars || b.volume || 0) - (a.volumeDollars || a.volume || 0);
+    return (b.volume || 0) - (a.volume || 0);
   });
   var top3 = eligible.slice(0, 3);
   var grid = document.getElementById('featuredGrid');
@@ -643,16 +632,14 @@ function renderFeatured(markets) {
   }
 }
 
-function updateSummary(data) {
-  document.getElementById('statTotal').textContent = data.markets.length;
-  document.getElementById('statKalshi').textContent = data.kalshiCount;
-  document.getElementById('statPoly').textContent = data.polymarketCount;
-  if (data.fetchedAt) {
-    var d = new Date(data.fetchedAt);
-    var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    document.getElementById('statUpdated').textContent =
-      mo[d.getMonth()] + ' ' + d.getDate() + ' ' + d.toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit'});
-  }
+function updateSummary(markets, kalshiCount, polyCount) {
+  document.getElementById('statTotal').textContent = markets.length;
+  document.getElementById('statKalshi').textContent = kalshiCount;
+  document.getElementById('statPoly').textContent = polyCount;
+  var now = new Date();
+  var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('statUpdated').textContent =
+    mo[now.getMonth()] + ' ' + now.getDate() + ' ' + now.toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit'});
   var dot = document.getElementById('refreshDot');
   dot.classList.add('animating');
   setTimeout(function() { dot.classList.remove('animating'); }, 3000);
@@ -681,35 +668,103 @@ function showLoadError(msg) {
   if (skeleton) skeleton.style.display = 'none';
 }
 
-function loadData() {
-  fetch('/.netlify/functions/prediction-markets')
-    .then(function(r) {
-      if (!r.ok) throw new Error('HTTP ' + r.status + ' from prediction-markets function');
-      return r.json();
-    })
-    .then(function(data) {
-      if (data.error) throw new Error(data.error);
-      var markets = Array.isArray(data.markets) ? data.markets : [];
-      if (markets.length === 0 && (data.kalshiError || data.polymarketError)) {
-        console.warn('[prediction-markets-live] Both APIs returned errors');
-      }
+var KALSHI_KEEP = ['fed','rate','cpi','inflation','gdp','recession','unemployment',
+  'trump','election','congress','senate','president','iran','war','tariff',
+  'bitcoin','crypto','oil','price','market','stock','economy','debt',
+  'dollar','interest','cut','hike','jobs','payroll','powell','sec',
+  'elon','musk','ai','china','russia','ukraine','nato',
+  'hurricane','climate','temperature','above','below','will'];
 
-      markets.forEach(function(m) {
-        m._category = detectCategory(m.title);
+async function fetchMarkets() {
+  document.getElementById('refreshText').textContent = 'Loading\u2026';
+  var kalshi = [];
+  var poly   = [];
+
+  try {
+    var r1 = await fetch(KALSHI_URL);
+    var d1 = await r1.json();
+    kalshi = (d1.markets || [])
+      .filter(function(m) {
+        if (!m.title) return false;
+        if (m.title.indexOf(',') !== -1) return false;
+        if (m.title.toLowerCase().indexOf('yes ') === 0) return false;
+        if (!m.yes_price_dollars || m.yes_price_dollars <= 0.01 || m.yes_price_dollars >= 0.99) return false;
+        var t = m.title.toLowerCase();
+        return KALSHI_KEEP.some(function(k) { return t.indexOf(k) !== -1; });
+      })
+      .slice(0, 30)
+      .map(function(m) {
+        return {
+          id: m.ticker,
+          title: m.title,
+          probability: Math.round(m.yes_price_dollars * 100),
+          volume: m.volume || 0,
+          expiry: m.close_time,
+          category: detectCategory(m.title),
+          source: 'kalshi',
+          url: 'https://kalshi.com/markets/' + m.ticker
+        };
       });
+    console.log('[pm-live] Kalshi:', kalshi.length, 'markets');
+  } catch(e) {
+    console.warn('[pm-live] Kalshi failed:', e.message);
+  }
 
-      allMarkets = markets;
-      updateSummary(data);
-      renderFeatured(allMarkets);
-      renderTimeline(allMarkets);
-      renderGrid();
-      startCountdown();
-    })
-    .catch(function(err) {
-      console.error('[prediction-markets-live] fetch error:', err.message, err);
-      showLoadError(err.message);
-    });
+  try {
+    var r2 = await fetch(POLY_URL);
+    var d2 = await r2.json();
+    poly = (Array.isArray(d2) ? d2 : [])
+      .filter(function(m) {
+        if (!m.question) return false;
+        if (!m.active) return false;
+        try {
+          var prices = JSON.parse(m.outcomePrices || '[]');
+          if (!prices.length || parseFloat(prices[0]) <= 0) return false;
+        } catch(e2) { return false; }
+        return true;
+      })
+      .slice(0, 30)
+      .map(function(m) {
+        var prob = 50;
+        try { prob = Math.round(parseFloat(JSON.parse(m.outcomePrices)[0]) * 100); } catch(e3) {}
+        return {
+          id: m.id,
+          title: m.question,
+          probability: prob,
+          volume: parseFloat(m.volume || 0),
+          expiry: m.endDate,
+          category: detectCategory(m.question),
+          source: 'polymarket',
+          url: 'https://polymarket.com/event/' + (m.slug || m.id)
+        };
+      });
+    console.log('[pm-live] Polymarket:', poly.length, 'markets');
+  } catch(e4) {
+    console.warn('[pm-live] Polymarket failed:', e4.message);
+  }
+
+  var all = poly.concat(kalshi).sort(function(a, b) { return b.volume - a.volume; });
+
+  if (all.length === 0) {
+    showLoadError('Both APIs returned no usable markets. Check the browser console for details.');
+    return;
+  }
+
+  allMarkets = all;
+  updateSummary(all, kalshi.length, poly.length);
+  renderFeatured(all);
+  renderTimeline(all);
+  renderGrid();
+  startCountdown();
 }
+
+function loadData() {
+  fetchMarkets().catch(function(err) {
+    console.error('[pm-live] Unexpected error:', err);
+    showLoadError(err.message);
+  });
+}
+
 
 // ── Category tabs ──
 document.getElementById('catTabs').addEventListener('click', function(e) {
@@ -764,8 +819,7 @@ function seededRng(seed) {
 function generateHistory(market) {
   var ticker = market.id || market.title || '';
   var rng = seededRng(hashStr(ticker));
-  var endProb = (market.yesPrice !== null && market.yesPrice !== undefined)
-    ? parseFloat(market.yesPrice) : 0.5;
+  var endProb = (market.probability != null) ? market.probability / 100 : 0.5;
   if (isNaN(endProb)) endProb = 0.5;
 
   // Build backwards from today's price (7 points)
@@ -803,7 +857,7 @@ function renderTimeline(markets) {
     if (skeleton) skeleton.style.display = 'none';
 
     var top10 = markets.slice().sort(function(a,b) {
-      return (b.volumeDollars||b.volume||0) - (a.volumeDollars||a.volume||0);
+      return (b.volume||0) - (a.volume||0);
     }).slice(0, 10);
 
     var series = top10.map(function(m, i) {
@@ -812,7 +866,7 @@ function renderTimeline(markets) {
         title:       m.title || ('Market ' + (i+1)),
         color:       LINE_COLORS[i % LINE_COLORS.length],
         data:        generateHistory(m),
-        currentProb: (m.yesPrice !== null && m.yesPrice !== undefined) ? Math.round(m.yesPrice * 100) : null,
+        currentProb: m.probability != null ? m.probability : null,
       };
     });
 
