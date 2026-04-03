@@ -1,0 +1,9 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 44'>
+  <rect width='44' height='44' rx='4' fill='#0d0d0d'/>
+  <rect x='6' y='28' width='7' height='12' rx='1' fill='#b8860b' opacity='0.5'/>
+  <rect x='15' y='18' width='7' height='22' rx='1' fill='#b8860b' opacity='0.75'/>
+  <rect x='24' y='8' width='7' height='32' rx='1' fill='#b8860b'/>
+  <rect x='33' y='14' width='7' height='26' rx='1' fill='#b8860b' opacity='0.65'/>
+  <text x='54' y='18' font-family='Georgia, serif' font-size='15' font-weight='700' fill='#0d0d0d'>Market Data</text>
+  <text x='54' y='36' font-family='Georgia, serif' font-size='15' font-weight='400' fill='#b8860b'>News</text>
+</svg>
