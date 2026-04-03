@@ -690,73 +690,55 @@ var KALSHI_KEEP = ['fed','rate','cpi','inflation','gdp','recession','unemploymen
 
 async function fetchMarkets() {
   document.getElementById('refreshText').textContent = 'Loading\u2026';
-  var kalshi = [];
-  var poly   = [];
 
-  try {
-    var r1 = await fetch(KALSHI_URL);
-    var d1 = await r1.json();
-    kalshi = (d1.markets || [])
-      .filter(function(m) {
-        if (!m.title) return false;
-        if (m.title.indexOf(',') !== -1) return false;
-        if (m.title.toLowerCase().indexOf('yes ') === 0) return false;
-        if (!m.yes_price_dollars || m.yes_price_dollars <= 0.01 || m.yes_price_dollars >= 0.99) return false;
-        var t = m.title.toLowerCase();
-        return KALSHI_KEEP.some(function(k) { return t.indexOf(k) !== -1; });
-      })
-      .slice(0, 30)
-      .map(function(m) {
-        return {
-          id: m.ticker,
-          title: m.title,
-          probability: Math.round(m.yes_price_dollars * 100),
-          volume: m.volume || 0,
-          expiry: m.close_time,
-          category: detectCategory(m.title),
-          source: 'kalshi',
-          url: 'https://kalshi.com/markets/' + m.ticker
-        };
-      });
-    console.log('[pm-live] Kalshi:', kalshi.length, 'markets');
-  } catch(e) {
-    console.warn('[pm-live] Kalshi failed:', e.message);
-  }
+  const r = await fetch('/.netlify/functions/pm-proxy');
+  const data = await r.json();
 
-  try {
-    var r2 = await fetch(POLY_URL);
-    var d2 = await r2.json();
-    poly = (Array.isArray(d2) ? d2 : [])
-      .filter(function(m) {
-        if (!m.question) return false;
-        if (!m.active) return false;
-        try {
-          var prices = JSON.parse(m.outcomePrices || '[]');
-          if (!prices.length || parseFloat(prices[0]) <= 0) return false;
-        } catch(e2) { return false; }
-        return true;
-      })
-      .slice(0, 30)
-      .map(function(m) {
-        var prob = 50;
-        try { prob = Math.round(parseFloat(JSON.parse(m.outcomePrices)[0]) * 100); } catch(e3) {}
-        return {
-          id: m.id,
-          title: m.question,
-          probability: prob,
-          volume: parseFloat(m.volume || 0),
-          expiry: m.endDate,
-          category: detectCategory(m.question),
-          source: 'polymarket',
-          url: 'https://polymarket.com/event/' + (m.slug || m.id)
-        };
-      });
-    console.log('[pm-live] Polymarket:', poly.length, 'markets');
-  } catch(e4) {
-    console.warn('[pm-live] Polymarket failed:', e4.message);
-  }
+  if (data.error) console.warn('[pm-live] Proxy error:', data.error);
 
-  var all = poly.concat(kalshi).sort(function(a, b) { return b.volume - a.volume; });
+  // Process Polymarket events
+  const poly = (data.poly || []).flatMap(event => {
+    if (!event.markets || !event.markets.length) return [];
+    const market = event.markets[0];
+    let prob = 50;
+    try {
+      const prices = JSON.parse(market.outcomePrices || '["0.5","0.5"]');
+      prob = Math.round(parseFloat(prices[0]) * 100);
+    } catch(e) {}
+    if (prob <= 1 || prob >= 99) return [];
+    return [{
+      id: 'poly-' + event.id,
+      title: event.title || market.question || 'Unknown',
+      probability: prob,
+      volume: parseFloat(event.volume || 0),
+      expiry: event.endDate || '',
+      source: 'polymarket',
+      url: 'https://polymarket.com/event/' + (event.slug || event.id),
+      category: detectCategory(event.title || '')
+    }];
+  });
+
+  // Process Kalshi markets
+  const kalshi = (data.kalshi || []).filter(m =>
+    m.title &&
+    !m.title.includes(',') &&
+    !m.title.toLowerCase().startsWith('yes ') &&
+    m.yes_price_dollars > 0.02 &&
+    m.yes_price_dollars < 0.98
+  ).map(m => ({
+    id: 'kal-' + m.ticker,
+    title: m.title,
+    probability: Math.round(m.yes_price_dollars * 100),
+    volume: m.volume || 0,
+    expiry: m.close_time || '',
+    source: 'kalshi',
+    url: 'https://kalshi.com/markets/' + m.ticker,
+    category: detectCategory(m.title)
+  }));
+
+  console.log('[pm-live] Polymarket:', poly.length, 'markets | Kalshi:', kalshi.length, 'markets');
+
+  const all = [...poly, ...kalshi].sort((a, b) => b.volume - a.volume);
 
   if (all.length === 0) {
     showLoadError('Both APIs returned no usable markets. Check the browser console for details.');
