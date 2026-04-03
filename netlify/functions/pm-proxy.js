@@ -1,34 +1,40 @@
 exports.handler = async () => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json',
-    'Cache-Control': 'public, max-age=60'
+    'Content-Type': 'application/json'
   };
 
-  const results = { poly: [], kalshi: [], error: null };
-
-  // Fetch Polymarket — use events endpoint which has cleaner titles
-  try {
-    const r = await fetch(
-      'https://gamma-api.polymarket.com/events?active=true&closed=false&limit=50&order=volume&ascending=false',
-      { signal: AbortSignal.timeout(8000) }
+  function fetchWithTimeout(url, ms) {
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('timeout after ' + ms + 'ms')), ms)
     );
-    const data = await r.json();
-    results.poly = (Array.isArray(data) ? data : []).slice(0, 50);
-  } catch(e) {
-    results.error = 'Polymarket: ' + e.message;
+    return Promise.race([fetch(url), timeout]);
   }
 
-  // Fetch Kalshi
+  const results = { poly: [], kalshi: [], errors: [] };
+
   try {
-    const r = await fetch(
-      'https://api.elections.kalshi.com/trade-api/v2/markets?status=open&limit=100',
-      { signal: AbortSignal.timeout(8000) }
+    const r = await fetchWithTimeout(
+      'https://gamma-api.polymarket.com/events?active=true&closed=false&limit=30&order=volume&ascending=false',
+      7000
     );
-    const data = await r.json();
-    results.kalshi = (data.markets || []).slice(0, 100);
+    const text = await r.text();
+    const data = JSON.parse(text);
+    results.poly = Array.isArray(data) ? data.slice(0, 30) : [];
   } catch(e) {
-    results.error = (results.error ? results.error + ' | ' : '') + 'Kalshi: ' + e.message;
+    results.errors.push('Polymarket: ' + e.message);
+  }
+
+  try {
+    const r = await fetchWithTimeout(
+      'https://api.elections.kalshi.com/trade-api/v2/markets?status=open&limit=50',
+      7000
+    );
+    const text = await r.text();
+    const data = JSON.parse(text);
+    results.kalshi = Array.isArray(data.markets) ? data.markets.slice(0, 50) : [];
+  } catch(e) {
+    results.errors.push('Kalshi: ' + e.message);
   }
 
   return {
