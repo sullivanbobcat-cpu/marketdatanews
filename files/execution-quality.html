@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#b8860b">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rule 605 &amp; 606 Execution Quality Intelligence — August 2026 Compliance | Market Data News</title>
+<meta name="description" content="Complete guide to SEC Rule 605 and 606 execution quality and order routing disclosure requirements, including August 1 2026 amendments expanding reporting to large broker-dealers.">
+<meta name="keywords" content="Rule 605, Rule 606, execution quality, order routing disclosure, NMS, Regulation NMS, SEC compliance, broker-dealer, market center, price improvement">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Market Data News">
+<link rel="canonical" href="https://marketdatanews.com/execution-quality.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://marketdatanews.com/execution-quality.html">
+<meta property="og:title" content="Rule 605 &amp; 606 Execution Quality Intelligence | Market Data News">
+<meta property="og:description" content="Complete guide to SEC execution quality and order routing disclosure — updated for the August 1 2026 compliance deadline expanding Rule 605 to large broker-dealers.">
+<meta property="og:site_name" content="Market Data News">
+<meta property="og:image" content="https://marketdatanews.com/og-image.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rule 605 &amp; 606 Execution Quality | Market Data News">
+<meta name="twitter:description" content="Complete guide to SEC execution quality and order routing disclosure — updated for the August 1 2026 compliance deadline.">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#0d0d0d; --paper:#f5f2eb; --cream:#faf8f3; --rule:#d4c9b0; --accent:#b8860b; --accent-dark:#8b6508; --muted:#6b6555; --red:#c0392b; --surface:#ffffff; --border:#e8e0d0; --green:#1a7a1a; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--paper); color:var(--ink); font-family:'IBM Plex Sans',sans-serif; min-height:100vh; }
+
+  /* TICKER */
+  .ticker-wrap { background:var(--ink); color:var(--accent); padding:7px 0; overflow:hidden; position:relative; }
+  .ticker-wrap::before,.ticker-wrap::after { content:''; position:absolute; top:0; bottom:0; width:60px; z-index:2; }
+  .ticker-wrap::before { left:0; background:linear-gradient(90deg,var(--ink),transparent); }
+  .ticker-wrap::after { right:0; background:linear-gradient(-90deg,var(--ink),transparent); }
+  .ticker { display:flex; animation:ticker 40s linear infinite; white-space:nowrap; }
+  .ticker-item { font-family:'IBM Plex Mono',monospace; font-size:11px; padding:0 32px; letter-spacing:0.05em; }
+  .ticker-item .up { color:#00cc66; } .ticker-item .down { color:#ff4444; }
+  @keyframes ticker { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+
+  /* MASTHEAD */
+  .masthead { background:var(--cream); border-bottom:3px solid var(--ink); }
+  .masthead-top { display:flex; align-items:center; justify-content:space-between; padding:20px 48px 16px; border-bottom:1px solid var(--rule); }
+  .date-line { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+  .site-title { font-family:'Playfair Display',serif; font-size:clamp(32px,5vw,58px); font-weight:900; letter-spacing:-0.02em; line-height:1; text-align:center; text-decoration:none; color:var(--ink); }
+  .site-title span { color:var(--accent); }
+  .tagline { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); text-align:right; letter-spacing:0.1em; text-transform:uppercase; line-height:1.6; }
+
+  /* NAV */
+  nav { display:flex; align-items:stretch; padding:0 48px; border-bottom:1px solid var(--rule); position:relative; flex-wrap:nowrap; overflow:visible; background:var(--cream); }
+  .nav-item { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; padding:0 14px; cursor:pointer; transition:background 0.15s,color 0.15s; color:var(--ink); border:none; background:none; font-family:'IBM Plex Sans',sans-serif; border-right:1px solid var(--rule); text-decoration:none; display:inline-flex; align-items:center; white-space:nowrap; min-height:40px; user-select:none; }
+  a.nav-item:first-child { border-left:1px solid var(--rule); }
+  .nav-item.active,.nav-item:hover { background:var(--ink); color:var(--accent); }
+  .nav-dropdown { position:relative; display:flex; align-items:stretch; }
+  .nav-dropdown > .nav-item { border-left:none; }
+  .nav-dropdown-menu { display:block; position:absolute; top:100%; left:0; opacity:0; visibility:hidden; transform:translateY(-4px); transition:opacity 0.15s ease,transform 0.15s ease,visibility 0.15s ease; min-width:220px; background:var(--ink); border-top:2px solid var(--accent); z-index:1000; box-shadow:0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left:auto; right:0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity:1; visibility:visible; transform:translateY(0); }
+  .nav-drop-item { display:block; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#aaa; text-decoration:none; padding:10px 20px; border-bottom:1px solid #1e1e1e; transition:color 0.15s,background 0.15s; white-space:nowrap; }
+  .nav-drop-item:last-child { border-bottom:none; }
+  .nav-drop-item:hover,.nav-drop-item.active { color:var(--accent); background:#111; }
+  .nav-right { margin-left:auto; display:flex; align-items:center; gap:16px; padding-left:16px; border-left:1px solid var(--rule); }
+  .search-wrap { position:relative; display:flex; align-items:center; }
+  .search-box { background:transparent; border:1px solid var(--rule); padding:5px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink); border-radius:2px; width:180px; }
+  .search-box:focus { outline:none; border-color:var(--accent); }
+  .search-box::placeholder { color:var(--muted); }
+  .search-drop { position:absolute; top:calc(100% + 4px); right:0; width:380px; background:var(--ink); border:1px solid #333; z-index:1000; display:none; max-height:480px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,0.4); }
+  .search-drop.open { display:block; }
+  .mobile-nav .mob-group-label { font-family:'IBM Plex Mono',monospace !important; font-size:9px !important; text-transform:uppercase !important; letter-spacing:0.15em !important; color:var(--accent) !important; padding:14px 0 5px !important; border-bottom:none !important; font-weight:400 !important; cursor:default; }
+
+  /* FEEDWATCH ALERT BAR */
+  .fw-alertbar { background:#1a0a00; border-bottom:2px solid var(--accent); padding:0 48px; }
+  .fw-alertbar-inner { max-width:1280px; margin:0 auto; display:flex; align-items:center; height:38px; }
+  .fw-alertbar-brand { font-family:'Playfair Display',serif; font-size:15px; font-weight:900; color:white; text-decoration:none; padding-right:16px; white-space:nowrap; }
+  .fw-alertbar-brand span { color:var(--accent); }
+  .fw-alertbar-divider { width:1px; height:20px; background:#3a2a10; margin:0 16px; flex-shrink:0; }
+  .fw-alertbar-stats { display:flex; align-items:center; gap:4px; }
+  .fw-alertbar-stat { display:flex; align-items:center; gap:5px; padding:4px 10px; border-radius:2px; text-decoration:none; transition:background 0.15s; white-space:nowrap; }
+  .fw-alertbar-stat:hover { background:rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width:6px; height:6px; border-radius:50%; background:#ff4444; animation:pulse 2s infinite; flex-shrink:0; }
+  .fw-alertbar-num { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:white; }
+  .fw-alertbar-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num,.fw-alertbar-stat.critical .fw-alertbar-label { color:#ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num,.fw-alertbar-stat.high .fw-alertbar-label { color:#ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num,.fw-alertbar-stat.action .fw-alertbar-label { color:var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color:#888; } .fw-alertbar-stat.total .fw-alertbar-label { color:#555; }
+  .fw-alertbar-next { margin-left:auto; display:flex; align-items:center; gap:8px; white-space:nowrap; }
+  .fw-alertbar-next-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.08em; color:#555; }
+  .fw-alertbar-next-val { font-family:'IBM Plex Mono',monospace; font-size:10px; color:#ff9900; font-weight:600; }
+  .fw-alertbar-cta { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); text-decoration:none; padding:5px 12px; border:1px solid var(--accent-dark); border-radius:2px; margin-left:16px; transition:all 0.15s; white-space:nowrap; }
+  .fw-alertbar-cta:hover { background:var(--accent); color:var(--ink); }
+
+  /* MOBILE NAV */
+  .mobile-nav { display:none; flex-direction:column; background:var(--ink); padding:12px 20px; border-bottom:2px solid var(--accent); }
+  .mobile-nav.open { display:flex; }
+  .mobile-nav a { font-family:'IBM Plex Sans',sans-serif; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:#aaa; text-decoration:none; padding:10px 0; border-bottom:1px solid #222; }
+  .mobile-nav a:last-child { border-bottom:none; }
+  .mobile-nav a:hover,.mobile-nav a.active { color:var(--accent); }
+  .hamburger { background:none; border:none; cursor:pointer; display:flex; flex-direction:column; gap:5px; padding:4px; }
+  .hamburger span { display:block; width:22px; height:2px; background:#aaa; }
+
+  /* FOOTER */
+  footer { background:var(--ink); color:#aaa; padding:40px 48px; }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; max-width:1280px; margin:0 auto 32px; }
+  .footer-brand { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; color:white; margin-bottom:10px; }
+  .footer-brand span { color:var(--accent); }
+  .footer-desc { font-size:12px; line-height:1.7; max-width:260px; }
+  .footer-col h4 { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; color:white; margin-bottom:12px; font-family:'IBM Plex Sans',sans-serif; }
+  .footer-col a { display:block; font-size:12px; color:#888; text-decoration:none; margin-bottom:7px; transition:color 0.15s; }
+  .footer-col a:hover { color:var(--accent); }
+  .footer-bottom { border-top:1px solid #222; padding-top:20px; font-family:'IBM Plex Mono',monospace; font-size:10px; display:flex; justify-content:space-between; max-width:1280px; margin:0 auto; }
+
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+
+  /* PAGE LAYOUT */
+  .page-hero { background:var(--cream); border-bottom:2px solid var(--ink); padding:36px 48px 32px; }
+  .page-hero-inner { max-width:1280px; margin:0 auto; }
+  .page-hero-label { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.15em; color:var(--accent-dark); margin-bottom:10px; }
+  .page-hero h1 { font-family:'Playfair Display',serif; font-size:clamp(26px,3.5vw,42px); font-weight:900; line-height:1.15; margin-bottom:12px; }
+  .page-hero h1 span { color:var(--accent); }
+  .page-hero-sub { font-size:14px; line-height:1.7; color:var(--muted); max-width:760px; }
+  .page-container { max-width:1280px; margin:0 auto; padding:0 48px 64px; }
+
+  .section-head { display:flex; align-items:center; gap:16px; margin:40px 0 20px; padding-bottom:10px; border-bottom:2px solid var(--ink); }
+  .section-num { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.15em; color:var(--muted); }
+  .section-head h2 { font-family:'IBM Plex Sans',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; }
+  .section-line { flex:1; height:1px; background:var(--rule); }
+
+  /* DEADLINE BANNER */
+  .deadline-banner { background:#2a0000; border:2px solid var(--red); border-left:6px solid var(--red); padding:20px 28px; margin:32px 0; }
+  .deadline-banner-label { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:#ff4444; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  .deadline-banner-label::before { content:''; display:inline-block; width:8px; height:8px; border-radius:50%; background:#ff4444; animation:pulse 1.5s infinite; }
+  .deadline-banner p { font-size:14px; line-height:1.75; color:#ffcccc; }
+  .deadline-banner strong { color:white; }
+
+  /* TWO-CARD ROW */
+  .card-row { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin:24px 0; }
+  .info-card { background:var(--surface); border:1px solid var(--border); border-top:3px solid var(--accent); padding:28px; }
+  .info-card-icon { font-size:28px; margin-bottom:12px; }
+  .info-card h3 { font-family:'IBM Plex Sans',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:14px; color:var(--ink); }
+  .info-card p { font-size:13px; line-height:1.8; color:var(--muted); margin-bottom:10px; }
+  .info-card p:last-child { margin-bottom:0; }
+  .info-card strong { color:var(--ink); font-weight:600; }
+
+  /* CALLOUT BOX */
+  .callout-box { border:1px solid var(--accent); border-left:4px solid var(--accent); background:rgba(184,134,11,0.05); padding:20px 24px; margin:20px 0; }
+  .callout-box p { font-size:14px; line-height:1.8; color:var(--muted); }
+  .callout-box strong { color:var(--ink); }
+
+  /* 2x2 CHANGE GRID */
+  .change-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:24px 0; }
+  .change-card { background:var(--surface); border:1px solid var(--border); padding:24px; position:relative; }
+  .change-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--accent); }
+  .change-card h4 { font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--ink); margin-bottom:12px; }
+  .change-card p { font-size:13px; line-height:1.8; color:var(--muted); }
+  .change-card strong { color:var(--ink); font-weight:600; }
+
+  /* DECISION TREE */
+  .dtree { display:flex; flex-direction:column; align-items:center; gap:0; padding:32px 0; }
+  .dtree-row { display:flex; align-items:flex-start; justify-content:center; gap:0; width:100%; }
+  .dtree-q { display:flex; flex-direction:column; align-items:center; gap:0; }
+  .dtree-diamond { background:var(--ink); color:var(--accent); font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; text-align:center; line-height:1.4; padding:18px 24px; clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); width:200px; height:200px; display:flex; align-items:center; justify-content:center; }
+  .dtree-diamond-wrap { position:relative; width:200px; height:200px; }
+  .dtree-diamond-bg { position:absolute; inset:0; background:var(--accent); clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); }
+  .dtree-diamond-inner { position:absolute; inset:3px; background:var(--ink); clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); display:flex; align-items:center; justify-content:center; padding:20px; }
+  .dtree-diamond-inner span { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:var(--accent); text-align:center; line-height:1.4; }
+  .dtree-vline { width:2px; height:32px; background:var(--accent); margin:0 auto; }
+  .dtree-hrow { display:flex; align-items:flex-start; gap:0; justify-content:center; width:100%; }
+  .dtree-branch { display:flex; flex-direction:column; align-items:center; }
+  .dtree-branch-label { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); background:var(--paper); padding:2px 8px; border:1px solid var(--rule); margin-bottom:8px; }
+  .dtree-hline { height:2px; background:var(--accent); flex:1; min-width:40px; margin-top:16px; }
+  .dtree-outcome { background:var(--green); color:white; padding:14px 20px; font-family:'IBM Plex Mono',monospace; font-size:11px; line-height:1.5; text-align:center; border:2px solid #155515; max-width:220px; }
+  .dtree-outcome strong { display:block; font-size:12px; margin-bottom:4px; color:#aaffaa; }
+  .dtree-neutral { background:#2a2a2a; color:#aaa; padding:14px 20px; font-family:'IBM Plex Mono',monospace; font-size:11px; line-height:1.5; text-align:center; border:2px solid #444; max-width:220px; }
+  .dtree-connector { display:flex; align-items:flex-start; justify-content:center; width:100%; }
+  .dtree-connector-inner { display:flex; align-items:flex-start; }
+  .dtree-v-yes { width:2px; background:var(--accent); }
+  .dtree-v-no { width:2px; background:#555; }
+
+  /* Simple decision tree — cleaner approach */
+  .tree-wrap { background:var(--surface); border:1px solid var(--border); padding:40px 32px; margin:24px 0; overflow-x:auto; }
+  .tree-node { display:flex; flex-direction:column; align-items:center; }
+  .tree-question { background:var(--ink); border:2px solid var(--accent); clip-path:polygon(50% 0%,100% 35%,100% 65%,50% 100%,0% 65%,0% 35%); width:220px; height:110px; display:flex; align-items:center; justify-content:center; text-align:center; }
+  .tree-question span { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--accent); font-weight:600; line-height:1.3; padding:0 28px; }
+  .tree-line-v { width:2px; height:28px; background:var(--accent); }
+  .tree-line-v-gray { width:2px; height:28px; background:#777; }
+  .tree-split { display:flex; align-items:flex-start; justify-content:center; gap:0; width:100%; position:relative; margin-top:0; }
+  .tree-split::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:60%; height:2px; background:var(--accent); }
+  .tree-split-no::before { background:#777; }
+  .tree-branch { display:flex; flex-direction:column; align-items:center; flex:1; }
+  .tree-branch-label { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; background:var(--paper); padding:2px 8px; margin-bottom:0; border:1px solid var(--rule); color:var(--muted); }
+  .tree-branch-label.yes { color:#00aa44; border-color:#00aa44; }
+  .tree-branch-label.no { color:#888; border-color:#555; }
+  .tree-outcome { padding:14px 16px; font-family:'IBM Plex Mono',monospace; font-size:11px; line-height:1.5; text-align:center; max-width:200px; }
+  .tree-outcome.result { background:#0d2b0d; border:2px solid #2a6a2a; color:#88ee88; }
+  .tree-outcome.result strong { display:block; color:#aaffaa; font-size:12px; margin-bottom:4px; }
+  .tree-outcome.skip { background:#1a1a1a; border:2px solid #333; color:#777; }
+  .tree-also { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--accent); text-transform:uppercase; letter-spacing:0.08em; padding:4px 10px; border:1px solid var(--accent-dark); margin:6px 0; text-align:center; }
+  .tree-note { font-size:12px; font-family:'IBM Plex Mono',monospace; color:var(--muted); margin-top:6px; font-style:italic; }
+
+  /* ACCORDION */
+  .accordion { margin:20px 0; }
+  .acc-panel { border:1px solid var(--border); margin-bottom:8px; }
+  .acc-header { background:var(--surface); padding:16px 20px; cursor:pointer; display:flex; align-items:center; justify-content:space-between; user-select:none; border-bottom:1px solid transparent; transition:background 0.15s; }
+  .acc-header:hover { background:var(--paper); }
+  .acc-header.open { border-bottom:1px solid var(--border); background:var(--ink); color:var(--accent); }
+  .acc-title { font-family:'IBM Plex Sans',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; }
+  .acc-arrow { font-family:'IBM Plex Mono',monospace; font-size:14px; transition:transform 0.2s; }
+  .acc-header.open .acc-arrow { transform:rotate(180deg); color:var(--accent); }
+  .acc-body { display:none; padding:24px; background:var(--surface); }
+  .acc-body.open { display:block; }
+
+  /* TABLES */
+  .data-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .data-table th { background:var(--ink); color:var(--accent); font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; padding:10px 14px; text-align:left; font-weight:600; }
+  .data-table td { padding:10px 14px; border-bottom:1px solid var(--border); vertical-align:top; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); }
+  .data-table tr:nth-child(even) td { background:rgba(212,201,176,0.12); }
+  .data-table td:first-child { color:var(--ink); font-weight:500; }
+  .new-badge { display:inline-block; background:var(--red); color:white; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; padding:2px 6px; border-radius:1px; vertical-align:middle; margin-left:4px; }
+  .changed-badge { display:inline-block; background:var(--accent-dark); color:white; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; padding:2px 6px; border-radius:1px; vertical-align:middle; margin-left:4px; }
+
+  /* REFERENCE TABLE */
+  .ref-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .ref-table th { background:var(--ink); color:var(--accent); font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; padding:10px 14px; text-align:left; }
+  .ref-table td { padding:10px 14px; border-bottom:1px solid var(--border); font-size:12px; }
+  .ref-table tr:nth-child(even) td { background:rgba(212,201,176,0.12); }
+  .ref-table td:first-child { font-weight:600; font-family:'IBM Plex Sans',sans-serif; }
+  .ref-table a { color:var(--accent-dark); text-decoration:none; font-family:'IBM Plex Mono',monospace; font-size:11px; }
+  .ref-table a:hover { color:var(--ink); text-decoration:underline; }
+  .ref-note { font-size:12px; font-family:'IBM Plex Mono',monospace; color:var(--muted); margin-top:12px; font-style:italic; border-left:3px solid var(--accent); padding-left:12px; }
+
+  /* INFRA CARDS */
+  .infra-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:24px 0; }
+  .infra-card { background:var(--surface); border:1px solid var(--border); padding:24px; }
+  .infra-card-num { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:var(--accent); margin-bottom:8px; }
+  .infra-card h4 { font-family:'IBM Plex Sans',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink); margin-bottom:12px; border-bottom:2px solid var(--accent); padding-bottom:8px; }
+  .infra-card p { font-size:13px; line-height:1.8; color:var(--muted); }
+  .infra-card strong { color:var(--ink); font-weight:600; }
+
+  /* TIMELINE */
+  .timeline-wrap { overflow-x:auto; padding:20px 0 40px; }
+  .timeline { display:flex; align-items:flex-start; position:relative; min-width:700px; padding:60px 20px 0; }
+  .timeline::before { content:''; position:absolute; top:82px; left:20px; right:20px; height:3px; background:var(--accent); }
+  .tl-event { display:flex; flex-direction:column; align-items:center; flex:1; min-width:0; position:relative; }
+  .tl-dot { width:14px; height:14px; border-radius:50%; background:var(--accent); border:3px solid var(--paper); box-shadow:0 0 0 2px var(--accent); z-index:1; flex-shrink:0; }
+  .tl-dot.deadline { width:20px; height:20px; background:var(--red); box-shadow:0 0 0 3px var(--red); border:3px solid var(--paper); animation:pulse 1.5s infinite; }
+  .tl-date { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:700; color:var(--muted); margin-top:10px; text-align:center; }
+  .tl-desc { font-size:11px; font-family:'IBM Plex Mono',monospace; color:var(--ink); line-height:1.4; text-align:center; margin-top:6px; max-width:110px; }
+  .tl-desc.highlight { color:var(--red); font-weight:600; }
+  .tl-above { position:absolute; bottom:calc(100% - 48px); text-align:center; font-size:11px; font-family:'IBM Plex Mono',monospace; color:var(--muted); line-height:1.4; max-width:110px; padding-bottom:8px; }
+  .tl-above.highlight { color:var(--accent-dark); font-weight:600; }
+
+  /* GLOSSARY */
+  .glossary-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .glossary-term { background:var(--surface); border:1px solid var(--border); padding:18px 20px; }
+  .glossary-term dt { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-dark); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:6px; }
+  .glossary-term dd { font-size:13px; line-height:1.7; color:var(--muted); }
+  .glossary-term dd strong { color:var(--ink); }
+
+  /* MOBILE */
+  @media (max-width:900px) {
+    nav { display:none; } #mobileBar { display:flex !important; }
+    .masthead-top,.fw-alertbar { padding-left:20px; padding-right:20px; }
+    .masthead-top { flex-direction:column; gap:10px; text-align:center; }
+    .tagline { text-align:center; }
+    .fw-alertbar-next,.fw-alertbar-cta,.fw-alertbar-label { display:none; }
+    .page-hero { padding:24px 20px; }
+    .page-container { padding-left:20px; padding-right:20px; padding-bottom:40px; }
+    footer { padding:32px 20px; }
+    .footer-grid { grid-template-columns:1fr 1fr; }
+    .footer-bottom { flex-direction:column; gap:6px; text-align:center; }
+    .card-row,.change-grid,.infra-grid,.glossary-grid { grid-template-columns:1fr; }
+    .timeline { min-width:600px; }
+    .tree-split::before { width:80%; }
+  }
+  @media (max-width:600px) {
+    .footer-grid { grid-template-columns:1fr; }
+  }
+  @media (max-width:1200px) { .nav-comp { display:none; } }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">RULE 605 COMPLIANCE DEADLINE: <span style="color:#ff4444">AUG 1, 2026</span></span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">RULE 605 COMPLIANCE DEADLINE: <span style="color:#ff4444">AUG 1, 2026</span></span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+</div></div>
+
+<!-- FeedWatch Alert Bar -->
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span id="fw-critical-count" class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span id="fw-high-count" class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
+      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span id="fw-action-count" class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span id="fw-active-count" class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span id="fw-next-deadline" class="fw-alertbar-next-val">Rule 605 Amendments — Aug 1, 2026</span>
+    </div>
+    <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="index.html" style="text-decoration:none;border-left:1px solid var(--rule);border-right:1px solid var(--rule);padding:0 10px;display:flex;align-items:center;flex-shrink:0;" title="Market Data News">
+      <img src="favicon.svg" alt="MDN" style="height:26px;width:26px;display:block;">
+    </a>
+    <a href="index.html" class="nav-item">All News</a>
+    <div class="nav-dropdown">
+      <span class="nav-item">Markets &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="exchanges.html" class="nav-drop-item">Exchanges</a>
+        <a href="prediction-markets-live.html" class="nav-drop-item">Live Markets</a>
+        <a href="prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item active">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="nms.html" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="rule-filings.html" class="nav-drop-item">Rule Filings</a>
+        <a href="rulebook-navigator.html" class="nav-drop-item">Rulebooks</a>
+        <a href="execution-quality.html" class="nav-drop-item active">Execution Quality</a>
+        <a href="ai-digest.html" class="nav-drop-item">AI Digest</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Tools &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
+        <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
+        <a href="compensation.html" class="nav-drop-item">Compensation</a>
+      </div>
+    </div>
+    <a href="about.html" class="nav-item">About</a>
+    <a href="subscribe.html" class="nav-item">Subscribe</a>
+    <div class="nav-right">
+      <div class="search-wrap" id="searchWrap">
+        <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
+        <div class="search-drop" id="searchDrop"></div>
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">All News</a>
+  <div class="mob-group-label">Markets</div>
+  <a href="exchanges.html">Exchanges</a>
+  <a href="prediction-markets-live.html">Live Markets</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <div class="mob-group-label">Intelligence</div>
+  <a href="calendar.html">FeedWatch Calendar</a>
+  <a href="nms.html">NMS / SIP Plans</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="rule-filings.html">Rule Filings</a>
+  <a href="rulebook-navigator.html">Rulebooks</a>
+  <a href="execution-quality.html" class="active">Execution Quality</a>
+  <a href="ai-digest.html">AI Digest</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="market-data-fees.html">Fee Calculator</a>
+  <a href="contract-intelligence.html">Contract Intelligence</a>
+  <a href="compensation.html">Compensation</a>
+  <div class="mob-group-label">About</div>
+  <a href="about.html">About</a>
+  <a href="subscribe.html">Subscribe</a>
+</div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-label">Intelligence &rsaquo; Execution Quality</div>
+    <h1>Rule 605 &amp; 606 — <span>Execution Quality</span> Intelligence</h1>
+    <div class="page-hero-sub">The complete guide to SEC execution quality and order routing disclosure requirements — updated for the August 1 2026 compliance deadline.</div>
+  </div>
+</div>
+
+<!-- Page Content -->
+<div class="page-container">
+
+  <!-- CRITICAL DEADLINE BANNER -->
+  <div class="deadline-banner">
+    <div class="deadline-banner-label">Compliance Deadline: August 1, 2026</div>
+    <p><strong>Rule 605 Amendments effective August 1, 2026</strong> — Large broker-dealers (100,000+ customer accounts) must begin collecting execution quality data. Market centers already subject to Rule 605 must comply with new expanded reporting requirements.</p>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section-head">
+    <span class="section-num">01</span>
+    <h2>What Are Rules 605 and 606?</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="card-row">
+    <div class="info-card">
+      <div class="info-card-icon">📊</div>
+      <h3>Rule 605: Execution Quality</h3>
+      <p>Rule 605 of Regulation NMS requires market centers and (as of August 1, 2026) large broker-dealers to publish monthly execution quality reports. These reports show how well orders were executed — price improvement, fill rates, execution speed, and effective spreads.</p>
+      <p><strong>Who must report:</strong> Exchanges, ATSs, OTC market makers, and broker-dealers with 100,000+ customer accounts.</p>
+      <p><strong>Frequency:</strong> Monthly reports, published publicly.</p>
+      <p><strong>Coverage:</strong> NMS stocks only — exchange-listed equities.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon">🔀</div>
+      <h3>Rule 606: Order Routing</h3>
+      <p>Rule 606 requires all broker-dealers routing customer orders to publish quarterly reports disclosing where orders were sent for execution and the nature of any financial relationships with those venues.</p>
+      <p><strong>Who must report:</strong> All broker-dealers routing customer orders in NMS stocks and options.</p>
+      <p><strong>Frequency:</strong> Quarterly reports.</p>
+      <p><strong>Coverage:</strong> NMS stocks and listed options.</p>
+      <p><strong>Additional:</strong> Upon customer request, broker-dealers must disclose where a specific order was routed.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section-head">
+    <span class="section-num">02</span>
+    <h2>What Changed — August 1, 2026 Rule 605 Amendments</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="callout-box">
+    <p>The SEC extended the original December 14, 2025 compliance date to <strong>August 1, 2026</strong> to give firms additional time to build reporting systems. The extension does not change what is required — only when.</p>
+  </div>
+
+  <div class="change-grid">
+    <div class="change-card">
+      <h4>Expanded Scope</h4>
+      <p>Rule 605 now covers <strong>LARGER BROKER-DEALERS</strong> — any broker-dealer that introduces or carries 100,000 or more customer accounts must now file monthly execution quality reports. Previously only market centers (exchanges, ATSs, OTC market makers) were required to report. This brings major retail brokers — Fidelity, Schwab, Robinhood, Interactive Brokers — into scope for the first time.</p>
+    </div>
+    <div class="change-card">
+      <h4>New Order Categories</h4>
+      <p>Four new order types now required in reports: marketable immediate-or-cancel (IOC) orders, market orders with stop prices, marketable limit orders with stop prices, nonmarketable limit orders with stop prices. Order size categories now based on <strong>notional dollar value AND share count</strong> — not just share count as before. Extended hours orders now included as covered orders.</p>
+    </div>
+    <div class="change-card">
+      <h4>Summary Report Required</h4>
+      <p>All reporting entities must now produce a <strong>SUMMARY EXECUTION QUALITY REPORT</strong> in addition to the existing detailed symbol-by-symbol report. The summary report aggregates execution quality across all NMS stocks — giving investors a simple top-line view without parsing thousands of rows of symbol data.</p>
+    </div>
+    <div class="change-card">
+      <h4>Single-Dealer Platform Reporting</h4>
+      <p>OTC market makers operating single-dealer platforms must now prepare <strong>SEPARATE Rule 605 reports</strong> for single-dealer platform activity vs. standard OTC market making activity. This is a new disclosure requirement with interpretive questions still being resolved by the SEC.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section-head">
+    <span class="section-num">03</span>
+    <h2>Who Must Comply — Decision Tree</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="tree-wrap">
+    <!-- Q1 -->
+    <div class="tree-node">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:8px;">Question 1</div>
+      <div style="background:var(--ink);border:2px solid var(--accent);width:280px;padding:18px 24px;text-align:center;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);font-weight:600;line-height:1.5;">Are you an exchange, ATS, or OTC market maker in NMS stocks?</span>
+      </div>
+      <div style="display:flex;width:280px;margin-top:0;">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;">
+          <div style="height:2px;background:var(--accent);width:100%;margin-top:28px;"></div>
+        </div>
+        <div style="width:2px;height:28px;background:var(--accent);"></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:flex-end;">
+          <div style="height:2px;background:#666;width:100%;margin-top:28px;"></div>
+        </div>
+      </div>
+      <div style="display:flex;width:360px;justify-content:space-between;">
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;color:#00aa44;background:var(--paper);padding:2px 10px;border:1px solid #00aa44;">YES</span>
+          <div style="width:2px;height:16px;background:var(--accent);"></div>
+          <div class="tree-outcome result" style="max-width:160px;">
+            <strong>Market Center</strong>
+            Must file Rule 605 monthly reports — always required, now with expanded content and new order categories.
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;color:#888;background:var(--paper);padding:2px 10px;border:1px solid #555;">NO</span>
+          <div style="width:2px;height:16px;background:#666;"></div>
+          <div class="tree-outcome skip" style="max-width:160px;">
+            Rule 605 as market center does not apply → continue to Question 2
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- spacer -->
+    <div style="width:2px;height:28px;background:#666;margin:0 auto;"></div>
+
+    <!-- Q2 -->
+    <div class="tree-node">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:8px;">Question 2</div>
+      <div style="background:var(--ink);border:2px solid var(--accent);width:280px;padding:18px 24px;text-align:center;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);font-weight:600;line-height:1.5;">Do you route customer orders in NMS stocks or options?</span>
+      </div>
+      <div style="display:flex;width:280px;margin-top:0;">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;">
+          <div style="height:2px;background:var(--accent);width:100%;margin-top:28px;"></div>
+        </div>
+        <div style="width:2px;height:28px;background:var(--accent);"></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:flex-end;">
+          <div style="height:2px;background:#666;width:100%;margin-top:28px;"></div>
+        </div>
+      </div>
+      <div style="display:flex;width:360px;justify-content:space-between;">
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;color:#00aa44;background:var(--paper);padding:2px 10px;border:1px solid #00aa44;">YES</span>
+          <div style="width:2px;height:16px;background:var(--accent);"></div>
+          <div class="tree-outcome result" style="max-width:160px;">
+            <strong>Rule 606 Required</strong>
+            Must file quarterly order routing reports. Also continue to Question 3.
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;color:#888;background:var(--paper);padding:2px 10px;border:1px solid #555;">NO</span>
+          <div style="width:2px;height:16px;background:#666;"></div>
+          <div class="tree-outcome skip" style="max-width:160px;">
+            Rule 605 and 606 likely do not apply to you.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- spacer -->
+    <div style="width:2px;height:28px;background:var(--accent);margin:0 auto;"></div>
+
+    <!-- Q3 -->
+    <div class="tree-node">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:8px;">Question 3</div>
+      <div style="background:var(--ink);border:2px solid var(--red);width:280px;padding:18px 24px;text-align:center;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#ff8888;font-weight:600;line-height:1.5;">Do you introduce or carry 100,000 or more customer accounts?</span>
+      </div>
+      <div style="display:flex;width:280px;margin-top:0;">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;">
+          <div style="height:2px;background:var(--red);width:100%;margin-top:28px;"></div>
+        </div>
+        <div style="width:2px;height:28px;background:var(--red);"></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:flex-end;">
+          <div style="height:2px;background:#666;width:100%;margin-top:28px;"></div>
+        </div>
+      </div>
+      <div style="display:flex;width:360px;justify-content:space-between;">
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;color:#ff4444;background:var(--paper);padding:2px 10px;border:1px solid #ff4444;">YES</span>
+          <div style="width:2px;height:16px;background:var(--red);"></div>
+          <div style="background:#2a0000;border:2px solid var(--red);padding:14px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.5;text-align:center;max-width:180px;">
+            <strong style="display:block;color:#ff8888;font-size:12px;margin-bottom:4px;">Larger Broker-Dealer</strong>
+            <span style="color:#ffcccc;">Must ALSO file Rule 605 monthly reports starting August 1, 2026.</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;color:#888;background:var(--paper);padding:2px 10px;border:1px solid #555;">NO</span>
+          <div style="width:2px;height:16px;background:#666;"></div>
+          <div class="tree-outcome skip" style="max-width:160px;">
+            Rule 605 does not apply to you as a broker-dealer.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section-head">
+    <span class="section-num">04</span>
+    <h2>What the Reports Contain</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="accordion">
+    <!-- Panel 1 -->
+    <div class="acc-panel">
+      <div class="acc-header open" onclick="toggleAcc(this)">
+        <span class="acc-title">Rule 605 Report Fields</span>
+        <span class="acc-arrow">&#9660;</span>
+      </div>
+      <div class="acc-body open">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+              <th>New in 2026?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Security identifier</td><td>Ticker and CUSIP</td><td>No</td></tr>
+            <tr><td>Order type</td><td>Market, limit, IOC, stop</td><td><span class="changed-badge">Expanded</span></td></tr>
+            <tr><td>Order size category</td><td>By notional value and share count</td><td><span class="changed-badge">Changed</span></td></tr>
+            <tr><td>Number of covered orders</td><td>Count of orders received</td><td>No</td></tr>
+            <tr><td>Shares covered</td><td>Total shares in covered orders</td><td>No</td></tr>
+            <tr><td>Shares executed at quote</td><td>Filled at NBBO</td><td>No</td></tr>
+            <tr><td>Shares executed with price improvement</td><td>Better than NBBO</td><td>No</td></tr>
+            <tr><td>Shares executed outside quote</td><td>Worse than NBBO</td><td>No</td></tr>
+            <tr><td>Average effective spread</td><td>Actual cost of execution</td><td>No</td></tr>
+            <tr><td>Average realized spread</td><td>Market impact measure</td><td>No</td></tr>
+            <tr><td>Average speed of execution</td><td>Time to fill in seconds</td><td>No</td></tr>
+            <tr><td>Extended hours orders</td><td>Pre/post market</td><td><span class="new-badge">NEW</span></td></tr>
+            <tr><td>Stop price orders</td><td>Market and limit with stops</td><td><span class="new-badge">NEW</span></td></tr>
+            <tr><td>Summary report</td><td>Top-line aggregated view</td><td><span class="new-badge">NEW</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Panel 2 -->
+    <div class="acc-panel">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span class="acc-title">Rule 606 Report Fields</span>
+        <span class="acc-arrow">&#9660;</span>
+      </div>
+      <div class="acc-body">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Section</th>
+              <th>Content</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>S&amp;P 500 stocks</td><td>Venues receiving routed orders, % of shares, payment for order flow received</td></tr>
+            <tr><td>Non-S&amp;P 500 stocks</td><td>Same as above for smaller cap stocks</td></tr>
+            <tr><td>Listed options</td><td>Venues for options orders, financial relationships</td></tr>
+            <tr><td>Per-request disclosure</td><td>Specific order routing on customer request</td></tr>
+            <tr><td>Financial relationships</td><td>Any payment for order flow, revenue sharing, profit sharing arrangements with venues</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section-head">
+    <span class="section-num">05</span>
+    <h2>Finding Published Reports</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <p style="font-size:14px;line-height:1.8;color:var(--muted);margin-bottom:20px;">There is no central SEC repository for Rule 605 and 606 reports — each firm publishes on their own website. The Rule 605 NMS Plan requires each reporting entity to designate a <strong style="color:var(--ink);">Designated Participant</strong> (an SRO) which maintains a Link Site with hyperlinks to all reports.</p>
+
+  <table class="ref-table">
+    <thead>
+      <tr>
+        <th>Firm</th>
+        <th>Rule 605</th>
+        <th>Rule 606</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Virtu Americas</td>
+        <td><a href="#">virtu.com/transparency</a></td>
+        <td><a href="#">virtu.com/transparency</a></td>
+      </tr>
+      <tr>
+        <td>Citadel Securities</td>
+        <td><a href="#">citadelsecurities.com</a></td>
+        <td><a href="#">citadelsecurities.com</a></td>
+      </tr>
+      <tr>
+        <td>Jane Street</td>
+        <td><a href="#">janestreet.com</a></td>
+        <td><a href="#">janestreet.com</a></td>
+      </tr>
+      <tr>
+        <td>NYSE (as market center)</td>
+        <td><a href="#">nyse.com/market-data</a></td>
+        <td><a href="#">nyse.com/market-data</a></td>
+      </tr>
+      <tr>
+        <td>Nasdaq (as market center)</td>
+        <td><a href="#">nasdaq.com/solutions</a></td>
+        <td><a href="#">nasdaq.com/solutions</a></td>
+      </tr>
+      <tr>
+        <td>Cboe (as market center)</td>
+        <td><a href="#">cboe.com/us/equities</a></td>
+        <td><a href="#">cboe.com/us/equities</a></td>
+      </tr>
+      <tr>
+        <td>Fidelity</td>
+        <td><a href="#">clearingcustody.fidelity.com</a></td>
+        <td><a href="#">clearingcustody.fidelity.com</a></td>
+      </tr>
+      <tr>
+        <td>Schwab</td>
+        <td><a href="#">schwab.com/legal</a></td>
+        <td><a href="#">schwab.com/legal</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="ref-note">As of August 1, 2026 large retail brokers will begin filing Rule 605 reports for the first time. Check each firm's legal or compliance section.</p>
+
+  <!-- SECTION 6 -->
+  <div class="section-head">
+    <span class="section-num">06</span>
+    <h2>What This Means for Market Data Infrastructure</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="infra-grid">
+    <div class="infra-card">
+      <div class="infra-card-num">Implication 01</div>
+      <h4>SIP Data Dependency</h4>
+      <p>Rule 605 execution quality metrics depend on <strong>SIP data</strong> — the NBBO from the CTA SIP (Tape A/B) and UTP SIP (Tape C) is the benchmark for measuring price improvement. Firms calculating Rule 605 statistics must have reliable, timestamped SIP data. Competing consolidators now also provide NBBO — firms must decide which NBBO source to use for compliance calculations.</p>
+    </div>
+    <div class="infra-card">
+      <div class="infra-card-num">Implication 02</div>
+      <h4>Timestamp Precision Requirements</h4>
+      <p>Rule 605 execution speed calculations require <strong>microsecond-precision timestamps</strong>. Order receipt time and execution time must be recorded to microsecond granularity. Firms without proper timestamp infrastructure will struggle with compliance. This creates demand for time synchronization services and low-latency order management systems with proper clock discipline.</p>
+    </div>
+    <div class="infra-card">
+      <div class="infra-card-num">Implication 03</div>
+      <h4>Data Volume and Storage</h4>
+      <p>Rule 605 requires symbol-by-symbol monthly reports. A large broker-dealer routing orders in thousands of NMS stocks across multiple order types and size categories can generate <strong>hundreds of thousands of data records per month</strong>. Firms need robust data pipelines to aggregate, calculate, and publish this data in the required electronic format by the monthly deadline.</p>
+    </div>
+    <div class="infra-card">
+      <div class="infra-card-num">Implication 04</div>
+      <h4>Vendor Opportunities</h4>
+      <p>The expansion of Rule 605 to large broker-dealers creates demand for <strong>third-party Rule 605 calculation and reporting vendors</strong>. Firms without the infrastructure to calculate execution quality statistics in-house will outsource to vendors like FINRA's TRACE reporting infrastructure or specialized compliance vendors. This is a significant market data infrastructure business opportunity.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="section-head">
+    <span class="section-num">07</span>
+    <h2>Compliance Timeline</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="timeline-wrap">
+    <div class="timeline">
+      <div class="tl-event">
+        <div class="tl-above">Rules 11Ac1-5 and 11Ac1-6 adopted by SEC</div>
+        <div class="tl-dot"></div>
+        <div class="tl-date">2000</div>
+        <div class="tl-desc">Original execution quality rules adopted</div>
+      </div>
+      <div class="tl-event">
+        <div class="tl-above">Re-designated as Rules 605 and 606 under Regulation NMS</div>
+        <div class="tl-dot"></div>
+        <div class="tl-date">2005</div>
+        <div class="tl-desc">Reg NMS renaming</div>
+      </div>
+      <div class="tl-event">
+        <div class="tl-above">Rule 606 significantly amended — quarterly reports required</div>
+        <div class="tl-dot"></div>
+        <div class="tl-date">2018</div>
+        <div class="tl-desc">606 quarterly reporting</div>
+      </div>
+      <div class="tl-event">
+        <div class="tl-above highlight">SEC adopts Rule 605 amendments — expands to large broker-dealers</div>
+        <div class="tl-dot"></div>
+        <div class="tl-date">Mar 2024</div>
+        <div class="tl-desc tl-desc highlight">605 amendments adopted</div>
+      </div>
+      <div class="tl-event">
+        <div class="tl-above">Compliance date extended from Dec 2025 to Aug 1, 2026</div>
+        <div class="tl-dot"></div>
+        <div class="tl-date">Oct 2025</div>
+        <div class="tl-desc">Deadline extended</div>
+      </div>
+      <div class="tl-event">
+        <div class="tl-above highlight">ALL AMENDMENTS EFFECTIVE — Large broker-dealers must begin collecting data</div>
+        <div class="tl-dot deadline"></div>
+        <div class="tl-date" style="color:var(--red);font-weight:700;">Aug 1, 2026</div>
+        <div class="tl-desc tl-desc highlight">NEW COMPLIANCE DATE</div>
+      </div>
+      <div class="tl-event">
+        <div class="tl-above">First monthly reports under new rules due (covering August 2026 activity)</div>
+        <div class="tl-dot"></div>
+        <div class="tl-date">Sep 2026</div>
+        <div class="tl-desc">First new-format reports due</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 8 -->
+  <div class="section-head">
+    <span class="section-num">08</span>
+    <h2>Key Definitions</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="glossary-grid">
+    <dl class="glossary-term">
+      <dt>Covered Order</dt>
+      <dd>Any market or limit order received during regular trading hours when NBBO is being disseminated, if executed during regular hours.</dd>
+    </dl>
+    <dl class="glossary-term">
+      <dt>Market Center</dt>
+      <dd>Exchange, ATS, OTC market maker, or national securities association.</dd>
+    </dl>
+    <dl class="glossary-term">
+      <dt>Larger Broker-Dealer <span class="new-badge">New 2026</span></dt>
+      <dd>Broker-dealer that introduces or carries <strong>100,000 or more customer accounts</strong>. New category subject to Rule 605 starting August 1, 2026.</dd>
+    </dl>
+    <dl class="glossary-term">
+      <dt>Price Improvement</dt>
+      <dd>Execution at a price better than the NBBO at time of order receipt.</dd>
+    </dl>
+    <dl class="glossary-term">
+      <dt>Effective Spread</dt>
+      <dd>2 &times; |execution price &minus; midpoint of NBBO| — measures actual transaction cost.</dd>
+    </dl>
+    <dl class="glossary-term">
+      <dt>Realized Spread</dt>
+      <dd>2 &times; |execution price &minus; midpoint of NBBO 5 minutes after execution| — measures market impact.</dd>
+    </dl>
+    <dl class="glossary-term">
+      <dt>Designated Participant</dt>
+      <dd>SRO that maintains a link site to a firm's Rule 605 reports under the NMS Plan.</dd>
+    </dl>
+    <dl class="glossary-term">
+      <dt>Non-Directed Order</dt>
+      <dd>Customer order with no specific routing instructions given to the broker-dealer.</dd>
+    </dl>
+    <dl class="glossary-term">
+      <dt>Held Order</dt>
+      <dd>Order that must be executed immediately without discretion.</dd>
+    </dl>
+    <dl class="glossary-term">
+      <dt>NBBO</dt>
+      <dd>National Best Bid and Offer — the consolidated best price from all exchanges via <strong>CTA SIP</strong> (Tape A/B) or <strong>UTP SIP</strong> (Tape C).</dd>
+    </dl>
+  </div>
+
+</div><!-- end .page-container -->
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="exchanges.html">Exchanges</a>
+      <a href="regulation.html">Regulation</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>FeedWatch</h4>
+      <a href="calendar.html">All Entries</a>
+      <a href="calendar.html?filter=action">Action Required</a>
+      <a href="calendar.html?filter=critical">Critical Alerts</a>
+      <a href="calendar.html?filter=high">High Impact</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="subscribe.html">Subscribe</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+
+function toggleAcc(header) {
+  const body = header.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.acc-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.acc-header').forEach(h => h.classList.remove('open'));
+  // Open clicked if it was closed
+  if (!isOpen) {
+    body.classList.add('open');
+    header.classList.add('open');
+  }
+}
+</script>
+<script src="search-global.js"></script>
+<script src="chat-widget.js"></script>
+<script src="feedwatch-bar.js"></script>
+</body>
+</html>
