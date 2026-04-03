@@ -571,7 +571,9 @@ function buildCard(m, featured) {
     '<div class="card-header">' +
       '<div class="card-title">' + escHtml(displayTitle || 'Untitled Market') + '</div>' +
       '<span class="card-source ' + m.source + '">' + (m.source === 'kalshi' ? 'Kalshi' : 'Polymarket') + '</span>' +
+      (m.isMultiOutcome ? '<span style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;background:#e8e4db;color:#888;padding:2px 6px;border-radius:2px;margin-left:4px;">MULTI</span>' : '') +
     '</div>' +
+    (m.isMultiOutcome && m.subtitle ? '<p style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:#888;margin:0 0 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Part of: ' + escHtml(m.subtitle) + '</p>' : '') +
     (pct !== null
       ? '<div class="card-prob"><span class="prob-pct ' + cls + '">' + pct + '%</span><span class="prob-label">YES</span></div>' +
         '<div class="prob-bar"><div class="prob-bar-yes ' + cls + '" style="width:' + pct + '%"></div></div>'
@@ -699,23 +701,65 @@ async function fetchMarkets() {
   // Process Polymarket events
   const poly = (data.poly || []).flatMap(event => {
     if (!event.markets || !event.markets.length) return [];
-    const market = event.markets[0];
-    let prob = 50;
-    try {
-      const prices = JSON.parse(market.outcomePrices || '["0.5","0.5"]');
-      prob = Math.round(parseFloat(prices[0]) * 100);
-    } catch(e) {}
-    if (prob <= 1 || prob >= 99) return [];
-    return [{
-      id: 'poly-' + event.id,
-      title: event.title || market.question || 'Unknown',
-      probability: prob,
-      volume: parseFloat(event.volume || 0),
-      expiry: event.endDate || '',
-      source: 'polymarket',
-      url: 'https://polymarket.com/event/' + (event.slug || event.id),
-      category: detectCategory(event.title || '')
-    }];
+
+    // Single binary market — use it directly
+    if (event.markets.length === 1) {
+      const market = event.markets[0];
+      let prob = 50;
+      try {
+        const prices = JSON.parse(market.outcomePrices || '["0.5","0.5"]');
+        prob = Math.round(parseFloat(prices[0]) * 100);
+      } catch(e) {}
+      if (prob <= 1 || prob >= 99) return [];
+      return [{
+        id: 'poly-' + event.id,
+        title: event.title || market.question || 'Unknown',
+        probability: prob,
+        volume: parseFloat(event.volume || 0),
+        expiry: event.endDate || '',
+        source: 'polymarket',
+        url: 'https://polymarket.com/event/' + (event.slug || event.id),
+        category: detectCategory(event.title || ''),
+        isMultiOutcome: false
+      }];
+    }
+
+    // Multi-outcome event — show top 3 outcomes by probability in 5%–95% range
+    const validMarkets = event.markets.filter(m => {
+      try {
+        const prices = JSON.parse(m.outcomePrices || '["0","0"]');
+        const p = parseFloat(prices[0]);
+        return p > 0.05 && p < 0.95;
+      } catch(e) { return false; }
+    }).sort((a, b) => {
+      try {
+        const pa = parseFloat(JSON.parse(a.outcomePrices)[0]);
+        const pb = parseFloat(JSON.parse(b.outcomePrices)[0]);
+        return pb - pa;
+      } catch(e) { return 0; }
+    });
+
+    if (!validMarkets.length) return [];
+
+    return validMarkets.slice(0, 3).map(m => {
+      let prob = 50;
+      try {
+        const prices = JSON.parse(m.outcomePrices || '["0.5","0.5"]');
+        prob = Math.round(parseFloat(prices[0]) * 100);
+      } catch(e) {}
+      return {
+        id: 'poly-' + event.id + '-' + m.id,
+        title: m.question || m.title || event.title,
+        subtitle: event.title,
+        probability: prob,
+        volume: parseFloat(m.volume || event.volume || 0),
+        expiry: event.endDate || '',
+        source: 'polymarket',
+        url: 'https://polymarket.com/event/' + (event.slug || event.id),
+        category: detectCategory(event.title || ''),
+        isMultiOutcome: true
+      };
+    });
   });
 
   // Process Kalshi markets

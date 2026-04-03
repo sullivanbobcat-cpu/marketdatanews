@@ -28,7 +28,7 @@ exports.handler = async () => {
 
   try {
     const data = await get(
-      'https://gamma-api.polymarket.com/events?active=true&closed=false&limit=30&order=volume&ascending=false'
+      'https://gamma-api.polymarket.com/events?active=true&closed=false&limit=40&order=volume&ascending=false'
     );
     results.poly = Array.isArray(data) ? data.slice(0, 30) : [];
   } catch(e) {
