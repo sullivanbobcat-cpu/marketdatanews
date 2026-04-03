@@ -79,10 +79,10 @@
   .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
   .hamburger.open span:nth-child(2){opacity:0;}
   .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
-  .mobile-nav{display:none;flex-direction:column;background:var(--cream);border-bottom:3px solid var(--ink);overflow:hidden;max-height:0;transition:max-height 0.3s ease;}
+  .mobile-nav{display:none;flex-direction:column;background:var(--ink);border-bottom:3px solid var(--accent);overflow:hidden;max-height:0;transition:max-height 0.3s ease;}
   .mobile-nav.open{max-height:500px;}
-  .mobile-nav a{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:14px 20px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);font-family:"IBM Plex Sans",sans-serif;transition:background 0.15s,color 0.15s;}
-  .mobile-nav a:hover,.mobile-nav a.active{background:var(--ink);color:var(--accent);}
+  .mobile-nav a{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:14px 20px;color:#aaa;text-decoration:none;border-bottom:1px solid #222;font-family:"IBM Plex Sans",sans-serif;transition:background 0.15s,color 0.15s;}
+  .mobile-nav a:hover,.mobile-nav a.active{background:#1a1a1a;color:var(--accent);}
 
   .skeleton{background:linear-gradient(90deg,var(--border) 25%,var(--paper) 50%,var(--border) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:2px;}
   @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
@@ -181,7 +181,7 @@
     .fw-main{padding:20px;}
     .footer-grid{grid-template-columns:1fr 1fr;}
     .masthead-top{flex-direction:column;gap:10px;text-align:center;}
-    nav{display:none;}
+    nav{display:none;} #mobileBar{display:flex!important;}
     .hamburger{display:flex;}
     .mobile-nav{display:flex;}
     .fw-banner-top{flex-direction:column;}
