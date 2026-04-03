@@ -694,7 +694,7 @@ async function fetchMarkets() {
   const r = await fetch('/.netlify/functions/pm-proxy');
   const data = await r.json();
 
-  if (data.error) console.warn('[pm-live] Proxy error:', data.error);
+  if (data.errors && data.errors.length) console.warn('[pm-live] Proxy errors:', data.errors.join(' | '));
 
   // Process Polymarket events
   const poly = (data.poly || []).flatMap(event => {
