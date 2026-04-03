@@ -23,5 +23,10 @@
 [functions."search"]
   included_files = []
 
+[[headers]]
+  for = '/favicon.*'
+  [headers.values]
+    Cache-Control = 'public, max-age=86400'
+
 [[plugins]]
   package = "@netlify/plugin-functions-install-core"
