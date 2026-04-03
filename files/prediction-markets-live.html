@@ -349,7 +349,7 @@
   <div class="hero-inner">
     <div class="hero-eyebrow"><span class="live-dot"></span> Live Data</div>
     <h1>Prediction Markets Live</h1>
-    <p class="hero-sub">Real-time prices from Kalshi and Polymarket — financial, economic, and geopolitical event contracts. Data sourced directly from exchange APIs.</p>
+    <p class="hero-sub">Economic and financial event markets from Kalshi and Polymarket — Fed rate decisions, inflation, GDP, trade policy, and macro events. Filtered for market data professionals.</p>
   </div>
 </div>
 
@@ -383,13 +383,11 @@
     <input class="search-input" type="text" id="searchInput" placeholder="Search markets by title…" autocomplete="off">
     <div class="cat-tabs" id="catTabs">
       <button class="cat-tab" data-cat="ALL">All</button>
-      <button class="cat-tab" data-cat="FINANCIAL">Financial</button>
       <button class="cat-tab active" data-cat="ECONOMIC">Economic</button>
-      <button class="cat-tab" data-cat="POLITICAL">Political</button>
-      <button class="cat-tab" data-cat="SPORTS">Sports</button>
+      <button class="cat-tab" data-cat="FINANCIAL">Financial</button>
+      <button class="cat-tab" data-cat="GEOPOLITICAL">Geopolitical</button>
       <button class="cat-tab" data-cat="CRYPTO">Crypto</button>
-      <button class="cat-tab" data-cat="CLIMATE">Climate</button>
-      <button class="cat-tab" data-cat="OTHER">Other</button>
+      <button class="cat-tab" data-cat="POLITICAL">Political</button>
     </div>
   </div>
 
@@ -505,16 +503,38 @@ var POLY_URL   = 'https://gamma-api.polymarket.com/markets?active=true&limit=100
 // ── Category detection ──
 function detectCategory(title) {
   var t = (title || '').toLowerCase();
-  if (['fed','rate','cpi','inflation','gdp','recession','unemployment','payroll','powell','interest','tariff','jobs'].some(function(k){ return t.indexOf(k)!==-1; })) return 'ECONOMIC';
-  if (['trump','election','congress','senate','president','vote','democrat','republican'].some(function(k){ return t.indexOf(k)!==-1; })) return 'POLITICAL';
-  if (['bitcoin','crypto','eth','solana','btc','coin'].some(function(k){ return t.indexOf(k)!==-1; })) return 'CRYPTO';
-  if (['iran','war','russia','ukraine','nato','china','military'].some(function(k){ return t.indexOf(k)!==-1; })) return 'POLITICAL';
-  if (['oil','stock','market','price','dollar','s&p','nasdaq','dow','bond','equity'].some(function(k){ return t.indexOf(k)!==-1; })) return 'FINANCIAL';
-  if (['hurricane','climate','temperature','storm','flood','wildfire'].some(function(k){ return t.indexOf(k)!==-1; })) return 'CLIMATE';
+  if (['fed','federal reserve','fomc','rate cut','rate hike','interest rate','cpi','inflation','pce','ppi','gdp','recession','unemployment','payroll','nonfarm','powell','tariff','jobs'].some(function(k){ return t.indexOf(k)!==-1; })) return 'ECONOMIC';
+  if (['bitcoin','crypto','eth','ethereum','solana','btc','coin'].some(function(k){ return t.indexOf(k)!==-1; })) return 'CRYPTO';
+  if (['iran','strait of hormuz','russia','ukraine','nato','china','taiwan','xi','ceasefire','sanctions','war','military'].some(function(k){ return t.indexOf(k)!==-1; })) return 'GEOPOLITICAL';
+  if (['oil','brent','crude','gold','silver','commodities','wheat','corn','dollar','euro','yen','forex','currency','stock market','s&p','sp500','nasdaq','dow','bond','yield','treasury','debt ceiling','ipo','merger','acquisition','earnings','revenue','bank','jpmorgan','goldman'].some(function(k){ return t.indexOf(k)!==-1; })) return 'FINANCIAL';
+  if (['election','president','congress','senate','vote','democrat','republican','trump','sec','cftc','finra','regulation','trade war','trade deal'].some(function(k){ return t.indexOf(k)!==-1; })) return 'POLITICAL';
   return 'OTHER';
 }
 
 // ── Formatting ──
+function isRelevant(market) {
+  var t = (market.title || '').toLowerCase();
+  var required = [
+    'fed', 'federal reserve', 'rate cut', 'rate hike', 'fomc', 'interest rate',
+    'inflation', 'cpi', 'pce', 'ppi', 'deflation',
+    'gdp', 'recession', 'unemployment', 'jobs', 'payroll', 'nonfarm',
+    'tariff', 'trade war', 'trade deal', 'sanctions',
+    'bitcoin', 'crypto', 'ethereum', 'btc', 'eth',
+    'stock market', 'sp500', 's&p', 'nasdaq', 'dow jones', 'market crash',
+    'oil price', 'brent', 'crude', 'gas price', 'energy',
+    'dollar', 'euro', 'yen', 'currency', 'forex',
+    'treasury', 'yield', 'bond', 'debt ceiling', 'default',
+    'iran', 'strait of hormuz', 'ceasefire', 'russia', 'ukraine',
+    'china', 'taiwan', 'xi', 'trade',
+    'election', 'president', 'congress', 'senate', 'powell',
+    'bank', 'jpmorgan', 'goldman', 'fed chair',
+    'ipo', 'merger', 'acquisition', 'earnings', 'revenue',
+    'gold', 'silver', 'commodities', 'wheat', 'corn',
+    'sec', 'cftc', 'regulation', 'finra'
+  ];
+  return required.some(function(k) { return t.indexOf(k) !== -1; });
+}
+
 function fmtVol(v) {
   if (!v || isNaN(v)) return '—';
   v = Number(v);
@@ -617,7 +637,9 @@ function renderGrid() {
   if (markets.length === 0) {
     var empty = document.createElement('div');
     empty.className = 'empty-msg';
-    empty.textContent = 'No markets match your filter.';
+    empty.textContent = allMarkets.length < 5
+      ? 'Showing only economic and financial markets relevant to market data professionals. Markets update every 60 seconds.'
+      : 'No markets match your filter.';
     grid.appendChild(empty);
     return;
   }
@@ -629,13 +651,9 @@ function renderGrid() {
 
 function renderFeatured(markets) {
   var eligible = markets.filter(function(m) {
-    return m.probability != null && m.probability >= 1 && m.probability <= 99;
+    return m.probability != null && m.probability >= 25 && m.probability <= 75 && !m.isMultiOutcome;
   });
-  eligible.sort(function(a, b) {
-    if (a.source === 'polymarket' && b.source !== 'polymarket') return -1;
-    if (b.source === 'polymarket' && a.source !== 'polymarket') return 1;
-    return (b.volume || 0) - (a.volume || 0);
-  });
+  eligible.sort(function(a, b) { return (b.volume || 0) - (a.volume || 0); });
   var top3 = eligible.slice(0, 3);
   var grid = document.getElementById('featuredGrid');
   grid.innerHTML = '';
@@ -782,7 +800,11 @@ async function fetchMarkets() {
 
   console.log('[pm-live] Polymarket:', poly.length, 'markets | Kalshi:', kalshi.length, 'markets');
 
-  const all = [...poly, ...kalshi].sort((a, b) => b.volume - a.volume);
+  const all = [...poly, ...kalshi]
+    .filter(m => isRelevant(m))
+    .sort((a, b) => b.volume - a.volume);
+
+  console.log('[pm-live] After relevance filter:', all.length, 'markets');
 
   if (all.length === 0) {
     showLoadError('Both APIs returned no usable markets. Check the browser console for details.');
