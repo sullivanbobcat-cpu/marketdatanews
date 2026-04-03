@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#b8860b">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exchange Rulebook Navigator — Market Data News</title>
+<meta name="description" content="Plain-English guides to market data rules across NYSE, Nasdaq, Cboe, FINRA, CME, and ICE — fee schedules, usage restrictions, professional user definitions, and audit rights.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Market Data News">
+<link rel="canonical" href="https://marketdatanews.com/rulebook-navigator.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://marketdatanews.com/rulebook-navigator.html">
+<meta property="og:title" content="Exchange Rulebook Navigator — Market Data News">
+<meta property="og:description" content="Plain-English guides to market data rules across NYSE, Nasdaq, Cboe, FINRA, CME, and ICE — fee schedules, usage restrictions, professional user definitions, and audit rights.">
+<meta property="og:site_name" content="Market Data News">
+<meta property="og:image" content="https://marketdatanews.com/og-image.svg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#0d0d0d; --paper:#f5f2eb; --cream:#faf8f3; --rule:#d4c9b0; --accent:#b8860b; --accent-dark:#8b6508; --muted:#6b6555; --red:#c0392b; --surface:#ffffff; --border:#e8e0d0; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--paper); color:var(--ink); font-family:'IBM Plex Sans',sans-serif; min-height:100vh; }
+
+  .ticker-wrap { background:var(--ink); color:var(--accent); padding:7px 0; overflow:hidden; position:relative; }
+  .ticker-wrap::before,.ticker-wrap::after { content:''; position:absolute; top:0; bottom:0; width:60px; z-index:2; }
+  .ticker-wrap::before { left:0; background:linear-gradient(90deg,var(--ink),transparent); }
+  .ticker-wrap::after { right:0; background:linear-gradient(-90deg,var(--ink),transparent); }
+  .ticker { display:flex; animation:ticker 40s linear infinite; white-space:nowrap; }
+  .ticker-item { font-family:'IBM Plex Mono',monospace; font-size:11px; padding:0 32px; letter-spacing:0.05em; }
+  .ticker-item .up { color:#00cc66; }
+  @keyframes ticker { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+
+  .masthead { background:var(--cream); border-bottom:3px solid var(--ink); }
+  .masthead-top { display:flex; align-items:center; justify-content:space-between; padding:20px 48px 16px; border-bottom:1px solid var(--rule); }
+  .date-line { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+  .site-title { font-family:'Playfair Display',serif; font-size:clamp(32px,5vw,58px); font-weight:900; letter-spacing:-0.02em; line-height:1; text-align:center; text-decoration:none; color:var(--ink); }
+  .site-title span { color:var(--accent); }
+  .tagline { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); text-align:right; letter-spacing:0.1em; text-transform:uppercase; line-height:1.6; }
+
+  footer { background:var(--ink); color:#aaa; padding:40px 48px; }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; max-width:1280px; margin:0 auto 32px; }
+  .footer-brand { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; color:white; margin-bottom:10px; }
+  .footer-brand span { color:var(--accent); }
+  .footer-desc { font-size:12px; line-height:1.7; max-width:260px; }
+  .footer-col h4 { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; color:white; margin-bottom:12px; font-family:'IBM Plex Sans',sans-serif; }
+  .footer-col a { display:block; font-size:12px; color:#888; text-decoration:none; margin-bottom:7px; transition:color 0.15s; }
+  .footer-col a:hover { color:var(--accent); }
+  .footer-bottom { border-top:1px solid #222; padding-top:20px; font-family:'IBM Plex Mono',monospace; font-size:10px; display:flex; justify-content:space-between; max-width:1280px; margin:0 auto; }
+
+  .fw-alertbar { background:#1a0a00; border-bottom:2px solid var(--accent); padding:0 48px; }
+  .fw-alertbar-inner { max-width:1280px; margin:0 auto; display:flex; align-items:center; height:38px; }
+  .fw-alertbar-brand { font-family:'Playfair Display',serif; font-size:15px; font-weight:900; color:white; text-decoration:none; padding-right:16px; white-space:nowrap; }
+  .fw-alertbar-brand span { color:var(--accent); }
+  .fw-alertbar-divider { width:1px; height:20px; background:#3a2a10; margin:0 16px; flex-shrink:0; }
+  .fw-alertbar-stats { display:flex; align-items:center; gap:4px; }
+  .fw-alertbar-stat { display:flex; align-items:center; gap:5px; padding:4px 10px; border-radius:2px; text-decoration:none; transition:background 0.15s; white-space:nowrap; }
+  .fw-alertbar-stat:hover { background:rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width:6px; height:6px; border-radius:50%; background:#ff4444; animation:pulse 2s infinite; flex-shrink:0; }
+  .fw-alertbar-num { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:white; }
+  .fw-alertbar-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num,.fw-alertbar-stat.critical .fw-alertbar-label { color:#ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num,.fw-alertbar-stat.high .fw-alertbar-label { color:#ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num,.fw-alertbar-stat.action .fw-alertbar-label { color:var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color:#888; } .fw-alertbar-stat.total .fw-alertbar-label { color:#555; }
+  .fw-alertbar-next { margin-left:auto; display:flex; align-items:center; gap:8px; white-space:nowrap; }
+  .fw-alertbar-next-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.08em; color:#555; }
+  .fw-alertbar-next-val { font-family:'IBM Plex Mono',monospace; font-size:10px; color:#ff9900; font-weight:600; }
+  .fw-alertbar-cta { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); text-decoration:none; padding:5px 12px; border:1px solid var(--accent-dark); border-radius:2px; margin-left:16px; transition:all 0.15s; white-space:nowrap; }
+  .fw-alertbar-cta:hover { background:var(--accent); color:var(--ink); }
+
+  .mobile-nav { display:none; flex-direction:column; background:var(--ink); padding:12px 20px; border-bottom:2px solid var(--accent); }
+  .mobile-nav.open { display:flex; }
+  .mobile-nav a { font-family:'IBM Plex Sans',sans-serif; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:#aaa; text-decoration:none; padding:10px 0; border-bottom:1px solid #222; }
+  .mobile-nav a:last-child { border-bottom:none; }
+  .mobile-nav a:hover,.mobile-nav a.active { color:var(--accent); }
+  .hamburger { background:none; border:none; cursor:pointer; display:flex; flex-direction:column; gap:5px; padding:4px; }
+  .hamburger span { display:block; width:22px; height:2px; background:#aaa; }
+  .mobile-nav .mob-group-label { font-family:'IBM Plex Mono',monospace !important; font-size:9px !important; text-transform:uppercase !important; letter-spacing:0.15em !important; color:var(--accent) !important; padding:14px 0 5px !important; border-bottom:none !important; font-weight:400 !important; cursor:default; }
+
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+
+  @media (max-width:900px) {
+    nav { display:none; } #mobileBar { display:flex !important; }
+    .masthead-top,.fw-alertbar { padding-left:20px; padding-right:20px; }
+    .masthead-top { flex-direction:column; gap:10px; text-align:center; }
+    .tagline { text-align:center; }
+    .fw-alertbar-next,.fw-alertbar-cta,.fw-alertbar-label { display:none; }
+    .page-hero { padding:24px 20px; }
+    .page-container { padding-left:20px; padding-right:20px; padding-bottom:40px; }
+    footer { padding:32px 20px; }
+    .footer-grid { grid-template-columns:1fr 1fr; }
+    .footer-bottom { flex-direction:column; gap:6px; text-align:center; }
+    .ex-tab-bar { gap:4px; }
+    .ex-tab { font-size:10px; padding:8px 10px; }
+    .ex-panel-header { flex-direction:column; align-items:flex-start; }
+    .guide-step { flex-direction:column; gap:8px; }
+    .guide-step-num { font-size:28px; min-width:auto; }
+  }
+  @media (max-width:600px) {
+    .footer-grid { grid-template-columns:1fr; }
+  }
+  @media (max-width:1200px) { .nav-comp { display:none; } }
+
+  nav { display:flex; align-items:stretch; padding:0 48px; border-bottom:1px solid var(--rule); position:relative; flex-wrap:nowrap; overflow:visible; background:var(--cream); }
+  .nav-item { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; padding:0 14px; cursor:pointer; transition:background 0.15s,color 0.15s; color:var(--ink); border:none; background:none; font-family:'IBM Plex Sans',sans-serif; border-right:1px solid var(--rule); text-decoration:none; display:inline-flex; align-items:center; white-space:nowrap; min-height:40px; user-select:none; }
+  a.nav-item:first-child { border-left:1px solid var(--rule); }
+  .nav-item.active,.nav-item:hover { background:var(--ink); color:var(--accent); }
+  .nav-dropdown { position:relative; display:flex; align-items:stretch; }
+  .nav-dropdown > .nav-item { border-left:none; }
+  .nav-dropdown-menu { display:block; position:absolute; top:100%; left:0; opacity:0; visibility:hidden; transform:translateY(-4px); transition:opacity 0.15s ease,transform 0.15s ease,visibility 0.15s ease; min-width:220px; background:var(--ink); border-top:2px solid var(--accent); z-index:1000; box-shadow:0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left:auto; right:0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity:1; visibility:visible; transform:translateY(0); }
+  .nav-drop-item { display:block; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#aaa; text-decoration:none; padding:10px 20px; border-bottom:1px solid #1e1e1e; transition:color 0.15s,background 0.15s; white-space:nowrap; }
+  .nav-drop-item:last-child { border-bottom:none; }
+  .nav-drop-item:hover,.nav-drop-item.active { color:var(--accent); background:#111; }
+  .nav-right { margin-left:auto; display:flex; align-items:center; gap:16px; padding-left:16px; border-left:1px solid var(--rule); }
+  .search-wrap { position:relative; display:flex; align-items:center; }
+  .search-box { background:transparent; border:1px solid var(--rule); padding:5px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink); border-radius:2px; width:180px; }
+  .search-box:focus { outline:none; border-color:var(--accent); }
+  .search-box::placeholder { color:var(--muted); }
+  .search-drop { position:absolute; top:calc(100% + 4px); right:0; width:380px; background:var(--ink); border:1px solid #333; z-index:1000; display:none; max-height:480px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,0.4); }
+  .search-drop.open { display:block; }
+
+  /* PAGE */
+  .page-hero { background:var(--cream); border-bottom:2px solid var(--ink); padding:36px 48px 32px; }
+  .page-hero-inner { max-width:1280px; margin:0 auto; }
+  .page-hero-label { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.15em; color:var(--accent-dark); margin-bottom:10px; }
+  .page-hero h1 { font-family:'Playfair Display',serif; font-size:clamp(26px,3.5vw,42px); font-weight:900; line-height:1.15; margin-bottom:12px; }
+  .page-hero h1 span { color:var(--accent); }
+  .page-hero-sub { font-size:14px; line-height:1.7; color:var(--muted); max-width:760px; }
+
+  .page-container { max-width:1280px; margin:0 auto; padding:0 48px 64px; }
+
+  .section-head { display:flex; align-items:center; gap:16px; margin:40px 0 20px; padding-bottom:10px; border-bottom:2px solid var(--ink); }
+  .section-num { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.15em; color:var(--muted); }
+  .section-head h2 { font-family:'IBM Plex Sans',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; }
+  .section-line { flex:1; height:1px; background:var(--rule); }
+
+  .callout-box { border:1px solid var(--accent); border-left:4px solid var(--accent); background:rgba(184,134,11,0.04); padding:20px 24px; margin:20px 0; }
+  .callout-box p { font-size:14px; line-height:1.8; }
+
+  .ex-tab-bar { display:flex; flex-wrap:wrap; border-bottom:2px solid var(--ink); margin-bottom:32px; }
+  .ex-tab { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; padding:10px 18px; cursor:pointer; background:transparent; border:1px solid var(--rule); border-bottom:none; color:var(--muted); transition:all 0.15s; margin-right:-1px; margin-bottom:-2px; }
+  .ex-tab:hover { background:var(--paper); color:var(--ink); }
+  .ex-tab.active { background:var(--ink); color:var(--accent); border-color:var(--ink); }
+
+  .ex-panel { display:none; }
+  .ex-panel.active { display:block; }
+  .ex-panel-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid var(--border); }
+  .ex-panel-title { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; }
+  .ex-panel-meta { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); margin-top:4px; }
+  .ex-rulebook-link { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent-dark); text-decoration:none; padding:7px 14px; border:1px solid var(--accent-dark); border-radius:2px; transition:all 0.15s; display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
+  .ex-rulebook-link:hover { background:var(--accent-dark); color:white; }
+  .ex-rulebook-link::after { content:'↗'; }
+
+  .accordion { margin-bottom:6px; border:1px solid var(--border); border-radius:2px; overflow:hidden; }
+  .accordion-header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; cursor:pointer; background:var(--surface); transition:background 0.15s; user-select:none; }
+  .accordion-header:hover { background:var(--cream); }
+  .accordion-header.open { background:var(--ink); color:var(--accent); }
+  .accordion-title { font-family:'IBM Plex Sans',sans-serif; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; }
+  .accordion-chevron { font-size:11px; transition:transform 0.2s; flex-shrink:0; margin-left:12px; }
+  .accordion-body { display:none; padding:20px 24px; background:var(--surface); border-top:1px solid var(--border); }
+  .accordion-body.open { display:block; }
+  .accordion-body p { font-size:13px; line-height:1.8; color:var(--muted); margin-bottom:12px; }
+  .accordion-body p:last-child { margin-bottom:0; }
+  .accordion-body ul { list-style:none; padding:0; margin:8px 0 12px; }
+  .accordion-body li { font-size:13px; line-height:1.7; color:var(--muted); padding:4px 0 4px 14px; border-left:2px solid var(--rule); margin-left:2px; margin-bottom:4px; }
+  .accordion-body li strong { color:var(--ink); font-weight:600; }
+  .accordion-link { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--accent-dark); text-decoration:none; display:inline-flex; align-items:center; gap:4px; margin-top:12px; transition:color 0.15s; }
+  .accordion-link::after { content:'↗'; }
+  .accordion-link:hover { color:var(--accent); }
+
+  .amendments-box { margin-top:24px; padding:14px 18px; border:1px solid var(--accent-dark); border-radius:2px; background:rgba(184,134,11,0.03); }
+  .amendments-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:0.15em; color:var(--accent-dark); margin-bottom:10px; }
+  .amendment-tag { display:inline-flex; flex-direction:column; background:var(--paper); border:1px solid var(--accent-dark); border-radius:2px; padding:8px 12px; margin-right:8px; margin-bottom:8px; text-decoration:none; transition:border-color 0.15s; }
+  .amendment-tag:hover { border-color:var(--accent); }
+  .amendment-tag-id { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:var(--accent-dark); }
+  .amendment-tag-desc { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); margin-top:2px; }
+
+  .table-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:20px 0; border:1px solid var(--border); border-radius:2px; }
+  .comp-table { border-collapse:collapse; width:100%; min-width:860px; }
+  .comp-table th { background:var(--ink); color:var(--accent); font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; padding:12px 16px; text-align:left; white-space:nowrap; position:sticky; top:0; }
+  .comp-table th:first-child { position:sticky; left:0; z-index:3; }
+  .comp-table td { padding:12px 16px; font-size:12px; line-height:1.55; border-bottom:1px solid var(--border); vertical-align:top; color:var(--muted); }
+  .comp-table td:first-child { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:var(--ink); background:var(--cream); position:sticky; left:0; white-space:nowrap; border-right:2px solid var(--rule); z-index:1; }
+  .comp-table tr:nth-child(even) td { background:var(--surface); }
+  .comp-table tr:nth-child(even) td:first-child { background:var(--paper); }
+  .comp-table tr:last-child td { border-bottom:none; }
+
+  .guide-steps { margin:20px 0; }
+  .guide-step { display:flex; gap:24px; padding:24px 0; border-bottom:1px solid var(--border); }
+  .guide-step:last-child { border-bottom:none; }
+  .guide-step-num { font-family:'Playfair Display',serif; font-size:36px; font-weight:900; color:var(--accent); line-height:1; min-width:44px; flex-shrink:0; padding-top:2px; }
+  .guide-step-content h3 { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; margin-bottom:8px; line-height:1.3; }
+  .guide-step-content p { font-size:13px; line-height:1.8; color:var(--muted); }
+  .guide-step-content p em { color:var(--ink); font-style:normal; font-family:'IBM Plex Mono',monospace; font-size:12px; }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+</div></div>
+
+<!-- FeedWatch Alert Bar -->
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
+      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
+    </div>
+    <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="index.html" style="text-decoration:none;border-left:1px solid var(--rule);border-right:1px solid var(--rule);padding:0 10px;display:flex;align-items:center;flex-shrink:0;" title="Market Data News">
+      <img src="favicon.svg" alt="MDN" style="height:26px;width:26px;display:block;">
+    </a>
+    <a href="index.html" class="nav-item">All News</a>
+    <div class="nav-dropdown">
+      <span class="nav-item">Markets &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="exchanges.html" class="nav-drop-item">Exchanges</a>
+        <a href="prediction-markets-live.html" class="nav-drop-item">Live Markets</a>
+        <a href="prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item active">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="nms.html" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="rule-filings.html" class="nav-drop-item">Rule Filings</a>
+        <a href="rulebook-navigator.html" class="nav-drop-item active">Rulebooks</a>
+        <a href="ai-digest.html" class="nav-drop-item">AI Digest</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Tools &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
+        <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
+        <a href="compensation.html" class="nav-drop-item">Compensation</a>
+      </div>
+    </div>
+    <a href="about.html" class="nav-item">About</a>
+    <a href="subscribe.html" class="nav-item">Subscribe</a>
+    <div class="nav-right">
+      <div class="search-wrap">
+        <input class="search-box" type="text" placeholder="Search site..." autocomplete="off">
+        <div class="search-drop"></div>
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">All News</a>
+  <div class="mob-group-label">Markets</div>
+  <a href="exchanges.html">Exchanges</a>
+  <a href="prediction-markets-live.html">Live Markets</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <div class="mob-group-label">Intelligence</div>
+  <a href="calendar.html">FeedWatch Calendar</a>
+  <a href="nms.html">NMS / SIP Plans</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="rule-filings.html">Rule Filings</a>
+  <a href="rulebook-navigator.html" class="active">Rulebooks</a>
+  <a href="ai-digest.html">AI Digest</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="market-data-fees.html">Fee Calculator</a>
+  <a href="contract-intelligence.html">Contract Intelligence</a>
+  <a href="compensation.html">Compensation</a>
+  <div class="mob-group-label">About</div>
+  <a href="about.html">About</a>
+  <a href="subscribe.html">Subscribe</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-label">Intelligence · Exchange Rules</div>
+    <h1>Exchange Rulebook <span>Navigator</span></h1>
+    <div class="page-hero-sub">Plain-English guides to market data rules across NYSE, Nasdaq, Cboe, FINRA, CME, and ICE — fee schedules, usage restrictions, professional user definitions, and audit rights. Updated when exchanges file amendments.</div>
+  </div>
+</div>
+
+<div class="page-container">
+
+  <!-- 01 WHY THIS MATTERS -->
+  <div class="section-head">
+    <span class="section-num">01 —</span>
+    <h2>Why This Matters</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="callout-box">
+    <p>Exchange rulebooks contain the legal terms governing your market data subscriptions — but they are written for lawyers, not engineers. This navigator extracts the sections that matter most to market data managers, compliance teams, and operations professionals. Each summary links to the official source.</p>
+  </div>
+
+  <!-- 02 EXCHANGE SELECTOR -->
+  <div class="section-head">
+    <span class="section-num">02 —</span>
+    <h2>Select Exchange</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="ex-tab-bar" role="tablist">
+    <button class="ex-tab active" onclick="showExchange('nyse',this)" role="tab">NYSE Family</button>
+    <button class="ex-tab" onclick="showExchange('nasdaq',this)" role="tab">Nasdaq</button>
+    <button class="ex-tab" onclick="showExchange('cboe',this)" role="tab">Cboe</button>
+    <button class="ex-tab" onclick="showExchange('finra',this)" role="tab">FINRA</button>
+    <button class="ex-tab" onclick="showExchange('cme',this)" role="tab">CME Group</button>
+    <button class="ex-tab" onclick="showExchange('ice',this)" role="tab">ICE</button>
+  </div>
+
+  <!-- 03 NYSE -->
+  <div class="ex-panel active" id="ex-nyse">
+    <div class="ex-panel-header">
+      <div>
+        <div class="ex-panel-title">NYSE Family</div>
+        <div class="ex-panel-meta">NYSE Equities Rules · Tape A &amp; B · CTA/CQ Plan</div>
+      </div>
+      <a href="https://www.nyse.com/rules-and-regulations" target="_blank" rel="noopener" class="ex-rulebook-link">View NYSE Rules</a>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header open" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Key Market Data Rules</span>
+        <span class="accordion-chevron">▲</span>
+      </div>
+      <div class="accordion-body open">
+        <p>NYSE market data rules are primarily governed by NYSE Rule 7 (Co-location Services) and the NYSE Market Data Policy. Key rules for data professionals:</p>
+        <ul>
+          <li><strong>Rule 7.16:</strong> Co-location fees and connectivity charges — updated annually via SRO filing</li>
+          <li><strong>Rule 7.29:</strong> Market data port fees — MDC hall connections</li>
+          <li><strong>NYSE Equities Rule 15:</strong> Trading halts and SIP implications</li>
+          <li><strong>CTA/CQ Plan rules</strong> govern Tape A and Tape B data distribution</li>
+        </ul>
+        <a href="https://www.nyse.com/rules-and-regulations" target="_blank" rel="noopener" class="accordion-link">View NYSE Rules</a>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Professional User Definition</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>NYSE follows the CTA/CQ Plan definition of professional subscriber. A professional subscriber is any natural person who receives market data in connection with their employment in the securities, commodities, banking, financial, or investment industries. This includes: traders, portfolio managers, analysts, compliance officers, IT staff supporting trading systems.</p>
+        <p>Key implication: Professional user fees are per-seat. Each person accessing a terminal or application using NYSE data counts as one professional user unless they qualify for non-professional status.</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Non-Display and Derived Data</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>Non-display use of NYSE data (automated trading, risk systems, algorithmic engines) requires a separate non-display license. Key requirements:</p>
+        <ul>
+          <li><strong>Separate fee schedule applies</strong> — typically per-device or flat monthly fee</li>
+          <li><strong>Must be disclosed</strong> in annual attestation</li>
+          <li><strong>Derived data</strong> (indices, analytics, models) may require additional licensing</li>
+          <li><strong>Vendor of record</strong> must be designated for redistributed data</li>
+        </ul>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Audit Rights and Compliance</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>NYSE reserves the right to audit subscriber usage annually. Requirements include:</p>
+        <ul>
+          <li><strong>Annual Usage Declaration</strong> — certify professional vs non-professional user counts</li>
+          <li><strong>Quarterly true-up</strong> for significant changes</li>
+          <li><strong>Records must be maintained</strong> for 3 years</li>
+          <li><strong>Sub-distributor agreements</strong> required for any redistribution</li>
+        </ul>
+        <p>NYSE conducts audits through the CTA/CQ Plan administrator. Non-compliance can result in back-billing and termination.</p>
+      </div>
+    </div>
+    <div class="amendments-box">
+      <div class="amendments-label">Recent Relevant Amendments</div>
+      <a href="https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=SR-NYSE-2025-37" target="_blank" rel="noopener" class="amendment-tag">
+        <span class="amendment-tag-id">SR-NYSE-2025-37</span>
+        <span class="amendment-tag-desc">Port fee increase · 2025</span>
+      </a>
+      <a href="https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=SR-NYSE-2026-07" target="_blank" rel="noopener" class="amendment-tag">
+        <span class="amendment-tag-id">SR-NYSE-2026-07</span>
+        <span class="amendment-tag-desc">CTS participant update · Feb 2026</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- NASDAQ -->
+  <div class="ex-panel" id="ex-nasdaq">
+    <div class="ex-panel-header">
+      <div>
+        <div class="ex-panel-title">Nasdaq</div>
+        <div class="ex-panel-meta">Nasdaq Rules 7000–7059 · UTP Plan · TotalView</div>
+      </div>
+      <a href="https://listingcenter.nasdaq.com/rulebook/nasdaq/rules" target="_blank" rel="noopener" class="ex-rulebook-link">View Nasdaq Rules</a>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header open" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Key Market Data Rules</span>
+        <span class="accordion-chevron">▲</span>
+      </div>
+      <div class="accordion-body open">
+        <p>Nasdaq market data rules are in Rules 7000–7059 of the Nasdaq rulebook. Key rules:</p>
+        <ul>
+          <li><strong>Rule 7001:</strong> General market data fee provisions</li>
+          <li><strong>Rule 7003:</strong> TotalView and Level 2 fees — professional and non-professional rates</li>
+          <li><strong>Rule 7015:</strong> Non-display use fees for automated systems</li>
+          <li><strong>Rule 7023:</strong> Distributor fees and vendor of record requirements</li>
+          <li><strong>Rule 7047:</strong> UTP SIP fees and obligations</li>
+        </ul>
+        <a href="https://listingcenter.nasdaq.com/rulebook/nasdaq/rules" target="_blank" rel="noopener" class="accordion-link">View Nasdaq Rules 7000–7059</a>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Professional User Definition</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>Nasdaq defines professional users under UTP Plan rules. A professional subscriber receives data for business use. Non-professional status requires the subscriber to be: a natural person, using data solely for personal investment decisions, not employed in a financial capacity, not redistributing data.</p>
+        <p>Key implication: Nasdaq charges significantly higher rates for professional users on TotalView. A single professional user accessing TotalView costs $24/month. Firms must track every person accessing Nasdaq data through their systems.</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Non-Display and Derived Data</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>Nasdaq Rule 7015 covers non-display use — data consumed by machines rather than humans:</p>
+        <ul>
+          <li><strong>Automated trading systems:</strong> separate per-device fee</li>
+          <li><strong>Risk management systems:</strong> separate license required</li>
+          <li><strong>Analytics and derived data products:</strong> licensing required if distributed externally</li>
+          <li><strong>Internal calculated indices:</strong> generally permitted without additional license</li>
+        </ul>
+        <p>Enterprise licenses available when professional user counts exceed thousands — contact Nasdaq Data directly.</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Audit Rights and Compliance</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>Nasdaq conducts market data audits through its Market Data Compliance team. Requirements:</p>
+        <ul>
+          <li><strong>Annual certification</strong> of user counts and use cases</li>
+          <li><strong>Monthly reporting</strong> of professional user counts for active subscribers</li>
+          <li><strong>Sub-distributor agreements required</strong> — must be filed with Nasdaq</li>
+          <li><strong>60-day notice</strong> required for termination</li>
+        </ul>
+        <p>Failure to report accurately results in back-billing at standard rates for the audit period.</p>
+      </div>
+    </div>
+    <div class="amendments-box">
+      <div class="amendments-label">Recent Relevant Amendments</div>
+      <a href="https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=SR-NASDAQ-2026-006" target="_blank" rel="noopener" class="amendment-tag">
+        <span class="amendment-tag-id">SR-NASDAQ-2026-006</span>
+        <span class="amendment-tag-desc">Options fee update · Feb 2026</span>
+      </a>
+      <a href="https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=SR-Phlx-2025-41" target="_blank" rel="noopener" class="amendment-tag">
+        <span class="amendment-tag-id">SR-Phlx-2025-41</span>
+        <span class="amendment-tag-desc">PHLX SQF migration · 2025</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- CBOE -->
+  <div class="ex-panel" id="ex-cboe">
+    <div class="ex-panel-header">
+      <div>
+        <div class="ex-panel-title">Cboe</div>
+        <div class="ex-panel-meta">BZX · BYX · EDGA · EDGX · Cboe Options</div>
+      </div>
+      <a href="https://www.cboe.com/us/equities/regulation/rules" target="_blank" rel="noopener" class="ex-rulebook-link">View Cboe Rules</a>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header open" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Key Market Data Rules</span>
+        <span class="accordion-chevron">▲</span>
+      </div>
+      <div class="accordion-body open">
+        <p>Cboe market data rules span four equities exchanges (BZX, BYX, EDGA, EDGX) and four options exchanges. Key rules:</p>
+        <ul>
+          <li><strong>BZX Rule 11.22:</strong> Market data fees and distribution</li>
+          <li><strong>BZX Rule 11.22(d):</strong> Non-display use provisions</li>
+          <li><strong>EDGX Rule 11.22:</strong> Depth of book data fees</li>
+          <li><strong>Cboe Options Rule 21.15:</strong> Options market data fees (Cboe One Feed, Depth of Book)</li>
+        </ul>
+        <p>Cboe files separate SRO amendments for each of its exchanges — changes to BZX do not automatically apply to EDGX.</p>
+        <a href="https://www.cboe.com/us/equities/regulation/rules" target="_blank" rel="noopener" class="accordion-link">View Cboe US Equities Rules</a>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Professional User Definition</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>Cboe follows the UTP Plan definition for equity data. For options data, Cboe uses its own definition aligned with OPRA plan rules. Professional status applies to anyone using data in a professional financial capacity.</p>
+        <p>Key point: Cboe charges flat fees for many of its data products rather than per-seat fees, making it more predictable for large organizations.</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Non-Display and Derived Data</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>Cboe non-display license required for:</p>
+        <ul>
+          <li><strong>Algorithmic trading</strong> using BZX/EDGX depth data</li>
+          <li><strong>Risk systems</strong> consuming Cboe options data</li>
+          <li><strong>Cboe One Feed</strong> used in automated systems</li>
+        </ul>
+        <p>Annual usage declarations required. Derived data (indices, ETF calculations using Cboe data) require separate licensing agreements negotiated with Cboe Data Services.</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Audit Rights and Compliance</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>Cboe market data compliance requirements:</p>
+        <ul>
+          <li><strong>Annual usage declaration</strong> for each Cboe exchange subscription</li>
+          <li><strong>Quarterly professional user count</strong> updates</li>
+          <li><strong>Sub-distributor agreements</strong> required for any redistribution</li>
+          <li><strong>30-day termination notice</strong> for most Cboe products</li>
+        </ul>
+        <p>Cboe conducts audits jointly across all four equities venues — one audit covers BZX, BYX, EDGA, and EDGX.</p>
+      </div>
+    </div>
+    <div class="amendments-box">
+      <div class="amendments-label">Recent Relevant Amendments</div>
+      <a href="https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=SR-CboeBZX-2026-014" target="_blank" rel="noopener" class="amendment-tag">
+        <span class="amendment-tag-id">SR-CboeBZX-2026-014</span>
+        <span class="amendment-tag-desc">Market data rules · Mar 2026</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- FINRA -->
+  <div class="ex-panel" id="ex-finra">
+    <div class="ex-panel-header">
+      <div>
+        <div class="ex-panel-title">FINRA</div>
+        <div class="ex-panel-meta">CAT · TRACE · SLATE · ADF</div>
+      </div>
+      <a href="https://www.finra.org/rules-guidance/rulebooks/finra-rules" target="_blank" rel="noopener" class="ex-rulebook-link">View FINRA Rules</a>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header open" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Key Market Data Rules</span>
+        <span class="accordion-chevron">▲</span>
+      </div>
+      <div class="accordion-body open">
+        <p>FINRA market data rules primarily govern CAT reporting, TRACE, and ADF connectivity:</p>
+        <ul>
+          <li><strong>Rule 6500–6599:</strong> Securities Information Processors and SIP connectivity</li>
+          <li><strong>Rule 6830:</strong> CAT reporting requirements including BFMM locate exception (amended Dec 2025)</li>
+          <li><strong>Rule 7000 series:</strong> TRACE trade reporting and data fees</li>
+          <li><strong>Rule 7610:</strong> ADF display requirements</li>
+          <li><strong>SLATE (Rule 6500 series):</strong> Securities Lending reporting launched Jan 2, 2026</li>
+        </ul>
+        <a href="https://www.finra.org/rules-guidance/rulebooks/finra-rules" target="_blank" rel="noopener" class="accordion-link">View FINRA Rules</a>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">CAT Reporting Obligations</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>CAT (Consolidated Audit Trail) is governed by the CAT NMS Plan, not FINRA rules directly, but FINRA is the Plan Processor. Key obligations for firms:</p>
+        <ul>
+          <li><strong>All order events</strong> must be reported to CAT within T+1</li>
+          <li><strong>Customer and account information (CAIS)</strong> required — pending elimination of SSN/address fields</li>
+          <li><strong>Error repair rate</strong> must stay below FINRA thresholds</li>
+          <li><strong>Bona Fide Market Making Locate Exception</strong> must now be flagged in CAT (Rule 6830 amendment Dec 2025)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">SLATE Reporting (New 2026)</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>FINRA SLATE (Securities Lending and Transparency Engine) launched January 2, 2026 under Rule 10c-1a. Requirements:</p>
+        <ul>
+          <li><strong>All covered securities lending transactions</strong> must be reported to SLATE</li>
+          <li><strong>Data published</strong> within 90 days of reporting start</li>
+          <li><strong>Firms must establish SLATE connectivity</strong> — separate from existing FINRA systems</li>
+        </ul>
+        <p>FINRA petitioned SEC to delay but launch proceeded on schedule.</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">ADF and Trade Reporting</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>FINRA Alternative Display Facility (ADF) rules affect market data for firms using FINRA as their primary quotation venue. New ADF Participant ID D added to CTS and CQS March 27, 2026. TRACE data fees apply to firms accessing fixed income trade data for compliance and analytics purposes.</p>
+      </div>
+    </div>
+    <div class="amendments-box">
+      <div class="amendments-label">Recent Relevant Amendments</div>
+      <a href="https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=SR-FINRA-2025-016" target="_blank" rel="noopener" class="amendment-tag">
+        <span class="amendment-tag-id">SR-FINRA-2025-016</span>
+        <span class="amendment-tag-desc">Rule 6830 BFMM amendment · Dec 2025</span>
+      </a>
+      <a href="https://www.finra.org/rules-guidance/key-topics/securities-lending" target="_blank" rel="noopener" class="amendment-tag">
+        <span class="amendment-tag-id">SLATE Launch</span>
+        <span class="amendment-tag-desc">Securities lending reporting · Jan 2 2026</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- CME -->
+  <div class="ex-panel" id="ex-cme">
+    <div class="ex-panel-header">
+      <div>
+        <div class="ex-panel-title">CME Group</div>
+        <div class="ex-panel-meta">CME · CBOT · NYMEX · COMEX · MDP 3.0</div>
+      </div>
+      <a href="https://www.cmegroup.com/rulebook/CME" target="_blank" rel="noopener" class="ex-rulebook-link">View CME Rulebook</a>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header open" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Key Market Data Rules</span>
+        <span class="accordion-chevron">▲</span>
+      </div>
+      <div class="accordion-body open">
+        <p>CME Group market data rules span CME, CBOT, NYMEX, and COMEX rulebooks. Key rules:</p>
+        <ul>
+          <li><strong>CME Rule 575:</strong> Disruptive trading practices — affects automated data use</li>
+          <li><strong>CME Market Data Policy:</strong> Governs all MDP 3.0 data distribution</li>
+          <li><strong>CME Globex Connectivity terms:</strong> iLink, Drop Copy, MDP 3.0 licensing</li>
+          <li><strong>Agricultural data rules:</strong> CBOT Rule 261 covers grain market data distribution</li>
+        </ul>
+        <p>CME Group issues technical notices (Globex Notices) separate from formal rulebook amendments — both have compliance implications.</p>
+        <a href="https://www.cmegroup.com/rulebook/CME" target="_blank" rel="noopener" class="accordion-link">View CME Rulebook</a>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">MDP 3.0 Data License</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>CME MDP 3.0 (Market Data Platform 3.0) is the primary real-time data feed for all CME Group products. Key licensing requirements:</p>
+        <ul>
+          <li><strong>Direct connectivity</strong> requires CME co-location or managed network agreement</li>
+          <li><strong>10Gbps connection now required</strong> for multicast — 1Gbps deprecated March 2026</li>
+          <li><strong>Non-display license required</strong> for automated systems consuming MDP 3.0</li>
+          <li><strong>Derived data restrictions:</strong> indices or products derived from CME data require separate licensing</li>
+          <li><strong>CME DataMine license</strong> required for historical tick data</li>
+        </ul>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Agricultural Data Specifics</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>CBOT agricultural futures data (corn, wheat, soybean, livestock, dairy) has specific licensing provisions:</p>
+        <ul>
+          <li><strong>Cash grain market data</strong> separately licensed from futures data</li>
+          <li><strong>USDA WASDE release data</strong> is public domain — no CME license required</li>
+          <li><strong>Derived products</strong> using CBOT settlement prices require CME licensing</li>
+          <li><strong>South Asia Vegetable Oil (Fastmarkets) futures</strong> launched March 2, 2026 — new data channel required</li>
+        </ul>
+        <p>Firms in agricultural commodities with CME data access should review contracts annually as new products add channels.</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Audit Rights and Compliance</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>CME Group market data audit requirements:</p>
+        <ul>
+          <li><strong>Annual market data audit rights</strong> reserved in all connectivity agreements</li>
+          <li><strong>Usage reporting required</strong> for automated systems (machines count)</li>
+          <li><strong>Messaging Efficiency Program:</strong> firms exceeding message rate benchmarks billed surcharges quarterly</li>
+          <li><strong>Google Cloud migration 2026:</strong> new connectivity agreements required for Google Cloud access</li>
+        </ul>
+        <p>Contact CME Global Account Manager for connectivity and licensing questions.</p>
+      </div>
+    </div>
+    <div class="amendments-box">
+      <div class="amendments-label">Recent Technical Notices</div>
+      <a href="https://www.cmegroup.com/globex" target="_blank" rel="noopener" class="amendment-tag">
+        <span class="amendment-tag-id">CME Globex Notice</span>
+        <span class="amendment-tag-desc">1Gbps MDP3 deprecation · Mar 2026</span>
+      </a>
+      <a href="https://www.cmegroup.com/globex" target="_blank" rel="noopener" class="amendment-tag">
+        <span class="amendment-tag-id">CME Globex Notice</span>
+        <span class="amendment-tag-desc">iLink v8 sunset · Apr 24 2026</span>
+      </a>
+      <a href="https://www.cmegroup.com/globex" target="_blank" rel="noopener" class="amendment-tag">
+        <span class="amendment-tag-id">CME Globex Notice</span>
+        <span class="amendment-tag-desc">STP FIX Google Cloud mandatory · Apr 26 2026</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ICE -->
+  <div class="ex-panel" id="ex-ice">
+    <div class="ex-panel-header">
+      <div>
+        <div class="ex-panel-title">ICE</div>
+        <div class="ex-panel-meta">ICE Futures US · ICE Futures Europe · ICE Endex · iMpact Feed</div>
+      </div>
+      <a href="https://www.ice.com/futures-us/regulation" target="_blank" rel="noopener" class="ex-rulebook-link">View ICE Rules</a>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header open" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Key Market Data Rules</span>
+        <span class="accordion-chevron">▲</span>
+      </div>
+      <div class="accordion-body open">
+        <p>ICE market data rules cover ICE Futures US (New York), ICE Futures Europe (London), and ICE Endex (Amsterdam). Key provisions:</p>
+        <ul>
+          <li><strong>ICE Data Services agreement</strong> governs all iMpact feed distribution</li>
+          <li><strong>ICE Fundamentals data</strong> (cocoa, coffee, sugar, cotton warehouse stocks) — separate license</li>
+          <li><strong>ICE Brent Crude and TTF Natural Gas feeds:</strong> elevated volume post Iran war March 2026</li>
+          <li><strong>ICE Canola</strong> (global rapeseed benchmark) and Cotton No. 2 have specific redistribution restrictions</li>
+        </ul>
+        <a href="https://www.ice.com/futures-us/regulation" target="_blank" rel="noopener" class="accordion-link">View ICE Futures US Rules</a>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Professional User Definition</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>ICE uses its own professional subscriber definition for non-equity products (futures and options). Professional status applies to firms and individuals using data for commercial purposes including trading, risk management, and pricing.</p>
+        <p>Non-professional rates generally not available for futures market data — most subscribers are commercial entities.</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Non-Display and Derived Data</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>ICE non-display license required for:</p>
+        <ul>
+          <li><strong>Automated trading systems</strong> using iMpact feed data</li>
+          <li><strong>Risk systems</strong> consuming ICE energy or agricultural data</li>
+          <li><strong>Pricing models</strong> using ICE settlement prices</li>
+          <li><strong>Internal indices</strong> derived from ICE Brent or TTF prices</li>
+        </ul>
+        <p>ICE Fundamentals data (warehouse stocks, grading reports) subject to separate redistribution restrictions — contact ICE Data Services for enterprise licensing.</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-title">Audit Rights and Compliance</span>
+        <span class="accordion-chevron">▾</span>
+      </div>
+      <div class="accordion-body">
+        <p>ICE market data compliance requirements:</p>
+        <ul>
+          <li><strong>Annual subscriber certification</strong> required</li>
+          <li><strong>ICE reserves audit rights</strong> across all data subscriptions</li>
+          <li><strong>Sub-distributor agreements</strong> required for any ICE data redistribution</li>
+          <li><strong>ICE Endex European gas data</strong> subject to additional EU regulatory requirements</li>
+        </ul>
+        <p>ICE has expanded capacity for energy feeds following Iran war supply disruption — firms should verify feed capacity is adequate.</p>
+      </div>
+    </div>
+    <div class="amendments-box">
+      <div class="amendments-label">Recent Notices</div>
+      <a href="https://www.ice.com/futures-us/regulation" target="_blank" rel="noopener" class="amendment-tag">
+        <span class="amendment-tag-id">ICE Endex Notice</span>
+        <span class="amendment-tag-desc">Capacity upgrade · Mar 2026</span>
+      </a>
+      <a href="https://www.ice.com/futures-us/regulation" target="_blank" rel="noopener" class="amendment-tag">
+        <span class="amendment-tag-id">ICE Agri Notice</span>
+        <span class="amendment-tag-desc">South Asia Veg Oil new feed · Mar 2 2026</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 04 COMPARISON TABLE -->
+  <div class="section-head">
+    <span class="section-num">04 —</span>
+    <h2>Key Term Comparison</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="table-scroll">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Term</th>
+          <th>NYSE / CTA</th>
+          <th>Nasdaq / UTP</th>
+          <th>Cboe</th>
+          <th>CME Group</th>
+          <th>ICE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Professional User</td>
+          <td>CTA Plan: employed in securities, banking, or investment industry</td>
+          <td>UTP Plan: business use, not solely personal investment</td>
+          <td>UTP Plan (equity); OPRA-aligned (options)</td>
+          <td>Commercial entities and individuals using data for business purposes</td>
+          <td>Own definition: commercial use in trading, risk, or pricing</td>
+        </tr>
+        <tr>
+          <td>Non-Display Use</td>
+          <td>Automated, machine-readable use without real-time human viewing; separate license</td>
+          <td>Rule 7015: machine consumption; per-device fee</td>
+          <td>BZX Rule 11.22(d): algorithmic and automated system use</td>
+          <td>MDP 3.0 Policy: automated systems; license in connectivity agreement</td>
+          <td>iMpact feed automation; separate license required</td>
+        </tr>
+        <tr>
+          <td>Audit Notice Period</td>
+          <td>Annual right via CTA/CQ Plan administrator</td>
+          <td>Annual certification + monthly user counts</td>
+          <td>Annual per venue; joint audit across all four equities exchanges</td>
+          <td>Annual per connectivity agreement; quarterly MEP surcharges</td>
+          <td>Annual certification; ICE reserves right across all subscriptions</td>
+        </tr>
+        <tr>
+          <td>Termination Notice</td>
+          <td>30–90 days written; check specific product agreement</td>
+          <td>60 days written notice required</td>
+          <td>30 days for most Cboe products</td>
+          <td>Per connectivity agreement; varies by product</td>
+          <td>Per product agreement; EU requirements apply for Endex</td>
+        </tr>
+        <tr>
+          <td>Derived Data</td>
+          <td>Indices, analytics, models may require additional licensing</td>
+          <td>External distribution requires license; internal indices generally permitted</td>
+          <td>Separate licensing with Cboe Data Services for indices, ETF calcs</td>
+          <td>All CME-derived products require separate license; DataMine for historical</td>
+          <td>Brent and TTF-derived products require licensing; Fundamentals restricted</td>
+        </tr>
+        <tr>
+          <td>Sub-Distributor</td>
+          <td>Required; vendor of record must be designated</td>
+          <td>Required; agreements must be filed with Nasdaq</td>
+          <td>Required for any redistribution across all Cboe venues</td>
+          <td>Required; separate agreement per connectivity arrangement</td>
+          <td>Required for all ICE data redistribution</td>
+        </tr>
+        <tr>
+          <td>Annual Attestation</td>
+          <td>Yes — Annual Usage Declaration; pro vs non-pro counts</td>
+          <td>Yes — annual cert plus monthly professional user reporting</td>
+          <td>Yes — annual declaration per Cboe exchange subscription</td>
+          <td>Yes — per connectivity agreement; MEP benchmarks reviewed</td>
+          <td>Yes — annual subscriber certification required</td>
+        </tr>
+        <tr>
+          <td>Fee Model</td>
+          <td>Per-seat display; flat or per-device non-display; annual SRO filings</td>
+          <td>Per-seat professional ($24/mo TotalView); enterprise above threshold</td>
+          <td>Primarily flat fees; predictable for large organizations</td>
+          <td>Connectivity-based; MEP surcharges; 10Gbps now required</td>
+          <td>Per-subscription; energy feeds priced by product and venue</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 05 HOW TO REVIEW -->
+  <div class="section-head">
+    <span class="section-num">05 —</span>
+    <h2>How to Review a Rulebook</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="guide-steps">
+    <div class="guide-step">
+      <div class="guide-step-num">1</div>
+      <div class="guide-step-content">
+        <h3>Find your fee schedule</h3>
+        <p>Exchange fees are in the official fee schedule, not the main rulebook. Search for the most recent SRO fee filing on the Federal Register — file numbers like SR-NYSE-2026-XX. The fee schedule attached to the filing is the current authoritative version.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-step-num">2</div>
+      <div class="guide-step-content">
+        <h3>Check your professional user count method</h3>
+        <p>How does the exchange define a professional user? Does your firm count individual login IDs, named users, or concurrent users? The exchange rulebook definition controls — your internal method may differ.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-step-num">3</div>
+      <div class="guide-step-content">
+        <h3>Find the non-display section</h3>
+        <p>Search the rulebook or fee schedule for the terms <em>non-display</em>, <em>automated</em>, or <em>machine</em>. If your systems consume market data without a human viewing it in real-time, you likely need a non-display license.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-step-num">4</div>
+      <div class="guide-step-content">
+        <h3>Review termination and renewal terms</h3>
+        <p>How much notice do you need to give to cancel? What happens if you miss the renewal window? Most exchanges require 30–90 days written notice. Missing this window can lock you in for another year.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-step-num">5</div>
+      <div class="guide-step-content">
+        <h3>Check derived data restrictions</h3>
+        <p>If you create any product derived from exchange data — an index, an analytics product, a pricing model — check whether you need a separate derived data license. This is a common source of audit findings.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-step-num">6</div>
+      <div class="guide-step-content">
+        <h3>Review audit rights</h3>
+        <p>The exchange can audit your usage. Know what records you need to keep (typically 3 years), what they can request, and what the remedies are for non-compliance.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="exchanges.html">Exchanges</a>
+      <a href="regulation.html">Regulation</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>FeedWatch</h4>
+      <a href="calendar.html">All Entries</a>
+      <a href="calendar.html?filter=action">Action Required</a>
+      <a href="calendar.html?filter=critical">Critical Alerts</a>
+      <a href="calendar.html?filter=high">High Impact</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="subscribe.html">Subscribe</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now=new Date();
+document.getElementById('dateLine').textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
+
+function toggleMobileNav(){document.getElementById('mobileNav').classList.toggle('open');}
+function checkMobile(){const bar=document.getElementById('mobileBar');if(bar)bar.style.display=window.innerWidth<=900?'flex':'none';}
+checkMobile();window.addEventListener('resize',checkMobile);
+
+function showExchange(id,btn){
+  document.querySelectorAll('.ex-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ex-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('ex-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleAccordion(header){
+  const body=header.nextElementSibling;
+  const isOpen=header.classList.contains('open');
+  header.classList.toggle('open',!isOpen);
+  body.classList.toggle('open',!isOpen);
+  header.querySelector('.accordion-chevron').textContent=isOpen?'▾':'▲';
+}
+</script>
+</body>
+</html>
