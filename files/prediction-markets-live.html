@@ -8,30 +8,24 @@
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#b8860b">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Macro Probability Dashboard — Kalshi &amp; Polymarket | Market Data News</title>
-<meta name="description" content="Real-time crowd-sourced probabilities on Fed policy, inflation, recession risk, and key economic events sourced from Kalshi and Polymarket.">
+<title>Prediction Markets — Coming Soon | Market Data News</title>
+<meta name="description" content="Live macro probability dashboard tracking Fed policy, inflation, recession risk, and key economic events from Kalshi and Polymarket. Coming soon.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Market Data News">
 <link rel="canonical" href="https://marketdatanews.com/prediction-markets-live.html">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://marketdatanews.com/prediction-markets-live.html">
-<meta property="og:title" content="Macro Probability Dashboard — Kalshi &amp; Polymarket | Market Data News">
-<meta property="og:description" content="Real-time crowd-sourced probabilities on Fed policy, inflation, recession risk, and key economic events.">
+<meta property="og:title" content="Prediction Markets — Coming Soon | Market Data News">
+<meta property="og:description" content="Live macro probability dashboard tracking Fed policy, inflation, recession risk, and key economic events from Kalshi and Polymarket.">
 <meta property="og:site_name" content="Market Data News">
 <meta property="og:image" content="https://marketdatanews.com/og-image.svg">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --ink:#0d0d0d; --paper:#f5f2eb; --cream:#faf8f3; --rule:#d4c9b0;
-    --accent:#b8860b; --accent-dark:#8b6508; --muted:#6b6555;
-    --red:#c0392b; --surface:#ffffff; --border:#e8e0d0;
-    --green:#27ae60; --purple:#7b2d8b;
-  }
+  :root { --ink:#0d0d0d; --paper:#f5f2eb; --cream:#faf8f3; --rule:#d4c9b0; --accent:#b8860b; --accent-dark:#8b6508; --muted:#6b6555; --red:#c0392b; --surface:#ffffff; --border:#e8e0d0; }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--paper); color:var(--ink); font-family:'IBM Plex Sans',sans-serif; min-height:100vh; }
 
-  /* TICKER */
   .ticker-wrap { background:var(--ink); color:var(--accent); padding:7px 0; overflow:hidden; position:relative; }
   .ticker-wrap::before,.ticker-wrap::after { content:''; position:absolute; top:0; bottom:0; width:60px; z-index:2; }
   .ticker-wrap::before { left:0; background:linear-gradient(90deg,var(--ink),transparent); }
@@ -41,7 +35,6 @@
   .ticker-item .up { color:#00cc66; }
   @keyframes ticker { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
 
-  /* FEEDWATCH BAR */
   .fw-alertbar { background:#1a0a00; border-bottom:2px solid var(--accent); padding:0 48px; }
   .fw-alertbar-inner { max-width:1280px; margin:0 auto; display:flex; align-items:center; height:38px; }
   .fw-alertbar-brand { font-family:'Playfair Display',serif; font-size:15px; font-weight:900; color:white; text-decoration:none; padding-right:16px; white-space:nowrap; }
@@ -63,7 +56,6 @@
   .fw-alertbar-cta { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); text-decoration:none; padding:5px 12px; border:1px solid var(--accent-dark); border-radius:2px; margin-left:16px; transition:all 0.15s; white-space:nowrap; }
   .fw-alertbar-cta:hover { background:var(--accent); color:var(--ink); }
 
-  /* MASTHEAD */
   .masthead { background:var(--cream); border-bottom:3px solid var(--ink); }
   .masthead-top { display:flex; align-items:center; justify-content:space-between; padding:20px 48px 16px; border-bottom:1px solid var(--rule); }
   .date-line { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
@@ -71,7 +63,6 @@
   .site-title span { color:var(--accent); }
   .tagline { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); text-align:right; letter-spacing:0.1em; text-transform:uppercase; line-height:1.6; }
 
-  /* NAV */
   nav { display:flex; align-items:stretch; padding:0 48px; border-bottom:1px solid var(--rule); position:relative; flex-wrap:nowrap; overflow:visible; background:var(--cream); }
   .nav-item { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; padding:0 14px; cursor:pointer; transition:background 0.15s,color 0.15s; color:var(--ink); border:none; background:none; font-family:'IBM Plex Sans',sans-serif; border-right:1px solid var(--rule); text-decoration:none; display:inline-flex; align-items:center; white-space:nowrap; min-height:40px; user-select:none; }
   a.nav-item:first-child { border-left:1px solid var(--rule); }
@@ -94,7 +85,6 @@
   .hamburger span { display:block; width:22px; height:2px; background:#aaa; }
   .mobile-nav .mob-group-label { font-family:'IBM Plex Mono',monospace !important; font-size:9px !important; text-transform:uppercase !important; letter-spacing:0.15em !important; color:var(--accent) !important; padding:14px 0 5px !important; border-bottom:none !important; font-weight:400 !important; cursor:default; }
 
-  /* FOOTER */
   footer { background:var(--ink); color:#aaa; padding:40px 48px; }
   .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; max-width:1280px; margin:0 auto 32px; }
   .footer-brand { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; color:white; margin-bottom:10px; }
@@ -107,76 +97,31 @@
 
   @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
-  /* HERO */
-  .hero { background:var(--ink); color:white; padding:44px 0 36px; border-bottom:3px solid var(--accent); }
-  .hero-inner { max-width:1280px; margin:0 auto; padding:0 48px; }
-  .hero-eyebrow { font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.18em; color:var(--accent); margin-bottom:12px; display:flex; align-items:center; gap:10px; }
-  .live-dot { width:7px; height:7px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; flex-shrink:0; display:inline-block; }
-  .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(28px,4vw,48px); font-weight:900; line-height:1.1; margin-bottom:14px; }
-  .hero-sub { font-size:14px; color:#aaa; line-height:1.7; max-width:700px; }
+  /* UNDER CONSTRUCTION */
+  .uc-wrap { max-width:1280px; margin:0 auto; padding:120px 48px; display:flex; justify-content:center; }
+  .uc-inner { text-align:center; max-width:560px; }
+  .uc-icon { font-size:48px; margin-bottom:24px; }
+  .uc-headline { font-family:'Playfair Display',serif; font-size:clamp(24px,3vw,36px); font-weight:900; color:var(--ink); margin-bottom:20px; line-height:1.2; }
+  .uc-body { font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); line-height:1.9; margin-bottom:32px; }
+  .uc-box { border:1px solid var(--accent); padding:20px 28px; margin-bottom:32px; }
+  .uc-box p { font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); line-height:1.8; }
+  .uc-box a { color:var(--accent-dark); text-decoration:none; border-bottom:1px solid var(--rule); }
+  .uc-box a:hover { color:var(--ink); }
+  .uc-back { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--accent-dark); text-decoration:none; letter-spacing:0.05em; border-bottom:1px solid var(--rule); }
+  .uc-back:hover { color:var(--ink); }
 
-  /* STATUS BAR */
-  .status-bar { background:var(--surface); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:0; flex-wrap:wrap; max-width:100%; }
-  .status-item { padding:14px 24px; border-right:1px solid var(--border); font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); display:flex; align-items:center; gap:8px; }
-  .status-item strong { color:var(--ink); }
-  .status-dot { width:6px; height:6px; border-radius:50%; background:var(--green); flex-shrink:0; }
-  .status-dot.loading { background:var(--accent); animation:pulse 1s infinite; }
-  .status-dot.error { background:var(--red); }
-  .refresh-btn { margin-left:auto; padding:14px 24px; font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); background:none; border:none; border-left:1px solid var(--border); cursor:pointer; transition:background 0.15s; white-space:nowrap; }
-  .refresh-btn:hover { background:var(--paper); }
-
-  /* FALLBACK BANNER */
-  .fallback-banner { background:#1a1200; border:1px solid var(--accent-dark); border-left:4px solid var(--accent); padding:12px 20px; margin:16px 0; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#cc9933; display:none; }
-
-  /* DASHBOARD */
-  .dashboard { max-width:1280px; margin:0 auto; padding:32px 48px 64px; }
-
-  /* SECTION */
-  .dash-section { margin-bottom:48px; }
-  .dash-section-head { display:flex; align-items:center; gap:14px; margin-bottom:24px; padding-bottom:10px; border-bottom:2px solid var(--ink); }
-  .dash-section-icon { font-size:18px; line-height:1; }
-  .dash-section-title { font-family:'IBM Plex Sans',sans-serif; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; }
-  .dash-section-line { flex:1; height:1px; background:var(--rule); }
-  .dash-section-count { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); }
-
-  /* GAUGE ROW */
-  .gauge-row { display:flex; flex-wrap:wrap; gap:16px; }
-
-  /* GAUGE */
-  .gauge-wrap { background:var(--surface); border:1px solid var(--border); padding:20px 16px 16px; display:flex; flex-direction:column; align-items:center; width:170px; flex-shrink:0; text-decoration:none; color:inherit; transition:box-shadow 0.2s,transform 0.15s; cursor:pointer; }
-  .gauge-wrap:hover { box-shadow:0 4px 16px rgba(0,0,0,0.10); transform:translateY(-2px); }
-  .gauge-wrap.kalshi { border-top:3px solid var(--accent); }
-  .gauge-wrap.polymarket { border-top:3px solid var(--purple); }
-  .gauge-wrap.placeholder { border-top:3px solid var(--border); opacity:0.5; cursor:default; pointer-events:none; }
-  .gauge-svg { display:block; width:130px; height:78px; }
-  .gauge-title { font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:600; line-height:1.4; color:var(--ink); text-align:center; margin-top:10px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; max-width:150px; }
-  .gauge-meta { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--muted); text-align:center; margin-top:5px; line-height:1.4; }
-  .gauge-source { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; margin-top:6px; padding:2px 6px; border-radius:2px; }
-  .gauge-source.kalshi { background:#2a1a00; color:var(--accent); }
-  .gauge-source.polymarket { background:#1e0a28; color:#b47ed4; }
-  .gauge-source.placeholder { background:var(--paper); color:var(--muted); }
-
-  /* DISCLAIMER */
-  .disclaimer { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--muted); padding:16px 20px; margin-top:16px; }
-  .disclaimer p { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); line-height:1.7; }
-
-  /* MOBILE */
   @media (max-width:900px) {
     nav { display:none; } #mobileBar { display:flex !important; }
-    .masthead-top,.hero-inner,.dashboard,.fw-alertbar { padding-left:20px; padding-right:20px; }
+    .masthead-top,.fw-alertbar { padding-left:20px; padding-right:20px; }
     .masthead-top { flex-direction:column; gap:10px; text-align:center; }
     .tagline { text-align:center; }
     .fw-alertbar-next,.fw-alertbar-cta,.fw-alertbar-label { display:none; }
+    .uc-wrap { padding:80px 20px; }
     footer { padding:32px 20px; }
     .footer-grid { grid-template-columns:1fr 1fr; }
     .footer-bottom { flex-direction:column; gap:6px; text-align:center; }
-    .gauge-wrap { width:calc(50% - 8px); }
-    .dashboard { padding-left:20px; padding-right:20px; padding-bottom:40px; }
   }
-  @media (max-width:600px) {
-    .footer-grid { grid-template-columns:1fr; }
-    .gauge-wrap { width:100%; }
-  }
+  @media (max-width:600px) { .footer-grid { grid-template-columns:1fr; } }
   @media (max-width:1200px) { .nav-comp { display:none; } }
 </style>
 </head>
@@ -184,18 +129,16 @@
 
 <!-- Ticker -->
 <div class="ticker-wrap"><div class="ticker">
-  <span class="ticker-item">MACRO PROBABILITY DASHBOARD &nbsp;·&nbsp; KALSHI + POLYMARKET</span>
-  <span class="ticker-item">KALSHI: CFTC-REGISTERED DCM &nbsp;·&nbsp; REAL-TIME YES/NO PRICES</span>
-  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
   <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
   <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
-  <span class="ticker-item">POLYMARKET: CFTC-APPROVED FCM MODEL AS OF MARCH 2026</span>
-  <span class="ticker-item">MACRO PROBABILITY DASHBOARD &nbsp;·&nbsp; KALSHI + POLYMARKET</span>
-  <span class="ticker-item">KALSHI: CFTC-REGISTERED DCM &nbsp;·&nbsp; REAL-TIME YES/NO PRICES</span>
   <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
   <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
   <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
-  <span class="ticker-item">POLYMARKET: CFTC-APPROVED FCM MODEL AS OF MARCH 2026</span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
 </div></div>
 
 <!-- FeedWatch Alert Bar -->
@@ -212,7 +155,7 @@
     <div class="fw-alertbar-divider"></div>
     <div class="fw-alertbar-next">
       <span class="fw-alertbar-next-label">Next deadline:</span>
-      <span id="fw-next-deadline" class="fw-alertbar-next-val">Rule 605 Amendments — Aug 1, 2026</span>
+      <span id="fw-next-deadline" class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
     </div>
     <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
   </div>
@@ -292,79 +235,17 @@
   <a href="subscribe.html">Subscribe</a>
 </div>
 
-<!-- Hero -->
-<div class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow"><span class="live-dot"></span> Live Data</div>
-    <h1>Macro Probability Dashboard</h1>
-    <p class="hero-sub">Real-time crowd-sourced probabilities on Fed policy, inflation, recession risk, and key economic events — sourced from Kalshi and Polymarket.</p>
-  </div>
-</div>
-
-<!-- Status Bar -->
-<div class="status-bar">
-  <div class="status-item"><span class="status-dot loading" id="statusDot"></span> <strong id="statusText">Loading markets…</strong></div>
-  <div class="status-item">Updated: <strong id="lastUpdated">—</strong></div>
-  <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
-</div>
-
-<!-- Fallback Banner -->
-<div class="fallback-banner" id="fallbackBanner">
-  Live data unavailable — showing last known values. Markets update every 60 seconds.
-</div>
-
-<!-- Dashboard -->
-<div class="dashboard">
-
-  <!-- Section 1: Fed Policy -->
-  <div class="dash-section">
-    <div class="dash-section-head">
-      <span class="dash-section-icon">🏦</span>
-      <span class="dash-section-title">Fed Policy</span>
-      <div class="dash-section-line"></div>
-      <span class="dash-section-count" id="count-fed"></span>
+<!-- Under Construction -->
+<div class="uc-wrap">
+  <div class="uc-inner">
+    <div class="uc-icon">⚙</div>
+    <h1 class="uc-headline">Prediction Markets — Coming Soon</h1>
+    <p class="uc-body">We are building a live macro probability dashboard tracking Fed policy, inflation, recession risk, and key economic events from Kalshi and Polymarket. Check back soon.</p>
+    <div class="uc-box">
+      <p>In the meantime, visit <a href="https://kalshi.com" target="_blank" rel="noopener noreferrer">kalshi.com</a> and <a href="https://polymarket.com" target="_blank" rel="noopener noreferrer">polymarket.com</a> for live prediction market data.</p>
     </div>
-    <div class="gauge-row" id="section-fed"></div>
+    <a href="index.html" class="uc-back">&#8592; Back to Market Data News</a>
   </div>
-
-  <!-- Section 2: Inflation & Economy -->
-  <div class="dash-section">
-    <div class="dash-section-head">
-      <span class="dash-section-icon">📊</span>
-      <span class="dash-section-title">Inflation &amp; Economy</span>
-      <div class="dash-section-line"></div>
-      <span class="dash-section-count" id="count-econ"></span>
-    </div>
-    <div class="gauge-row" id="section-econ"></div>
-  </div>
-
-  <!-- Section 3: Markets & Crypto -->
-  <div class="dash-section">
-    <div class="dash-section-head">
-      <span class="dash-section-icon">💹</span>
-      <span class="dash-section-title">Markets &amp; Crypto</span>
-      <div class="dash-section-line"></div>
-      <span class="dash-section-count" id="count-markets"></span>
-    </div>
-    <div class="gauge-row" id="section-markets"></div>
-  </div>
-
-  <!-- Section 4: Geopolitical -->
-  <div class="dash-section">
-    <div class="dash-section-head">
-      <span class="dash-section-icon">🌐</span>
-      <span class="dash-section-title">Geopolitical &amp; Trade</span>
-      <div class="dash-section-line"></div>
-      <span class="dash-section-count" id="count-geo"></span>
-    </div>
-    <div class="gauge-row" id="section-geo"></div>
-  </div>
-
-  <!-- Disclaimer -->
-  <div class="disclaimer">
-    <p>Data sourced from <strong>Kalshi</strong> (CFTC-registered Designated Contract Market) and <strong>Polymarket</strong>. Probabilities reflect crowd-sourced market prices and do not constitute financial advice. Markets may be illiquid; prices can change rapidly.</p>
-  </div>
-
 </div>
 
 <footer>
@@ -401,228 +282,15 @@
 </footer>
 
 <script>
-// ── Date ──
-(function() {
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const now = new Date();
-  document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
-})();
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
 
 function toggleMobileNav() {
   document.getElementById('mobileNav').classList.toggle('open');
 }
-
-// ── Hardcoded fallbacks ──
-const FALLBACKS = {
-  fed: [
-    { title: 'Fed Rate Cut by June 2026', prob: 62, source: 'kalshi', url: 'https://kalshi.com' },
-    { title: 'Fed cuts rates 3+ times in 2026', prob: 28, source: 'kalshi', url: 'https://kalshi.com' },
-  ],
-  econ: [
-    { title: 'US Recession in 2026', prob: 45, source: 'polymarket', url: 'https://polymarket.com' },
-    { title: 'CPI below 3% by Q3 2026', prob: 51, source: 'polymarket', url: 'https://polymarket.com' },
-  ],
-  markets: [
-    { title: 'Bitcoin above $100K by Dec 2026', prob: 38, source: 'polymarket', url: 'https://polymarket.com' },
-  ],
-  geo: [
-    { title: 'Iran ceasefire by July 2026', prob: 35, source: 'polymarket', url: 'https://polymarket.com' },
-  ],
-};
-
-// ── Categorize ──
-function categorize(title) {
-  const t = title.toLowerCase();
-  if (['fed', 'fomc', 'rate cut', 'rate hike', 'federal reserve', 'interest rate', 'powell', 'basis point', 'fed funds', 'rate decision'].some(k => t.includes(k))) return 'fed';
-  if (['bitcoin', 'btc', 'ethereum', 'eth', 'crypto', 's&p', 'sp500', 'nasdaq', 'dow jones', 'dow ', 'gold', 'silver', 'oil price', 'brent', 'crude', 'ipo', 'earnings', 'stock market', 'market crash'].some(k => t.includes(k))) return 'markets';
-  if (['iran', 'russia', 'ukraine', 'china', 'taiwan', 'tariff', 'trade war', 'trade deal', 'sanctions', 'ceasefire', 'nato', 'military', 'xi ', 'strait of hormuz'].some(k => t.includes(k))) return 'geo';
-  if (['cpi', 'inflation', 'gdp', 'recession', 'unemployment', 'payroll', 'nonfarm', 'pce', 'ppi', 'deflation', 'jobs report', 'consumer price', 'core inflation', 'debt ceiling', 'treasury', 'yield'].some(k => t.includes(k))) return 'econ';
-  return null; // skip
-}
-
-// ── Gauge color ──
-function gaugeColor(prob) {
-  if (prob > 65) return '#27ae60';
-  if (prob >= 35) return '#b8860b';
-  return '#c0392b';
-}
-
-// ── Gauge SVG ──
-// Arc: M 10 55 A 40 40 0 0 1 90 55 — semicircle, length ≈ 125.66
-const ARC_LEN = 125.66;
-
-function makeGaugeSVG(prob, color) {
-  if (prob === null) {
-    return '<svg class="gauge-svg" viewBox="0 0 130 78">' +
-      '<path d="M 15 65 A 50 50 0 0 1 115 65" fill="none" stroke="#e8e0d0" stroke-width="10" stroke-linecap="round"/>' +
-      '<text x="65" y="58" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="16" fill="#aaa">—%</text>' +
-      '</svg>';
-  }
-  const dashLen = (prob / 100) * ARC_LEN * (130/100); // scale for viewBox 130
-  return '<svg class="gauge-svg" viewBox="0 0 130 78">' +
-    '<path d="M 15 65 A 50 50 0 0 1 115 65" fill="none" stroke="#e8e0d0" stroke-width="10" stroke-linecap="round"/>' +
-    '<path d="M 15 65 A 50 50 0 0 1 115 65" fill="none" stroke="' + color + '" stroke-width="10" stroke-linecap="round" stroke-dasharray="' + dashLen.toFixed(1) + ' 999"/>' +
-    '<text x="65" y="58" text-anchor="middle" font-family="Playfair Display,serif" font-size="22" font-weight="700" fill="' + color + '">' + prob + '%</text>' +
-    '</svg>';
-}
-
-// ── Format expiry ──
-function fmtExpiry(iso) {
-  if (!iso) return '';
-  try {
-    const d = new Date(iso);
-    if (isNaN(d.getTime())) return '';
-    return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-  } catch(e) { return ''; }
-}
-
-// ── Build gauge element ──
-function buildGauge(market) {
-  const prob = market.prob;
-  const color = prob !== null ? gaugeColor(prob) : '#aaa';
-  const expiry = fmtExpiry(market.expiry);
-
-  const a = document.createElement('a');
-  a.className = 'gauge-wrap ' + (market.placeholder ? 'placeholder' : market.source);
-  if (market.url) { a.href = market.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; }
-
-  a.innerHTML =
-    makeGaugeSVG(prob, color) +
-    '<p class="gauge-title">' + escHtml(market.title) + '</p>' +
-    (expiry ? '<p class="gauge-meta">Exp ' + expiry + '</p>' : '<p class="gauge-meta">&nbsp;</p>') +
-    '<span class="gauge-source ' + (market.placeholder ? 'placeholder' : market.source) + '">' +
-      (market.placeholder ? 'No data' : market.source === 'kalshi' ? 'Kalshi' : 'Polymarket') +
-    '</span>';
-
-  return a;
-}
-
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ── Render section ──
-function renderSection(sectionId, countId, markets, fallbacks) {
-  const row = document.getElementById(sectionId);
-  const countEl = document.getElementById(countId);
-  row.innerHTML = '';
-
-  const toRender = markets.length > 0 ? markets : fallbacks.map(f => Object.assign({}, f, { placeholder: false }));
-
-  toRender.forEach(m => { row.appendChild(buildGauge(m)); });
-  countEl.textContent = toRender.length + ' market' + (toRender.length !== 1 ? 's' : '');
-}
-
-// ── Process proxy data ──
-function processMarkets(data) {
-  const sections = { fed: [], econ: [], markets: [], geo: [] };
-  const seen = new Set();
-
-  // Kalshi markets
-  (data.kalshi || []).forEach(m => {
-    if (!m.title || !m.yes_price_dollars) return;
-    if (m.yes_price_dollars <= 0.01 || m.yes_price_dollars >= 0.99) return;
-    const cat = categorize(m.title);
-    if (!cat) return;
-    const key = m.ticker || m.title;
-    if (seen.has(key)) return;
-    seen.add(key);
-    sections[cat].push({
-      title: m.title,
-      prob: Math.round(m.yes_price_dollars * 100),
-      source: 'kalshi',
-      expiry: m.close_time || '',
-      url: 'https://kalshi.com/markets/' + (m.ticker || ''),
-    });
-  });
-
-  // Polymarket flat markets (from /markets endpoint)
-  (data.poly || []).forEach(m => {
-    const title = m.question || m.title || '';
-    if (!title) return;
-    if (!m.active) return;
-    const cat = categorize(title);
-    if (!cat) return;
-    const key = m.id || title;
-    if (seen.has(key)) return;
-    seen.add(key);
-    let prob = 50;
-    try {
-      const prices = JSON.parse(m.outcomePrices || '["0.5","0.5"]');
-      prob = Math.round(parseFloat(prices[0]) * 100);
-    } catch(e) {}
-    if (prob <= 1 || prob >= 99) return;
-    sections[cat].push({
-      title: title,
-      prob: prob,
-      source: 'polymarket',
-      expiry: m.endDate || '',
-      url: 'https://polymarket.com/event/' + (m.slug || m.id || ''),
-    });
-  });
-
-  return sections;
-}
-
-// ── Load data ──
-async function loadData() {
-  const dot = document.getElementById('statusDot');
-  const txt = document.getElementById('statusText');
-  dot.className = 'status-dot loading';
-  txt.textContent = 'Loading markets\u2026';
-
-  let usedFallback = false;
-
-  try {
-    const r = await fetch('/.netlify/functions/pm-proxy');
-    const data = await r.json();
-
-    if (data.errors && data.errors.length) {
-      console.warn('[macro] Proxy errors:', data.errors.join(' | '));
-    }
-
-    const sections = processMarkets(data);
-    const totalLive = sections.fed.length + sections.econ.length + sections.markets.length + sections.geo.length;
-
-    if (totalLive === 0) {
-      usedFallback = true;
-      renderSection('section-fed',     'count-fed',     [], FALLBACKS.fed);
-      renderSection('section-econ',    'count-econ',    [], FALLBACKS.econ);
-      renderSection('section-markets', 'count-markets', [], FALLBACKS.markets);
-      renderSection('section-geo',     'count-geo',     [], FALLBACKS.geo);
-    } else {
-      renderSection('section-fed',     'count-fed',     sections.fed,     FALLBACKS.fed);
-      renderSection('section-econ',    'count-econ',    sections.econ,    FALLBACKS.econ);
-      renderSection('section-markets', 'count-markets', sections.markets, FALLBACKS.markets);
-      renderSection('section-geo',     'count-geo',     sections.geo,     FALLBACKS.geo);
-    }
-
-    console.log('[macro] fed:', sections.fed.length, 'econ:', sections.econ.length, 'markets:', sections.markets.length, 'geo:', sections.geo.length);
-
-  } catch(err) {
-    console.error('[macro] Fetch failed:', err.message);
-    usedFallback = true;
-    renderSection('section-fed',     'count-fed',     [], FALLBACKS.fed);
-    renderSection('section-econ',    'count-econ',    [], FALLBACKS.econ);
-    renderSection('section-markets', 'count-markets', [], FALLBACKS.markets);
-    renderSection('section-geo',     'count-geo',     [], FALLBACKS.geo);
-  }
-
-  document.getElementById('fallbackBanner').style.display = usedFallback ? 'block' : 'none';
-  dot.className = 'status-dot' + (usedFallback ? ' error' : '');
-  const now = new Date();
-  const updated = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  txt.textContent = usedFallback ? 'Live data unavailable' : 'Live — ' + updated;
-  document.getElementById('lastUpdated').textContent = updated;
-}
-
-loadData();
-
-// Auto-refresh every 60s
-setInterval(loadData, 60000);
 </script>
-<script src="search-global.js"></script>
 <script src="chat-widget.js"></script>
 <script src="feedwatch-bar.js"></script>
 </body>
