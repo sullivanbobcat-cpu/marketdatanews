@@ -72,14 +72,6 @@
   .search-drop-footer a:hover { text-decoration: underline; }
   .search-drop-empty { padding: 16px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #444; }
 
-  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
-  .mobile-nav.open { display: flex; }
-  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
-  .mobile-nav a:last-child { border-bottom: none; }
-  .mobile-nav a.active { color: var(--accent); }
-  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
-  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
-
   .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
   .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
   .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
@@ -194,7 +186,7 @@
   .source-chip { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 3px 10px; border: 1px solid var(--rule); border-radius: 2px; color: var(--muted); background: var(--surface); }
 
   @media (max-width: 900px) {
-    nav { display: none; } #mobileBar { display: flex !important; }
+    nav { display:flex !important; flex-wrap:nowrap !important; overflow-x:auto !important; overflow-y:visible; padding:0 8px !important; align-items:center !important; scrollbar-width:none; -webkit-overflow-scrolling:touch; position:relative; } nav::-webkit-scrollbar { display:none; } .nav-item { flex-shrink:0; } .nav-dropdown { flex-shrink:0; } .nav-right { display:none !important; } .nav-dropdown-menu { position:fixed; left:0; right:0; top:auto; display:flex !important; flex-wrap:wrap; opacity:0; visibility:hidden; transform:none !important; transition:opacity 0.15s; z-index:9999; box-shadow:0 4px 16px rgba(0,0,0,0.5); } .nav-dropdown-menu.mobile-open { opacity:1; visibility:visible; } .nav-drop-item { border-right:1px solid #1e1e1e; border-bottom:none; }
     .page-hero, .page-container { padding-left: 20px; padding-right: 20px; }
     .fw-alertbar { padding-left: 20px; padding-right: 20px; }
     .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
@@ -231,7 +223,6 @@
   a.nav-subscribe:hover { background: var(--accent-dark) !important; color: white !important; }
   a.nav-subscribe.active { background: var(--accent-dark) !important; color: white !important; }
   .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; border-left: 1px solid var(--rule); }
-  .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
 </style>
 </head>
 <body>
@@ -285,7 +276,7 @@
     </a>
     <a href="index.html" class="nav-item">All News</a>
     <div class="nav-dropdown">
-      <span class="nav-item">Markets &#9662;</span>
+      <span class="nav-item" onclick="if(window.innerWidth<=900){toggleMobileDropdown(this.closest(\'.nav-dropdown\'));}">Markets &#9662;</span>
       <div class="nav-dropdown-menu">
         <a href="exchanges.html" class="nav-drop-item">Exchanges</a>
         <a href="prediction-markets-live.html" class="nav-drop-item">Live Markets</a>
@@ -293,7 +284,7 @@
       </div>
     </div>
     <div class="nav-dropdown">
-      <span class="nav-item">Intelligence &#9662;</span>
+      <span class="nav-item" onclick="if(window.innerWidth<=900){toggleMobileDropdown(this.closest(\'.nav-dropdown\'));}">Intelligence &#9662;</span>
       <div class="nav-dropdown-menu">
         <a href="calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
         <a href="nms.html" class="nav-drop-item">NMS / SIP Plans</a>
@@ -322,14 +313,7 @@
       </div>
     </div>
   </nav>
-  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
-    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
-  </div>
 </div>
-<div class="mobile-nav" id="mobileNav">
-  <a href="index.html">All News</a>
-  <div class="mob-group-label">Markets</div>
   <a href="exchanges.html">Exchanges</a>
   <a href="prediction-markets-live.html">Live Markets</a>
   <a href="prediction-markets.html">Prediction Markets</a>
@@ -660,61 +644,25 @@ const months = ['January','February','March','April','May','June','July','August
 const now = new Date();
 document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
 
-function toggleMobileNav() {
-  document.getElementById('mobileNav').classList.toggle('open');
+function toggleMobileDropdown(dd) {
+  var menu = dd.querySelector('.nav-dropdown-menu');
+  var isOpen = menu.classList.contains('mobile-open');
+  document.querySelectorAll('.nav-dropdown-menu.mobile-open').forEach(function(m) {
+    m.classList.remove('mobile-open'); m.style.top='';
+  });
+  if (!isOpen) {
+    var r = document.querySelector('.masthead').getBoundingClientRect();
+    menu.style.top = r.bottom + 'px';
+    menu.classList.add('mobile-open');
+  }
 }
-function checkMobile() {
-  const bar = document.getElementById('mobileBar');
-  if (bar) bar.style.display = window.innerWidth <= 900 ? 'flex' : 'none';
-}
-checkMobile();
-window.addEventListener('resize', function() { checkMobile(); drawChart(); });
-
-// ── ROLE DATA ────────────────────────────────────────────────────────────────
-const ROLES = [
-  { title: 'Market Data Analyst',      median: 85000,  low: 65000,  high: 110000, color: '#4CAF50' },
-  { title: 'Market Data Engineer',     median: 130000, low: 114500, high: 137500, color: '#2196F3' },
-  { title: 'Market Data Manager',      median: 145000, low: 115000, high: 175000, color: '#FF9800' },
-  { title: 'Feed Handler Developer',   median: 155000, low: 130000, high: 185000, color: '#E91E63' },
-  { title: 'VP Market Data',           median: 195000, low: 160000, high: 240000, color: '#9C27B0' },
-  { title: 'Head of Market Data / Dir',median: 230000, low: 185000, high: 290000, color: '#b8860b' },
-];
-
-let currentView = 'base';
-
-function setView(v) {
-  currentView = v;
-  document.getElementById('btnBase').classList.toggle('active', v === 'base');
-  document.getElementById('btnTotal').classList.toggle('active', v === 'total');
-  document.getElementById('viewNote').textContent = v === 'base'
-    ? 'Showing base salary medians'
-    : 'Showing estimated total compensation (base × 1.25)';
-  drawChart();
-}
-
-function fmtK(n) {
-  return '$' + Math.round(n / 1000) + 'k';
-}
-function fmtFull(n) {
-  return '$' + Math.round(n).toLocaleString();
-}
-
-function drawChart() {
-  const svgEl = document.getElementById('compChart');
-  const tooltip = document.getElementById('chartTooltip');
-  const mult = currentView === 'total' ? 1.25 : 1;
-
-  const data = ROLES.slice().sort((a, b) => a.median - b.median).map(r => ({
-    ...r,
-    dispMedian: r.median * mult,
-    dispLow:    r.low    * mult,
-    dispHigh:   r.high   * mult,
-  }));
-
-  const container = svgEl.parentElement;
-  const W = Math.max(container.clientWidth - 48, 320);
-  const rowH = 44;
-  const M = { top: 16, bottom: 32, left: 200, right: 80 };
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.querySelectorAll('.nav-dropdown-menu.mobile-open').forEach(function(m) {
+      m.classList.remove('mobile-open'); m.style.top='';
+    });
+  }
+});
   const H = M.top + data.length * rowH + M.bottom;
   const innerW = W - M.left - M.right;
 

@@ -69,15 +69,6 @@
   .search-drop { position: absolute; top: calc(100% + 4px); right: 0; width: 380px; background: var(--ink); border: 1px solid #333; z-index: 1000; display: none; max-height: 480px; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
   .search-drop.open { display: block; }
 
-  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
-  .mobile-nav.open { display: flex; }
-  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
-  .mobile-nav a:last-child { border-bottom: none; }
-  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
-  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
-  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
-  .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
-
   .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
   .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
   .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
@@ -227,7 +218,7 @@
   .rf-modal-spinner.visible { display: block; }
 
   @media (max-width: 900px) {
-    nav { display: none; } #mobileBar { display: flex !important; }
+    nav { display:flex !important; flex-wrap:nowrap !important; overflow-x:auto !important; overflow-y:visible; padding:0 8px !important; align-items:center !important; scrollbar-width:none; -webkit-overflow-scrolling:touch; position:relative; } nav::-webkit-scrollbar { display:none; } .nav-item { flex-shrink:0; } .nav-dropdown { flex-shrink:0; } .nav-right { display:none !important; } .nav-dropdown-menu { position:fixed; left:0; right:0; top:auto; display:flex !important; flex-wrap:wrap; opacity:0; visibility:hidden; transform:none !important; transition:opacity 0.15s; z-index:9999; box-shadow:0 4px 16px rgba(0,0,0,0.5); } .nav-dropdown-menu.mobile-open { opacity:1; visibility:visible; } .nav-drop-item { border-right:1px solid #1e1e1e; border-bottom:none; }
     .page-wrap { padding: 0 20px; }
     .rf-hero { padding: 32px 20px; }
     .rf-hero-meta { gap: 12px; }
@@ -302,7 +293,7 @@
     </a>
     <a href="index.html" class="nav-item">All News</a>
     <div class="nav-dropdown">
-      <span class="nav-item">Markets &#9662;</span>
+      <span class="nav-item" onclick="if(window.innerWidth<=900){toggleMobileDropdown(this.closest(\'.nav-dropdown\'));}">Markets &#9662;</span>
       <div class="nav-dropdown-menu">
         <a href="exchanges.html" class="nav-drop-item">Exchanges</a>
         <a href="prediction-markets-live.html" class="nav-drop-item">Live Markets</a>
@@ -321,7 +312,7 @@
       </div>
     </div>
     <div class="nav-dropdown">
-      <span class="nav-item">Tools &#9662;</span>
+      <span class="nav-item" onclick="if(window.innerWidth<=900){toggleMobileDropdown(this.closest(\'.nav-dropdown\'));}">Tools &#9662;</span>
       <div class="nav-dropdown-menu nav-dropdown-right">
         <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
         <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
@@ -337,14 +328,7 @@
       </div>
     </div>
   </nav>
-  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
-    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
-  </div>
 </div>
-<div class="mobile-nav" id="mobileNav">
-  <a href="index.html">All News</a>
-  <div class="mob-group-label">Markets</div>
   <a href="exchanges.html">Exchanges</a>
   <a href="prediction-markets-live.html">Live Markets</a>
   <a href="prediction-markets.html">Prediction Markets</a>
@@ -556,82 +540,25 @@ const now = new Date();
 document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
 
 // ── Mobile nav ──
-function toggleMobileNav() { document.getElementById('mobileNav').classList.toggle('open'); }
-function checkMobile() {
-  const bar = document.getElementById('mobileBar');
-  if (bar) bar.style.display = window.innerWidth <= 900 ? 'flex' : 'none';
-}
-checkMobile();
-window.addEventListener('resize', checkMobile);
-
-// ── Filter pills ──
-document.getElementById('filterPills').addEventListener('click', function(e) {
-  const pill = e.target.closest('.rf-pill');
-  if (!pill) return;
-  document.querySelectorAll('.rf-pill').forEach(p => p.classList.remove('active'));
-  pill.classList.add('active');
-  activeFilter = pill.dataset.filter;
-  renderFilings();
-});
-
-document.getElementById('sortSelect').addEventListener('change', function() {
-  activeSort = this.value;
-  renderFilings();
-});
-
-// ── Load filings ──
-async function loadFilings() {
-  try {
-    const res = await fetch('/.netlify/functions/rule-filings', { signal: AbortSignal.timeout(20000) });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    allFilings = data.filings || [];
-
-    // Update hero stats
-    document.getElementById('heroTotalCount').textContent = allFilings.length;
-    document.getElementById('heroOpenCount').textContent = allFilings.filter(f => f.is_open_for_comment).length;
-    document.getElementById('heroHighCount').textContent = allFilings.filter(f => f.relevance === 'HIGH').length;
-
-    const ts = new Date(data.fetched_at || data.retrievedAt);
-    const liveLabel = data.live_count > 0 ? ` · ${data.live_count} live` : ' · seeded only';
-    document.getElementById('feedUpdated').textContent = 'Updated ' + ts.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + liveLabel;
-
-    renderFilings();
-  } catch (err) {
-    console.error('[rule-filings] Load error:', err.message);
-    document.getElementById('filingFeed').innerHTML = '<div class="rf-empty">Unable to load filings — please try again shortly.<br><span style="font-size:10px;margin-top:6px;display:block">Source: Federal Register SEC SRO filings</span></div>';
-    document.getElementById('filingCount').textContent = 'Error loading';
+function toggleMobileDropdown(dd) {
+  var menu = dd.querySelector('.nav-dropdown-menu');
+  var isOpen = menu.classList.contains('mobile-open');
+  document.querySelectorAll('.nav-dropdown-menu.mobile-open').forEach(function(m) {
+    m.classList.remove('mobile-open'); m.style.top='';
+  });
+  if (!isOpen) {
+    var r = document.querySelector('.masthead').getBoundingClientRect();
+    menu.style.top = r.bottom + 'px';
+    menu.classList.add('mobile-open');
   }
 }
-
-// ── Filter + sort ──
-function getFiltered() {
-  let filtered = allFilings.slice();
-
-  if (activeFilter === 'OPEN') {
-    filtered = filtered.filter(f => f.is_open_for_comment);
-  } else if (activeFilter === 'HIGH') {
-    filtered = filtered.filter(f => f.relevance === 'HIGH');
-  } else if (activeFilter === 'FEES') {
-    filtered = filtered.filter(f => {
-      const t = (f.title + ' ' + f.abstract).toLowerCase();
-      return t.includes('fee') || t.includes('pricing') || t.includes('charge');
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.querySelectorAll('.nav-dropdown-menu.mobile-open').forEach(function(m) {
+      m.classList.remove('mobile-open'); m.style.top='';
     });
-  } else if (activeFilter === 'NYSE') {
-    filtered = filtered.filter(f => f.exchange === 'NYSE' || (f.file_number || '').startsWith('SR-NYSE'));
-  } else if (activeFilter === 'NASDAQ') {
-    filtered = filtered.filter(f => (f.exchange || '').startsWith('Nasdaq') || (f.file_number || '').includes('SR-NASDAQ') || (f.file_number || '').includes('SR-BX') || (f.file_number || '').includes('SR-PHLX'));
-  } else if (activeFilter === 'CBOE') {
-    filtered = filtered.filter(f => (f.exchange || '').startsWith('Cboe') || (f.file_number || '').includes('SR-CBOE') || (f.file_number || '').includes('SR-C2') || (f.file_number || '').includes('SR-CFE') || (f.file_number || '').includes('SR-BYX') || (f.file_number || '').includes('SR-BZX') || (f.file_number || '').includes('SR-EDGA') || (f.file_number || '').includes('SR-EDGX'));
-  } else if (activeFilter === 'FINRA') {
-    filtered = filtered.filter(f => f.exchange === 'FINRA' || (f.file_number || '').startsWith('SR-FINRA'));
   }
-
-  // Sort
-  if (activeSort === 'newest') {
-    filtered.sort((a, b) => (b.publication_date || '').localeCompare(a.publication_date || ''));
-  } else if (activeSort === 'relevant') {
-    const rv = { HIGH: 0, MEDIUM: 1, LOW: 2 };
+});
     filtered.sort((a, b) => {
       if (rv[a.relevance] !== rv[b.relevance]) return rv[a.relevance] - rv[b.relevance];
       return (b.publication_date || '').localeCompare(a.publication_date || '');

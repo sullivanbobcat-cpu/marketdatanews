@@ -111,20 +111,11 @@
   .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
   .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
 
-  /* Mobile nav */
-  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
-  .mobile-nav.open { display: flex; }
-  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
-  .mobile-nav a:last-child { border-bottom: none; }
-  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
-  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
-  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
-
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
   @media (max-width: 1200px) { .nav-comp { display: none; } }
 
   @media (max-width: 900px) {
-    nav { display: none; } #mobileBar { display: flex !important; }
+    nav { display:flex !important; flex-wrap:nowrap !important; overflow-x:auto !important; overflow-y:visible; padding:0 8px !important; align-items:center !important; scrollbar-width:none; -webkit-overflow-scrolling:touch; position:relative; } nav::-webkit-scrollbar { display:none; } .nav-item { flex-shrink:0; } .nav-dropdown { flex-shrink:0; } .nav-right { display:none !important; } .nav-dropdown-menu { position:fixed; left:0; right:0; top:auto; display:flex !important; flex-wrap:wrap; opacity:0; visibility:hidden; transform:none !important; transition:opacity 0.15s; z-index:9999; box-shadow:0 4px 16px rgba(0,0,0,0.5); } .nav-dropdown-menu.mobile-open { opacity:1; visibility:visible; } .nav-drop-item { border-right:1px solid #1e1e1e; border-bottom:none; }
     .masthead-top, .fw-alertbar { padding-left: 20px; padding-right: 20px; }
     .masthead-top { flex-direction: column; gap: 10px; text-align: center; }
     .tagline { text-align: center; }
@@ -244,7 +235,6 @@
   a.nav-subscribe:hover { background: var(--accent-dark) !important; color: white !important; }
   a.nav-subscribe.active { background: var(--accent-dark) !important; color: white !important; }
   .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; border-left: 1px solid var(--rule); }
-  .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
 </style>
 </head>
 <body>
@@ -298,7 +288,7 @@
     </a>
     <a href="index.html" class="nav-item">All News</a>
     <div class="nav-dropdown">
-      <span class="nav-item">Markets &#9662;</span>
+      <span class="nav-item" onclick="if(window.innerWidth<=900){toggleMobileDropdown(this.closest(\'.nav-dropdown\'));}">Markets &#9662;</span>
       <div class="nav-dropdown-menu">
         <a href="exchanges.html" class="nav-drop-item">Exchanges</a>
         <a href="prediction-markets-live.html" class="nav-drop-item">Live Markets</a>
@@ -319,7 +309,7 @@
       </div>
     </div>
     <div class="nav-dropdown">
-      <span class="nav-item">Tools &#9662;</span>
+      <span class="nav-item" onclick="if(window.innerWidth<=900){toggleMobileDropdown(this.closest(\'.nav-dropdown\'));}">Tools &#9662;</span>
       <div class="nav-dropdown-menu nav-dropdown-right">
         <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
         <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
@@ -335,14 +325,7 @@
       </div>
     </div>
   </nav>
-  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
-    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
-  </div>
 </div>
-<div class="mobile-nav" id="mobileNav">
-  <a href="index.html">All News</a>
-  <div class="mob-group-label">Markets</div>
   <a href="exchanges.html">Exchanges</a>
   <a href="prediction-markets-live.html">Live Markets</a>
   <a href="prediction-markets.html">Prediction Markets</a>
@@ -1052,9 +1035,25 @@ document.getElementById('dateLine').textContent =
   days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
 
 // ── MOBILE NAV ─────────────────────────────────────────────────────────────
-function toggleMobileNav() {
-  document.getElementById('mobileNav').classList.toggle('open');
+function toggleMobileDropdown(dd) {
+  var menu = dd.querySelector('.nav-dropdown-menu');
+  var isOpen = menu.classList.contains('mobile-open');
+  document.querySelectorAll('.nav-dropdown-menu.mobile-open').forEach(function(m) {
+    m.classList.remove('mobile-open'); m.style.top='';
+  });
+  if (!isOpen) {
+    var r = document.querySelector('.masthead').getBoundingClientRect();
+    menu.style.top = r.bottom + 'px';
+    menu.classList.add('mobile-open');
+  }
 }
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-dropdown')) {
+    document.querySelectorAll('.nav-dropdown-menu.mobile-open').forEach(function(m) {
+      m.classList.remove('mobile-open'); m.style.top='';
+    });
+  }
+});
 
 // ── FEED DIRECTORY TOGGLE ──────────────────────────────────────────────────
 function fdToggle(hdr) {
