@@ -74,6 +74,15 @@
   .search-drop-footer a{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--accent);text-decoration:none;}
   .search-drop-footer a:hover{text-decoration:underline;}
   .search-drop-empty{padding:16px 14px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:#444;}
+  .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:40px;height:40px;padding:8px;cursor:pointer;background:none;border:1px solid var(--rule);border-radius:2px;margin-left:12px;}
+  .hamburger span{display:block;height:2px;background:var(--ink);border-radius:1px;transition:all 0.25s;}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-nav{display:none;flex-direction:column;background:var(--ink);border-bottom:3px solid var(--accent);overflow:hidden;max-height:0;transition:max-height 0.3s ease;}
+  .mobile-nav.open{max-height:500px;}
+  .mobile-nav a{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:14px 20px;color:#aaa;text-decoration:none;border-bottom:1px solid #222;font-family:"IBM Plex Sans",sans-serif;transition:background 0.15s,color 0.15s;}
+  .mobile-nav a:hover,.mobile-nav a.active{background:#1a1a1a;color:var(--accent);}
 
   .skeleton{background:linear-gradient(90deg,var(--border) 25%,var(--paper) 50%,var(--border) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:2px;}
   @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
@@ -172,7 +181,9 @@
     .fw-main{padding:20px;}
     .footer-grid{grid-template-columns:1fr 1fr;}
     .masthead-top{flex-direction:column;gap:10px;text-align:center;}
-    nav { display:flex !important; flex-wrap:nowrap !important; overflow-x:auto !important; overflow-y:visible; padding:0 8px !important; align-items:center !important; scrollbar-width:none; -webkit-overflow-scrolling:touch; position:relative; } nav::-webkit-scrollbar { display:none; } .nav-item { flex-shrink:0; } .nav-dropdown { flex-shrink:0; } .nav-right { display:none !important; } .nav-dropdown-menu { position:fixed; left:0; right:0; top:auto; display:flex !important; flex-wrap:wrap; opacity:0; visibility:hidden; transform:none !important; transition:opacity 0.15s; z-index:9999; box-shadow:0 4px 16px rgba(0,0,0,0.5); } .nav-dropdown-menu.mobile-open { opacity:1; visibility:visible; } .nav-drop-item { border-right:1px solid #1e1e1e; border-bottom:none; }
+    nav{display:none;} #mobileBar{display:flex!important;}
+    .hamburger{display:flex;}
+    .mobile-nav{display:flex;}
     .fw-banner-top{flex-direction:column;}
     .fw-stats{gap:12px;}
     .fw-stat{padding:10px 14px;}
@@ -264,6 +275,7 @@
   a.nav-subscribe:hover { background: var(--accent-dark) !important; color: white !important; }
   a.nav-subscribe.active { background: var(--accent-dark) !important; color: white !important; }
   .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; border-left: 1px solid var(--rule); }
+  .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
 </style>
 </head>
 <body>
@@ -316,7 +328,7 @@
     </a>
     <a href="index.html" class="nav-item">All News</a>
     <div class="nav-dropdown">
-      <span class="nav-item" onclick="if(window.innerWidth<=900){toggleMobileDropdown(this.closest(\'.nav-dropdown\'));}">Markets &#9662;</span>
+      <span class="nav-item">Markets &#9662;</span>
       <div class="nav-dropdown-menu">
         <a href="exchanges.html" class="nav-drop-item">Exchanges</a>
         <a href="prediction-markets-live.html" class="nav-drop-item">Live Markets</a>
@@ -337,7 +349,7 @@
       </div>
     </div>
     <div class="nav-dropdown">
-      <span class="nav-item" onclick="if(window.innerWidth<=900){toggleMobileDropdown(this.closest(\'.nav-dropdown\'));}">Tools &#9662;</span>
+      <span class="nav-item">Tools &#9662;</span>
       <div class="nav-dropdown-menu nav-dropdown-right">
         <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
         <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
@@ -353,7 +365,14 @@
       </div>
     </div>
   </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
 </div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">All News</a>
+  <div class="mob-group-label">Markets</div>
   <a href="exchanges.html">Exchanges</a>
   <a href="prediction-markets-live.html">Live Markets</a>
   <a href="prediction-markets.html">Prediction Markets</a>
@@ -861,26 +880,17 @@ async function loadFeedWatch() {
   }
 }
 
-function toggleMobileDropdown(dd) {
-  var menu = dd.querySelector('.nav-dropdown-menu');
-  var isOpen = menu.classList.contains('mobile-open');
-  document.querySelectorAll('.nav-dropdown-menu.mobile-open').forEach(function(m) {
-    m.classList.remove('mobile-open'); m.style.top='';
-  });
-  if (!isOpen) {
-    var r = document.querySelector('.masthead').getBoundingClientRect();
-    menu.style.top = r.bottom + 'px';
-    menu.classList.add('mobile-open');
-  }
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('open');
 }
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.nav-dropdown')) {
-    document.querySelectorAll('.nav-dropdown-menu.mobile-open').forEach(function(m) {
-      m.classList.remove('mobile-open'); m.style.top='';
-    });
-  }
-});
+function checkMobile() {
+  const bar = document.getElementById('mobileBar');
+  if (bar) bar.style.display = window.innerWidth <= 900 ? 'flex' : 'none';
+}
+checkMobile();
 window.addEventListener('resize', function() {
+  checkMobile();
   // Re-render timeline on resize so x-scale adapts to new width
   if (window._tlEntries) renderTimeline(window._tlEntries);
 });
