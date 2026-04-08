@@ -144,8 +144,29 @@ exports.handler = async function (event) {
   const results = await Promise.all(FEEDS.map(fetchFeed));
   const feedContent = results.map(extractContent).join('\n\n---\n\n');
 
+  // ── FeedWatch date helpers ───────────────────────────────────────────────
+  const QUARTER_ENDS = { Q1: [2, 31], Q2: [5, 30], Q3: [8, 30], Q4: [11, 31] };
+
+  function effectiveDateFuture(dateStr) {
+    if (!dateStr) return false;
+    const s = String(dateStr).trim();
+    if (/^TBD$/i.test(s)) return true;
+    // Q-date: "2026-Q2", "2026-Q3", etc.
+    const qMatch = s.match(/^(\d{4})-Q([1-4])$/i);
+    if (qMatch) {
+      const year = parseInt(qMatch[1], 10);
+      const [month, day] = QUARTER_ENDS[`Q${qMatch[2]}`];
+      const quarterEnd = new Date(year, month, day, 23, 59, 59);
+      return quarterEnd.getTime() >= Date.now();
+    }
+    // Regular date
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return false;
+    return d.getTime() >= new Date().setHours(0, 0, 0, 0);
+  }
+
   // Fetch FeedWatch entries from Blobs
-  let feedwatchEntries = 'No FeedWatch entries available.';
+  let feedwatchEntries = 'No upcoming FeedWatch entries.';
   try {
     const fwStore = getStore({
       name: 'feedwatch',
@@ -154,25 +175,26 @@ exports.handler = async function (event) {
     });
     const fwData = await fwStore.get('entries', { type: 'json' }).catch(() => []);
     const entries = Array.isArray(fwData) ? fwData : [];
-    const now = Date.now();
-    const in60days = now + 60 * 24 * 3600 * 1000;
 
     const upcoming = entries
       .filter((e) => {
-        if (!e.deadline) return false;
-        const d = new Date(e.deadline).getTime();
-        return d >= now && d <= in60days;
+        const dateField = e.effectiveDate || e.deadline || e.date || '';
+        return effectiveDateFuture(dateField);
       })
-      .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
+      .sort((a, b) => {
+        const da = new Date(a.effectiveDate || a.deadline || '9999');
+        const db = new Date(b.effectiveDate || b.deadline || '9999');
+        return da - db;
+      })
       .slice(0, 15);
 
-    const pool = upcoming.length ? upcoming : entries.slice(0, 10);
-    if (pool.length) {
-      feedwatchEntries = pool.map((e) =>
-        `• [${e.severity || 'MEDIUM'}] ${e.exchange || ''} — ${e.title || ''}` +
-        (e.deadline ? ` | Deadline: ${e.deadline}` : '') +
-        (e.description ? ` | ${e.description.slice(0, 150)}` : '')
-      ).join('\n');
+    if (upcoming.length) {
+      feedwatchEntries = upcoming.map((e) => {
+        const dateField = e.effectiveDate || e.deadline || e.date || 'TBD';
+        return `• [${e.severity || 'MEDIUM'}] ${e.exchange || ''} — ${e.title || ''}` +
+          ` | Effective: ${dateField}` +
+          (e.description ? ` | ${e.description.slice(0, 150)}` : '');
+      }).join('\n');
     }
   } catch (err) {
     console.error('[daily-feedwatch] Failed to fetch FeedWatch entries:', err.message);
@@ -206,7 +228,7 @@ Format as markdown with these sections:
 [List any SR- filings with brief description]
 
 ### FeedWatch Alerts
-[Highlight any FeedWatch entries with deadlines in the next 30 days]
+[Only highlight FeedWatch entries with FUTURE effective dates as upcoming alerts. Do not mention entries whose deadlines have already passed unless providing historical context. Today is ${todayLabel}.]
 
 ### Regulatory Pipeline
 [Any pending rulemakings relevant to market data]
