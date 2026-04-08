@@ -23,6 +23,12 @@
 [functions."daily-tweet"]
   schedule = "0 14 * * 1-5"
 
+[functions."breaking-news-tweet"]
+  schedule = "*/10 * * * *"
+
+[functions."market-snapshot-tweet"]
+  schedule = "30 14 * * 1-5"
+
 [functions."search"]
   included_files = []
 

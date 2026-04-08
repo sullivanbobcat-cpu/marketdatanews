@@ -2,6 +2,7 @@
   "name": "marketdatanews-functions",
   "version": "1.0.0",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.33.0",
     "twitter-api-v2": "^1.18.2"
   }
 }
