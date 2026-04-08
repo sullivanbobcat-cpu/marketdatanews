@@ -1,0 +1,7 @@
+{
+  "name": "marketdatanews-functions",
+  "version": "1.0.0",
+  "dependencies": {
+    "twitter-api-v2": "^1.18.2"
+  }
+}

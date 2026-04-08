@@ -20,6 +20,9 @@
 [functions."update-feedwatch"]
   schedule = "0 12 * * *"
 
+[functions."daily-tweet"]
+  schedule = "0 14 * * 1-5"
+
 [functions."search"]
   included_files = []
 

@@ -2,6 +2,8 @@
   "name": "marketdatanews",
   "version": "1.0.0",
   "dependencies": {
-    "@netlify/blobs": "^8.1.0"
+    "@netlify/blobs": "^8.1.0",
+    "sharp": "^0.34.5",
+    "twitter-api-v2": "^1.18.2"
   }
 }
