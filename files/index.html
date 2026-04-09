@@ -221,7 +221,7 @@
   .digest-skel { display: flex; flex-direction: column; gap: 10px; padding: 4px 0; }
 
   @media (max-width: 900px) {
-    nav { display: none; } #mobileBar { display: flex !important; }
+    nav { display: none !important; overflow-x: hidden; } #mobileBar { display: flex !important; }
     .layout { grid-template-columns: 1fr; } .side-col { border-top: 2px solid var(--ink); }
     .container, .masthead-top, footer, .fw-alertbar { padding-left: 20px; padding-right: 20px; }
     .main-col { padding: 20px; } .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -257,6 +257,10 @@
   .mobile-nav { width: 100%; max-width: 100vw; overflow-x: hidden; }
 }
 
+/* nav-mobile-hide */
+  @media (max-width: 900px) {
+    nav { display: none !important; overflow-x: hidden; }
+  }
 </style>
 </head>
 <body>
