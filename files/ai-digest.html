@@ -122,8 +122,12 @@
   /* ── MAIN LAYOUT ── */
   .page-container{max-width:1280px;margin:0 auto;padding:40px 48px 64px;}
 
+  /* ── TWO-COLUMN DESKTOP GRID (default — overridden to block on mobile) ── */
+  .digest-layout{display:grid;grid-template-columns:7fr 3fr;gap:32px;align-items:start;width:100%;}
+  .digest-side{display:flex;flex-direction:column;gap:32px;width:100%;}
+
   /* ── CONTENT CARDS ── */
-  .digest-card{background:var(--surface);border:1px solid var(--border);margin-top:32px;}
+  .digest-card{background:var(--surface);border:1px solid var(--border);margin-top:0;}
   .digest-card-head{display:flex;align-items:center;gap:12px;padding:16px 24px;border-bottom:2px solid var(--ink);background:var(--cream);}
   .digest-card-num{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.1em;}
   .digest-card-title{font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--ink);}
@@ -185,6 +189,9 @@
     .page-hero{padding-top:20px;padding-bottom:20px;}
     .page-container{padding-bottom:32px;}
     .digest-card-body{padding:20px;}
+    .digest-layout{display:block;}
+    .digest-card{margin-top:24px;}
+    .digest-side{display:block;}
   }
   @media(max-width:600px){
     .footer-grid{grid-template-columns:1fr;}
@@ -220,13 +227,7 @@
     nav { display: none !important; overflow-x: hidden; }
   }
 
-  /* ── DESKTOP DIGEST GRID ── */
-  @media (min-width: 901px) {
-    .digest-layout { display: grid; grid-template-columns: 7fr 3fr; gap: 32px; align-items: start; width: 100%; max-width: 100%; }
-    .digest-side { display: flex; flex-direction: column; gap: 32px; width: 100%; }
-    .digest-layout > .digest-card,
-    .digest-side > .digest-card { margin-top: 0; width: 100%; }
-  }
+
 </style>
 <script type="application/ld+json">
 {
