@@ -7,91 +7,91 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/calendar.html</loc>
+    <loc>https://marketdatanews.com/calendar</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/ai-digest.html</loc>
+    <loc>https://marketdatanews.com/ai-digest</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/feed-status.html</loc>
+    <loc>https://marketdatanews.com/feed-status</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/rule-filings.html</loc>
+    <loc>https://marketdatanews.com/rule-filings</loc>
     <lastmod>2026-04-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/exchanges.html</loc>
+    <loc>https://marketdatanews.com/exchanges</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/regulation.html</loc>
+    <loc>https://marketdatanews.com/regulation</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/nms.html</loc>
+    <loc>https://marketdatanews.com/nms</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/prediction-markets-live.html</loc>
+    <loc>https://marketdatanews.com/prediction-markets-live</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>always</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/prediction-markets.html</loc>
+    <loc>https://marketdatanews.com/prediction-markets</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/plan-tracker.html</loc>
+    <loc>https://marketdatanews.com/plan-tracker</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/market-data-fees.html</loc>
+    <loc>https://marketdatanews.com/market-data-fees</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/contract-intelligence.html</loc>
+    <loc>https://marketdatanews.com/contract-intelligence</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/execution-quality.html</loc>
+    <loc>https://marketdatanews.com/execution-quality</loc>
     <lastmod>2026-04-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/learn.html</loc>
+    <loc>https://marketdatanews.com/learn</loc>
     <lastmod>2026-04-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/about.html</loc>
+    <loc>https://marketdatanews.com/about</loc>
     <lastmod>2026-03-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -103,13 +103,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/articles/cme-globex-notices-2026.html</loc>
+    <loc>https://marketdatanews.com/articles/cme-globex-notices-2026</loc>
     <lastmod>2026-04-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://marketdatanews.com/articles/finra-slate-guide.html</loc>
+    <loc>https://marketdatanews.com/articles/finra-slate-guide</loc>
     <lastmod>2026-04-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
