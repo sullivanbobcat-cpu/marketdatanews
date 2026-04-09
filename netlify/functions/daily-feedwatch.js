@@ -8,83 +8,39 @@
 
 const { getStore } = require('@netlify/blobs');
 
-const FEEDS = [
-  {
-    name: 'SEC EDGAR 19b-4 Filings',
-    url: 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=19b-4&dateb=&owner=include&count=10&search_text=&output=atom',
-    type: 'xml',
-  },
-  {
-    name: 'Federal Register — SEC',
-    url: 'https://www.federalregister.gov/api/v1/articles.json?fields[]=title&fields[]=abstract&fields[]=publication_date&fields[]=agency_names&per_page=20&order=newest&agencies[]=securities-and-exchange-commission',
-    type: 'json',
-  },
-  {
-    name: 'Federal Register — CFTC',
-    url: 'https://www.federalregister.gov/api/v1/articles.json?fields[]=title&fields[]=abstract&fields[]=publication_date&fields[]=agency_names&per_page=10&order=newest&agencies[]=commodity-futures-trading-commission',
-    type: 'json',
-  },
-];
+// Federal Register API — reliable JSON endpoints replacing broken SEC EDGAR RSS
+const FR_URL = 'https://www.federalregister.gov/api/v1/articles.json?fields[]=title&fields[]=abstract&fields[]=publication_date&fields[]=html_url&per_page=20&order=newest&agencies[]=securities-and-exchange-commission&conditions[term]=SR-';
+const CFTC_URL = 'https://www.federalregister.gov/api/v1/articles.json?fields[]=title&fields[]=abstract&fields[]=publication_date&fields[]=html_url&per_page=10&order=newest&agencies[]=commodity-futures-trading-commission';
 
-async function fetchFeed({ name, url, type }) {
+async function fetchJson(url, label) {
   try {
     const res = await fetch(url, {
       headers: { 'User-Agent': 'MarketDataNews-FeedWatch/1.0' },
       signal: AbortSignal.timeout(12000),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
-    const text = await res.text();
-    return { name, text, type };
+    return await res.json();
   } catch (err) {
-    console.error(`[daily-feedwatch] Failed to fetch ${name}:`, err.message);
-    return { name, text: null, type };
+    console.error(`[daily-feedwatch] Failed to fetch ${label}:`, err.message);
+    return null;
   }
 }
 
-function extractXml(xml) {
-  if (!xml) return '';
-  const strip = (s) =>
-    s.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').trim();
-  const pull = (tag) =>
-    [...xml.matchAll(new RegExp(`<${tag}[^>]*>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?<\\/${tag}>`, 'gi'))]
-      .map((m) => strip(m[1]))
-      .filter(Boolean);
-
-  const titles = pull('title').slice(1, 15);
-  const summaries = pull('summary').concat(pull('description')).slice(0, 8);
-  const links = [...xml.matchAll(/<link[^>]+href="([^"]+)"/gi)].map((m) => m[1]).slice(0, 8);
-
-  return [
-    titles.map((t) => `TITLE: ${t}`).join('\n'),
-    summaries.slice(0, 5).map((s, i) => `SUMMARY ${i + 1}: ${s.slice(0, 400)}`).join('\n'),
-    links.length ? `Links: ${links.join(', ')}` : '',
-  ].filter(Boolean).join('\n').slice(0, 5000);
+function formatArticles(data, label) {
+  if (!data || !data.results) return `=== ${label} ===\n[Feed unavailable]`;
+  const articles = data.results.slice(0, 15);
+  if (!articles.length) return `=== ${label} ===\n[No items]`;
+  const body = articles.map((a, i) => {
+    const parts = [];
+    if (a.title) parts.push(`TITLE: ${a.title}`);
+    if (a.publication_date) parts.push(`DATE: ${a.publication_date}`);
+    if (a.abstract) parts.push(`ABSTRACT: ${a.abstract.slice(0, 350)}`);
+    if (a.html_url) parts.push(`URL: ${a.html_url}`);
+    return `[Item ${i + 1}] ${parts.join(' | ')}`;
+  }).join('\n---\n');
+  return `=== ${label} ===\n${body}`;
 }
 
-function extractJson(text) {
-  if (!text) return '';
-  try {
-    const data = JSON.parse(text);
-    const articles = data.results || (Array.isArray(data) ? data : []);
-    return articles.slice(0, 15).map((a, i) => {
-      const parts = [];
-      if (a.title) parts.push(`TITLE: ${a.title}`);
-      if (a.agency_names && a.agency_names.length) parts.push(`AGENCY: ${a.agency_names.join(', ')}`);
-      if (a.publication_date) parts.push(`DATE: ${a.publication_date}`);
-      if (a.abstract) parts.push(`ABSTRACT: ${a.abstract.slice(0, 350)}`);
-      return `[Item ${i + 1}] ${parts.join(' | ')}`;
-    }).join('\n---\n').slice(0, 6000);
-  } catch (err) {
-    console.error('[daily-feedwatch] JSON parse error:', err.message);
-    return '[Could not parse JSON feed]';
-  }
-}
-
-function extractContent({ name, text, type }) {
-  if (!text) return `=== ${name} ===\n[Feed unavailable]`;
-  const body = type === 'json' ? extractJson(text) : extractXml(text);
-  return `=== ${name} ===\n${body || '[No items]'}`;
-}
 
 // Simple markdown → HTML converter for digest rendering
 function markdownToHtml(md) {
@@ -118,6 +74,9 @@ function markdownToHtml(md) {
 exports.handler = async function (event) {
   const forceRefresh = event?.queryStringParameters?.refresh === 'true';
   const today = new Date().toISOString().split('T')[0];
+  const todayLabel = new Date().toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+  });
 
   const store = getStore({
     name: 'content',
@@ -140,9 +99,15 @@ exports.handler = async function (event) {
     } catch (_) { /* no existing digest — proceed with generation */ }
   }
 
-  // Fetch all feeds in parallel
-  const results = await Promise.all(FEEDS.map(fetchFeed));
-  const feedContent = results.map(extractContent).join('\n\n---\n\n');
+  // Fetch Federal Register feeds in parallel
+  const [frData, cftcData] = await Promise.all([
+    fetchJson(FR_URL, 'Federal Register — SEC SR- Filings'),
+    fetchJson(CFTC_URL, 'Federal Register — CFTC'),
+  ]);
+  const feedContent = [
+    formatArticles(frData, 'Federal Register — SEC Exchange Rule Filings (SR-)'),
+    formatArticles(cftcData, 'Federal Register — CFTC'),
+  ].join('\n\n---\n\n');
 
   // ── FeedWatch date helpers ───────────────────────────────────────────────
   const QUARTER_ENDS = { Q1: [2, 31], Q2: [5, 30], Q3: [8, 30], Q4: [11, 31] };
@@ -199,10 +164,6 @@ exports.handler = async function (event) {
   } catch (err) {
     console.error('[daily-feedwatch] Failed to fetch FeedWatch entries:', err.message);
   }
-
-  const todayLabel = new Date().toLocaleDateString('en-US', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-  });
 
   const systemPrompt =
     `You are the editor of Market Data News, an intelligence platform for market data professionals.
