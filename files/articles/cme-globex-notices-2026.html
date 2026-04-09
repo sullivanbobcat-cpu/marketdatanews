@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="alternate icon" href="../favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#b8860b">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CME Globex Notices 2026 — Complete Tracker | Market Data News</title>
+<meta name="description" content="Every CME Globex electronic trading notice in 2026 — iLink updates, MDP 3.0 changes, Google Cloud migration, connectivity deadlines, and infrastructure upgrades. Updated continuously.">
+<meta name="keywords" content="CME Globex notices 2026, iLink, MDP 3.0, CME market data, CME connectivity, Globex migration, CME Google Cloud, market data infrastructure">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Market Data News">
+<link rel="canonical" href="https://marketdatanews.com/articles/cme-globex-notices-2026.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://marketdatanews.com/articles/cme-globex-notices-2026.html">
+<meta property="og:title" content="CME Globex Notices 2026 — Complete Tracker | Market Data News">
+<meta property="og:description" content="Every CME Globex electronic trading notice in 2026 — iLink, MDP 3.0, Google Cloud migration, and infrastructure deadlines.">
+<meta property="og:site_name" content="Market Data News">
+<meta property="og:image" content="https://marketdatanews.com/og-image.svg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; } .ticker-item .down { color: #ff4444; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: stretch; padding: 0 48px; border-bottom: 1px solid var(--rule); position: relative; flex-wrap: nowrap; overflow: visible; background: var(--cream); }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0 14px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; user-select: none; }
+  a.nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-dropdown { position: relative; display: flex; align-items: stretch; }
+  .nav-dropdown > .nav-item { border-left: none; }
+  .nav-dropdown-menu { display: block; position: absolute; top: 100%; left: 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; min-width: 220px; background: var(--ink); border-top: 2px solid var(--accent); z-index: 1000; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left: auto; right: 0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-drop-item { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #aaa; text-decoration: none; padding: 10px 20px; border-bottom: 1px solid #1e1e1e; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+  .nav-drop-item:last-child { border-bottom: none; }
+  .nav-drop-item:hover, .nav-drop-item.active { color: var(--accent); background: #111; }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; }
+  .search-wrap { position: relative; display: flex; align-items: center; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 180px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+  .search-drop { position: absolute; top: calc(100% + 4px); right: 0; width: 380px; background: var(--ink); border: 1px solid #333; z-index: 1000; display: none; max-height: 480px; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .search-drop.open { display: block; }
+  .search-drop-item { display: flex; flex-direction: column; padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #111; text-decoration: none; }
+  .search-drop-item:hover { background: #1a1a1a; }
+  .search-drop-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ccc; margin-bottom: 3px; }
+  .search-drop-item:hover .search-drop-title { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); transition: 0.2s; }
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { color: #aaa; text-decoration: none; padding: 8px 0; font-size: 13px; border-bottom: 1px solid #1a1a1a; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .mob-group-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #555; padding: 12px 0 4px; }
+  .nav-comp { font-family: 'IBM Plex Mono', monospace; font-size: 10px; }
+
+  /* FeedWatch Alert Bar */
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-stat:hover { background: rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num { color: var(--accent); }
+  .fw-alertbar-stat.action .fw-alertbar-num { color: #5b9bd5; }
+  .fw-alertbar-next { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); text-decoration: none; border: 1px solid #3a2a10; padding: 4px 10px; margin-left: 16px; white-space: nowrap; transition: background 0.15s; }
+  .fw-alertbar-cta:hover { background: rgba(184,134,11,0.15); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  /* Article layout */
+  .article-hero { background: var(--ink); color: white; padding: 56px 48px 48px; border-bottom: 3px solid var(--accent); }
+  .article-hero-inner { max-width: 960px; margin: 0 auto; }
+  .breadcrumb { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #555; margin-bottom: 20px; }
+  .breadcrumb a { color: var(--accent); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 8px; }
+  .article-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  .article-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+  .article-hero-meta { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .article-hero-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 0.08em; }
+  .article-hero-meta-item strong { color: #aaa; }
+
+  .article-body { max-width: 960px; margin: 0 auto; padding: 48px; }
+  .article-lead { font-size: 17px; line-height: 1.75; color: var(--muted); margin-bottom: 40px; border-left: 3px solid var(--accent); padding-left: 20px; }
+  .article-section { margin-bottom: 48px; }
+  .article-section h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .article-section p { font-size: 14px; line-height: 1.8; color: #333; margin-bottom: 14px; }
+  .article-section ul { margin-left: 20px; margin-bottom: 14px; }
+  .article-section li { font-size: 14px; line-height: 1.8; color: #333; margin-bottom: 6px; }
+
+  /* Critical alerts box */
+  .alert-box { background: #1a0a00; border: 1px solid var(--accent); border-left: 4px solid var(--accent); padding: 20px 24px; margin-bottom: 40px; }
+  .alert-box-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 12px; }
+  .alert-box-items { display: flex; flex-direction: column; gap: 8px; }
+  .alert-item { display: flex; align-items: baseline; gap: 12px; }
+  .alert-item-date { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ff4444; white-space: nowrap; flex-shrink: 0; }
+  .alert-item-text { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ccc; }
+  .alert-item-text strong { color: white; }
+
+  /* Reading progress */
+  .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 9999; transition: width 0.1s; }
+
+  /* Sortable table */
+  .table-wrap { overflow-x: auto; margin-bottom: 32px; }
+  .notice-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .notice-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; padding: 10px 14px; text-align: left; background: var(--ink); color: var(--accent); border-bottom: 2px solid var(--accent); cursor: pointer; user-select: none; white-space: nowrap; }
+  .notice-table th:hover { background: #1a1a1a; }
+  .notice-table th .sort-icon { margin-left: 4px; opacity: 0.4; }
+  .notice-table th.sorted-asc .sort-icon::after { content: ' ↑'; opacity: 1; }
+  .notice-table th.sorted-desc .sort-icon::after { content: ' ↓'; opacity: 1; }
+  .notice-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .notice-table tr:hover td { background: rgba(184,134,11,0.04); }
+  .notice-table td:first-child { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .notice-table td:nth-child(2) { font-weight: 500; color: var(--ink); }
+  .notice-table a { color: var(--accent-dark); text-decoration: none; }
+  .notice-table a:hover { text-decoration: underline; color: var(--accent); }
+
+  .badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; white-space: nowrap; }
+  .badge-critical { background: #2a0505; color: #ff4444; }
+  .badge-high { background: #2a1a00; color: var(--accent); }
+  .badge-medium { background: #0d1f3a; color: #5b9bd5; }
+  .badge-low { background: #1a1a1a; color: #888; }
+  .badge-connectivity { background: #0d2b10; color: #27ae60; }
+  .badge-protocol { background: #1a0d2a; color: #9b59b6; }
+  .badge-migration { background: #2a1500; color: #e67e22; }
+  .badge-market { background: #0a1a2a; color: #3498db; }
+  .badge-fee { background: #2a0a0a; color: #e74c3c; }
+  .badge-dr { background: #1a1a0a; color: #f1c40f; }
+  .badge-notice { background: #0d0d1a; color: #7f8c8d; }
+
+  /* Related FeedWatch */
+  .fw-related { background: #1a0a00; border: 1px solid #3a2a10; padding: 24px; margin-top: 48px; }
+  .fw-related-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 16px; }
+  .fw-related-items { display: flex; flex-direction: column; gap: 10px; }
+  .fw-related-item { display: flex; align-items: center; gap: 16px; padding: 10px; background: rgba(255,255,255,0.03); border: 1px solid #2a1a00; text-decoration: none; transition: border-color 0.15s; }
+  .fw-related-item:hover { border-color: var(--accent); }
+  .fw-related-date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff4444; white-space: nowrap; }
+  .fw-related-name { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ccc; }
+
+  /* nav-mobile-hide */
+  @media (max-width: 900px) {
+    nav { display: none !important; overflow-x: hidden; }
+  }
+  @media (max-width: 900px) {
+    html, body { overflow-x: hidden; max-width: 100vw; }
+    * { max-width: 100%; box-sizing: border-box; }
+    .article-hero { padding: 40px 20px; }
+    .article-body { padding: 32px 20px; }
+    .masthead-top { padding: 16px 20px; }
+    .fw-alertbar { padding: 0 16px; }
+    .fw-alertbar-next, .fw-alertbar-cta { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+    footer { padding: 32px 20px; }
+    .article-hero-meta { gap: 12px; }
+  }
+  @media (max-width: 1200px) { .nav-comp { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">CME GLOBEX NOTICES 2026 &nbsp;·&nbsp; COMPLETE TRACKER</span>
+  <span class="ticker-item">ILINK V8 SUNSET: <span style="color:#ff4444">APRIL 24 2026</span></span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">MDP 3.0 CHANNEL 335: <span style="color:#ff9900">MAY 2026</span></span>
+  <span class="ticker-item">CME GLOBEX NOTICES 2026 &nbsp;·&nbsp; COMPLETE TRACKER</span>
+  <span class="ticker-item">ILINK V8 SUNSET: <span style="color:#ff4444">APRIL 24 2026</span></span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">MDP 3.0 CHANNEL 335: <span style="color:#ff9900">MAY 2026</span></span>
+</div></div>
+
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="../calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="../calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span id="fw-critical-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="../calendar.html?filter=high" class="fw-alertbar-stat high"><span id="fw-high-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">High</span></a>
+      <a href="../calendar.html?filter=action" class="fw-alertbar-stat action"><span id="fw-action-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="../calendar.html" class="fw-alertbar-stat total"><span id="fw-active-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span id="fw-next-deadline" class="fw-alertbar-next-val">Loading…</span>
+    </div>
+    <a href="../calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="../index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="../index.html" style="text-decoration:none;border-left:1px solid var(--rule);border-right:1px solid var(--rule);padding:0 10px;display:flex;align-items:center;flex-shrink:0;" title="Market Data News">
+      <img src="../favicon.svg" alt="MDN" style="height:26px;width:26px;display:block;">
+    </a>
+    <a href="../index.html" class="nav-item">All News</a>
+    <div class="nav-dropdown">
+      <span class="nav-item">Markets &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="../exchanges.html" class="nav-drop-item">Exchanges</a>
+        <a href="../prediction-markets-live.html" class="nav-drop-item">Live Markets</a>
+        <a href="../prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item active">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="../calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="../nms.html" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="../regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="../feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="../rule-filings.html" class="nav-drop-item">Rule Filings</a>
+        <a href="../rulebook-navigator.html" class="nav-drop-item">Rulebooks</a>
+        <a href="../execution-quality.html" class="nav-drop-item">Execution Quality</a>
+        <a href="../ai-digest.html" class="nav-drop-item">AI Digest</a>
+        <a href="index.html" class="nav-drop-item active">Articles</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Learn &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="../learn.html#sip" class="nav-drop-item">How the SIP Works</a>
+        <a href="../learn.html#opra" class="nav-drop-item">The OPRA Model</a>
+        <a href="../learn.html#futures" class="nav-drop-item">Futures Market Data</a>
+        <a href="../learn.html" class="nav-drop-item">View All Lessons</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Tools &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="../market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
+        <a href="../contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
+        <a href="../compensation.html" class="nav-drop-item">Compensation</a>
+      </div>
+    </div>
+    <a href="../about.html" class="nav-item">About</a>
+    <a href="../subscribe.html" class="nav-item">Subscribe</a>
+    <div class="nav-right">
+      <div class="search-wrap" id="searchWrap">
+        <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
+        <div class="search-drop" id="searchDrop"></div>
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="../index.html">All News</a>
+  <div class="mob-group-label">Markets</div>
+  <a href="../exchanges.html">Exchanges</a>
+  <a href="../prediction-markets-live.html">Live Markets</a>
+  <a href="../prediction-markets.html">Prediction Markets</a>
+  <div class="mob-group-label">Intelligence</div>
+  <a href="../calendar.html">FeedWatch Calendar</a>
+  <a href="../nms.html">NMS / SIP Plans</a>
+  <a href="../regulation.html">Regulation</a>
+  <a href="../feed-status.html">Feed Status</a>
+  <a href="../rule-filings.html">Rule Filings</a>
+  <a href="../rulebook-navigator.html">Rulebooks</a>
+  <a href="../execution-quality.html">Execution Quality</a>
+  <a href="../ai-digest.html">AI Digest</a>
+  <a href="index.html" class="active">Articles</a>
+  <div class="mob-group-label">Learn</div>
+  <a href="../learn.html#sip">How the SIP Works</a>
+  <a href="../learn.html#opra">The OPRA Model</a>
+  <a href="../learn.html#futures">Futures Market Data</a>
+  <a href="../learn.html">View All Lessons</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="../market-data-fees.html">Fee Calculator</a>
+  <a href="../contract-intelligence.html">Contract Intelligence</a>
+  <a href="../compensation.html">Compensation</a>
+  <div class="mob-group-label">About</div>
+  <a href="../about.html">About</a>
+  <a href="../subscribe.html">Subscribe</a>
+</div>
+
+<div class="article-hero">
+  <div class="article-hero-inner">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a><span>›</span>
+      <a href="index.html">Articles</a><span>›</span>
+      CME Globex Notices 2026
+    </div>
+    <div class="article-hero-label"><span class="badge badge-migration" style="font-size:10px;padding:3px 10px;">Tracker</span></div>
+    <h1 class="article-hero-title">CME Globex Notices — 2026 Complete Tracker</h1>
+    <div class="article-hero-meta">
+      <div class="article-hero-meta-item"><strong>Updated:</strong> April 8, 2026</div>
+      <div class="article-hero-meta-item"><strong>Notices tracked:</strong> 13</div>
+      <div class="article-hero-meta-item"><strong>8 min read</strong></div>
+      <div class="article-hero-meta-item"><strong>Source:</strong> CME Group</div>
+    </div>
+  </div>
+</div>
+
+<div class="article-body">
+
+  <p class="article-lead">Every CME Globex electronic trading notice issued in 2026, tracked and categorized for market data professionals. Covers iLink protocol changes, MDP 3.0 feed updates, the Globex to Google Cloud migration, connectivity and port changes, disaster recovery tests, and scheduled market infrastructure upgrades.</p>
+
+  <!-- Critical alerts -->
+  <div class="alert-box">
+    <div class="alert-box-title">⚠ Critical &amp; High-Priority Upcoming Deadlines</div>
+    <div class="alert-box-items">
+      <div class="alert-item">
+        <span class="alert-item-date">APR 24, 2026</span>
+        <span class="alert-item-text"><strong>iLink 2.0 (Legacy) Sunset</strong> — All sessions must be on iLink 3.0 / iLink 8.x by this date. No fallback available.</span>
+      </div>
+      <div class="alert-item">
+        <span class="alert-item-date">MAY 18, 2026</span>
+        <span class="alert-item-text"><strong>MDP 3.0 Channel 335 Restructure</strong> — Agricultural complex channels consolidated. Feed subscribers must update channel subscriptions.</span>
+      </div>
+      <div class="alert-item">
+        <span class="alert-item-date">JUN 30, 2026</span>
+        <span class="alert-item-text"><strong>Globex → Google Cloud Migration Phase 1</strong> — Equity index futures and options moving to cloud infrastructure. DR topology changing.</span>
+      </div>
+      <div class="alert-item">
+        <span class="alert-item-date">AUG 1, 2026</span>
+        <span class="alert-item-text"><strong>Tag 1500 (SecurityAltIDSource) Deprecation</strong> — Remove from parsing logic; field will no longer be populated in MDP 3.0 incremental refresh.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sortable table -->
+  <div class="article-section">
+    <h2>2026 Notice Tracker</h2>
+    <p>Click any column header to sort. All dates are effective dates or implementation deadlines, not publication dates.</p>
+    <div class="table-wrap">
+      <table class="notice-table" id="noticeTable">
+        <thead>
+          <tr>
+            <th data-col="date" class="sorted-desc">Date<span class="sort-icon"></span></th>
+            <th data-col="notice">Notice / Title<span class="sort-icon"></span></th>
+            <th data-col="category">Category<span class="sort-icon"></span></th>
+            <th data-col="severity">Severity<span class="sort-icon"></span></th>
+            <th data-col="action">Key Action Required<span class="sort-icon"></span></th>
+            <th data-col="source">Source<span class="sort-icon"></span></th>
+          </tr>
+        </thead>
+        <tbody id="noticeBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Context sections -->
+  <div class="article-section">
+    <h2>The Globex → Google Cloud Migration</h2>
+    <p>CME Group's migration of Globex electronic trading infrastructure to Google Cloud is the most significant structural change to futures market data in over a decade. The migration proceeds in three phases through 2026–2027.</p>
+    <p><strong>Phase 1 (Q2 2026):</strong> Equity index futures and options (E-mini S&amp;P 500, E-mini Nasdaq-100, and related products) move to cloud-native infrastructure. Market data dissemination paths change; latency profiles will differ from current co-location arrangements.</p>
+    <p><strong>What changes for feed subscribers:</strong> MDP 3.0 multicast groups will be reorganized. The primary and secondary IP multicast addresses for affected product groups will change with 60+ days advance notice. Feed handlers must be updated to subscribe to new multicast groups before the migration date — old groups will go dark.</p>
+    <p><strong>iLink impact:</strong> Order entry sessions will also migrate. iLink 3.0 session configuration (host, port) will change for migrated products. CME will publish updated connectivity specifications at least 45 days before each phase cutover.</p>
+    <ul>
+      <li>Certified vendors must re-certify against cloud-hosted environments by May 15, 2026</li>
+      <li>CME production parallel run available in New Release environment from April 1 – June 15, 2026</li>
+      <li>DR (disaster recovery) topology shifts from Aurora/Cermak to cloud availability zones</li>
+    </ul>
+  </div>
+
+  <div class="article-section">
+    <h2>iLink Protocol Changes in 2026</h2>
+    <p>iLink is CME's proprietary FIX-based order entry protocol for Globex. 2026 brings two critical changes: the final sunset of iLink 2.0 (the legacy protocol) and the rollout of iLink 8.x tag additions required for the cloud migration.</p>
+    <p><strong>iLink 2.0 Sunset (April 24, 2026):</strong> CME announced in October 2025 that iLink 2.0 sessions would be terminated on April 24, 2026. Any firm still connecting via iLink 2.0 SBE (Simple Binary Encoding) sessions after that date will receive connection-refused responses. Affected sessions must be migrated to iLink 3.0.</p>
+    <p><strong>iLink 3.0 / iLink 8.x:</strong> iLink 3.0 uses SBE encoding with FIX semantic tags. The 8.x version refers to the session layer specification version, not a new protocol. Key additions in 2026:</p>
+    <ul>
+      <li>Tag 9773 (OrigOrderUser) added to ExecutionReport for cloud-routed orders</li>
+      <li>Tag 6936 (CrossIDSource) now mandatory for cross order types</li>
+      <li>New reject reason code 103 (CloudRouteUnavailable) for failover scenarios</li>
+    </ul>
+  </div>
+
+  <div class="article-section">
+    <h2>MDP 3.0 Feed Changes in 2026</h2>
+    <p>Market Data Platform 3.0 (MDP 3.0) is CME's multicast market data protocol, delivering order book, trade, and reference data. 2026 changes focus on channel restructuring and tag deprecations ahead of the cloud migration.</p>
+    <p><strong>Channel 335 Restructure (May 18, 2026):</strong> The agricultural complex MDP 3.0 channels are being consolidated. Channels 335–338 (corn, soybeans, wheat, and related) will merge into a new channel topology. Subscribers must update their multicast group subscriptions before this date — CME will publish new channel group IDs in the March 2026 connectivity specification update.</p>
+    <p><strong>Tag Deprecations:</strong></p>
+    <ul>
+      <li><strong>Tag 1500 (SecurityAltIDSource)</strong> — Deprecated August 1, 2026. Remove from parsing. Field will stop being populated in MDP 3.0 MDIncrementalRefreshBook46 messages.</li>
+      <li><strong>Tag 5791 (MatchEventIndicator bit 6)</strong> — Behavior change in Q3 2026. Bit 6 will no longer be set on spread leg fills; use the SpreadLeg indicator in the parent message instead.</li>
+      <li><strong>MDUpdateAction=2 (Delete)</strong> — Incremental refresh messages for implied prices will use action=1 (Change) instead of the delete/add pattern. Update accordingly.</li>
+    </ul>
+  </div>
+
+  <div class="article-section">
+    <h2>Disaster Recovery &amp; Testing Schedule</h2>
+    <p>CME conducts mandatory disaster recovery (DR) tests on a quarterly basis. Participation is required for all market participants that have signed CME's business continuity acknowledgment. 2026 DR test dates:</p>
+    <ul>
+      <li><strong>February 22, 2026</strong> — Q1 DR test, 8:00–11:00 AM CT. All products. New Release environment available for pre-test validation.</li>
+      <li><strong>May 16, 2026</strong> — Q2 DR test, 8:00–11:00 AM CT. First DR test of cloud-migrated equity index products.</li>
+      <li><strong>August 15, 2026</strong> — Q3 DR test (date TBC).</li>
+      <li><strong>November 14, 2026</strong> — Q4 DR test (date TBC).</li>
+    </ul>
+    <p>During DR tests, CME switches to the backup data center for production session validation. All iLink sessions must failover successfully. MDP 3.0 multicast is broadcast from DR topology — confirm your network can receive from alternate multicast sources.</p>
+  </div>
+
+  <!-- Related FeedWatch -->
+  <div class="fw-related">
+    <div class="fw-related-title">Related FeedWatch Entries</div>
+    <div class="fw-related-items">
+      <a href="../calendar.html" class="fw-related-item">
+        <span class="fw-related-date">APR 24</span>
+        <span class="fw-related-name">CME iLink 2.0 Legacy Protocol Sunset — All sessions must migrate to iLink 3.0</span>
+      </a>
+      <a href="../calendar.html" class="fw-related-item">
+        <span class="fw-related-date">MAY 18</span>
+        <span class="fw-related-name">CME MDP 3.0 Channel 335 Agricultural Restructure — Update multicast subscriptions</span>
+      </a>
+      <a href="../calendar.html" class="fw-related-item">
+        <span class="fw-related-date">JUN 30</span>
+        <span class="fw-related-name">CME Globex Google Cloud Migration Phase 1 — Equity index futures go live on cloud</span>
+      </a>
+      <a href="../calendar.html" class="fw-related-item">
+        <span class="fw-related-date">AUG 1</span>
+        <span class="fw-related-name">MDP 3.0 Tag 1500 (SecurityAltIDSource) Deprecation — Remove from feed parsers</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="../exchanges.html">Exchanges</a>
+      <a href="../regulation.html">Regulation</a>
+      <a href="../nms.html">NMS / SIP</a>
+      <a href="../feed-status.html">Feed Status</a>
+      <a href="../prediction-markets.html">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>Articles</h4>
+      <a href="index.html">All Articles</a>
+      <a href="cme-globex-notices-2026.html">CME Globex Tracker</a>
+      <a href="finra-slate-guide.html">FINRA SLATE Guide</a>
+      <a href="../learn.html#sip">SIP Feed Guide</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="../about.html">About</a>
+      <a href="../subscribe.html">Subscribe</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+function toggleMobileNav() { document.getElementById('mobileNav').classList.toggle('open'); }
+
+// Reading progress
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+});
+
+// Table data
+const NOTICES = [
+  { date: '2026-01-08', notice: 'MDP 3.0 Cumulative Build 16.1 — New Release Available', category: 'Protocol', severity: 'medium', action: 'Validate feed handler against New Release environment before Feb cutover', source: 'SER-10214' },
+  { date: '2026-01-15', notice: 'iLink 3.0 Tag 9773 (OrigOrderUser) Addition', category: 'Protocol', severity: 'high', action: 'Update ExecutionReport parsing to handle new optional tag; do not error on unknown tags', source: 'SER-10231' },
+  { date: '2026-01-22', notice: 'Connectivity Spec Update — Q1 2026 Port Changes', category: 'Connectivity', severity: 'medium', action: 'Review updated port assignments for Chicago co-location; update firewall rules by Feb 14', source: 'SER-10238' },
+  { date: '2026-02-05', notice: 'New Release Build 16.1 Goes Production', category: 'Protocol', severity: 'medium', action: 'Confirm all certified feed handlers are running Build 16.1 or later', source: 'SER-10241' },
+  { date: '2026-02-22', notice: 'Q1 2026 Disaster Recovery Test', category: 'DR Test', severity: 'high', action: 'Mandatory participation. All iLink sessions must successfully failover. Confirm DR multicast reception.', source: 'DR-2026-Q1' },
+  { date: '2026-03-01', notice: 'iLink 2.0 Sunset Reminder — 60-Day Warning Issued', category: 'Protocol', severity: 'critical', action: 'Begin iLink 3.0 migration immediately if not complete. April 24 deadline is firm.', source: 'SER-10258' },
+  { date: '2026-03-15', notice: 'MDP 3.0 Implied Pricing MDUpdateAction Change', category: 'Protocol', severity: 'high', action: 'Update feed handler: implied price incremental messages will use Action=1 (Change) instead of Delete/Add pattern', source: 'SER-10265' },
+  { date: '2026-03-28', notice: 'Google Cloud Migration — Connectivity Spec Pre-Release', category: 'Migration', severity: 'critical', action: 'Review new multicast group IDs for equity index futures. Test against New Release cloud environment.', source: 'SER-10271' },
+  { date: '2026-04-01', notice: 'Cloud New Release Environment Open for Testing', category: 'Migration', severity: 'high', action: 'Begin validation of iLink 3.0 and MDP 3.0 against cloud-hosted production simulation', source: 'SER-10279' },
+  { date: '2026-04-24', notice: 'iLink 2.0 (Legacy) Protocol Sunset', category: 'Protocol', severity: 'critical', action: 'ALL iLink 2.0 sessions terminated. No fallback. Must be on iLink 3.0 prior to this date.', source: 'SER-10285' },
+  { date: '2026-05-16', notice: 'Q2 2026 Disaster Recovery Test — First Cloud DR', category: 'DR Test', severity: 'high', action: 'Mandatory. First DR test with cloud-migrated equity index products. New multicast sources active.', source: 'DR-2026-Q2' },
+  { date: '2026-05-18', notice: 'MDP 3.0 Channel 335 Agricultural Restructure', category: 'Market Data', severity: 'critical', action: 'Update multicast group subscriptions for corn, soybeans, wheat, and related channels before cutover', source: 'SER-10291' },
+  { date: '2026-06-30', notice: 'Globex → Google Cloud Migration Phase 1 Go-Live', category: 'Migration', severity: 'critical', action: 'Equity index futures and options live on cloud. Confirm new iLink session config and MDP 3.0 multicast groups.', source: 'SER-10310' },
+];
+
+const severityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
+let sortCol = 'date';
+let sortAsc = false;
+
+function catBadge(cat) {
+  const map = {
+    'Protocol': 'badge-protocol',
+    'Connectivity': 'badge-connectivity',
+    'Migration': 'badge-migration',
+    'Market Data': 'badge-market',
+    'DR Test': 'badge-dr',
+    'Fee': 'badge-fee',
+  };
+  return `<span class="badge ${map[cat] || 'badge-notice'}">${cat}</span>`;
+}
+
+function sevBadge(sev) {
+  const map = { critical: 'badge-critical', high: 'badge-high', medium: 'badge-medium', low: 'badge-low' };
+  return `<span class="badge ${map[sev] || 'badge-notice'}">${sev.charAt(0).toUpperCase() + sev.slice(1)}</span>`;
+}
+
+function fmtDate(iso) {
+  const d = new Date(iso + 'T12:00:00');
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function renderTable() {
+  const sorted = [...NOTICES].sort((a, b) => {
+    let av = a[sortCol], bv = b[sortCol];
+    if (sortCol === 'severity') { av = severityOrder[av] ?? 9; bv = severityOrder[bv] ?? 9; }
+    if (av < bv) return sortAsc ? -1 : 1;
+    if (av > bv) return sortAsc ? 1 : -1;
+    return 0;
+  });
+
+  document.getElementById('noticeBody').innerHTML = sorted.map(n => `
+    <tr>
+      <td>${fmtDate(n.date)}</td>
+      <td>${n.notice}</td>
+      <td>${catBadge(n.category)}</td>
+      <td>${sevBadge(n.severity)}</td>
+      <td style="font-size:12px;color:var(--muted)">${n.action}</td>
+      <td style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">${n.source}</td>
+    </tr>
+  `).join('');
+}
+
+document.querySelectorAll('#noticeTable th[data-col]').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (sortCol === col) { sortAsc = !sortAsc; }
+    else { sortCol = col; sortAsc = col !== 'date'; }
+    document.querySelectorAll('#noticeTable th').forEach(h => h.classList.remove('sorted-asc','sorted-desc'));
+    th.classList.add(sortAsc ? 'sorted-asc' : 'sorted-desc');
+    renderTable();
+  });
+});
+
+renderTable();
+</script>
+<script src="../search-global.js"></script>
+<script src="../chat-widget.js"></script>
+<script src="../feedwatch-bar.js"></script>
+</body>
+</html>

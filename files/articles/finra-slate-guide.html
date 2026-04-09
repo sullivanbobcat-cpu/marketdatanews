@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="alternate icon" href="../favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#b8860b">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FINRA SLATE Reporting — Complete Guide for Market Data Professionals | Market Data News</title>
+<meta name="description" content="Everything market data professionals need to know about FINRA SLATE (Securities Lending and Transparency Engine) — who must report, what to report, connectivity, market data implications, and timeline.">
+<meta name="keywords" content="FINRA SLATE, securities lending reporting, SLATE guide, FINRA securities lending, market data SLATE, SLATE connectivity, securities lending transparency">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Market Data News">
+<link rel="canonical" href="https://marketdatanews.com/articles/finra-slate-guide.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://marketdatanews.com/articles/finra-slate-guide.html">
+<meta property="og:title" content="FINRA SLATE Reporting — Complete Guide | Market Data News">
+<meta property="og:description" content="Everything market data professionals need to know about FINRA SLATE — who must report, connectivity, market data implications, and deadlines.">
+<meta property="og:site_name" content="Market Data News">
+<meta property="og:image" content="https://marketdatanews.com/og-image.svg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; } .ticker-item .down { color: #ff4444; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: stretch; padding: 0 48px; border-bottom: 1px solid var(--rule); position: relative; flex-wrap: nowrap; overflow: visible; background: var(--cream); }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0 14px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; user-select: none; }
+  a.nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-dropdown { position: relative; display: flex; align-items: stretch; }
+  .nav-dropdown > .nav-item { border-left: none; }
+  .nav-dropdown-menu { display: block; position: absolute; top: 100%; left: 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; min-width: 220px; background: var(--ink); border-top: 2px solid var(--accent); z-index: 1000; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left: auto; right: 0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-drop-item { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #aaa; text-decoration: none; padding: 10px 20px; border-bottom: 1px solid #1e1e1e; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+  .nav-drop-item:last-child { border-bottom: none; }
+  .nav-drop-item:hover, .nav-drop-item.active { color: var(--accent); background: #111; }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; }
+  .search-wrap { position: relative; display: flex; align-items: center; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 180px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+  .search-drop { position: absolute; top: calc(100% + 4px); right: 0; width: 380px; background: var(--ink); border: 1px solid #333; z-index: 1000; display: none; max-height: 480px; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .search-drop.open { display: block; }
+  .search-drop-item { display: flex; flex-direction: column; padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #111; text-decoration: none; }
+  .search-drop-item:hover { background: #1a1a1a; }
+  .search-drop-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ccc; margin-bottom: 3px; }
+  .search-drop-item:hover .search-drop-title { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); transition: 0.2s; }
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { color: #aaa; text-decoration: none; padding: 8px 0; font-size: 13px; border-bottom: 1px solid #1a1a1a; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .mob-group-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #555; padding: 12px 0 4px; }
+  .nav-comp { font-family: 'IBM Plex Mono', monospace; font-size: 10px; }
+
+  /* FeedWatch Alert Bar */
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-stat:hover { background: rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num { color: var(--accent); }
+  .fw-alertbar-stat.action .fw-alertbar-num { color: #5b9bd5; }
+  .fw-alertbar-next { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); text-decoration: none; border: 1px solid #3a2a10; padding: 4px 10px; margin-left: 16px; white-space: nowrap; transition: background 0.15s; }
+  .fw-alertbar-cta:hover { background: rgba(184,134,11,0.15); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  /* Article layout */
+  .article-hero { background: var(--ink); color: white; padding: 56px 48px 48px; border-bottom: 3px solid var(--accent); }
+  .article-hero-inner { max-width: 960px; margin: 0 auto; }
+  .breadcrumb { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #555; margin-bottom: 20px; }
+  .breadcrumb a { color: var(--accent); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 8px; }
+  .article-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  .article-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+  .article-hero-meta { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .article-hero-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 0.08em; }
+  .article-hero-meta-item strong { color: #aaa; }
+
+  .article-body { max-width: 960px; margin: 0 auto; padding: 48px; }
+  .article-lead { font-size: 17px; line-height: 1.75; color: var(--muted); margin-bottom: 40px; border-left: 3px solid var(--accent); padding-left: 20px; }
+  .article-section { margin-bottom: 48px; }
+  .article-section h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .article-section p { font-size: 14px; line-height: 1.8; color: #333; margin-bottom: 14px; }
+  .article-section ul, .article-section ol { margin-left: 20px; margin-bottom: 14px; }
+  .article-section li { font-size: 14px; line-height: 1.8; color: #333; margin-bottom: 6px; }
+
+  /* Info box */
+  .info-box { background: var(--cream); border: 1px solid var(--border); border-left: 4px solid var(--accent); padding: 20px 24px; margin-bottom: 28px; }
+  .info-box-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-dark); margin-bottom: 10px; font-weight: 600; }
+  .info-box p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 0; }
+
+  /* Timeline */
+  .timeline { border-left: 2px solid var(--rule); margin-left: 12px; padding-left: 24px; }
+  .tl-item { position: relative; margin-bottom: 28px; }
+  .tl-item::before { content: ''; position: absolute; left: -31px; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .tl-item.past::before { background: #888; }
+  .tl-item.future::before { background: #ff4444; animation: pulse 2s infinite; }
+  .tl-date { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+  .tl-item.past .tl-date { color: #888; }
+  .tl-item.future .tl-date { color: #ff4444; }
+  .tl-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .tl-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* Two-column layout for reference fields */
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .field-card { background: var(--cream); border: 1px solid var(--border); padding: 16px; }
+  .field-name { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .field-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* Badge */
+  .badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; white-space: nowrap; }
+  .badge-guide { background: #2a1a00; color: var(--accent); }
+  .badge-live { background: #0d2b10; color: #27ae60; }
+
+  /* Reading progress */
+  .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 9999; transition: width 0.1s; }
+
+  /* External links */
+  .link-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+  .ext-link { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--cream); border: 1px solid var(--border); text-decoration: none; transition: border-color 0.15s; }
+  .ext-link:hover { border-color: var(--accent); }
+  .ext-link-label { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .ext-link-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .ext-link-arrow { margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--accent); }
+
+  /* nav-mobile-hide */
+  @media (max-width: 900px) {
+    nav { display: none !important; overflow-x: hidden; }
+  }
+  @media (max-width: 900px) {
+    html, body { overflow-x: hidden; max-width: 100vw; }
+    * { max-width: 100%; box-sizing: border-box; }
+    .article-hero { padding: 40px 20px; }
+    .article-body { padding: 32px 20px; }
+    .masthead-top { padding: 16px 20px; }
+    .fw-alertbar { padding: 0 16px; }
+    .fw-alertbar-next, .fw-alertbar-cta { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+    footer { padding: 32px 20px; }
+    .field-grid { grid-template-columns: 1fr; }
+    .article-hero-meta { gap: 12px; }
+  }
+  @media (max-width: 1200px) { .nav-comp { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">FINRA SLATE &nbsp;·&nbsp; SECURITIES LENDING TRANSPARENCY ENGINE</span>
+  <span class="ticker-item">FINRA SLATE: <span style="color:#00cc66">LIVE SINCE JAN 2, 2026</span></span>
+  <span class="ticker-item">SLATE PHASE 2: <span style="color:#ff9900">JULY 1, 2026</span></span>
+  <span class="ticker-item">FINRA RULE 4560 &nbsp;·&nbsp; SHORT INTEREST REPORTING</span>
+  <span class="ticker-item">FINRA SLATE &nbsp;·&nbsp; SECURITIES LENDING TRANSPARENCY ENGINE</span>
+  <span class="ticker-item">FINRA SLATE: <span style="color:#00cc66">LIVE SINCE JAN 2, 2026</span></span>
+  <span class="ticker-item">SLATE PHASE 2: <span style="color:#ff9900">JULY 1, 2026</span></span>
+  <span class="ticker-item">FINRA RULE 4560 &nbsp;·&nbsp; SHORT INTEREST REPORTING</span>
+</div></div>
+
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="../calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="../calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span id="fw-critical-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="../calendar.html?filter=high" class="fw-alertbar-stat high"><span id="fw-high-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">High</span></a>
+      <a href="../calendar.html?filter=action" class="fw-alertbar-stat action"><span id="fw-action-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="../calendar.html" class="fw-alertbar-stat total"><span id="fw-active-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span id="fw-next-deadline" class="fw-alertbar-next-val">Loading…</span>
+    </div>
+    <a href="../calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="../index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="../index.html" style="text-decoration:none;border-left:1px solid var(--rule);border-right:1px solid var(--rule);padding:0 10px;display:flex;align-items:center;flex-shrink:0;" title="Market Data News">
+      <img src="../favicon.svg" alt="MDN" style="height:26px;width:26px;display:block;">
+    </a>
+    <a href="../index.html" class="nav-item">All News</a>
+    <div class="nav-dropdown">
+      <span class="nav-item">Markets &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="../exchanges.html" class="nav-drop-item">Exchanges</a>
+        <a href="../prediction-markets-live.html" class="nav-drop-item">Live Markets</a>
+        <a href="../prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item active">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="../calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="../nms.html" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="../regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="../feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="../rule-filings.html" class="nav-drop-item">Rule Filings</a>
+        <a href="../rulebook-navigator.html" class="nav-drop-item">Rulebooks</a>
+        <a href="../execution-quality.html" class="nav-drop-item">Execution Quality</a>
+        <a href="../ai-digest.html" class="nav-drop-item">AI Digest</a>
+        <a href="index.html" class="nav-drop-item active">Articles</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Learn &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="../learn.html#sip" class="nav-drop-item">How the SIP Works</a>
+        <a href="../learn.html#opra" class="nav-drop-item">The OPRA Model</a>
+        <a href="../learn.html#futures" class="nav-drop-item">Futures Market Data</a>
+        <a href="../learn.html" class="nav-drop-item">View All Lessons</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Tools &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="../market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
+        <a href="../contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
+        <a href="../compensation.html" class="nav-drop-item">Compensation</a>
+      </div>
+    </div>
+    <a href="../about.html" class="nav-item">About</a>
+    <a href="../subscribe.html" class="nav-item">Subscribe</a>
+    <div class="nav-right">
+      <div class="search-wrap" id="searchWrap">
+        <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
+        <div class="search-drop" id="searchDrop"></div>
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="../index.html">All News</a>
+  <div class="mob-group-label">Markets</div>
+  <a href="../exchanges.html">Exchanges</a>
+  <a href="../prediction-markets-live.html">Live Markets</a>
+  <a href="../prediction-markets.html">Prediction Markets</a>
+  <div class="mob-group-label">Intelligence</div>
+  <a href="../calendar.html">FeedWatch Calendar</a>
+  <a href="../nms.html">NMS / SIP Plans</a>
+  <a href="../regulation.html">Regulation</a>
+  <a href="../feed-status.html">Feed Status</a>
+  <a href="../rule-filings.html">Rule Filings</a>
+  <a href="../rulebook-navigator.html">Rulebooks</a>
+  <a href="../execution-quality.html">Execution Quality</a>
+  <a href="../ai-digest.html">AI Digest</a>
+  <a href="index.html" class="active">Articles</a>
+  <div class="mob-group-label">Learn</div>
+  <a href="../learn.html#sip">How the SIP Works</a>
+  <a href="../learn.html#opra">The OPRA Model</a>
+  <a href="../learn.html#futures">Futures Market Data</a>
+  <a href="../learn.html">View All Lessons</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="../market-data-fees.html">Fee Calculator</a>
+  <a href="../contract-intelligence.html">Contract Intelligence</a>
+  <a href="../compensation.html">Compensation</a>
+  <div class="mob-group-label">About</div>
+  <a href="../about.html">About</a>
+  <a href="../subscribe.html">Subscribe</a>
+</div>
+
+<div class="article-hero">
+  <div class="article-hero-inner">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a><span>›</span>
+      <a href="index.html">Articles</a><span>›</span>
+      FINRA SLATE Guide
+    </div>
+    <div class="article-hero-label"><span class="badge badge-guide" style="font-size:10px;padding:3px 10px;">Guide</span> &nbsp; <span class="badge badge-live" style="font-size:10px;padding:3px 10px;">Live Jan 2, 2026</span></div>
+    <h1 class="article-hero-title">FINRA SLATE — Complete Guide for Market Data Professionals</h1>
+    <div class="article-hero-meta">
+      <div class="article-hero-meta-item"><strong>Updated:</strong> April 8, 2026</div>
+      <div class="article-hero-meta-item"><strong>Status:</strong> Phase 1 Live</div>
+      <div class="article-hero-meta-item"><strong>6 min read</strong></div>
+      <div class="article-hero-meta-item"><strong>Source:</strong> FINRA Rule 10210</div>
+    </div>
+  </div>
+</div>
+
+<div class="article-body">
+
+  <p class="article-lead">FINRA's Securities Lending and Transparency Engine (SLATE) went live January 2, 2026, creating for the first time a comprehensive, centralized record of US securities lending activity. Here's what market data professionals need to know about the system — from reporting obligations to market data implications.</p>
+
+  <!-- Section 1: Overview -->
+  <div class="article-section">
+    <h2>1. What is FINRA SLATE?</h2>
+    <p>SLATE (Securities Lending and Transparency Engine) is FINRA's securities lending transaction reporting facility, established under FINRA Rule 10210 (Securities Lending Reporting Requirements). It implements the reporting requirements mandated by Section 10(c) of the Securities Exchange Act of 1934, as amended by the Dodd-Frank Act and later SEC Rule 10c-1a.</p>
+    <p>The system collects and makes public information about securities lending transactions — specifically the terms under which broker-dealers lend securities. This creates a consolidated public record similar to what TRACE does for fixed income: a centralized, near-real-time view of a previously opaque market.</p>
+    <div class="info-box">
+      <div class="info-box-title">SLATE in one sentence</div>
+      <p>SLATE does for securities lending what TRACE did for bond trading — it takes an opaque, dealer-to-dealer market and makes transaction-level data publicly available for the first time.</p>
+    </div>
+    <p><strong>Why it matters for market data professionals:</strong> SLATE creates a new data stream for securities lending rates, loan terms, and availability. This data has direct implications for short-selling analysis, stock borrow cost modeling, and understanding the mechanics of equity lending desks. Anyone consuming market data for quantitative research, risk, or compliance needs to understand what SLATE publishes and how.</p>
+  </div>
+
+  <!-- Section 2: Who Must Report -->
+  <div class="article-section">
+    <h2>2. Who Must Report to SLATE?</h2>
+    <p>Reporting obligations under FINRA Rule 10210 apply broadly to FINRA member firms involved in securities lending. Specifically:</p>
+    <ul>
+      <li><strong>Broker-dealers that lend securities</strong> — Any FINRA member that lends securities to another party (including to customers, other broker-dealers, or prime brokers) must report the terms of each loan to SLATE.</li>
+      <li><strong>Prime brokers</strong> — Prime brokerage operations that facilitate securities lending between hedge fund clients and institutional lenders are covered.</li>
+      <li><strong>Securities lending intermediaries</strong> — Firms that act as agents or principals in arranging securities loans.</li>
+    </ul>
+    <p><strong>Who is NOT directly obligated:</strong> Buy-side institutions (hedge funds, asset managers, pension funds) lending via their prime broker do not report directly to SLATE — their prime broker reports on their behalf. Non-FINRA members (e.g., foreign banks lending to US counterparties through a US affiliate) may be covered through their US-registered affiliate.</p>
+    <p><strong>Phased applicability:</strong> Phase 1 (January 2, 2026) covers the largest firms — those with gross securities lending activity above $10 billion annually. Phase 2 (July 1, 2026) extends reporting to all covered FINRA members regardless of size.</p>
+  </div>
+
+  <!-- Section 3: What to Report -->
+  <div class="article-section">
+    <h2>3. What Must Be Reported</h2>
+    <p>Each securities lending transaction must be reported to SLATE within 15 minutes of execution. The required data fields cover the economics and terms of the loan:</p>
+    <div class="field-grid">
+      <div class="field-card">
+        <div class="field-name">CUSIP / ISIN</div>
+        <div class="field-desc">Identifier of the security being lent. CUSIP required for US equities; ISIN for non-US securities.</div>
+      </div>
+      <div class="field-card">
+        <div class="field-name">Loan Rate / Rebate Rate</div>
+        <div class="field-desc">The annualized lending rate (for fee-based loans) or cash collateral rebate rate (for cash-collateralized loans).</div>
+      </div>
+      <div class="field-card">
+        <div class="field-name">Loan Amount</div>
+        <div class="field-desc">Total market value of securities lent, in USD. Reported in par value for fixed income.</div>
+      </div>
+      <div class="field-card">
+        <div class="field-name">Collateral Type</div>
+        <div class="field-desc">Cash (USD), cash (non-USD), US Treasuries, agency securities, or other. Each type reported separately.</div>
+      </div>
+      <div class="field-card">
+        <div class="field-name">Collateral Value</div>
+        <div class="field-desc">Market value of posted collateral. Must reflect current margin — typically 102% for domestic, 105% for foreign.</div>
+      </div>
+      <div class="field-card">
+        <div class="field-name">Term</div>
+        <div class="field-desc">Open (callable) or term (fixed end date). For term loans, the agreed maturity date must be reported.</div>
+      </div>
+      <div class="field-card">
+        <div class="field-name">Transaction Timestamp</div>
+        <div class="field-desc">Time of execution to the second (Eastern Time). Used to determine the 15-minute reporting window.</div>
+      </div>
+      <div class="field-card">
+        <div class="field-name">Modification / Return Flags</div>
+        <div class="field-desc">Subsequent modifications (rate changes, collateral substitutions) and loan returns must each be separately reported.</div>
+      </div>
+    </div>
+    <p>FINRA publishes SLATE data with a 30-minute delay on its public website, with aggregated summary data available intraday. Historical transaction-level data is available for download with a 24-hour delay.</p>
+  </div>
+
+  <!-- Section 4: Market Data Implications -->
+  <div class="article-section">
+    <h2>4. Market Data Implications</h2>
+    <p>SLATE creates a new category of regulated market data with significant implications for quantitative analytics, risk management, and market surveillance. Key considerations:</p>
+    <p><strong>Short interest as a proxy — now supplemented:</strong> Before SLATE, short interest data (reported twice monthly to FINRA under Rule 4560) was the primary public proxy for securities lending activity. SLATE provides near-real-time loan rate data, which is a more granular and timely signal of borrowing demand and short-selling pressure.</p>
+    <p><strong>Borrow cost modeling:</strong> Quantitative strategies that model securities lending costs now have a regulatory data source to calibrate against. SLATE rates for specific securities provide a transparent benchmark for borrow cost assumptions. This is particularly relevant for:</p>
+    <ul>
+      <li>Hard-to-borrow (HTB) identification — high SLATE rates flag names under borrowing pressure</li>
+      <li>Return modeling for short strategies — actual borrow costs are now publicly observable</li>
+      <li>Prime broker spread analysis — comparing individual prime broker quotes to published SLATE averages</li>
+    </ul>
+    <p><strong>Connectivity for data consumers:</strong> FINRA distributes SLATE data via its Market Data Center infrastructure, similar to TRACE. Firms can access SLATE data through:</p>
+    <ul>
+      <li>FINRA's public website (30-minute delayed, web interface)</li>
+      <li>FINRA Market Data Center FTP/SFTP feeds (intraday aggregated, daily transaction-level)</li>
+      <li>Third-party data vendors redistributing FINRA SLATE data under license</li>
+    </ul>
+    <p><strong>Integration with existing data workflows:</strong> SLATE data uses CUSIP identifiers and standard field formats compatible with existing security master databases. Firms should plan to integrate SLATE borrow rates into their security master as an additional data field — similar to how dividend yield or days-to-cover are maintained.</p>
+  </div>
+
+  <!-- Section 5: Timeline -->
+  <div class="article-section">
+    <h2>5. SLATE Implementation Timeline</h2>
+    <div class="timeline">
+      <div class="tl-item past">
+        <div class="tl-date">October 2021</div>
+        <div class="tl-title">SEC Rule 10c-1a Proposed</div>
+        <div class="tl-desc">SEC proposes rule requiring reporting of securities lending transactions. Comment period opens. Mandates centralized collection and public dissemination of loan terms.</div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-date">October 2023</div>
+        <div class="tl-title">SEC Rule 10c-1a Adopted</div>
+        <div class="tl-desc">Final rule adopted. FINRA designated as the registered national securities association to collect and disseminate data. FINRA begins building SLATE infrastructure.</div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-date">July 2025</div>
+        <div class="tl-title">FINRA Rule 10210 Effective — Industry Testing Opens</div>
+        <div class="tl-desc">FINRA Rule 10210 (Securities Lending Reporting Requirements) becomes effective. Industry testing environment opens. Firms begin certifying reporting workflows and connectivity.</div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-date">October 2025</div>
+        <div class="tl-title">Parallel Reporting Phase</div>
+        <div class="tl-desc">Covered firms begin parallel reporting (submitting to SLATE without public dissemination). FINRA conducts data quality reviews and issues guidance on common errors.</div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-date">January 2, 2026</div>
+        <div class="tl-title">Phase 1 Go-Live — Largest Firms</div>
+        <div class="tl-desc">SLATE goes live. Phase 1 firms (>$10B annual securities lending volume) must report. Public dissemination begins with 30-minute delay. FINRA's market data systems begin receiving live submissions.</div>
+      </div>
+      <div class="tl-item future">
+        <div class="tl-date">July 1, 2026</div>
+        <div class="tl-title">Phase 2 Go-Live — All Covered Firms</div>
+        <div class="tl-desc">All FINRA member firms meeting the reporting threshold must report to SLATE. Smaller broker-dealers and regional prime brokers added. Expect significant increase in submitted transaction volume.</div>
+      </div>
+      <div class="tl-item future">
+        <div class="tl-date">January 2027</div>
+        <div class="tl-title">Real-Time Dissemination (Proposed)</div>
+        <div class="tl-desc">FINRA has indicated it may reduce the public dissemination delay from 30 minutes to 15 minutes or real-time for certain securities. Formal rulemaking expected in late 2026.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: Resources -->
+  <div class="article-section">
+    <h2>6. Official Resources &amp; Links</h2>
+    <div class="link-list">
+      <a href="https://www.finra.org/rules-guidance/rulebook/finra-rules/10210" class="ext-link" target="_blank" rel="noopener">
+        <div>
+          <div class="ext-link-label">FINRA Rule 10210 — Securities Lending Reporting Requirements</div>
+          <div class="ext-link-sub">finra.org · Official rule text and effective dates</div>
+        </div>
+        <div class="ext-link-arrow">↗</div>
+      </a>
+      <a href="https://www.finra.org/filing-reporting/securities-lending-and-transparency-engine-slate" class="ext-link" target="_blank" rel="noopener">
+        <div>
+          <div class="ext-link-label">FINRA SLATE — Official Information Page</div>
+          <div class="ext-link-sub">finra.org · Technical specifications, FAQs, and connectivity guides</div>
+        </div>
+        <div class="ext-link-arrow">↗</div>
+      </a>
+      <a href="https://www.sec.gov/rules-regulations/2023/10/34-98737" class="ext-link" target="_blank" rel="noopener">
+        <div>
+          <div class="ext-link-label">SEC Rule 10c-1a — Adoption Release (Release No. 34-98737)</div>
+          <div class="ext-link-sub">sec.gov · 300+ page adopting release with full economic analysis</div>
+        </div>
+        <div class="ext-link-arrow">↗</div>
+      </a>
+      <a href="../calendar.html" class="ext-link">
+        <div>
+          <div class="ext-link-label">FeedWatch Calendar — FINRA SLATE Entries</div>
+          <div class="ext-link-sub">marketdatanews.com · Track upcoming SLATE deadlines in FeedWatch</div>
+        </div>
+        <div class="ext-link-arrow">→</div>
+      </a>
+      <a href="../regulation.html" class="ext-link">
+        <div>
+          <div class="ext-link-label">Market Data News — FINRA Regulation Coverage</div>
+          <div class="ext-link-sub">marketdatanews.com · All FINRA rule filings and notices</div>
+        </div>
+        <div class="ext-link-arrow">→</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="../exchanges.html">Exchanges</a>
+      <a href="../regulation.html">Regulation</a>
+      <a href="../nms.html">NMS / SIP</a>
+      <a href="../feed-status.html">Feed Status</a>
+      <a href="../prediction-markets.html">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>Articles</h4>
+      <a href="index.html">All Articles</a>
+      <a href="cme-globex-notices-2026.html">CME Globex Tracker</a>
+      <a href="finra-slate-guide.html">FINRA SLATE Guide</a>
+      <a href="../learn.html#sip">SIP Feed Guide</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="../about.html">About</a>
+      <a href="../subscribe.html">Subscribe</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+function toggleMobileNav() { document.getElementById('mobileNav').classList.toggle('open'); }
+
+// Reading progress
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+});
+</script>
+<script src="../search-global.js"></script>
+<script src="../chat-widget.js"></script>
+<script src="../feedwatch-bar.js"></script>
+</body>
+</html>
