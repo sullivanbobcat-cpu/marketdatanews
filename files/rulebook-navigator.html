@@ -215,6 +215,15 @@
   @media (max-width: 900px) {
     nav { display: none !important; overflow-x: hidden; }
   }
+
+  /* ── PAGE TOC ── */
+  .page-toc { display:flex; align-items:center; gap:0; flex-wrap:wrap; margin-bottom:32px; border:1px solid var(--border); background:var(--cream); overflow:hidden; }
+  .page-toc-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:0.14em; color:var(--muted); padding:10px 16px; background:var(--ink); color:var(--accent); border-right:1px solid var(--border); white-space:nowrap; }
+  .page-toc-link { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:500; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink); text-decoration:none; padding:10px 16px; border-right:1px solid var(--border); white-space:nowrap; transition:background 0.15s, color 0.15s; }
+  .page-toc-link:last-child { border-right:none; }
+  .page-toc-link:hover { background:var(--ink); color:var(--accent); }
+  .page-toc-link.active { background:var(--ink); color:var(--accent); }
+  @media (max-width:900px) { .page-toc { display:none; } }
 </style>
 </head>
 <body>
@@ -285,7 +294,14 @@
         <a href="rule-filings.html" class="nav-drop-item">Rule Filings</a>
         <a href="rulebook-navigator.html" class="nav-drop-item active">Rulebooks</a>
         <a href="ai-digest.html" class="nav-drop-item">AI Digest</a>
-        <a href="articles/index.html" class="nav-drop-item">Articles</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Articles &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="articles/cme-globex-notices-2026.html" class="nav-drop-item">CME Globex Notices 2026</a>
+        <a href="articles/finra-slate-guide.html" class="nav-drop-item">FINRA SLATE Guide</a>
+        <a href="articles/index.html" class="nav-drop-item">View All Articles</a>
       </div>
     </div>
     <div class="nav-dropdown">
@@ -333,7 +349,10 @@
   <a href="rule-filings.html">Rule Filings</a>
   <a href="rulebook-navigator.html" class="active">Rulebooks</a>
   <a href="ai-digest.html">AI Digest</a>
-  <a href="articles/index.html">Articles</a>
+  <div class="mob-group-label">Articles</div>
+  <a href="articles/cme-globex-notices-2026.html">CME Globex Notices 2026</a>
+  <a href="articles/finra-slate-guide.html">FINRA SLATE Guide</a>
+  <a href="articles/index.html">View All Articles</a>
   <div class="mob-group-label">Learn</div>
   <a href="learn.html#sip">How the SIP Works</a>
   <a href="learn.html#opra">The OPRA Model</a>
@@ -359,8 +378,22 @@
 
 <div class="page-container">
 
+  <nav class="page-toc" aria-label="Page sections">
+    <span class="page-toc-label">Contents</span>
+    <a class="page-toc-link" href="#s-why">01 — Why This Matters</a>
+    <a class="page-toc-link" href="#s-exchange">02 — Exchange Guides</a>
+    <a class="page-toc-link" href="#s-exchange" onclick="document.querySelector('#ex-nyse') && showExchange('nyse', document.querySelector('.ex-tab'))">NYSE Family</a>
+    <a class="page-toc-link" href="#s-exchange" onclick="showExchange('nasdaq',document.querySelectorAll('.ex-tab')[1])">Nasdaq</a>
+    <a class="page-toc-link" href="#s-exchange" onclick="showExchange('cboe',document.querySelectorAll('.ex-tab')[2])">Cboe</a>
+    <a class="page-toc-link" href="#s-exchange" onclick="showExchange('finra',document.querySelectorAll('.ex-tab')[3])">FINRA</a>
+    <a class="page-toc-link" href="#s-exchange" onclick="showExchange('cme',document.querySelectorAll('.ex-tab')[4])">CME Group</a>
+    <a class="page-toc-link" href="#s-exchange" onclick="showExchange('ice',document.querySelectorAll('.ex-tab')[5])">ICE</a>
+    <a class="page-toc-link" href="#s-compare">04 — Key Terms</a>
+    <a class="page-toc-link" href="#s-guide">05 — How to Review</a>
+  </nav>
+
   <!-- 01 WHY THIS MATTERS -->
-  <div class="section-head">
+  <div class="section-head" id="s-why">
     <span class="section-num">01 —</span>
     <h2>Why This Matters</h2>
     <div class="section-line"></div>
@@ -370,7 +403,7 @@
   </div>
 
   <!-- 02 EXCHANGE SELECTOR -->
-  <div class="section-head">
+  <div class="section-head" id="s-exchange">
     <span class="section-num">02 —</span>
     <h2>Select Exchange</h2>
     <div class="section-line"></div>
@@ -870,7 +903,7 @@
   </div>
 
   <!-- 04 COMPARISON TABLE -->
-  <div class="section-head">
+  <div class="section-head" id="s-compare">
     <span class="section-num">04 —</span>
     <h2>Key Term Comparison</h2>
     <div class="section-line"></div>
@@ -957,7 +990,7 @@
   </div>
 
   <!-- 05 HOW TO REVIEW -->
-  <div class="section-head">
+  <div class="section-head" id="s-guide">
     <span class="section-num">05 —</span>
     <h2>How to Review a Rulebook</h2>
     <div class="section-line"></div>

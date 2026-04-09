@@ -119,7 +119,7 @@
   .page-hero-sub{font-size:14px;line-height:1.7;color:var(--muted);max-width:700px;}
 
   /* ── MAIN LAYOUT ── */
-  .page-container{max-width:1280px;margin:0 auto;padding:0 48px 64px;}
+  .page-container{max-width:1280px;margin:0 auto;padding:40px 48px 64px;}
 
   /* ── CONTENT CARDS ── */
   .digest-card{background:var(--surface);border:1px solid var(--border);margin-top:32px;}
@@ -218,6 +218,14 @@
   @media (max-width: 900px) {
     nav { display: none !important; overflow-x: hidden; }
   }
+
+  /* ── DESKTOP DIGEST GRID ── */
+  @media (min-width: 901px) {
+    .digest-layout { display: grid; grid-template-columns: 3fr 2fr; gap: 28px; align-items: start; }
+    .digest-side { display: flex; flex-direction: column; gap: 28px; }
+    .digest-layout > .digest-card,
+    .digest-side > .digest-card { margin-top: 0; }
+  }
 </style>
 </head>
 <body>
@@ -289,7 +297,14 @@
         <a href="rulebook-navigator.html" class="nav-drop-item">Rulebooks</a>
         <a href="execution-quality.html" class="nav-drop-item">Execution Quality</a>
         <a href="ai-digest.html" class="nav-drop-item">AI Digest</a>
-        <a href="articles/index.html" class="nav-drop-item">Articles</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Articles &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="articles/cme-globex-notices-2026.html" class="nav-drop-item">CME Globex Notices 2026</a>
+        <a href="articles/finra-slate-guide.html" class="nav-drop-item">FINRA SLATE Guide</a>
+        <a href="articles/index.html" class="nav-drop-item">View All Articles</a>
       </div>
     </div>
     <div class="nav-dropdown">
@@ -359,7 +374,9 @@
 <!-- Content -->
 <div class="page-container">
 
-  <!-- Card 1: Daily FeedWatch Digest -->
+  <div class="digest-layout">
+
+  <!-- Card 1: Daily FeedWatch Digest (left column) -->
   <div class="digest-card">
     <div class="digest-card-head">
       <span class="digest-card-num">01</span>
@@ -380,6 +397,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Right column: Cards 2 & 3 stacked -->
+  <div class="digest-side">
 
   <!-- Card 2: Fee Change Monitor -->
   <div class="digest-card">
@@ -416,6 +436,9 @@
       </div>
     </div>
   </div>
+
+  </div><!-- end digest-side -->
+  </div><!-- end digest-layout -->
 
 </div><!-- end page-container -->
 
