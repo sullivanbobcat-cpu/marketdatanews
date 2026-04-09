@@ -29,6 +29,27 @@
 [functions."market-snapshot-tweet"]
   schedule = "30 14 * * 1-5"
 
+[functions."deadline-countdown-tweet"]
+  schedule = "0 13 * * *"
+
+[functions."rule-filing-alert-tweet"]
+  schedule = "*/15 13-21 * * 1-5"
+
+[functions."weekly-fact-tweet"]
+  schedule = "0 0 * * 0"
+
+[functions."new-feedwatch-entry-tweet"]
+  schedule = "0 * * * *"
+
+[functions."monday-roundup-tweet"]
+  schedule = "0 12 * * 1"
+
+[functions."monthly-stats-tweet"]
+  schedule = "0 13 1 * *"
+
+[functions."prediction-market-pulse-tweet"]
+  schedule = "0 12 * * 1-5"
+
 [functions."search"]
   included_files = []
 
