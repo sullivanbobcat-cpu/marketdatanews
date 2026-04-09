@@ -38,7 +38,7 @@ exports.handler = async function () {
   try {
     const today = new Date().toISOString().split('T')[0];
     const dailyCount = (await stateStore.get(`daily-tweet-count-${today}`, { type: 'json' }).catch(() => 0)) || 0;
-    if (dailyCount >= 10) {
+    if (dailyCount >= 12) {
       return { statusCode: 200, body: JSON.stringify({ skipped: 'daily limit' }) };
     }
 
@@ -84,9 +84,9 @@ exports.handler = async function () {
     const yes = market.yes_price != null ? market.yes_price : market.last_price;
     const prob = yes > 1 ? Math.round(yes) : Math.round(yes * 100);
     const volume = market.volume_24h || market.volume || 0;
-    const volFormatted = volume >= 1000000
+    const volFormatted = volume >= 1200000
       ? `$${(volume / 1000000).toFixed(1)}M`
-      : volume >= 1000
+      : volume >= 1200
         ? `$${(volume / 1000).toFixed(0)}K`
         : `$${volume}`;
 

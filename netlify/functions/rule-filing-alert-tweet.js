@@ -74,7 +74,7 @@ exports.handler = async function () {
     // Daily rate limit
     const today = new Date().toISOString().split('T')[0];
     const dailyCount = (await stateStore.get(`daily-tweet-count-${today}`, { type: 'json' }).catch(() => 0)) || 0;
-    if (dailyCount >= 10) {
+    if (dailyCount >= 12) {
       return { statusCode: 200, body: JSON.stringify({ skipped: 'daily limit' }) };
     }
 

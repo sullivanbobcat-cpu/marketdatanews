@@ -78,6 +78,14 @@ exports.handler = async () => {
       token: process.env.NETLIFY_TOKEN,
     });
 
+    // ── Shared daily limit ─────────────────────────────────────────────────
+    const today = new Date().toISOString().split('T')[0];
+    const dailyCount = (await store.get(`daily-tweet-count-${today}`, { type: 'json' }).catch(() => 0)) || 0;
+    if (dailyCount >= 12) {
+      console.log('[breaking-news] Daily limit reached:', dailyCount);
+      return { statusCode: 200, body: JSON.stringify({ skipped: 'daily limit' }) };
+    }
+
     // ── Rate limit: max 3 tweets per hour ──────────────────────────────────
     const hourKey = 'rate-' + new Date().toISOString().slice(0, 13); // "2026-04-08T14"
     const hourCount = (await store.get(hourKey, { type: 'json' }).catch(() => 0)) || 0;
@@ -164,6 +172,7 @@ exports.handler = async () => {
       const updated = [...tweeted, ...newIds].slice(-500); // cap at 500 IDs
       await store.set('tweeted-items', JSON.stringify(updated));
       await store.set(hourKey, JSON.stringify(hourCount + tweetsPosted));
+      await store.set(`daily-tweet-count-${today}`, JSON.stringify(dailyCount + tweetsPosted));
       // expire rate-limit key after 2 hours by overwriting only if needed — Blobs has no TTL,
       // but the key is unique per hour so stale keys are naturally abandoned
     }

@@ -35,7 +35,7 @@ exports.handler = async function () {
 
   try {
     const dailyCount = await getDailyCount(stateStore);
-    if (dailyCount >= 10) {
+    if (dailyCount >= 12) {
       console.log('[deadline-countdown] Daily tweet limit reached');
       return { statusCode: 200, body: JSON.stringify({ skipped: 'daily limit' }) };
     }
@@ -73,7 +73,7 @@ exports.handler = async function () {
 
     const posted = [];
     for (const { entry, daysLeft } of matches) {
-      if (await getDailyCount(stateStore) >= 10) break;
+      if (await getDailyCount(stateStore) >= 12) break;
       const exchange = (entry.exchange || 'MARKET DATA').toUpperCase().replace(/\s+/g, '');
       const title = (entry.title || '').length > 100
         ? entry.title.slice(0, 97) + '...'

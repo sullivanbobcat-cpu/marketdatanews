@@ -25,7 +25,7 @@ exports.handler = async function () {
   try {
     const today = new Date().toISOString().split('T')[0];
     const dailyCount = (await stateStore.get(`daily-tweet-count-${today}`, { type: 'json' }).catch(() => 0)) || 0;
-    if (dailyCount >= 10) {
+    if (dailyCount >= 12) {
       return { statusCode: 200, body: JSON.stringify({ skipped: 'daily limit' }) };
     }
 
@@ -60,7 +60,7 @@ exports.handler = async function () {
     let currentCount = dailyCount;
 
     for (const entry of newEntries) {
-      if (currentCount >= 10) break;
+      if (currentCount >= 12) break;
       const exchange = entry.exchange || 'Market Data';
       const tag = exchange.toUpperCase().replace(/[^A-Za-z0-9]/g, '').slice(0, 20);
       const title = (entry.title || '').length > 100

@@ -9,6 +9,15 @@ const FACTS = [
 
 exports.handler = async () => {
   try {
+    // Shared daily limit
+    const stateStore = getStore({ name: 'tweet-state', siteID: process.env.NETLIFY_SITE_ID, token: process.env.NETLIFY_TOKEN });
+    const today = new Date().toISOString().split('T')[0];
+    const dailyCount = (await stateStore.get(`daily-tweet-count-${today}`, { type: 'json' }).catch(() => 0)) || 0;
+    if (dailyCount >= 12) {
+      console.log('[daily-tweet] Daily limit reached:', dailyCount);
+      return { statusCode: 200, body: JSON.stringify({ skipped: 'daily limit' }) };
+    }
+
     const client = new TwitterApi({
       appKey: process.env.TWITTER_API_KEY,
       appSecret: process.env.TWITTER_API_SECRET,
@@ -58,6 +67,7 @@ exports.handler = async () => {
     }
 
     const tweet = await client.v2.tweet(message);
+    await stateStore.set(`daily-tweet-count-${today}`, JSON.stringify(dailyCount + 1));
     console.log('[daily-tweet] Posted tweet id:', tweet.data.id);
 
     return { statusCode: 200, body: JSON.stringify({ success: true, id: tweet.data.id, message }) };

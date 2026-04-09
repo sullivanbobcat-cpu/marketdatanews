@@ -1,5 +1,6 @@
 const https = require('https');
 const { TwitterApi } = require('twitter-api-v2');
+const { getStore } = require('@netlify/blobs');
 
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
@@ -51,6 +52,15 @@ function fmtChange(c) {
 
 exports.handler = async () => {
   try {
+    // Shared daily limit
+    const stateStore = getStore({ name: 'tweet-state', siteID: process.env.NETLIFY_SITE_ID, token: process.env.NETLIFY_TOKEN });
+    const today = new Date().toISOString().split('T')[0];
+    const dailyCount = (await stateStore.get(`daily-tweet-count-${today}`, { type: 'json' }).catch(() => 0)) || 0;
+    if (dailyCount >= 12) {
+      console.log('[market-snapshot] Daily limit reached:', dailyCount);
+      return { statusCode: 200, body: JSON.stringify({ skipped: 'daily limit' }) };
+    }
+
     const [sp, yield10, vix, gold, oil] = await Promise.all([
       getQuote('^GSPC'),   // S&P 500
       getQuote('^TNX'),    // 10-Year Treasury yield
@@ -83,6 +93,7 @@ exports.handler = async () => {
     });
 
     const tweet = await client.v2.tweet(message);
+    await stateStore.set(`daily-tweet-count-${today}`, JSON.stringify(dailyCount + 1));
     console.log('[market-snapshot] Tweeted id:', tweet.data.id);
     return { statusCode: 200, body: JSON.stringify({ success: true, id: tweet.data.id, message }) };
   } catch (e) {

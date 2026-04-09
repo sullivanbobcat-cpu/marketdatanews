@@ -53,6 +53,12 @@
 [functions."update-prediction-markets"]
   schedule = "0 12 * * *"
 
+[functions."crypto-pm-tweet"]
+  schedule = "0 13,16,19 * * 1-5"
+
+[functions."weekly-crypto-roundup-tweet"]
+  schedule = "0 14 * * 0"
+
 [functions."search"]
   included_files = []
 
