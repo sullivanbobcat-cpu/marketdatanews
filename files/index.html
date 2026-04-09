@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
 <link rel="alternate icon" href="favicon.ico">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" href="/favicon.png" sizes="180x180">
 <link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#b8860b">
+<meta name="theme-color" content="#0d0d0d">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Market Data News — Market Infrastructure Intelligence</title>
 <meta name="description" content="Real-time market data industry news, exchange notifications, feed changes, regulatory updates, and NMS plan amendments for market data engineers and operations teams.">
@@ -32,26 +33,35 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "NewsMediaOrganization",
+  "@type": "Organization",
   "name": "Market Data News",
-  "url": "https://marketdatanews.com/",
-  "description": "Independent source for market data infrastructure intelligence, exchange feed changes, NMS plan updates, and regulatory news for market data professionals.",
-  "publishingPrinciples": "https://marketdatanews.com/about.html",
-  "masthead": "https://marketdatanews.com/about.html",
-  "coverageArea": {
-    "@type": "Country",
-    "name": "United States"
+  "url": "https://marketdatanews.com",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://marketdatanews.com/favicon.svg",
+    "width": 512,
+    "height": 512
   },
-  "knowsAbout": [
-    "Market Data Feeds",
-    "Exchange Connectivity",
-    "NMS Plans",
-    "SIP Consolidated Tape",
-    "SEC Regulatory Filings",
-    "FINRA Rules",
-    "CFTC Regulations",
-    "Prediction Markets"
-  ]
+  "sameAs": [
+    "https://twitter.com/MDNintelligence"
+  ],
+  "description": "Free intelligence platform for market data professionals. Exchange notices, NMS plans, SIP feeds, fee benchmarks and regulatory deadlines."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Market Data News",
+  "url": "https://marketdatanews.com",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://marketdatanews.com/search-results.html?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
 }
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
