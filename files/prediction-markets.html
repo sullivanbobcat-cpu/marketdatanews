@@ -256,6 +256,65 @@
   @media (max-width: 900px) {
     nav { display: none !important; overflow-x: hidden; }
   }
+
+  /* ── DYNAMIC TRACKER ── */
+  .tracker-loading { padding: 24px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
+  .tracker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+  @media (max-width: 900px) { .tracker-grid { grid-template-columns: 1fr; } }
+  .tracker-card { background: var(--cream); border: 1px solid var(--border); border-top: 3px solid var(--rule); padding: 20px 24px 18px; display: flex; flex-direction: column; gap: 10px; }
+  .tracker-card.sev-CRITICAL { border-top-color: #c0392b; }
+  .tracker-card.sev-HIGH { border-top-color: var(--accent); }
+  .tracker-card.sev-MEDIUM { border-top-color: #5b9bd5; }
+  .tracker-card.sev-LOW { border-top-color: var(--muted); }
+  .tracker-card-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .tracker-badge-date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; }
+  .tracker-badge-type { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; }
+  .type-RULEMAKING { background: #2a1a00; color: var(--accent); }
+  .type-ENFORCEMENT { background: #3a0a0a; color: #e74c3c; }
+  .type-LITIGATION { background: #2a1500; color: #e67e22; }
+  .type-LEGISLATION { background: #0d2b10; color: #27ae60; }
+  .type-INDUSTRY { background: #0d1f3a; color: #5b9bd5; }
+  .tracker-badge-sev { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.08em; padding: 2px 6px; border-radius: 2px; }
+  .sev-badge-CRITICAL { background: #c0392b; color: #fff; }
+  .sev-badge-HIGH { background: #8b6508; color: #fff; }
+  .sev-badge-MEDIUM { background: #555; color: #fff; }
+  .sev-badge-LOW { background: #ccc; color: #333; }
+  .tracker-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .tracker-desc { font-size: 12px; color: var(--muted); line-height: 1.65; }
+  .tracker-source { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent-dark); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  .tracker-source:hover { border-bottom-color: var(--accent-dark); }
+
+  /* ── DYNAMIC FULL TIMELINE ── */
+  .tl-month-group { margin-bottom: 28px; }
+  .tl-month-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin-bottom: 16px; }
+  .tl-dyn-item { display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .tl-dyn-item:last-child { border-bottom: none; }
+  .tl-dyn-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .tl-dyn-dot.sev-CRITICAL { background: #c0392b; }
+  .tl-dyn-dot.sev-HIGH { background: var(--accent); }
+  .tl-dyn-dot.sev-MEDIUM { background: #5b9bd5; }
+  .tl-dyn-dot.sev-LOW { background: var(--muted); }
+  .tl-dyn-body { flex: 1; }
+  .tl-dyn-meta { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; flex-wrap: wrap; }
+  .tl-dyn-date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .tl-dyn-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 3px; line-height: 1.35; }
+  .tl-dyn-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .tl-dyn-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent-dark); text-decoration: none; margin-top: 4px; display: inline-block; }
+
+  /* ── COMMENT PERIOD STATUS ── */
+  .comment-status-banner { display: flex; align-items: flex-start; gap: 14px; padding: 18px 24px; border: 1px solid var(--border); margin-bottom: 32px; }
+  .comment-status-banner.open { background: #0a1f0a; border-color: #1a4a1a; }
+  .comment-status-banner.closed { background: #1a1a1a; border-color: #333; }
+  .comment-dot-wrap { display: flex; align-items: center; padding-top: 2px; flex-shrink: 0; }
+  .comment-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .comment-status-banner.open .comment-dot { background: #27ae60; animation: pulse 2s infinite; }
+  .comment-status-banner.closed .comment-dot { background: #555; }
+  .comment-status-text { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #ccc; line-height: 1.6; }
+  .comment-status-banner.open .comment-status-text { color: #7ecf7e; }
+  .comment-status-label { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .comment-status-banner.open .comment-status-label { color: #5dff5d; }
+  .comment-cta { display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #27ae60; border: 1px solid #27ae60; padding: 6px 14px; text-decoration: none; transition: background 0.15s; }
+  .comment-cta:hover { background: rgba(39,174,96,0.15); }
 </style>
 </head>
 <body>
@@ -410,13 +469,9 @@
     <div class="section-line"></div>
   </div>
 
-  <div class="alert-banner">
-    <div class="alert-banner-dot"></div>
-    <div>
-      <div class="alert-banner-label">Breaking — March 2026</div>
-      <div class="alert-banner-text">CFTC issued Advance Notice of Proposed Rulemaking on March 12, 2026 — public comment period open. Federal prosecutors exploring insider trading jurisdiction over prediction market contracts. Arizona filed first criminal charges against Kalshi for illegal gambling and election wagering.</div>
-    </div>
-  </div>
+  <!-- dynamic tracker cards injected by JS -->
+  <div id="tracker-loading" class="tracker-loading">Loading latest developments…</div>
+  <div id="tracker-cards" class="tracker-grid" style="display:none"></div>
 
   <table class="status-table">
     <thead>
@@ -481,82 +536,33 @@
   <!-- ═══════════════════════════════════════════════ -->
   <div class="section-head">
     <span class="section-num">02 —</span>
-    <h2>CFTC Rulemaking Timeline</h2>
+    <h2>Full Regulatory Timeline</h2>
     <div class="section-line"></div>
   </div>
 
-  <div class="timeline">
-
-    <div class="tl-item">
-      <div class="tl-dot past"></div>
-      <div>
-        <div class="tl-date">January 29, 2026</div>
-        <div class="tl-title">SEC/CFTC Joint Project Crypto Summit</div>
-        <div class="tl-body">CFTC Chair Selig announces four-part regulatory agenda for prediction markets at joint summit with SEC. Framework to address manipulation, insider trading, government official trading restrictions, and contract self-certification standards.</div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-dot past"></div>
-      <div>
-        <div class="tl-date">February 25, 2026</div>
-        <div class="tl-title">CFTC Enforcement Advisory Issued</div>
-        <div class="tl-body">CFTC issues formal enforcement advisory clarifying full enforcement authority over CFTC-registered designated contract markets. Kalshi reports two insider trading cases referred to enforcement. CFTC confirms ability to bring manipulation charges against prediction market participants.</div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-dot recent"></div>
-      <div>
-        <div class="tl-date recent">March 12, 2026</div>
-        <div class="tl-title">CFTC Advance Notice of Proposed Rulemaking</div>
-        <div class="tl-body">CFTC issues ANPRM on event contract regulation. Guidance Advisory 26-08 simultaneously issued to all DCMs establishing standards for manipulation resistance in binary contract markets. Comment period opened for sports contracts, insider trading rules, and restrictions on trading by government officials.</div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-dot recent"></div>
-      <div>
-        <div class="tl-date recent">March 23, 2026</div>
-        <div class="tl-title">5c(c) Capital Fund Launched</div>
-        <div class="tl-body">New venture fund backed by Kalshi CEO Tarek Mansour, Polymarket CEO Shayne Coplan, Marc Andreessen, and Ribbit Capital. Named after CFTC section governing event contracts. Fund targets prediction market infrastructure and adjacent fintech investments.</div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-dot recent"></div>
-      <div>
-        <div class="tl-date recent">March 26, 2026</div>
-        <div class="tl-title">Coinbase Nevada Preliminary Injunction</div>
-        <div class="tl-body">Nevada court issues preliminary injunction against Coinbase prediction market product. Coinbase immediately files preemptive federal lawsuit asserting CFTC registration preempts state gaming law. Case expected to be a bellwether for federal vs. state jurisdiction.</div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-dot recent"></div>
-      <div>
-        <div class="tl-date recent">March 27, 2026</div>
-        <div class="tl-title">Washington AG Files Against Kalshi</div>
-        <div class="tl-body">Washington State Attorney General files action against Kalshi over sports event contracts. Sixth state to take formal action. Kalshi argues federal preemption under CFTC registration. Case joins existing proceedings in New York, Massachusetts, Arizona, and Nevada.</div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-dot open"></div>
-      <div>
-        <div class="tl-date open">Comment Period Open <span class="tl-chip chip-open">Active Now</span></div>
-        <div class="tl-title">CFTC Seeking Public Comment on ANPRM</div>
-        <div class="tl-body">CFTC accepting public comment on: sports event contract standards; insider trading rules for event contracts; restrictions on trading by government officials and their immediate families; and manipulation resistance standards for DCM rule self-certification.</div>
-      </div>
-    </div>
-
-  </div>
+  <!-- dynamic full timeline injected by JS -->
+  <div id="timeline-loading" class="tracker-loading">Loading full timeline…</div>
+  <div id="timeline-full" style="display:none; margin-bottom:32px;"></div>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 3 — MARKET DATA INFRASTRUCTURE IMPLICATIONS -->
+  <!-- SECTION 3 — COMMENT PERIOD STATUS -->
   <!-- ═══════════════════════════════════════════════ -->
   <div class="section-head">
     <span class="section-num">03 —</span>
+    <h2>CFTC Comment Period Status</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- dynamic comment status injected by JS -->
+  <div id="comment-status-container">
+    <div class="tracker-loading">Loading comment period status…</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 4 — MARKET DATA INFRASTRUCTURE IMPLICATIONS -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">04 —</span>
     <h2>Market Data Infrastructure Implications</h2>
     <div class="section-line"></div>
   </div>
@@ -584,10 +590,10 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 4 — STATE LITIGATION MAP -->
+  <!-- SECTION 5 — STATE LITIGATION MAP -->
   <!-- ═══════════════════════════════════════════════ -->
   <div class="section-head">
-    <span class="section-num">04 —</span>
+    <span class="section-num">05 —</span>
     <h2>State Litigation Map</h2>
     <div class="section-line"></div>
   </div>
@@ -635,10 +641,10 @@
   </table>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 5 — QUICK LINKS -->
+  <!-- SECTION 6 — QUICK LINKS -->
   <!-- ═══════════════════════════════════════════════ -->
   <div class="section-head">
-    <span class="section-num">05 —</span>
+    <span class="section-num">06 —</span>
     <h2>Quick Links</h2>
     <div class="section-line"></div>
   </div>
@@ -739,5 +745,150 @@ function toggleMobileNav() {
   <script src="search-global.js"></script>
 <script src="chat-widget.js"></script>
 <script src="feedwatch-bar.js"></script>
+
+<script>
+// ── Prediction Market Dynamic Tracker ─────────────────────────────────────────
+(function () {
+  const TYPE_COLORS = {
+    RULEMAKING: 'type-RULEMAKING',
+    ENFORCEMENT: 'type-ENFORCEMENT',
+    LITIGATION: 'type-LITIGATION',
+    LEGISLATION: 'type-LEGISLATION',
+    INDUSTRY: 'type-INDUSTRY',
+  };
+
+  function fmtDate(d) {
+    if (!d) return '';
+    try {
+      const dt = new Date(d + 'T12:00:00Z');
+      return dt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    } catch (_) { return d; }
+  }
+
+  function escHtml(s) {
+    return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function trackerCardHtml(e) {
+    const sev = (e.severity || 'MEDIUM').toUpperCase();
+    const typ = (e.type || 'INDUSTRY').toUpperCase();
+    const typClass = TYPE_COLORS[typ] || 'type-INDUSTRY';
+    return `<div class="tracker-card sev-${escHtml(sev)}">
+      <div class="tracker-card-meta">
+        <span class="tracker-badge-date">${escHtml(fmtDate(e.date))}</span>
+        <span class="tracker-badge-type ${escHtml(typClass)}">${escHtml(typ)}</span>
+        <span class="tracker-badge-sev sev-badge-${escHtml(sev)}">${escHtml(sev)}</span>
+      </div>
+      <div class="tracker-title">${escHtml(e.title || '')}</div>
+      <div class="tracker-desc">${escHtml(e.description || '')}</div>
+      ${e.source_url ? `<a href="${escHtml(e.source_url)}" class="tracker-source" target="_blank" rel="noopener">View source →</a>` : ''}
+    </div>`;
+  }
+
+  function timelineHtml(entries) {
+    // Group by year-month
+    const groups = {};
+    for (const e of entries) {
+      const ym = (e.date || '0000-00').slice(0, 7);
+      if (!groups[ym]) groups[ym] = [];
+      groups[ym].push(e);
+    }
+    const months = Object.keys(groups).sort().reverse();
+    return months.map(ym => {
+      const label = ym !== '0000-00'
+        ? new Date(ym + '-01T12:00:00Z').toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+        : 'Unknown';
+      const items = groups[ym].map(e => {
+        const sev = (e.severity || 'MEDIUM').toUpperCase();
+        const typ = (e.type || 'INDUSTRY').toUpperCase();
+        const typClass = TYPE_COLORS[typ] || 'type-INDUSTRY';
+        return `<div class="tl-dyn-item">
+          <div class="tl-dyn-dot sev-${escHtml(sev)}"></div>
+          <div class="tl-dyn-body">
+            <div class="tl-dyn-meta">
+              <span class="tl-dyn-date">${escHtml(fmtDate(e.date))}</span>
+              <span class="tracker-badge-type ${escHtml(typClass)}">${escHtml(typ)}</span>
+            </div>
+            <div class="tl-dyn-title">${escHtml(e.title || '')}</div>
+            <div class="tl-dyn-desc">${escHtml(e.description || '')}</div>
+            ${e.source_url ? `<a href="${escHtml(e.source_url)}" class="tl-dyn-link" target="_blank" rel="noopener">Source →</a>` : ''}
+          </div>
+        </div>`;
+      }).join('');
+      return `<div class="tl-month-group"><div class="tl-month-label">${escHtml(label)}</div>${items}</div>`;
+    }).join('');
+  }
+
+  function commentStatusHtml(cs) {
+    if (!cs) return '';
+    const isOpen = cs.open && cs.daysRemaining > 0;
+    const cls = isOpen ? 'open' : 'closed';
+    if (isOpen) {
+      return `<div class="comment-status-banner open">
+        <div class="comment-dot-wrap"><div class="comment-dot"></div></div>
+        <div class="comment-status-text">
+          <div class="comment-status-label">CFTC Comment Period OPEN — ${escHtml(String(cs.daysRemaining))} days remaining</div>
+          Comment period closes ${escHtml(fmtDate(cs.closeDate))}. Public comments accepted on sports event contract standards, insider trading rules for event contracts, restrictions on trading by government officials, and manipulation resistance standards for DCM rule self-certification.
+          <br><a href="https://comments.cftc.gov" class="comment-cta" target="_blank" rel="noopener">Submit your comment →</a>
+        </div>
+      </div>`;
+    } else {
+      return `<div class="comment-status-banner closed">
+        <div class="comment-dot-wrap"><div class="comment-dot"></div></div>
+        <div class="comment-status-text">
+          <div class="comment-status-label">Comment period closed ${escHtml(fmtDate(cs.closeDate))}</div>
+          The CFTC ANPRM public comment period has ended. Monitor CFTC for Notice of Proposed Rulemaking based on received comments.
+        </div>
+      </div>`;
+    }
+  }
+
+  fetch('/.netlify/functions/get-prediction-market-updates')
+    .then(r => r.json())
+    .then(data => {
+      const entries = data.entries || [];
+
+      // Section 01 — tracker cards (5 most recent)
+      const trackerEl = document.getElementById('tracker-cards');
+      const trackerLoad = document.getElementById('tracker-loading');
+      if (trackerEl) {
+        const recent = entries.slice(0, 5);
+        if (recent.length) {
+          trackerEl.innerHTML = recent.map(trackerCardHtml).join('');
+          trackerEl.style.display = 'grid';
+          if (trackerLoad) trackerLoad.style.display = 'none';
+        } else {
+          if (trackerLoad) trackerLoad.textContent = 'No entries available yet.';
+        }
+      }
+
+      // Section 02 — full timeline
+      const tlEl = document.getElementById('timeline-full');
+      const tlLoad = document.getElementById('timeline-loading');
+      if (tlEl) {
+        if (entries.length) {
+          tlEl.innerHTML = timelineHtml(entries);
+          tlEl.style.display = 'block';
+          if (tlLoad) tlLoad.style.display = 'none';
+        } else {
+          if (tlLoad) tlLoad.textContent = 'No timeline entries available yet.';
+        }
+      }
+
+      // Section 03 — comment period status
+      const csEl = document.getElementById('comment-status-container');
+      if (csEl && data.commentStatus) {
+        csEl.innerHTML = commentStatusHtml(data.commentStatus);
+      }
+    })
+    .catch(err => {
+      console.error('[pm-tracker] Fetch error:', err);
+      const trackerLoad = document.getElementById('tracker-loading');
+      if (trackerLoad) trackerLoad.textContent = 'Could not load tracker data.';
+      const tlLoad = document.getElementById('timeline-loading');
+      if (tlLoad) tlLoad.textContent = 'Could not load timeline.';
+    });
+})();
+</script>
 </body>
 </html>

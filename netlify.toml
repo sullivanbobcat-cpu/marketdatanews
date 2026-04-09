@@ -50,6 +50,9 @@
 [functions."prediction-market-pulse-tweet"]
   schedule = "0 12 * * 1-5"
 
+[functions."update-prediction-markets"]
+  schedule = "0 12 * * *"
+
 [functions."search"]
   included_files = []
 
