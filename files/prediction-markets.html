@@ -846,7 +846,7 @@ function toggleMobileNav() {
   fetch('/.netlify/functions/get-prediction-market-updates')
     .then(r => r.json())
     .then(data => {
-      const entries = data.entries || [];
+      const entries = (data.entries || []).slice().sort((a,b) => (b.date||'').localeCompare(a.date||''));
 
       // Section 01 — tracker cards (5 most recent)
       const trackerEl = document.getElementById('tracker-cards');
