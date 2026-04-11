@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="/favicon.png" sizes="180x180">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to Market Data News Pro</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --surface: #ffffff; --border: #e8e0d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: stretch; padding: 0 48px; border-bottom: 1px solid var(--rule); position: relative; flex-wrap: nowrap; overflow: visible; background: var(--cream); }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0 14px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; user-select: none; }
+  a.nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-dropdown { position: relative; display: flex; align-items: stretch; }
+  .nav-dropdown > .nav-item { border-left: none; }
+  .nav-dropdown-menu { display: block; position: absolute; top: 100%; left: 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; min-width: 220px; background: var(--ink); border-top: 2px solid var(--accent); z-index: 1000; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left: auto; right: 0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-drop-item { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #aaa; text-decoration: none; padding: 10px 20px; border-bottom: 1px solid #1e1e1e; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+  .nav-drop-item:last-child { border-bottom: none; }
+  .nav-drop-item:hover { color: var(--accent); background: #111; }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; border-left: 1px solid var(--rule); }
+  .search-wrap { position: relative; display: flex; align-items: center; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 180px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+  .search-drop { position: absolute; top: calc(100% + 4px); right: 0; width: 380px; background: var(--ink); border: 1px solid #333; z-index: 1000; display: none; max-height: 480px; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .search-drop.open { display: block; }
+
+  /* Mobile nav */
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
+  .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  /* ── SUCCESS PAGE ── */
+  .success-wrap { max-width: 680px; margin: 0 auto; padding: 80px 48px; text-align: center; }
+  .success-check { font-size: 72px; color: var(--accent); margin-bottom: 28px; line-height: 1; }
+  .success-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 16px; }
+  .success-h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 900; line-height: 1.15; margin-bottom: 24px; color: var(--ink); }
+  .success-body { font-size: 15px; line-height: 1.8; color: var(--muted); margin-bottom: 36px; max-width: 520px; margin-left: auto; margin-right: auto; }
+  .success-cta { display: inline-block; padding: 16px 32px; background: var(--accent); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; text-decoration: none; border-radius: 2px; transition: background 0.15s; margin-bottom: 48px; }
+  .success-cta:hover { background: var(--accent-dark); color: white; }
+  .success-divider { border: none; border-top: 1px solid var(--border); margin: 0 0 36px; }
+  .success-details { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 24px 28px; text-align: left; }
+  .success-details-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 16px; }
+  .success-detail-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .success-detail-row:last-child { border-bottom: none; }
+  .success-detail-label { color: var(--muted); }
+  .success-detail-val { font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: var(--ink); }
+  .success-loading { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+
+  @media (max-width: 900px) {
+    nav { display: none !important; overflow-x: hidden; } #mobileBar { display: flex !important; }
+    .masthead-top { padding: 16px 20px; flex-direction: column; gap: 10px; text-align: center; }
+    .tagline { text-align: center; }
+    .success-wrap { padding: 48px 20px; }
+    footer { padding: 40px 20px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+  }
+  @media (max-width: 900px) {
+    html, body { overflow-x: hidden; max-width: 100vw; }
+    * { max-width: 100%; box-sizing: border-box; }
+    .mobile-nav { width: 100%; max-width: 100vw; overflow-x: hidden; }
+    nav { display: none !important; overflow-x: hidden; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="index.html" style="text-decoration:none;border-left:1px solid var(--rule);border-right:1px solid var(--rule);padding:0 10px;display:flex;align-items:center;flex-shrink:0;" title="Market Data News">
+      <img src="favicon.svg" alt="MDN" style="height:26px;width:26px;display:block;">
+    </a>
+    <a href="index.html" class="nav-item">All News</a>
+    <div class="nav-dropdown">
+      <span class="nav-item">Markets &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="exchanges.html" class="nav-drop-item">Exchanges</a>
+        <a href="prediction-markets-live.html" class="nav-drop-item">Live Markets</a>
+        <a href="prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="nms.html" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="rule-filings.html" class="nav-drop-item">Rule Filings</a>
+        <a href="rulebook-navigator.html" class="nav-drop-item">Rulebooks</a>
+        <a href="execution-quality.html" class="nav-drop-item">Execution Quality</a>
+        <a href="ai-digest.html" class="nav-drop-item">AI Digest</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Articles &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="articles/cme-globex-notices-2026.html" class="nav-drop-item">CME Globex Notices 2026</a>
+        <a href="articles/finra-slate-guide.html" class="nav-drop-item">FINRA SLATE Guide</a>
+        <a href="articles/index.html" class="nav-drop-item">View All Articles</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Tools &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
+        <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
+        <a href="compensation.html" class="nav-drop-item">Compensation</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Learn &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="learn.html#sip" class="nav-drop-item">How the SIP Works</a>
+        <a href="learn.html#opra" class="nav-drop-item">The OPRA Model</a>
+        <a href="learn.html#futures" class="nav-drop-item">Futures Market Data</a>
+        <a href="learn.html" class="nav-drop-item">View All Lessons</a>
+      </div>
+    </div>
+    <a href="about.html" class="nav-item">About</a>
+    <a href="subscribe.html" class="nav-item">Subscribe</a>
+    <div class="nav-right">
+      <div class="search-wrap" id="searchWrap">
+        <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
+        <div class="search-drop" id="searchDrop"></div>
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">All News</a>
+  <div class="mob-group-label">Markets</div>
+  <a href="exchanges.html">Exchanges</a>
+  <a href="prediction-markets-live.html">Live Markets</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <div class="mob-group-label">Intelligence</div>
+  <a href="calendar.html">FeedWatch Calendar</a>
+  <a href="nms.html">NMS / SIP Plans</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="rule-filings.html">Rule Filings</a>
+  <a href="rulebook-navigator.html">Rulebooks</a>
+  <a href="execution-quality.html">Execution Quality</a>
+  <a href="ai-digest.html">AI Digest</a>
+  <div class="mob-group-label">Articles</div>
+  <a href="articles/cme-globex-notices-2026.html">CME Globex Notices 2026</a>
+  <a href="articles/finra-slate-guide.html">FINRA SLATE Guide</a>
+  <a href="articles/index.html">View All Articles</a>
+  <div class="mob-group-label">Learn</div>
+  <a href="learn.html#sip">How the SIP Works</a>
+  <a href="learn.html#opra">The OPRA Model</a>
+  <a href="learn.html#futures">Futures Market Data</a>
+  <a href="learn.html">View All Lessons</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="market-data-fees.html">Fee Calculator</a>
+  <a href="contract-intelligence.html">Contract Intelligence</a>
+  <a href="compensation.html">Compensation</a>
+  <div class="mob-group-label">About</div>
+  <a href="about.html">About</a>
+  <a href="subscribe.html">Subscribe</a>
+</div>
+
+<!-- Success Content -->
+<div class="success-wrap">
+  <div class="success-check">✓</div>
+  <div class="success-eyebrow">Subscription Confirmed</div>
+  <h1 class="success-h1">Welcome to Market Data News Pro</h1>
+  <p class="success-body">
+    Your subscription is confirmed. You will receive your first AI Daily Digest tomorrow morning at 6am ET.<br><br>
+    Check your email for a receipt from Stripe.
+  </p>
+  <a href="calendar.html" class="success-cta">GO TO FEEDWATCH CALENDAR →</a>
+  <hr class="success-divider">
+  <div class="success-details" id="sessionDetails">
+    <div class="success-details-title">Subscription Details</div>
+    <div class="success-loading" id="detailsLoading">Loading confirmation...</div>
+    <div id="detailsRows" style="display:none">
+      <div class="success-detail-row">
+        <span class="success-detail-label">Plan</span>
+        <span class="success-detail-val" id="detailPlan">Market Data News Pro</span>
+      </div>
+      <div class="success-detail-row">
+        <span class="success-detail-label">Billing</span>
+        <span class="success-detail-val">$149 / month</span>
+      </div>
+      <div class="success-detail-row">
+        <span class="success-detail-label">Email</span>
+        <span class="success-detail-val" id="detailEmail">—</span>
+      </div>
+      <div class="success-detail-row">
+        <span class="success-detail-label">Session ID</span>
+        <span class="success-detail-val" id="detailSession" style="font-size:10px">—</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="exchanges.html">Exchanges</a>
+      <a href="regulation.html">Regulation</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+    </div>
+    <div class="footer-col"><h4>FeedWatch</h4>
+      <a href="calendar.html">All Entries</a>
+      <a href="calendar.html?filter=action">Action Required</a>
+      <a href="calendar.html?filter=critical">Critical Alerts</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="subscribe.html">Subscribe</a>
+      <a href="mailto:hello@marketdatanews.com">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+const _d = new Date();
+const _dn = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const _mn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+document.getElementById('dateLine').textContent = _dn[_d.getDay()] + ', ' + _mn[_d.getMonth()] + ' ' + _d.getDate() + ', ' + _d.getFullYear();
+
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+(function() {
+  var bar = document.getElementById('mobileBar');
+  function check() { if (bar) bar.style.display = window.innerWidth <= 900 ? 'flex' : 'none'; }
+  check();
+  window.addEventListener('resize', check);
+})();
+
+(async function loadSessionDetails() {
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session_id');
+  const loading = document.getElementById('detailsLoading');
+  const rows = document.getElementById('detailsRows');
+
+  if (!sessionId) {
+    loading.textContent = 'No session ID found.';
+    return;
+  }
+
+  document.getElementById('detailSession').textContent = sessionId;
+
+  try {
+    const res = await fetch('/.netlify/functions/get-session?session_id=' + encodeURIComponent(sessionId));
+    if (res.ok) {
+      const data = await res.json();
+      if (data.email) document.getElementById('detailEmail').textContent = data.email;
+      if (data.plan) document.getElementById('detailPlan').textContent = data.plan;
+    }
+  } catch(e) {
+    // Session details are supplemental — fail silently
+  }
+
+  loading.style.display = 'none';
+  rows.style.display = 'block';
+})();
+</script>
+<script src="search-global.js"></script>
+<script src="chat-widget.js"></script>
+</body>
+</html>

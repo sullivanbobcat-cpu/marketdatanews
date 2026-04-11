@@ -9,17 +9,17 @@
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#0d0d0d">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Professional Waitlist — Market Data News</title>
-<meta name="description" content="Join the waitlist for Market Data News Professional. Early access, founding member pricing, and input into what we build next.">
+<title>Subscribe to Market Data News Pro | $149/month</title>
+<meta name="description" content="Market Data News Professional — $149/month. FeedWatch deadline alerts, AI daily digest, weekly regulatory roundup, and fee change notifications.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Market Data News">
 <link rel="canonical" href="https://marketdatanews.com/subscribe">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://marketdatanews.com/subscribe">
-<meta property="og:title" content="Subscribe | Market Data News">
-<meta property="og:description" content="Join the Market Data News professional waitlist — early access, founding member pricing, and priority alerts.">
+<meta property="og:title" content="Subscribe to Market Data News Pro | $149/month">
+<meta property="og:description" content="The intelligence platform for market data professionals — automated alerts, daily digests, and priority reporting.">
 <meta property="og:site_name" content="Market Data News">
-  <meta property="og:image" content="https://marketdatanews.com/og-image.png">
+<meta property="og:image" content="https://marketdatanews.com/og-image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -117,61 +117,71 @@
   .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
 
   /* ── HERO ── */
-  .wl-hero { background: var(--ink); color: white; padding: 72px 48px 64px; border-bottom: 3px solid var(--accent); }
-  .wl-hero-inner { max-width: 760px; margin: 0 auto; text-align: center; }
-  .wl-hero-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 20px; }
-  .wl-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4.5vw, 50px); font-weight: 900; line-height: 1.15; margin-bottom: 18px; }
-  .wl-hero-sub { font-size: 15px; line-height: 1.8; color: #aaa; max-width: 620px; margin: 0 auto; }
+  .sub-hero { background: var(--ink); color: white; padding: 64px 48px 56px; border-bottom: 3px solid var(--accent); }
+  .sub-hero-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+  .sub-hero-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 18px; }
+  .sub-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4.5vw, 52px); font-weight: 900; line-height: 1.1; margin-bottom: 12px; }
+  .sub-hero-price { font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 600; color: var(--accent); margin-bottom: 20px; letter-spacing: -0.02em; }
+  .sub-hero-price span { font-size: 14px; color: #888; font-weight: 400; }
+  .sub-hero-sub { font-size: 15px; line-height: 1.8; color: #aaa; max-width: 620px; margin: 0 auto; }
 
-  /* ── FORM ── */
-  .wl-form-section { max-width: 560px; margin: 0 auto; padding: 56px 48px; }
-  .wl-form { display: flex; flex-direction: column; gap: 12px; }
-  .wl-input { padding: 13px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; border: 1px solid var(--border); color: var(--ink); background: var(--surface); outline: none; border-radius: 2px; width: 100%; transition: border-color 0.15s; }
-  .wl-input:focus { border-color: var(--accent); }
-  .wl-input::placeholder { color: var(--muted); }
-  .wl-select { padding: 13px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; border: 1px solid var(--border); color: var(--muted); background: var(--surface); outline: none; border-radius: 2px; width: 100%; cursor: pointer; transition: border-color 0.15s; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
-  .wl-select:focus { border-color: var(--accent); }
-  .wl-select.selected { color: var(--ink); }
-  .wl-btn { padding: 15px 24px; font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; border: none; color: var(--ink); background: var(--accent); transition: background 0.15s; cursor: pointer; border-radius: 2px; width: 100%; margin-top: 4px; }
-  .wl-btn:hover { background: var(--accent-dark); color: white; }
-  .wl-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .wl-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: center; line-height: 1.6; margin-top: 4px; }
-  .wl-success { text-align: center; padding: 32px 20px; }
-  .wl-success-text { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
-  .wl-success-sub { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
-  .wl-error { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--red); margin-top: 4px; }
+  /* ── TWO COLUMN LAYOUT ── */
+  .sub-body { max-width: 1200px; margin: 0 auto; padding: 64px 48px; display: grid; grid-template-columns: 1fr 400px; gap: 64px; align-items: start; }
 
-  /* ── DIVIDER ── */
-  .wl-divider { border: none; border-top: 2px solid var(--ink); max-width: 1280px; margin: 0 auto; }
+  /* ── FEATURES COLUMN ── */
+  .sub-section-label { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink); padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 32px; }
+  .sub-feature { display: flex; gap: 16px; padding: 22px 0; border-bottom: 1px solid var(--border); }
+  .sub-feature:last-child { border-bottom: none; }
+  .sub-feature-icon { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .sub-feature-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+  .sub-feature-desc { font-size: 13px; line-height: 1.7; color: var(--muted); }
 
-  /* ── WHAT'S COMING ── */
-  .wl-coming { background: var(--surface); padding: 56px 48px; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
-  .wl-coming-inner { max-width: 640px; margin: 0 auto; }
-  .wl-section-label { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink); padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 28px; }
-  .wl-feature-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
-  .wl-feature-list li { font-size: 14px; line-height: 1.6; color: var(--ink); padding: 13px 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 14px; }
-  .wl-feature-list li:last-child { border-bottom: none; }
-  .wl-check { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); font-weight: 600; flex-shrink: 0; margin-top: 2px; }
+  /* ── SUBSCRIBE BOX ── */
+  .sub-card { background: var(--surface); border: 2px solid var(--ink); padding: 36px 32px; position: sticky; top: 32px; }
+  .sub-card-price { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 900; color: var(--ink); line-height: 1; margin-bottom: 4px; }
+  .sub-card-price span { font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; font-weight: 400; color: var(--muted); }
+  .sub-card-tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 28px; margin-top: 4px; }
+  .sub-card-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 24px; }
+  .sub-card-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 6px; }
+  .sub-input { padding: 13px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; border: 1px solid var(--border); color: var(--ink); background: var(--paper); outline: none; border-radius: 2px; width: 100%; transition: border-color 0.15s; margin-bottom: 16px; }
+  .sub-input:focus { border-color: var(--accent); }
+  .sub-input::placeholder { color: var(--muted); }
+  .sub-btn { padding: 16px 24px; font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; border: none; color: var(--ink); background: var(--accent); transition: background 0.15s; cursor: pointer; border-radius: 2px; width: 100%; margin-bottom: 16px; }
+  .sub-btn:hover:not(:disabled) { background: var(--accent-dark); color: white; }
+  .sub-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+  .sub-secure { display: flex; align-items: center; justify-content: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #888; margin-bottom: 12px; }
+  .sub-secure-icon { font-size: 12px; }
+  .sub-fine { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: center; line-height: 1.7; }
+  .sub-fine a { color: var(--accent-dark); text-decoration: none; }
+  .sub-fine a:hover { text-decoration: underline; }
+  .sub-card-features { list-style: none; margin-bottom: 24px; }
+  .sub-card-features li { font-size: 12px; color: var(--muted); padding: 5px 0; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+  .sub-card-check { color: var(--accent); font-weight: 700; flex-shrink: 0; }
 
-  /* ── FREE TOOLS GRID ── */
-  .wl-free { padding: 56px 48px; max-width: 1280px; margin: 0 auto; }
-  .wl-free-header { margin-bottom: 8px; }
-  .wl-free-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; line-height: 1.6; }
-  .wl-tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .wl-tool-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 22px 24px; text-decoration: none; color: inherit; display: block; transition: border-color 0.15s, box-shadow 0.15s; }
-  .wl-tool-card:hover { border-color: var(--accent); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-  .wl-tool-name { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 5px; }
-  .wl-tool-card:hover .wl-tool-name { color: var(--accent-dark); }
-  .wl-tool-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
-  .wl-tool-link { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent-dark); }
+  /* ── COMPARISON TABLE ── */
+  .sub-compare { background: var(--surface); border-top: 3px solid var(--ink); border-bottom: 3px solid var(--ink); padding: 56px 48px; }
+  .sub-compare-inner { max-width: 860px; margin: 0 auto; }
+  .sub-compare-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--ink); margin-bottom: 32px; }
+  .compare-table { width: 100%; border-collapse: collapse; }
+  .compare-table th { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 12px 16px; text-align: left; border-bottom: 2px solid var(--ink); }
+  .compare-table th:not(:first-child) { text-align: center; width: 120px; }
+  .compare-table th.col-pro { color: var(--accent); }
+  .compare-table td { font-size: 13px; padding: 13px 16px; border-bottom: 1px solid var(--border); color: var(--ink); }
+  .compare-table td:not(:first-child) { text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 16px; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table td.yes { color: #00aa44; font-weight: 700; }
+  .compare-table td.no { color: var(--muted); font-size: 20px; }
+  .compare-table td.pro-yes { color: var(--accent); font-weight: 700; }
+  .compare-table tr:hover td { background: var(--paper); }
 
+  @media (max-width: 960px) {
+    .sub-body { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; }
+    .sub-card { position: static; }
+  }
   @media (max-width: 900px) {
     nav { display: none !important; overflow-x: hidden; } #mobileBar { display: flex !important; }
-    .wl-hero { padding: 48px 20px; }
-    .wl-form-section { padding: 40px 20px; }
-    .wl-coming { padding: 40px 20px; }
-    .wl-free { padding: 40px 20px; }
-    .wl-tools-grid { grid-template-columns: 1fr 1fr; }
+    .sub-hero { padding: 48px 20px; }
+    .sub-compare { padding: 40px 20px; }
     .masthead-top { padding: 16px 20px; flex-direction: column; gap: 10px; text-align: center; }
     .tagline { text-align: center; }
     .fw-alertbar { padding: 0 20px; }
@@ -180,18 +190,14 @@
     .footer-grid { grid-template-columns: 1fr 1fr; }
     .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
   }
-  @media (max-width: 600px) {
-    .wl-tools-grid { grid-template-columns: 1fr; }
-  }
-@media (max-width: 900px) {
-  html, body { overflow-x: hidden; max-width: 100vw; }
-  * { max-width: 100%; box-sizing: border-box; }
-  .mobile-nav { width: 100%; max-width: 100vw; overflow-x: hidden; }
-}
-
-/* nav-mobile-hide */
   @media (max-width: 900px) {
+    html, body { overflow-x: hidden; max-width: 100vw; }
+    * { max-width: 100%; box-sizing: border-box; }
+    .mobile-nav { width: 100%; max-width: 100vw; overflow-x: hidden; }
     nav { display: none !important; overflow-x: hidden; }
+  }
+  @media (max-width: 640px) {
+    .compare-table th:nth-child(2), .compare-table td:nth-child(2) { display: none; }
   }
 </style>
 <script type="application/ld+json">
@@ -206,10 +212,8 @@
     "width": 512,
     "height": 512
   },
-  "sameAs": [
-    "https://twitter.com/MDNintelligence"
-  ],
-  "description": "Free intelligence platform for market data professionals. Exchange notices, NMS plans, SIP feeds, fee benchmarks and regulatory deadlines."
+  "sameAs": ["https://twitter.com/MDNintelligence"],
+  "description": "Free intelligence platform for market data professionals."
 }
 </script>
 </head>
@@ -292,7 +296,7 @@
         <a href="articles/index.html" class="nav-drop-item">View All Articles</a>
       </div>
     </div>
-<div class="nav-dropdown">
+    <div class="nav-dropdown">
       <span class="nav-item">Tools &#9662;</span>
       <div class="nav-dropdown-menu nav-dropdown-right">
         <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
@@ -300,7 +304,7 @@
         <a href="compensation.html" class="nav-drop-item">Compensation</a>
       </div>
     </div>
-        <div class="nav-dropdown">
+    <div class="nav-dropdown">
       <span class="nav-item">Learn &#9662;</span>
       <div class="nav-dropdown-menu">
         <a href="learn.html#sip" class="nav-drop-item">How the SIP Works</a>
@@ -357,101 +361,128 @@
 </div>
 
 <!-- Hero -->
-<div class="wl-hero">
-  <div class="wl-hero-inner">
-    <div class="wl-hero-eyebrow">Coming Soon</div>
+<div class="sub-hero">
+  <div class="sub-hero-inner">
+    <div class="sub-hero-eyebrow">Now Available</div>
     <h1>Market Data News Professional</h1>
-    <p class="wl-hero-sub">Be the first to know when Professional access launches. Waitlist members get early access, founding member pricing, and input into what we build next.</p>
+    <div class="sub-hero-price">$149 <span>/ month</span></div>
+    <p class="sub-hero-sub">The intelligence platform for market data professionals — now with automated alerts, daily digests, and priority reporting.</p>
   </div>
 </div>
 
-<!-- Waitlist Form -->
-<div class="wl-form-section">
-  <div id="wlFormWrap">
-    <form class="wl-form" id="wlForm" onsubmit="joinWaitlist(event)">
-      <input class="wl-input" type="email" id="wlEmail" placeholder="your@firm.com" autocomplete="email" required>
-      <select class="wl-select" id="wlRole" onchange="this.classList.add('selected')">
-        <option value="">Your role (optional)</option>
-        <option value="Market Data Engineer">Market Data Engineer</option>
-        <option value="Market Data Manager">Market Data Manager</option>
-        <option value="Feed Handler Developer">Feed Handler Developer</option>
-        <option value="Compliance / Regulatory">Compliance / Regulatory</option>
-        <option value="VP / Director Market Data">VP / Director Market Data</option>
-        <option value="Other">Other</option>
-      </select>
-      <select class="wl-select" id="wlFirm" onchange="this.classList.add('selected')">
-        <option value="">Your firm type (optional)</option>
-        <option value="Tier 1 Bank">Tier 1 Bank</option>
-        <option value="Regional Bank">Regional Bank</option>
-        <option value="Hedge Fund / HFT">Hedge Fund / HFT</option>
-        <option value="Asset Manager">Asset Manager</option>
-        <option value="Exchange / Venue">Exchange / Venue</option>
-        <option value="Data Vendor">Data Vendor</option>
-        <option value="Commodities Firm">Commodities Firm</option>
-        <option value="Other">Other</option>
-      </select>
-      <div class="wl-error" id="wlError" style="display:none"></div>
-      <button class="wl-btn" type="submit" id="wlBtn">Join the Waitlist</button>
-      <p class="wl-note">No spam. No commitment. We will reach out personally when Professional access is ready.</p>
-    </form>
+<!-- Two Column Body -->
+<div class="sub-body">
+
+  <!-- Left: Features -->
+  <div>
+    <div class="sub-section-label">What You Get</div>
+
+    <div class="sub-feature">
+      <div class="sub-feature-icon">✓</div>
+      <div>
+        <div class="sub-feature-title">FeedWatch Deadline Alerts</div>
+        <div class="sub-feature-desc">Receive email alerts when CRITICAL or HIGH severity deadlines are within 30, 14, 7, and 1 day. Never miss a CME or NYSE connectivity deadline again.</div>
+      </div>
+    </div>
+
+    <div class="sub-feature">
+      <div class="sub-feature-icon">✓</div>
+      <div>
+        <div class="sub-feature-title">AI Daily Digest — Delivered to Your Inbox</div>
+        <div class="sub-feature-desc">Every morning at 6am ET — a curated summary of market data developments, regulatory filings, and FeedWatch alerts. Formatted for busy professionals.</div>
+      </div>
+    </div>
+
+    <div class="sub-feature">
+      <div class="sub-feature-icon">✓</div>
+      <div>
+        <div class="sub-feature-title">Weekly Regulatory Roundup</div>
+        <div class="sub-feature-desc">Every Monday morning — the week ahead in market data infrastructure. Upcoming deadlines, new rule filings, fee changes, and what to watch.</div>
+      </div>
+    </div>
+
+    <div class="sub-feature">
+      <div class="sub-feature-icon">✓</div>
+      <div>
+        <div class="sub-feature-title">Instant Fee Schedule Alerts</div>
+        <div class="sub-feature-desc">When NYSE, Nasdaq, or Cboe change their market data fees — you know the same day. No more discovering fee changes during contract renewals.</div>
+      </div>
+    </div>
+
+    <div class="sub-feature">
+      <div class="sub-feature-icon">✓</div>
+      <div>
+        <div class="sub-feature-title">CFO-Ready Cost Reports</div>
+        <div class="sub-feature-desc">Generate professional market data cost analysis reports from the Contract Intelligence tool. PDF export included.</div>
+      </div>
+    </div>
+
+    <div class="sub-feature">
+      <div class="sub-feature-icon">✓</div>
+      <div>
+        <div class="sub-feature-title">Everything Free — Forever</div>
+        <div class="sub-feature-desc">All current free features remain free. Pro adds the workflow automation layer on top.</div>
+      </div>
+    </div>
   </div>
-  <div class="wl-success" id="wlSuccess" style="display:none">
-    <div class="wl-success-text">You are on the list.</div>
-    <div class="wl-success-sub">We will be in touch.</div>
+
+  <!-- Right: Subscribe Card -->
+  <div>
+    <div class="sub-card">
+      <div class="sub-card-price">$149 <span>/ month</span></div>
+      <div class="sub-card-tagline">Cancel anytime — no contracts</div>
+      <ul class="sub-card-features">
+        <li><span class="sub-card-check">✓</span> FeedWatch deadline alerts (30/14/7/1 day)</li>
+        <li><span class="sub-card-check">✓</span> AI Daily Digest at 6am ET</li>
+        <li><span class="sub-card-check">✓</span> Weekly Regulatory Roundup (Monday)</li>
+        <li><span class="sub-card-check">✓</span> Instant fee change notifications</li>
+        <li><span class="sub-card-check">✓</span> CFO-ready cost reports + PDF export</li>
+        <li><span class="sub-card-check">✓</span> All free tools included</li>
+      </ul>
+      <hr class="sub-card-divider">
+      <div class="sub-card-label">Your work email</div>
+      <input class="sub-input" type="email" id="email" placeholder="your@firm.com" autocomplete="email">
+      <button class="sub-btn" id="checkout-btn" onclick="startCheckout()">START SUBSCRIPTION →</button>
+      <div class="sub-secure">
+        <span class="sub-secure-icon">🔒</span>
+        <span>Secured by Stripe</span>
+      </div>
+      <div class="sub-fine">
+        Cancel anytime. No contracts. Billed monthly.<br>
+        Questions? <a href="mailto:hello@marketdatanews.com">hello@marketdatanews.com</a>
+      </div>
+    </div>
   </div>
+
 </div>
 
-<!-- What's Coming -->
-<div class="wl-coming">
-  <div class="wl-coming-inner">
-    <div class="wl-section-label">What Professional Will Include</div>
-    <ul class="wl-feature-list">
-      <li><span class="wl-check">→</span>FeedWatch deadline alerts delivered to your inbox</li>
-      <li><span class="wl-check">→</span>AI daily digest of market data infrastructure developments</li>
-      <li><span class="wl-check">→</span>Instant notifications when exchange fee schedules change</li>
-      <li><span class="wl-check">→</span>Full regulatory roundup every Monday morning</li>
-      <li><span class="wl-check">→</span>CFO-ready market data cost reports</li>
-      <li><span class="wl-check">→</span>Priority access to new tools and features</li>
-      <li><span class="wl-check">→</span>Direct line to request coverage of specific exchanges or topics</li>
-    </ul>
-  </div>
-</div>
-
-<!-- Free Tools -->
-<div class="wl-free">
-  <div class="wl-section-label wl-free-header">Everything Free Today</div>
-  <p class="wl-free-sub">While Professional is in development, everything on the site is free.</p>
-  <div class="wl-tools-grid">
-    <a href="calendar.html" class="wl-tool-card">
-      <div class="wl-tool-name">FeedWatch Calendar</div>
-      <div class="wl-tool-desc">Deadlines, infrastructure changes, and action items for market data engineers — tracked in one place.</div>
-      <div class="wl-tool-link">calendar.html →</div>
-    </a>
-    <a href="nms.html" class="wl-tool-card">
-      <div class="wl-tool-name">NMS Plan Tracker</div>
-      <div class="wl-tool-desc">Amendment timeline and status for all NMS plans — CTA, UTP, OPRA, CAT, LULD, and Rule 605.</div>
-      <div class="wl-tool-link">nms.html →</div>
-    </a>
-    <a href="market-data-fees.html" class="wl-tool-card">
-      <div class="wl-tool-name">Fee Calculator</div>
-      <div class="wl-tool-desc">Model your market data costs across exchanges with current fee schedules and access tier breakdowns.</div>
-      <div class="wl-tool-link">market-data-fees.html →</div>
-    </a>
-    <a href="contract-intelligence.html" class="wl-tool-card">
-      <div class="wl-tool-name">Contract Intelligence</div>
-      <div class="wl-tool-desc">Analyze market data agreements, flag unusual clauses, and benchmark contract terms against industry standards.</div>
-      <div class="wl-tool-link">contract-intelligence.html →</div>
-    </a>
-    <a href="feed-status.html" class="wl-tool-card">
-      <div class="wl-tool-name">Feed Status Dashboard</div>
-      <div class="wl-tool-desc">Live operational status for 33 market data feeds across equities, options, futures, and fixed income.</div>
-      <div class="wl-tool-link">feed-status.html →</div>
-    </a>
-    <a href="compensation.html" class="wl-tool-card">
-      <div class="wl-tool-name">Compensation Benchmarks</div>
-      <div class="wl-tool-desc">Salary ranges for market data roles by level, location, and firm type — sourced from industry data.</div>
-      <div class="wl-tool-link">compensation.html →</div>
-    </a>
+<!-- Comparison Table -->
+<div class="sub-compare">
+  <div class="sub-compare-inner">
+    <div class="sub-compare-title">Free vs Pro</div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Free</th>
+          <th class="col-pro">Pro — $149/mo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>FeedWatch Calendar</td><td class="yes">✓</td><td class="pro-yes">✓</td></tr>
+        <tr><td>NMS Plan Tracker</td><td class="yes">✓</td><td class="pro-yes">✓</td></tr>
+        <tr><td>Feed Status Dashboard</td><td class="yes">✓</td><td class="pro-yes">✓</td></tr>
+        <tr><td>Rule Filing Tracker</td><td class="yes">✓</td><td class="pro-yes">✓</td></tr>
+        <tr><td>Fee Calculator</td><td class="yes">✓</td><td class="pro-yes">✓</td></tr>
+        <tr><td>Compensation Benchmarks</td><td class="yes">✓</td><td class="pro-yes">✓</td></tr>
+        <tr><td>Learn Section</td><td class="yes">✓</td><td class="pro-yes">✓</td></tr>
+        <tr><td>FeedWatch Email Alerts</td><td class="no">—</td><td class="pro-yes">✓</td></tr>
+        <tr><td>AI Daily Digest (email)</td><td class="no">—</td><td class="pro-yes">✓</td></tr>
+        <tr><td>Weekly Regulatory Roundup</td><td class="no">—</td><td class="pro-yes">✓</td></tr>
+        <tr><td>Fee Change Notifications</td><td class="no">—</td><td class="pro-yes">✓</td></tr>
+        <tr><td>CFO Cost Reports</td><td class="no">—</td><td class="pro-yes">✓</td></tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
@@ -477,9 +508,7 @@
     <div class="footer-col"><h4>Company</h4>
       <a href="about.html">About</a>
       <a href="subscribe.html">Subscribe</a>
-      <a href="mailto:contact@marketdatanews.com">Contact</a>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Use</a>
+      <a href="mailto:hello@marketdatanews.com">Contact</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -504,45 +533,30 @@ function toggleMobileNav() {
   window.addEventListener('resize', check);
 })();
 
-async function joinWaitlist(e) {
-  e.preventDefault();
-  var email = document.getElementById('wlEmail').value.trim();
-  var role = document.getElementById('wlRole').value;
-  var firm = document.getElementById('wlFirm').value;
-  var errEl = document.getElementById('wlError');
-  var btn = document.getElementById('wlBtn');
-
-  errEl.style.display = 'none';
-  if (!email || !email.includes('@')) {
-    errEl.textContent = 'Please enter a valid email address.';
-    errEl.style.display = 'block';
-    return;
-  }
-
+async function startCheckout() {
+  const email = document.getElementById('email').value;
+  const btn = document.getElementById('checkout-btn');
+  btn.textContent = 'Loading...';
   btn.disabled = true;
-  btn.textContent = 'Joining...';
 
   try {
-    var res = await fetch('/.netlify/functions/waitlist', {
+    const res = await fetch('/.netlify/functions/create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, role: role, firm_type: firm })
+      body: JSON.stringify({ email })
     });
-    if (res.ok) {
-      document.getElementById('wlFormWrap').style.display = 'none';
-      document.getElementById('wlSuccess').style.display = 'block';
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
     } else {
-      var data = await res.json();
-      errEl.textContent = data.error || 'Something went wrong. Please try again.';
-      errEl.style.display = 'block';
+      alert('Error: ' + (data.error || 'Please try again'));
+      btn.textContent = 'START SUBSCRIPTION →';
       btn.disabled = false;
-      btn.textContent = 'Join the Waitlist';
     }
-  } catch (err) {
-    errEl.textContent = 'Network error — please try again.';
-    errEl.style.display = 'block';
+  } catch(e) {
+    alert('Error connecting to payment processor. Please try again.');
+    btn.textContent = 'START SUBSCRIPTION →';
     btn.disabled = false;
-    btn.textContent = 'Join the Waitlist';
   }
 }
 </script>

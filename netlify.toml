@@ -62,6 +62,9 @@
 [functions."search"]
   included_files = []
 
+[functions."stripe-webhook"]
+  included_files = ["node_modules/stripe/**"]
+
 [[headers]]
   for = '/favicon.*'
   [headers.values]
