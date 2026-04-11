@@ -73,9 +73,13 @@ function markdownToHtml(md) {
 
 exports.handler = async function (event) {
   const forceRefresh = event?.queryStringParameters?.refresh === 'true';
-  const today = new Date().toISOString().split('T')[0];
-  const todayLabel = new Date().toLocaleDateString('en-US', {
+  const now = new Date();
+  const etDate = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+  const pad = (n) => String(n).padStart(2, '0');
+  const today = `${etDate.getFullYear()}-${pad(etDate.getMonth()+1)}-${pad(etDate.getDate())}`;
+  const todayLabel = etDate.toLocaleDateString('en-US', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    timeZone: 'America/New_York',
   });
 
   const store = getStore({

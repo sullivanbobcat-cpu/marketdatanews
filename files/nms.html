@@ -987,14 +987,15 @@ function drawAmendmentTimeline() {
     .attr('stroke-width', 1.5)
     .attr('opacity', function(d) { return d.completed ? 0.4 : 1; })
     .attr('cursor','pointer')
-    .on('mouseenter', function(event, d) {
-      d3.select(this).raise();
-      allDots.transition().duration(80)
-        .attr('opacity', function(o) { return o===d ? 1 : (o.completed ? 0.08 : 0.15); });
-      d3.select(this).transition().duration(80)
-        .attr('r', (SEV_R[d.sev]||4)*1.4);
-      tooltip.style('opacity',1)
-        .style('left',(event.clientX+16)+'px').style('top',(event.clientY-8)+'px')
+    .on('mousemove', function(event, d) {
+      d3.select(this)
+        .attr('stroke', '#b8860b')
+        .attr('stroke-width', 3);
+      tooltip
+        .style('pointer-events', 'none')
+        .style('opacity', 1)
+        .style('left', (event.pageX + 15) + 'px')
+        .style('top', (event.pageY - 30) + 'px')
         .html('<div style="font-weight:600;margin-bottom:4px;color:#b8860b;font-family:IBM Plex Mono,monospace;font-size:11px">' + d.ref + '</div>' +
               '<div style="font-weight:600;margin-bottom:4px">' + d.title + '</div>' +
               '<div style="color:#999;font-size:11px;margin-bottom:5px">' +
@@ -1003,14 +1004,11 @@ function drawAmendmentTimeline() {
               '<div style="font-size:11px;color:#bbb">' +
               d.desc.substring(0,130) + (d.desc.length>130?'\u2026':'') + '</div>');
     })
-    .on('mousemove', function(event) {
-      tooltip.style('left',(event.clientX+16)+'px').style('top',(event.clientY-8)+'px');
-    })
     .on('mouseleave', function(event, d) {
-      allDots.transition().duration(80)
-        .attr('opacity', function(o) { return o.completed ? 0.4 : 1; });
-      d3.select(this).transition().duration(80).attr('r', SEV_R[d.sev]||4);
-      tooltip.style('opacity',0);
+      d3.select(this)
+        .attr('stroke', d.completed ? '#aaa' : '#fff')
+        .attr('stroke-width', 1.5);
+      tooltip.style('opacity', 0);
     })
     .on('click', function(event, d) {
       var tableHead = document.querySelector('.updates-table-wrap');
