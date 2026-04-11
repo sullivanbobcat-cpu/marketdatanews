@@ -828,7 +828,19 @@ function showPlan(plan) {
 showPlan('all');
 
 // ── AMENDMENT TIMELINE ────────────────────────────────────────────────────
-window.addEventListener('load', function() { drawAmendmentTimeline(); });
+var _amendResizeTO;
+var _amendObserver;
+window.addEventListener('load', function() {
+  drawAmendmentTimeline();
+  var container = document.getElementById('amendTimeline');
+  if (container && !_amendObserver) {
+    _amendObserver = new ResizeObserver(function() {
+      clearTimeout(_amendResizeTO);
+      _amendResizeTO = setTimeout(drawAmendmentTimeline, 180);
+    });
+    _amendObserver.observe(container);
+  }
+});
 
 function drawAmendmentTimeline() {
   var container = document.getElementById('amendTimeline');
@@ -1059,12 +1071,6 @@ function drawAmendmentTimeline() {
       '<span style="'+statStyle+'"><strong style="color:#6b6555;font-size:12px">'+done+'</strong> Completed</span>';
   }
 
-  // Resize handler
-  var resizeTO;
-  new ResizeObserver(function() {
-    clearTimeout(resizeTO);
-    resizeTO = setTimeout(drawAmendmentTimeline, 120);
-  }).observe(container);
 }
 
 // Handle direct link to rule605 via alert banner
