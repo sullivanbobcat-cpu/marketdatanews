@@ -975,12 +975,14 @@ function drawAmendmentTimeline() {
     .attr('stroke-width', 1.5)
     .attr('opacity', function(d) { return d.completed ? 0.4 : 1; })
     .attr('cursor','pointer')
-    .on('mouseover', function(event, d) {
+    .on('mouseenter', function(event, d) {
+      d3.select(this).raise();
       allDots.transition().duration(80)
         .attr('opacity', function(o) { return o===d ? 1 : (o.completed ? 0.08 : 0.15); });
-      d3.select(this).raise().transition().duration(80)
+      d3.select(this).transition().duration(80)
         .attr('r', (SEV_R[d.sev]||4)*1.4);
       tooltip.style('opacity',1)
+        .style('left',(event.clientX+16)+'px').style('top',(event.clientY-8)+'px')
         .html('<div style="font-weight:600;margin-bottom:4px;color:#b8860b;font-family:IBM Plex Mono,monospace;font-size:11px">' + d.ref + '</div>' +
               '<div style="font-weight:600;margin-bottom:4px">' + d.title + '</div>' +
               '<div style="color:#999;font-size:11px;margin-bottom:5px">' +
@@ -992,7 +994,7 @@ function drawAmendmentTimeline() {
     .on('mousemove', function(event) {
       tooltip.style('left',(event.clientX+16)+'px').style('top',(event.clientY-8)+'px');
     })
-    .on('mouseout', function(event, d) {
+    .on('mouseleave', function(event, d) {
       allDots.transition().duration(80)
         .attr('opacity', function(o) { return o.completed ? 0.4 : 1; });
       d3.select(this).transition().duration(80).attr('r', SEV_R[d.sev]||4);
