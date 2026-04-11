@@ -59,9 +59,6 @@
   .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0 14px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; user-select: none; }
   a.nav-item:first-child { border-left: 1px solid var(--rule); }
   .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
-  a.nav-subscribe { background: var(--accent); color: var(--ink) !important; border-right: 1px solid var(--rule); }
-  a.nav-subscribe:hover { background: var(--accent-dark) !important; color: white !important; }
-  a.nav-subscribe.active { background: var(--accent-dark) !important; color: white !important; }
   .nav-dropdown { position: relative; display: flex; align-items: stretch; }
   .nav-dropdown > .nav-item { border-left: none; }
   .nav-dropdown-menu { display: block; position: absolute; top: 100%; left: 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; min-width: 220px; background: var(--ink); border-top: 2px solid var(--accent); z-index: 1000; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
@@ -344,7 +341,7 @@
       </div>
     </div>
     <a href="../about.html" class="nav-item">About</a>
-    <a href="../subscribe.html" class="nav-item nav-subscribe">Subscribe</a>
+    <a href="../subscribe.html" class="nav-item">Subscribe</a>
     <div class="nav-right">
       <div class="search-wrap" id="searchWrap">
         <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
