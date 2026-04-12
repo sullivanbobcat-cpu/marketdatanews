@@ -78,7 +78,6 @@ exports.handler = async () => {
       `Oil: $${fmt(oil.price)}`,
       '',
       'marketdatanews.com',
-      '#MarketData #Markets',
     ].join('\n');
 
     if (message.length > 280) {
