@@ -65,6 +65,36 @@
 [functions."stripe-webhook"]
   included_files = ["node_modules/stripe/**"]
 
+[functions."fed-policy-tweet"]
+  schedule = "0 14,18 * * 1-5"
+
+[functions."prediction-markets-legislation-tweet"]
+  schedule = "0 15 * * 1-5"
+
+[functions."oil-markets-tweet"]
+  schedule = "0 14 * * 1-5"
+
+[functions."economic-data-tweet"]
+  schedule = "*/15 12-16 * * 1-5"
+
+[functions."cme-volume-tweet"]
+  schedule = "0 22 * * 1-5"
+
+[functions."cot-report-tweet"]
+  schedule = "0 21 * * 5"
+
+[functions."exchange-outage-tweet"]
+  schedule = "*/10 12-22 * * 1-5"
+
+[functions."sec-cftc-enforcement-tweet"]
+  schedule = "0 15,19 * * 1-5"
+
+[functions."treasury-yield-tweet"]
+  schedule = "0 14,17,20 * * 1-5"
+
+[functions."agricultural-commodities-tweet"]
+  schedule = "0 21 * * 1-5"
+
 [[headers]]
   for = '/favicon.*'
   [headers.values]
