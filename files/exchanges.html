@@ -244,14 +244,6 @@
     /* Region/exchange section headers */
     .section-label { font-size: 13px; }
     .exdir-section { padding: 20px 0 0; }
-    /* Prevent text overflow beyond viewport */
-    * { max-width: 100%; box-sizing: border-box; }
-    body { overflow-x: hidden; }
-    table { display: block; overflow-x: auto; white-space: nowrap; width: 100%; -webkit-overflow-scrolling: touch; }
-    td, th { white-space: normal; word-break: break-word; min-width: 80px; max-width: 200px; font-size: 12px; padding: 6px 8px; }
-    .exchange-name, .exchange-title { font-size: 13px; word-break: break-word; white-space: normal; }
-    [class*="col-"], [class*="exchange-"] { max-width: 100%; overflow-x: hidden; word-wrap: break-word; }
-    h1, h2, h3 { font-size: 18px; word-break: break-word; }
   }
   @media (max-width: 768px) {
     body { overflow-x: hidden; }
@@ -342,69 +334,6 @@
     nav { display: none !important; overflow-x: hidden; }
   }
 
-@media (max-width: 900px) {
-  html, body {
-    overflow-x: hidden !important;
-    max-width: 100vw !important;
-  }
-
-  /* Fix monospace text overflow */
-  pre, code, .mono, [style*="IBM Plex Mono"],
-  [style*="monospace"], p, td, th, div, span {
-    white-space: normal !important;
-    word-break: break-word !important;
-    overflow-wrap: break-word !important;
-    max-width: 100% !important;
-  }
-
-  /* Fix any fixed-width containers */
-  .exchange-card, .exchange-row, .exchange-section,
-  .exchange-detail, .exchange-description,
-  [class*="exchange"], [class*="market"],
-  section, article, aside {
-    width: 100% !important;
-    max-width: 100vw !important;
-    overflow-x: hidden !important;
-    box-sizing: border-box !important;
-    padding-left: 12px !important;
-    padding-right: 12px !important;
-  }
-
-  /* Fix tables */
-  table {
-    display: block !important;
-    overflow-x: auto !important;
-    max-width: 100% !important;
-  }
-
-  /* Reduce font size for monospace on mobile */
-  code, pre, .ibm-mono,
-  [style*="IBM Plex Mono"] {
-    font-size: 11px !important;
-    line-height: 1.5 !important;
-  }
-}
-
-@media (max-width: 900px) {
-  .page-container, .content-wrap, main,
-  .exchanges-wrap, .exchange-section {
-    margin-right: 0 !important;
-    padding-right: 12px !important;
-    width: 100% !important;
-    max-width: 100vw !important;
-  }
-
-  /* Kill any vertical text */
-  * {
-    writing-mode: horizontal-tb !important;
-  }
-
-  /* Fix right-side cutoff */
-  body {
-    overflow-x: hidden !important;
-    width: 100vw !important;
-  }
-}
 </style>
 <script type="application/ld+json">
 {
