@@ -244,6 +244,14 @@
     /* Region/exchange section headers */
     .section-label { font-size: 13px; }
     .exdir-section { padding: 20px 0 0; }
+    /* Prevent text overflow beyond viewport */
+    * { max-width: 100%; box-sizing: border-box; }
+    body { overflow-x: hidden; }
+    table { display: block; overflow-x: auto; white-space: nowrap; width: 100%; -webkit-overflow-scrolling: touch; }
+    td, th { white-space: normal; word-break: break-word; min-width: 80px; max-width: 200px; font-size: 12px; padding: 6px 8px; }
+    .exchange-name, .exchange-title { font-size: 13px; word-break: break-word; white-space: normal; }
+    [class*="col-"], [class*="exchange-"] { max-width: 100%; overflow-x: hidden; word-wrap: break-word; }
+    h1, h2, h3 { font-size: 18px; word-break: break-word; }
   }
   @media (max-width: 768px) {
     body { overflow-x: hidden; }
