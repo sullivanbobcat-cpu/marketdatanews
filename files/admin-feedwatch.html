@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>FeedWatch Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --cream: #faf8f4;
+    --accent: #c8a96e;
+    --accent-dark: #7a5c2e;
+    --muted: #666;
+    --border: #ddd;
+    --surface: #fff;
+    --red: #c0392b;
+    --green: #27ae60;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--ink);
+    color: var(--cream);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* HEADER */
+  .admin-header {
+    background: var(--ink);
+    border-bottom: 2px solid var(--accent);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .admin-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .admin-status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .admin-status.ok { color: var(--green); }
+
+  /* LOCK SCREEN */
+  #lockScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 24px;
+  }
+  .lock-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .lock-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+  .lock-input {
+    width: 100%;
+    max-width: 320px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: var(--cream);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    padding: 14px 16px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    outline: none;
+  }
+  .lock-input:focus { border-color: var(--accent); }
+  .lock-btn {
+    width: 100%;
+    max-width: 320px;
+    background: var(--accent);
+    color: var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: none;
+    padding: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .lock-error {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #e74c3c;
+    margin-top: 12px;
+    display: none;
+  }
+
+  /* MAIN CONTENT */
+  #mainContent { display: none; }
+
+  .admin-body {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #222;
+  }
+
+  /* FORM */
+  .form-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 6px;
+    padding: 24px 20px;
+    margin-bottom: 32px;
+  }
+
+  .field {
+    margin-bottom: 20px;
+  }
+  .field label {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: var(--cream);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    padding: 14px 14px;
+    border-radius: 4px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.5;
+  }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus { border-color: var(--accent); }
+
+  /* Date row */
+  .date-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .date-row input[type="date"] { flex: 1; }
+  .tbd-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .tbd-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  /* Two-col row */
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* SUBMIT BUTTON */
+  .submit-btn {
+    width: 100%;
+    background: var(--accent);
+    color: var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border: none;
+    padding: 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.15s;
+  }
+  .submit-btn:hover { background: var(--accent-dark); color: white; }
+  .submit-btn:disabled { background: #333; color: #666; cursor: not-allowed; }
+
+  /* FLASH MESSAGE */
+  .flash {
+    display: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    padding: 14px 16px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  .flash.success { background: #0d2e1a; border: 1px solid var(--green); color: var(--green); }
+  .flash.error { background: #2e0d0d; border: 1px solid var(--red); color: #ff7777; }
+
+  /* RECENT ENTRIES */
+  .entries-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: #222;
+    border: 1px solid #222;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .entry-row {
+    background: #111;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .entry-row:hover { background: #1a1a1a; }
+  .entry-row-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .entry-id {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--accent-dark);
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .entry-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1.3;
+  }
+  .entry-row-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .entry-exchange {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .entry-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: #555;
+  }
+  .sev-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .sev-CRITICAL { background: #3d0000; color: #ff4444; }
+  .sev-HIGH { background: #2d1a00; color: #ff9944; }
+  .sev-MEDIUM { background: #1a1a00; color: #cccc44; }
+  .sev-LOW { background: #001a1a; color: #44cccc; }
+
+  /* DETAIL MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  .modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+  .modal-card {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 24px 20px;
+    max-width: 600px;
+    width: 100%;
+    margin-top: 40px;
+  }
+  .modal-close {
+    float: right;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .modal-id {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .modal-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+  .modal-field {
+    margin-bottom: 12px;
+  }
+  .modal-field-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .modal-field-val {
+    font-size: 13px;
+    color: var(--cream);
+    line-height: 1.5;
+  }
+  .modal-link {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .modal-link:hover { color: white; }
+
+  .entries-loading {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 20px;
+    text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    .field-row { grid-template-columns: 1fr; }
+    .date-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOCK SCREEN -->
+<div id="lockScreen">
+  <div class="lock-title">FeedWatch Admin</div>
+  <div class="lock-sub">Enter admin password to continue</div>
+  <input type="password" class="lock-input" id="pwInput" placeholder="Admin password" autocomplete="current-password">
+  <button class="lock-btn" onclick="unlock()">Unlock</button>
+  <div class="lock-error" id="lockError">Incorrect password</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="mainContent">
+  <div class="admin-header">
+    <div class="admin-title">FeedWatch Admin</div>
+    <div class="admin-status ok" id="authStatus">Authenticated</div>
+  </div>
+
+  <div class="admin-body">
+
+    <!-- FLASH MESSAGE -->
+    <div class="flash" id="flash"></div>
+
+    <!-- ADD ENTRY FORM -->
+    <div class="section-label">Add New Entry</div>
+    <div class="form-card">
+      <form id="entryForm" onsubmit="submitEntry(event)">
+
+        <div class="field">
+          <label>Exchange</label>
+          <input type="text" id="fExchange" placeholder="CME, NYSE, Nasdaq, FINRA…" autocomplete="off" required>
+        </div>
+
+        <div class="field">
+          <label>Title</label>
+          <input type="text" id="fTitle" placeholder="Short descriptive title (under 80 chars)" maxlength="120" autocomplete="off" required>
+        </div>
+
+        <div class="field">
+          <label>Description</label>
+          <textarea id="fDescription" rows="4" placeholder="2-3 sentence plain English summary of what changed and what action is required" required></textarea>
+        </div>
+
+        <div class="field">
+          <label>Effective Date</label>
+          <div class="date-row">
+            <input type="date" id="fDate">
+            <label class="tbd-label">
+              <input type="checkbox" id="fTbd" onchange="toggleTbd()"> TBD
+            </label>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Severity</label>
+            <select id="fSeverity">
+              <option value="CRITICAL">CRITICAL</option>
+              <option value="HIGH" selected>HIGH</option>
+              <option value="MEDIUM">MEDIUM</option>
+              <option value="LOW">LOW</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Category</label>
+            <select id="fCategory">
+              <option value="CONNECTIVITY">CONNECTIVITY</option>
+              <option value="PROTOCOL">PROTOCOL</option>
+              <option value="FEE">FEE</option>
+              <option value="MILESTONE" selected>MILESTONE</option>
+              <option value="REGULATORY">REGULATORY</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Source URL</label>
+          <input type="url" id="fLink" placeholder="https://…" autocomplete="off">
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Add Entry</button>
+      </form>
+    </div>
+
+    <!-- RECENT ENTRIES -->
+    <div class="section-label">Recent Entries</div>
+    <div id="entriesContainer">
+      <div class="entries-loading">Loading entries…</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-card" id="modalCard">
+    <button class="modal-close" onclick="closeModalDirect()">Close ×</button>
+    <div class="modal-id" id="mId"></div>
+    <div class="modal-title" id="mTitle"></div>
+    <div class="modal-field">
+      <div class="modal-field-label">Exchange</div>
+      <div class="modal-field-val" id="mExchange"></div>
+    </div>
+    <div class="modal-field">
+      <div class="modal-field-label">Description</div>
+      <div class="modal-field-val" id="mDesc"></div>
+    </div>
+    <div class="modal-field">
+      <div class="modal-field-label">Effective Date</div>
+      <div class="modal-field-val" id="mDate"></div>
+    </div>
+    <div class="modal-field">
+      <div class="modal-field-label">Severity / Category</div>
+      <div class="modal-field-val" id="mSevCat"></div>
+    </div>
+    <div class="modal-field" id="mLinkWrap">
+      <div class="modal-field-label">Source</div>
+      <a class="modal-link" id="mLink" target="_blank" rel="noopener"></a>
+    </div>
+    <div class="modal-field">
+      <div class="modal-field-label">Added</div>
+      <div class="modal-field-val" id="mAdded"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_BASE = '/.netlify/functions';
+let adminKey = '';
+
+// ── AUTH ──────────────────────────────────────────────
+function unlock() {
+  const pw = document.getElementById('pwInput').value.trim();
+  if (!pw) return;
+  adminKey = pw;
+  // Quick auth check via get-waitlist (uses ADMIN_KEY same env var) — just try loading entries
+  verifyAndLoad();
+}
+
+document.getElementById('pwInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') unlock();
+});
+
+async function verifyAndLoad() {
+  // Test by fetching entries via get-feedwatch (no auth needed, but we'll verify via save if needed)
+  // We optimistically show the main screen and let save-feedwatch validate on submit
+  sessionStorage.setItem('fw-admin-key', adminKey);
+  document.getElementById('lockScreen').style.display = 'none';
+  document.getElementById('mainContent').style.display = 'block';
+  loadEntries();
+}
+
+// ── DATE TOGGLE ───────────────────────────────────────
+function toggleTbd() {
+  const tbd = document.getElementById('fTbd').checked;
+  document.getElementById('fDate').disabled = tbd;
+  if (tbd) document.getElementById('fDate').value = '';
+}
+
+// ── SUBMIT ────────────────────────────────────────────
+async function submitEntry(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+
+  const tbd = document.getElementById('fTbd').checked;
+  const dateVal = document.getElementById('fDate').value;
+
+  const payload = {
+    exchange: document.getElementById('fExchange').value.trim(),
+    title: document.getElementById('fTitle').value.trim(),
+    description: document.getElementById('fDescription').value.trim(),
+    effectiveDate: tbd ? 'TBD' : (dateVal || 'TBD'),
+    severity: document.getElementById('fSeverity').value,
+    category: document.getElementById('fCategory').value,
+    link: document.getElementById('fLink').value.trim(),
+  };
+
+  try {
+    const res = await fetch(`${API_BASE}/save-feedwatch-entry`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-admin-key': adminKey,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      showFlash(`Entry saved: ${data.entry.id}`, 'success');
+      document.getElementById('entryForm').reset();
+      document.getElementById('fDate').disabled = false;
+      loadEntries();
+    } else if (res.status === 403) {
+      showFlash('Incorrect admin key — re-enter password', 'error');
+      document.getElementById('lockScreen').style.display = 'flex';
+      document.getElementById('mainContent').style.display = 'none';
+    } else {
+      showFlash(data.error || 'Save failed', 'error');
+    }
+  } catch (err) {
+    showFlash('Network error: ' + err.message, 'error');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Add Entry';
+}
+
+function showFlash(msg, type) {
+  const el = document.getElementById('flash');
+  el.textContent = msg;
+  el.className = `flash ${type}`;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 6000);
+}
+
+// ── LOAD ENTRIES ──────────────────────────────────────
+async function loadEntries() {
+  const container = document.getElementById('entriesContainer');
+  container.innerHTML = '<div class="entries-loading">Loading…</div>';
+
+  try {
+    const res = await fetch(`${API_BASE}/get-feedwatch`);
+    const data = await res.json();
+    const entries = (data.entries || []).slice(0, 10);
+
+    if (!entries.length) {
+      container.innerHTML = '<div class="entries-loading">No entries yet.</div>';
+      return;
+    }
+
+    container.innerHTML = `<div class="entries-list">${entries.map(renderEntry).join('')}</div>`;
+  } catch (err) {
+    container.innerHTML = `<div class="entries-loading">Error: ${err.message}</div>`;
+  }
+}
+
+function renderEntry(e) {
+  const sev = e.severity || 'LOW';
+  const date = e.addedAt ? new Date(e.addedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+  const titleEsc = esc(e.title || '');
+  const dataJson = esc(JSON.stringify(e));
+  return `<div class="entry-row" onclick="openModal(${dataJson})">
+    <div class="entry-row-top">
+      <div class="entry-id">${esc(e.id || '')}</div>
+      <div class="entry-title">${titleEsc}</div>
+    </div>
+    <div class="entry-row-meta">
+      <span class="entry-exchange">${esc(e.exchange || '')}</span>
+      <span class="sev-badge sev-${sev}">${sev}</span>
+      <span class="entry-date">${date}</span>
+    </div>
+  </div>`;
+}
+
+// ── MODAL ─────────────────────────────────────────────
+function openModal(entryJson) {
+  const e = typeof entryJson === 'string' ? JSON.parse(entryJson) : entryJson;
+  document.getElementById('mId').textContent = e.id || '';
+  document.getElementById('mTitle').textContent = e.title || '';
+  document.getElementById('mExchange').textContent = e.exchange || '';
+  document.getElementById('mDesc').textContent = e.description || '';
+  document.getElementById('mDate').textContent = e.effectiveDate || 'TBD';
+  document.getElementById('mSevCat').textContent = `${e.severity || ''} / ${e.category || ''}`;
+  document.getElementById('mAdded').textContent = e.addedAt ? new Date(e.addedAt).toLocaleString() : '';
+
+  const linkEl = document.getElementById('mLink');
+  const linkWrap = document.getElementById('mLinkWrap');
+  if (e.link) {
+    linkEl.href = e.link;
+    linkEl.textContent = e.link;
+    linkWrap.style.display = 'block';
+  } else {
+    linkWrap.style.display = 'none';
+  }
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function esc(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// Restore session
+const savedKey = sessionStorage.getItem('fw-admin-key');
+if (savedKey) {
+  adminKey = savedKey;
+  document.getElementById('lockScreen').style.display = 'none';
+  document.getElementById('mainContent').style.display = 'block';
+  loadEntries();
+}
+</script>
+</body>
+</html>

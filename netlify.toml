@@ -95,6 +95,9 @@
 [functions."agricultural-commodities-tweet"]
   schedule = "45 14 * * 1-5"
 
+[functions."auto-discover-feedwatch"]
+  schedule = "0 11 * * 1"
+
 [[headers]]
   for = '/favicon.*'
   [headers.values]
