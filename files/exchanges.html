@@ -234,6 +234,16 @@
     footer { padding-top: 28px; padding-bottom: 28px; }
     /* Hero sub text */
     .page-hero-sub { font-size: 13px; }
+    /* Exchange directory cards: tighter padding */
+    .exdir-card { padding: 12px 14px; gap: 10px; }
+    .exdir-name { font-size: 12px; }
+    /* Hide Type column in session tables — Session + Hours + Notes is enough */
+    .session-table th:nth-child(3), .session-table td:nth-child(3) { display: none; }
+    /* Holiday table: hide Notes column */
+    .holiday-table th:nth-child(3), .holiday-table td:nth-child(3) { display: none; }
+    /* Region/exchange section headers */
+    .section-label { font-size: 13px; }
+    .exdir-section { padding: 20px 0 0; }
   }
   @media (max-width: 768px) {
     body { overflow-x: hidden; }
@@ -243,9 +253,20 @@
     .session-tabs { overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; display: block; }
     .session-tab { display: inline-block; }
     .next-holiday { max-width: none; }
+    /* Stack trading hours vertically on small screens */
+    .trading-hours { flex-direction: column; gap: 4px; }
+    /* Reduce session table font size */
+    .session-table { font-size: 12px; }
+    .session-table th { font-size: 9px; padding: 6px 10px; }
+    .session-table td { padding: 10px; }
   }
   @media (max-width: 600px) {
     .footer-grid { grid-template-columns: 1fr; }
+    /* Single column exchange grid on very small screens */
+    .exdir-grid { grid-template-columns: 1fr !important; }
+    .exdir-badge { width: 36px; height: 36px; font-size: 8px; }
+    /* Hide protocol line to save space */
+    .exdir-proto { display: none; }
   }
   @media (max-width: 1200px) { .nav-comp { display: none; } }
 
