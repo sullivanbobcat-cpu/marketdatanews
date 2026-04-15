@@ -119,6 +119,9 @@
   .kalshi-card { background:var(--surface); border:1px solid var(--border); overflow:hidden; }
   .kalshi-card-label { font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--muted); padding:12px 16px 8px; border-bottom:1px solid var(--border); }
   .kalshi-card iframe { display:block; width:100%; border:none; }
+  .kalshi-price-bar { display:flex; align-items:center; justify-content:space-between; padding:6px 16px 10px; font-family:'IBM Plex Mono',monospace; font-size:11px; }
+  .kalshi-price-val { font-weight:700; color:var(--accent); font-size:13px; }
+  .kalshi-price-sub { font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
 
   /* D3 CHART */
   .chart-wrap { background:var(--surface); border:1px solid var(--border); padding:24px; position:relative; }
@@ -361,6 +364,10 @@
   <div class="kalshi-grid">
     <div class="kalshi-card">
       <div class="kalshi-card-label">Crypto Regulatory Structure</div>
+      <div class="kalshi-price-bar">
+        <span class="kalshi-price-sub">Best yes price</span>
+        <span class="kalshi-price-val" id="price-KXCRYPTOSTRUCTURE">—</span>
+      </div>
       <iframe
         src="https://kalshi.com/external-widget/events-categorical/KXCRYPTOSTRUCTURE?color_scheme=light&widget_size=large"
         height="420"
@@ -371,6 +378,10 @@
     </div>
     <div class="kalshi-card">
       <div class="kalshi-card-label">NYSE Circuit Breaker</div>
+      <div class="kalshi-price-bar">
+        <span class="kalshi-price-sub">Best yes price</span>
+        <span class="kalshi-price-val" id="price-KXNYSECIRCUIT">—</span>
+      </div>
       <iframe
         src="https://kalshi.com/external-widget/events-categorical/KXNYSECIRCUIT?color_scheme=light&widget_size=large"
         height="420"
@@ -381,6 +392,10 @@
     </div>
     <div class="kalshi-card">
       <div class="kalshi-card-label">SEC Quarterly Agenda</div>
+      <div class="kalshi-price-bar">
+        <span class="kalshi-price-sub">Best yes price</span>
+        <span class="kalshi-price-val" id="price-KXSECQUARTERLY">—</span>
+      </div>
       <iframe
         src="https://kalshi.com/external-widget/events-categorical/KXSECQUARTERLY?color_scheme=light&widget_size=large"
         height="420"
@@ -676,6 +691,57 @@ function toggleMobileNav() {
 })();
 </script>
 
+<script>
+// ─── pm-proxy live price fetch ─────────────────────────────────────────────
+(function() {
+  const seriesMap = [
+    { series: 'KXCRYPTOSTRUCTURE', elId: 'price-KXCRYPTOSTRUCTURE' },
+    { series: 'KXNYSECIRCUIT',     elId: 'price-KXNYSECIRCUIT' },
+    { series: 'KXSECQUARTERLY',    elId: 'price-KXSECQUARTERLY' },
+  ];
+
+  fetch('/.netlify/functions/pm-proxy')
+    .then(r => r.json())
+    .then(data => {
+      if (!data || !Array.isArray(data.kalshi)) return;
+
+      seriesMap.forEach(function(m) {
+        const match = data.kalshi.find(function(k) {
+          if (!k.ticker) return false;
+          const t = k.ticker.toUpperCase();
+          const s = m.series.toUpperCase();
+          return t.includes(s) ||
+                 t.startsWith(s) ||
+                 t.replace(/-/g, '').includes(s.replace(/-/g, ''));
+        });
+
+        const el = document.getElementById(m.elId);
+        if (!el) return;
+
+        if (match) {
+          // yes_bid is cents (0-100), convert to %
+          const price = match.yes_bid != null
+            ? Math.round(match.yes_bid) + '¢'
+            : match.last_price != null
+              ? Math.round(match.last_price) + '¢'
+              : null;
+          el.textContent = price || '—';
+        }
+      });
+
+      // Surface debug info in console for troubleshooting
+      if (data.debug_tickers && data.debug_tickers.length) {
+        console.log('[pm-proxy] tickers:', data.debug_tickers);
+      }
+      if (data.errors && data.errors.length) {
+        console.warn('[pm-proxy] errors:', data.errors);
+      }
+    })
+    .catch(function(e) {
+      console.warn('[pm-proxy] fetch failed:', e.message);
+    });
+})();
+</script>
 <script src="chat-widget.js"></script>
 <script src="feedwatch-bar.js"></script>
 </body>
