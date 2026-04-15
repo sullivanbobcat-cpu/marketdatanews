@@ -22,8 +22,9 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers: CORS, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
-  // Auth check
-  const adminKey = event.headers['x-admin-key'] || event.headers['X-Admin-Key'];
+  // Auth check — accept header or query param
+  const adminKey = event.headers['x-admin-key'] || event.headers['X-Admin-Key']
+    || (event.queryStringParameters && event.queryStringParameters.key);
   if (!adminKey || adminKey !== process.env.ADMIN_KEY) {
     return { statusCode: 403, headers: CORS, body: JSON.stringify({ error: 'Forbidden' }) };
   }
