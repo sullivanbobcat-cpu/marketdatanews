@@ -119,9 +119,12 @@
   .kalshi-card { background:var(--surface); border:1px solid var(--border); overflow:hidden; }
   .kalshi-card-label { font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--muted); padding:12px 16px 8px; border-bottom:1px solid var(--border); }
   .kalshi-card iframe { display:block; width:100%; border:none; }
-  .kalshi-price-bar { display:flex; align-items:center; justify-content:space-between; padding:6px 16px 10px; font-family:'IBM Plex Mono',monospace; font-size:11px; }
-  .kalshi-price-val { font-weight:700; color:var(--accent); font-size:13px; }
-  .kalshi-price-sub { font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+  .kalshi-price-bar { display:flex; align-items:center; justify-content:space-between; padding:10px 16px 12px; }
+  .kalshi-price-val { font-family:'Playfair Display',serif; font-weight:900; font-size:28px; line-height:1; }
+  .kalshi-price-val.green { color:#27ae60; }
+  .kalshi-price-val.gold  { color:#b8860b; }
+  .kalshi-price-val.red   { color:#c0392b; }
+  .kalshi-price-sub { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; text-align:right; line-height:1.6; }
 
   /* D3 CHART */
   .chart-wrap { background:var(--surface); border:1px solid var(--border); padding:24px; position:relative; }
@@ -365,7 +368,7 @@
     <div class="kalshi-card">
       <div class="kalshi-card-label">Crypto Regulatory Structure</div>
       <div class="kalshi-price-bar">
-        <span class="kalshi-price-sub">Best yes price</span>
+        <span class="kalshi-price-sub">Implied probability<br>Via Kalshi</span>
         <span class="kalshi-price-val" id="price-KXCRYPTOSTRUCTURE">—</span>
       </div>
       <iframe
@@ -379,7 +382,7 @@
     <div class="kalshi-card">
       <div class="kalshi-card-label">NYSE Circuit Breaker</div>
       <div class="kalshi-price-bar">
-        <span class="kalshi-price-sub">Best yes price</span>
+        <span class="kalshi-price-sub">Implied probability<br>Via Kalshi</span>
         <span class="kalshi-price-val" id="price-KXNYSECIRCUIT">—</span>
       </div>
       <iframe
@@ -393,7 +396,7 @@
     <div class="kalshi-card">
       <div class="kalshi-card-label">SEC Quarterly Agenda</div>
       <div class="kalshi-price-bar">
-        <span class="kalshi-price-sub">Best yes price</span>
+        <span class="kalshi-price-sub">Implied probability<br>Via Kalshi</span>
         <span class="kalshi-price-val" id="price-KXSECQUARTERLY">—</span>
       </div>
       <iframe
@@ -411,7 +414,7 @@
 
 <!-- Section 2: D3 Probability Timeline -->
 <div class="section-wrap">
-  <div class="section-label">Section 02 — 30-Day Probability Timeline</div>
+  <div class="section-label">30-Day Probability Timeline</div>
   <div class="section-title">Market Probability Trends</div>
   <div class="section-desc">30-day rolling probability for 10 key macro and regulatory markets. Click a line or legend item to highlight. Hover for crosshair values.</div>
 
@@ -719,16 +722,17 @@ function toggleMobileNav() {
         if (!el) return;
 
         if (match) {
-          // yes_bid_dollars is a decimal string (e.g. "0.2210"), multiply to get cents
+          // yes_bid_dollars is a decimal string (e.g. "0.4700"); * 100 = probability %
           const raw = match.yes_bid_dollars != null
             ? match.yes_bid_dollars
             : match.last_price_dollars != null
               ? match.last_price_dollars
               : null;
-          const price = raw != null
-            ? Math.round(parseFloat(raw) * 100) + '¢'
-            : null;
-          el.textContent = price || '—';
+          if (raw != null) {
+            const pct = Math.round(parseFloat(raw) * 100);
+            el.textContent = pct + '% YES';
+            el.className = 'kalshi-price-val ' + (pct >= 65 ? 'green' : pct >= 35 ? 'gold' : 'red');
+          }
         }
       });
 
