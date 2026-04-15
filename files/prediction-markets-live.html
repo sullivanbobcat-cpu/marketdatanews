@@ -719,12 +719,15 @@ function toggleMobileNav() {
         if (!el) return;
 
         if (match) {
-          // yes_bid is cents (0-100), convert to %
-          const price = match.yes_bid != null
-            ? Math.round(match.yes_bid) + '¢'
-            : match.last_price != null
-              ? Math.round(match.last_price) + '¢'
+          // yes_bid_dollars is a decimal string (e.g. "0.2210"), multiply to get cents
+          const raw = match.yes_bid_dollars != null
+            ? match.yes_bid_dollars
+            : match.last_price_dollars != null
+              ? match.last_price_dollars
               : null;
+          const price = raw != null
+            ? Math.round(parseFloat(raw) * 100) + '¢'
+            : null;
           el.textContent = price || '—';
         }
       });

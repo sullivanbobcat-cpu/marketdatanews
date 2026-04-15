@@ -38,11 +38,11 @@ exports.handler = async function(event) {
     results.errors.push('General markets: ' + e.message);
   }
 
-  // Targeted fetches for specific series
+  // Targeted fetches for specific series — must be uppercase (API is case-sensitive)
   const specificSeries = [
-    'kxcryptostructure',
-    'kxnysecircuit',
-    'kxsecquarterly',
+    'KXCRYPTOSTRUCTURE',
+    'KXNYSECIRCUIT',
+    'KXSECQUARTERLY',
   ];
 
   for (const series of specificSeries) {
