@@ -43,12 +43,16 @@ exports.handler = async function(event) {
     'KXCRYPTOSTRUCTURE',
     'KXNYSECIRCUIT',
     'KXSECQUARTERLY',
+    'KXFEDDECISION',
+    'KXCPI',
+    'KXJOBS',
+    'KXGDP',
   ];
 
   for (const series of specificSeries) {
     try {
       const r = await fetchWithTimeout(
-        `${BASE}/markets?status=open&limit=5&series_ticker=${series}`,
+        `${BASE}/markets?status=open&limit=10&series_ticker=${series}`,
         6000
       );
       const text = await r.text();
