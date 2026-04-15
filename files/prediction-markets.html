@@ -636,47 +636,168 @@
     <div class="section-line"></div>
   </div>
 
-  <table class="lit-table">
+  <!-- D3 Choropleth Map -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+
+  <style>
+    #lit-map-wrap { position: relative; width: 100%; margin-bottom: 20px; background: var(--cream); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+    #lit-map-wrap svg { display: block; width: 100%; height: auto; }
+    #lit-tooltip {
+      position: fixed; pointer-events: none; display: none;
+      background: #0d0d0d; border: 1px solid #b8860b;
+      padding: 12px 16px; max-width: 280px; z-index: 9999;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    #lit-tooltip .tt-state { font-size: 13px; font-weight: 700; color: #b8860b; margin-bottom: 4px; }
+    #lit-tooltip .tt-status { font-size: 11px; color: #fff; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.08em; }
+    #lit-tooltip .tt-detail { font-size: 11px; color: #ccc; line-height: 1.5; }
+    .lit-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 28px; padding: 12px 0 4px; }
+    .lit-legend-item { display: flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+    .lit-legend-swatch { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+    .lit-breakdown { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 8px; }
+    .lit-breakdown th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); text-align: left; padding: 8px 12px; border-bottom: 2px solid var(--ink); background: var(--cream); }
+    .lit-breakdown td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .lit-breakdown tr:last-child td { border-bottom: none; }
+    .lit-breakdown tr:hover td { background: var(--paper); }
+    .lit-sev-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 2px; text-transform: uppercase; white-space: nowrap; }
+    .lit-criminal { background: #3a0000; color: #A32D2D; border: 1px solid #A32D2D; }
+    .lit-ag { background: #2e0808; color: #E24B4A; border: 1px solid #E24B4A; }
+    .lit-injunction { background: #2d1e00; color: #EF9F27; border: 1px solid #EF9F27; }
+    .lit-monitoring { background: #1a2400; color: #7aaa2a; border: 1px solid #7aaa2a; }
+  </style>
+
+  <div id="lit-map-wrap">
+    <svg id="lit-map" viewBox="0 0 960 600" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+  <div id="lit-tooltip">
+    <div class="tt-state" id="tt-state"></div>
+    <div class="tt-status" id="tt-status"></div>
+    <div class="tt-detail" id="tt-detail"></div>
+  </div>
+
+  <!-- Legend -->
+  <div class="lit-legend">
+    <div class="lit-legend-item"><div class="lit-legend-swatch" style="background:#A32D2D"></div>Criminal charges</div>
+    <div class="lit-legend-item"><div class="lit-legend-swatch" style="background:#E24B4A"></div>AG action filed</div>
+    <div class="lit-legend-item"><div class="lit-legend-swatch" style="background:#EF9F27"></div>Preliminary injunction</div>
+    <div class="lit-legend-item"><div class="lit-legend-swatch" style="background:#C0DD97"></div>Monitoring</div>
+  </div>
+
+  <!-- State breakdown table -->
+  <table class="lit-breakdown">
     <thead>
-      <tr>
-        <th>Jurisdiction</th>
-        <th>Action</th>
-        <th>Current Status</th>
-      </tr>
+      <tr><th>State</th><th>Status</th><th>Date</th><th>Notes</th></tr>
     </thead>
     <tbody>
       <tr>
-        <td>New York</td>
-        <td>Attorney General cease-and-desist order on sports event contracts. Kalshi contests federal preemption under CFTC registration as DCM.</td>
-        <td><span class="lit-status lit-active">Active</span><div style="font-size:12px;color:var(--muted);margin-top:4px;">Kalshi challenging in federal court</div></td>
+        <td><strong>Arizona</strong></td>
+        <td><span class="lit-sev-badge lit-criminal">Criminal</span></td>
+        <td style="white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:11px;">Feb 2026</td>
+        <td>First criminal charges against Kalshi for illegal gambling and election wagering. Kalshi calls charges "paper thin."</td>
       </tr>
       <tr>
-        <td>Massachusetts</td>
-        <td>Suffolk County Superior Court preliminary injunction. Court ruled sports event contracts subject to Massachusetts state gaming law regardless of federal DCM registration.</td>
-        <td><span class="lit-status lit-active">Active</span><div style="font-size:12px;color:var(--muted);margin-top:4px;">January 2026 ruling against Kalshi — appeal pending</div></td>
+        <td><strong>New York</strong></td>
+        <td><span class="lit-sev-badge lit-ag">AG Action</span></td>
+        <td style="white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:11px;">Jan 2026</td>
+        <td>AG cease-and-desist on sports event contracts. Kalshi contests federal preemption under CFTC DCM registration.</td>
       </tr>
       <tr>
-        <td>Arizona</td>
-        <td>First criminal charges filed against Kalshi for illegal gambling and election wagering under Arizona state law. Kalshi calls charges "paper thin" and without merit.</td>
-        <td><span class="lit-status lit-active">Active</span><div style="font-size:12px;color:var(--muted);margin-top:4px;">Kalshi denies wrongdoing — criminal proceeding</div></td>
+        <td><strong>Massachusetts</strong></td>
+        <td><span class="lit-sev-badge lit-ag">AG Action</span></td>
+        <td style="white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:11px;">Jan 2026</td>
+        <td>Suffolk County Superior Court injunction. Court ruled state gaming law applies regardless of federal DCM registration.</td>
       </tr>
       <tr>
-        <td>Nevada</td>
-        <td>State court issued preliminary injunction against Coinbase prediction market product. Coinbase immediately filed preemptive federal lawsuit asserting CFTC preemption.</td>
-        <td><span class="lit-status lit-issued">Injunction Issued</span><div style="font-size:12px;color:var(--muted);margin-top:4px;">March 26, 2026 — federal preemption case pending</div></td>
+        <td><strong>Nevada</strong></td>
+        <td><span class="lit-sev-badge lit-injunction">Injunction</span></td>
+        <td style="white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:11px;">Mar 26, 2026</td>
+        <td>Preliminary injunction against Coinbase product. Coinbase filed preemptive federal lawsuit asserting CFTC preemption.</td>
       </tr>
       <tr>
-        <td>Washington</td>
-        <td>State Attorney General filed action against Kalshi over sports event contracts. Sixth state to take formal regulatory or legal action against a CFTC-registered prediction market platform.</td>
-        <td><span class="lit-status lit-active">Active</span><div style="font-size:12px;color:var(--muted);margin-top:4px;">Filed March 27, 2026</div></td>
+        <td><strong>Washington</strong></td>
+        <td><span class="lit-sev-badge lit-ag">AG Action</span></td>
+        <td style="white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:11px;">Mar 27, 2026</td>
+        <td>AG filed action against Kalshi over sports event contracts — sixth state to take formal action.</td>
       </tr>
       <tr>
-        <td>Federal — DOJ</td>
-        <td>Federal prosecutors exploring whether prediction market bets on company-specific events could constitute insider trading under existing federal securities law. No charges filed yet.</td>
-        <td><span class="lit-status lit-ongoing">Investigation</span><div style="font-size:12px;color:var(--muted);margin-top:4px;">Ongoing — jurisdiction question unresolved</div></td>
+        <td><strong>Illinois</strong></td>
+        <td><span class="lit-sev-badge lit-monitoring">Monitoring</span></td>
+        <td style="white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:11px;">2026</td>
+        <td>Gaming regulators monitoring prediction market activity. No formal action filed yet.</td>
       </tr>
     </tbody>
   </table>
+
+  <script>
+  (function() {
+    const STATE_DATA = {
+      'Arizona':       { color: '#A32D2D', status: 'Criminal Charges',       date: 'Feb 2026',      detail: 'Arizona filed first criminal charges against Kalshi for illegal gambling and election wagering. First state to pursue criminal prosecution. Feb 2026' },
+      'New York':      { color: '#E24B4A', status: 'AG Action Filed',         date: 'Jan 2026',      detail: 'New York AG filed action against Kalshi over sports event contracts. One of the first states to take formal action. Jan 2026' },
+      'Massachusetts': { color: '#E24B4A', status: 'AG Action Filed',         date: 'Jan 2026',      detail: 'Massachusetts filed action against Kalshi citing state gambling law violations. Kalshi argues federal CFTC registration preempts state law. Jan 2026' },
+      'Nevada':        { color: '#EF9F27', status: 'Preliminary Injunction',  date: 'Mar 26, 2026',  detail: 'Nevada court issued preliminary injunction against Coinbase prediction market product. Coinbase filed preemptive federal lawsuit asserting CFTC preemption. Mar 2026' },
+      'Washington':    { color: '#E24B4A', status: 'AG Action Filed',         date: 'Mar 27, 2026',  detail: 'Washington State AG filed action against Kalshi over sports event contracts — sixth state to take formal action. Mar 27 2026' },
+      'Illinois':      { color: '#C0DD97', status: 'Monitoring',              date: '2026',          detail: 'Illinois gaming regulators monitoring prediction market activity. No formal action filed yet. 2026' },
+    };
+
+    const DEFAULT_FILL   = '#e8e4db';
+    const HOVER_STROKE   = '#b8860b';
+    const DEFAULT_STROKE = '#ffffff';
+
+    const svg = d3.select('#lit-map');
+    const tooltip = document.getElementById('lit-tooltip');
+    const ttState  = document.getElementById('tt-state');
+    const ttStatus = document.getElementById('tt-status');
+    const ttDetail = document.getElementById('tt-detail');
+
+    const projection = d3.geoAlbersUsa().scale(1280).translate([480, 300]);
+    const path = d3.geoPath().projection(projection);
+
+    fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')
+      .then(r => r.json())
+      .then(us => {
+        const states = topojson.feature(us, us.objects.states);
+        const nameMap = {};
+        // FIPS to name lookup via a concise embedded map
+        const FIPS = {"01":"Alabama","02":"Alaska","04":"Arizona","05":"Arkansas","06":"California","08":"Colorado","09":"Connecticut","10":"Delaware","11":"District of Columbia","12":"Florida","13":"Georgia","15":"Hawaii","16":"Idaho","17":"Illinois","18":"Indiana","19":"Iowa","20":"Kansas","21":"Kentucky","22":"Louisiana","23":"Maine","24":"Maryland","25":"Massachusetts","26":"Michigan","27":"Minnesota","28":"Mississippi","29":"Missouri","30":"Montana","31":"Nebraska","32":"Nevada","33":"New Hampshire","34":"New Jersey","35":"New Mexico","36":"New York","37":"North Carolina","38":"North Dakota","39":"Ohio","40":"Oklahoma","41":"Oregon","42":"Pennsylvania","44":"Rhode Island","45":"South Carolina","46":"South Dakota","47":"Tennessee","48":"Texas","49":"Utah","50":"Vermont","51":"Virginia","53":"Washington","54":"West Virginia","55":"Wisconsin","56":"Wyoming"};
+
+        svg.selectAll('path')
+          .data(states.features)
+          .join('path')
+          .attr('d', path)
+          .attr('fill', d => {
+            const name = FIPS[String(d.id).padStart(2,'0')];
+            return (STATE_DATA[name] && STATE_DATA[name].color) || DEFAULT_FILL;
+          })
+          .attr('stroke', DEFAULT_STROKE)
+          .attr('stroke-width', 0.5)
+          .style('cursor', d => {
+            const name = FIPS[String(d.id).padStart(2,'0')];
+            return STATE_DATA[name] ? 'pointer' : 'default';
+          })
+          .on('mousemove', function(event, d) {
+            const name = FIPS[String(d.id).padStart(2,'0')] || '';
+            const info = STATE_DATA[name];
+            if (!info && !name) return;
+            ttState.textContent  = name || '';
+            ttStatus.textContent = info ? info.status : 'No action filed';
+            ttDetail.textContent = info ? info.detail : 'No enforcement action or monitoring reported in this state.';
+            tooltip.style.display = 'block';
+            tooltip.style.left = (event.clientX + 14) + 'px';
+            tooltip.style.top  = (event.clientY - 10) + 'px';
+            d3.select(this).attr('stroke', HOVER_STROKE).attr('stroke-width', 1.5);
+          })
+          .on('mouseleave', function(event, d) {
+            tooltip.style.display = 'none';
+            d3.select(this).attr('stroke', DEFAULT_STROKE).attr('stroke-width', 0.5);
+          });
+      })
+      .catch(err => {
+        console.error('[lit-map] Failed to load atlas:', err);
+        document.getElementById('lit-map-wrap').innerHTML = '<div style="padding:24px;font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:var(--muted);">Map unavailable — see table below.</div>';
+      });
+  })();
+  </script>
 
   <!-- ═══════════════════════════════════════════════ -->
   <!-- SECTION 6 — QUICK LINKS -->
@@ -763,7 +884,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>© 2026 MarketDataNews.com | All rights reserved</span>
     <span>For market data professionals</span>
   </div>
 </footer>
