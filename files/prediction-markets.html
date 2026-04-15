@@ -570,68 +570,10 @@
   </table>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 2 — CFTC RULEMAKING TIMELINE -->
+  <!-- SECTION 2 — STATE LITIGATION MAP -->
   <!-- ═══════════════════════════════════════════════ -->
   <div class="section-head">
     <span class="section-num">02 —</span>
-    <h2>Full Regulatory Timeline</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <!-- dynamic full timeline injected by JS -->
-  <div id="timeline-loading" class="tracker-loading">Loading full timeline…</div>
-  <div id="timeline-full" style="display:none; margin-bottom:32px;"></div>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 3 — COMMENT PERIOD STATUS -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-head">
-    <span class="section-num">03 —</span>
-    <h2>CFTC Comment Period Status</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <!-- dynamic comment status injected by JS -->
-  <div id="comment-status-container">
-    <div class="tracker-loading">Loading comment period status…</div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 4 — MARKET DATA INFRASTRUCTURE IMPLICATIONS -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-head">
-    <span class="section-num">04 —</span>
-    <h2>Market Data Infrastructure Implications</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="infra-grid">
-
-    <div class="infra-card">
-      <div class="infra-card-icon">Feed Infrastructure</div>
-      <div class="infra-card-title">Exchange-Grade Data Requirements Emerging</div>
-      <div class="infra-card-body">Prediction markets generate real-time binary contract price data with increasing velocity. As platforms scale to billions in daily volume — Polymarket hit $425M in a single day on February 28, 2026 — feed infrastructure requirements are approaching those of traditional exchanges. Firms building on these platforms need low-latency data feeds, historical data archives, normalized order book data, and surveillance capabilities equivalent to regulated equities venues.</div>
-    </div>
-
-    <div class="infra-card">
-      <div class="infra-card-icon">Market Data Costs</div>
-      <div class="infra-card-title">Free API Access Won't Last</div>
-      <div class="infra-card-body">Unlike traditional exchanges, Kalshi and Polymarket currently offer free REST and WebSocket API access to real-time and historical data. This pricing model will not persist as platforms mature, seek revenue diversification, and face the infrastructure costs of serving institutional clients. Market data professionals should document current data consumption patterns now — before fee schedules are introduced. Early API integrations may be grandfathered; late adopters will pay institutional rates.</div>
-    </div>
-
-    <div class="infra-card">
-      <div class="infra-card-icon">Compliance Implications</div>
-      <div class="infra-card-title">DCM Obligations Apply in Full</div>
-      <div class="infra-card-body">CFTC-registered DCMs are required to maintain complete audit trails, conduct ongoing market surveillance, and enforce rules against manipulation and insider trading. Firms trading on prediction markets face the same reporting obligations as traditional derivatives markets, including position reporting and large trader notification thresholds. Under proposed CFTC rules, CAT reporting requirements may extend to event contracts. Compliance teams should treat prediction market activity as equivalent to futures trading for internal policy purposes.</div>
-    </div>
-
-  </div>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- SECTION 5 — STATE LITIGATION MAP -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-head">
-    <span class="section-num">05 —</span>
     <h2>State Litigation Map</h2>
     <div class="section-line"></div>
   </div>
@@ -798,6 +740,64 @@
       });
   })();
   </script>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 3 — CFTC RULEMAKING TIMELINE -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">03 —</span>
+    <h2>Full Regulatory Timeline</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- dynamic full timeline injected by JS -->
+  <div id="timeline-loading" class="tracker-loading">Loading full timeline…</div>
+  <div id="timeline-full" style="display:none; margin-bottom:32px;"></div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 4 — COMMENT PERIOD STATUS -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">04 —</span>
+    <h2>CFTC Comment Period Status</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- dynamic comment status injected by JS -->
+  <div id="comment-status-container">
+    <div class="tracker-loading">Loading comment period status…</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 5 — MARKET DATA INFRASTRUCTURE IMPLICATIONS -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section-head">
+    <span class="section-num">05 —</span>
+    <h2>Market Data Infrastructure Implications</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="infra-grid">
+
+    <div class="infra-card">
+      <div class="infra-card-icon">Feed Infrastructure</div>
+      <div class="infra-card-title">Exchange-Grade Data Requirements Emerging</div>
+      <div class="infra-card-body">Prediction markets generate real-time binary contract price data with increasing velocity. As platforms scale to billions in daily volume — Polymarket hit $425M in a single day on February 28, 2026 — feed infrastructure requirements are approaching those of traditional exchanges. Firms building on these platforms need low-latency data feeds, historical data archives, normalized order book data, and surveillance capabilities equivalent to regulated equities venues.</div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-card-icon">Market Data Costs</div>
+      <div class="infra-card-title">Free API Access Won't Last</div>
+      <div class="infra-card-body">Unlike traditional exchanges, Kalshi and Polymarket currently offer free REST and WebSocket API access to real-time and historical data. This pricing model will not persist as platforms mature, seek revenue diversification, and face the infrastructure costs of serving institutional clients. Market data professionals should document current data consumption patterns now — before fee schedules are introduced. Early API integrations may be grandfathered; late adopters will pay institutional rates.</div>
+    </div>
+
+    <div class="infra-card">
+      <div class="infra-card-icon">Compliance Implications</div>
+      <div class="infra-card-title">DCM Obligations Apply in Full</div>
+      <div class="infra-card-body">CFTC-registered DCMs are required to maintain complete audit trails, conduct ongoing market surveillance, and enforce rules against manipulation and insider trading. Firms trading on prediction markets face the same reporting obligations as traditional derivatives markets, including position reporting and large trader notification thresholds. Under proposed CFTC rules, CAT reporting requirements may extend to event contracts. Compliance teams should treat prediction market activity as equivalent to futures trading for internal policy purposes.</div>
+    </div>
+
+  </div>
 
   <!-- ═══════════════════════════════════════════════ -->
   <!-- SECTION 6 — QUICK LINKS -->
