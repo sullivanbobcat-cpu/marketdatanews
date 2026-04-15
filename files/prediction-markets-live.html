@@ -114,17 +114,33 @@
   .section-desc { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); line-height:1.7; margin-bottom:32px; }
   .section-divider { border:none; border-top:2px solid var(--ink); margin:48px 0; }
 
-  /* KALSHI GRID */
+  /* KALSHI CARDS */
   .kalshi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
-  .kalshi-card { background:var(--surface); border:1px solid var(--border); overflow:hidden; }
-  .kalshi-card-label { font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--muted); padding:12px 16px 8px; border-bottom:1px solid var(--border); }
-  .kalshi-card iframe { display:block; width:100%; border:none; }
-  .kalshi-price-bar { display:flex; align-items:center; justify-content:space-between; padding:10px 16px 12px; }
-  .kalshi-price-val { font-family:'Playfair Display',serif; font-weight:900; font-size:28px; line-height:1; }
-  .kalshi-price-val.green { color:#27ae60; }
-  .kalshi-price-val.gold  { color:#b8860b; }
-  .kalshi-price-val.red   { color:#c0392b; }
-  .kalshi-price-sub { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; text-align:right; line-height:1.6; }
+  .kalshi-card { background:var(--surface); border:1px solid var(--border); display:flex; flex-direction:column; }
+  .kc-header { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.14em; color:var(--muted); padding:14px 20px 10px; border-bottom:1px solid var(--border); }
+  .kc-body { padding:20px 20px 0; flex:1; }
+  .kc-question { font-family:'Playfair Display',serif; font-size:15px; font-weight:700; color:var(--ink); line-height:1.35; margin-bottom:20px; min-height:44px; }
+  .kc-prob { text-align:center; padding:4px 0 16px; }
+  .kc-pct { font-family:'Playfair Display',serif; font-weight:900; font-size:52px; line-height:1; display:block; }
+  .kc-pct.green { color:#27ae60; }
+  .kc-pct.gold  { color:#b8860b; }
+  .kc-pct.red   { color:#c0392b; }
+  .kc-pct-label { font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-top:4px; display:block; }
+  .kc-bar-wrap { margin:4px 0 18px; }
+  .kc-bar-track { background:#ece8df; height:6px; border-radius:3px; overflow:hidden; }
+  .kc-bar-fill { height:6px; border-radius:3px; transition:width 0.6s ease; }
+  .kc-bar-fill.green { background:#27ae60; }
+  .kc-bar-fill.gold  { background:#b8860b; }
+  .kc-bar-fill.red   { background:#c0392b; }
+  .kc-bar-pct { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--muted); margin-top:5px; text-align:right; }
+  .kc-meta { display:flex; gap:0; border-top:1px solid var(--border); font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); }
+  .kc-meta-item { flex:1; padding:10px 20px; }
+  .kc-meta-item + .kc-meta-item { border-left:1px solid var(--border); }
+  .kc-meta-key { font-size:8px; text-transform:uppercase; letter-spacing:0.1em; color:#bbb; display:block; margin-bottom:2px; }
+  .kc-meta-val { color:var(--ink); font-weight:500; }
+  .kc-footer { padding:14px 20px; border-top:1px solid var(--border); }
+  .kc-cta { display:block; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-dark); text-decoration:none; padding:9px 0; border:1px solid var(--rule); border-radius:2px; transition:all 0.15s; }
+  .kc-cta:hover { background:var(--accent); color:var(--ink); border-color:var(--accent); }
 
   /* D3 CHART */
   .chart-wrap { background:var(--surface); border:1px solid var(--border); padding:24px; position:relative; }
@@ -361,52 +377,80 @@
 <!-- Section 1: Kalshi Embeds -->
 <div class="section-wrap">
   <div class="section-label">Section 01 — Live Event Contracts</div>
-  <div class="section-title">Kalshi Market Widgets</div>
-  <div class="section-desc">Live categorical event contract prices. Click any widget to trade on Kalshi.</div>
+  <div class="section-title">Live Kalshi Markets</div>
+  <div class="section-desc">Implied probability from live Kalshi event contracts. Prices update on page load. Click any card to trade on Kalshi.</div>
 
   <div class="kalshi-grid">
-    <div class="kalshi-card">
-      <div class="kalshi-card-label">Crypto Regulatory Structure</div>
-      <div class="kalshi-price-bar">
-        <span class="kalshi-price-sub">Implied probability<br>Via Kalshi</span>
-        <span class="kalshi-price-val" id="price-KXCRYPTOSTRUCTURE">—</span>
+
+    <!-- Card 1: Crypto Regulatory Structure -->
+    <div class="kalshi-card" id="card-KXCRYPTOSTRUCTURE">
+      <div class="kc-header">Crypto Regulatory Structure &nbsp;·&nbsp; Kalshi</div>
+      <div class="kc-body">
+        <div class="kc-question" id="q-KXCRYPTOSTRUCTURE">Crypto Market Structure Bill Passes in 2026</div>
+        <div class="kc-prob">
+          <span class="kc-pct gold" id="pct-KXCRYPTOSTRUCTURE">—</span>
+          <span class="kc-pct-label">YES probability</span>
+        </div>
+        <div class="kc-bar-wrap">
+          <div class="kc-bar-track"><div class="kc-bar-fill gold" id="bar-KXCRYPTOSTRUCTURE" style="width:0%"></div></div>
+          <div class="kc-bar-pct" id="barpct-KXCRYPTOSTRUCTURE">&nbsp;</div>
+        </div>
       </div>
-      <iframe
-        src="https://kalshi.com/external-widget/events-categorical/KXCRYPTOSTRUCTURE?color_scheme=light&widget_size=large"
-        height="420"
-        title="Kalshi — Crypto Regulatory Structure"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
-    </div>
-    <div class="kalshi-card">
-      <div class="kalshi-card-label">NYSE Circuit Breaker</div>
-      <div class="kalshi-price-bar">
-        <span class="kalshi-price-sub">Implied probability<br>Via Kalshi</span>
-        <span class="kalshi-price-val" id="price-KXNYSECIRCUIT">—</span>
+      <div class="kc-meta">
+        <div class="kc-meta-item"><span class="kc-meta-key">Volume</span><span class="kc-meta-val" id="vol-KXCRYPTOSTRUCTURE">—</span></div>
+        <div class="kc-meta-item"><span class="kc-meta-key">Expires</span><span class="kc-meta-val" id="exp-KXCRYPTOSTRUCTURE">—</span></div>
       </div>
-      <iframe
-        src="https://kalshi.com/external-widget/events-categorical/KXNYSECIRCUIT?color_scheme=light&widget_size=large"
-        height="420"
-        title="Kalshi — NYSE Circuit Breaker"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
-    </div>
-    <div class="kalshi-card">
-      <div class="kalshi-card-label">SEC Quarterly Agenda</div>
-      <div class="kalshi-price-bar">
-        <span class="kalshi-price-sub">Implied probability<br>Via Kalshi</span>
-        <span class="kalshi-price-val" id="price-KXSECQUARTERLY">—</span>
+      <div class="kc-footer">
+        <a href="https://kalshi.com/markets/kxcryptostructure" target="_blank" rel="noopener noreferrer" class="kc-cta">View on Kalshi →</a>
       </div>
-      <iframe
-        src="https://kalshi.com/external-widget/events-categorical/KXSECQUARTERLY?color_scheme=light&widget_size=large"
-        height="420"
-        title="Kalshi — SEC Quarterly Agenda"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
     </div>
+
+    <!-- Card 2: NYSE Circuit Breaker -->
+    <div class="kalshi-card" id="card-KXNYSECIRCUIT">
+      <div class="kc-header">NYSE Circuit Breaker &nbsp;·&nbsp; Kalshi</div>
+      <div class="kc-body">
+        <div class="kc-question" id="q-KXNYSECIRCUIT">NYSE Market-Wide Circuit Breaker Triggered in 2027</div>
+        <div class="kc-prob">
+          <span class="kc-pct red" id="pct-KXNYSECIRCUIT">—</span>
+          <span class="kc-pct-label">YES probability</span>
+        </div>
+        <div class="kc-bar-wrap">
+          <div class="kc-bar-track"><div class="kc-bar-fill red" id="bar-KXNYSECIRCUIT" style="width:0%"></div></div>
+          <div class="kc-bar-pct" id="barpct-KXNYSECIRCUIT">&nbsp;</div>
+        </div>
+      </div>
+      <div class="kc-meta">
+        <div class="kc-meta-item"><span class="kc-meta-key">Volume</span><span class="kc-meta-val" id="vol-KXNYSECIRCUIT">—</span></div>
+        <div class="kc-meta-item"><span class="kc-meta-key">Expires</span><span class="kc-meta-val" id="exp-KXNYSECIRCUIT">—</span></div>
+      </div>
+      <div class="kc-footer">
+        <a href="https://kalshi.com/markets/kxnysecircuit" target="_blank" rel="noopener noreferrer" class="kc-cta">View on Kalshi →</a>
+      </div>
+    </div>
+
+    <!-- Card 3: SEC Quarterly Agenda -->
+    <div class="kalshi-card" id="card-KXSECQUARTERLY">
+      <div class="kc-header">SEC Quarterly Agenda &nbsp;·&nbsp; Kalshi</div>
+      <div class="kc-body">
+        <div class="kc-question" id="q-KXSECQUARTERLY">SEC Passes Major Rulemaking This Quarter</div>
+        <div class="kc-prob">
+          <span class="kc-pct gold" id="pct-KXSECQUARTERLY">—</span>
+          <span class="kc-pct-label">YES probability</span>
+        </div>
+        <div class="kc-bar-wrap">
+          <div class="kc-bar-track"><div class="kc-bar-fill gold" id="bar-KXSECQUARTERLY" style="width:0%"></div></div>
+          <div class="kc-bar-pct" id="barpct-KXSECQUARTERLY">&nbsp;</div>
+        </div>
+      </div>
+      <div class="kc-meta">
+        <div class="kc-meta-item"><span class="kc-meta-key">Volume</span><span class="kc-meta-val" id="vol-KXSECQUARTERLY">—</span></div>
+        <div class="kc-meta-item"><span class="kc-meta-key">Expires</span><span class="kc-meta-val" id="exp-KXSECQUARTERLY">—</span></div>
+      </div>
+      <div class="kc-footer">
+        <a href="https://kalshi.com/markets/kxsecquarterly" target="_blank" rel="noopener noreferrer" class="kc-cta">View on Kalshi →</a>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -695,48 +739,82 @@ function toggleMobileNav() {
 </script>
 
 <script>
-// ─── pm-proxy live price fetch ─────────────────────────────────────────────
+// ─── pm-proxy live card population ────────────────────────────────────────
 (function() {
-  const seriesMap = [
-    { series: 'KXCRYPTOSTRUCTURE', elId: 'price-KXCRYPTOSTRUCTURE' },
-    { series: 'KXNYSECIRCUIT',     elId: 'price-KXNYSECIRCUIT' },
-    { series: 'KXSECQUARTERLY',    elId: 'price-KXSECQUARTERLY' },
-  ];
+  const SERIES = ['KXCRYPTOSTRUCTURE', 'KXNYSECIRCUIT', 'KXSECQUARTERLY'];
+
+  function colorClass(pct) {
+    return pct >= 65 ? 'green' : pct >= 35 ? 'gold' : 'red';
+  }
+
+  function fmtVolume(oi) {
+    // open_interest_fp is in dollars as a string
+    const n = parseFloat(oi);
+    if (isNaN(n)) return '—';
+    if (n >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+    return '$' + Math.round(n);
+  }
+
+  function fmtExpiry(isoStr) {
+    if (!isoStr) return '—';
+    const d = new Date(isoStr);
+    if (isNaN(d)) return '—';
+    const mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return mo[d.getUTCMonth()] + ' ' + d.getUTCFullYear();
+  }
+
+  function applyCard(series, market) {
+    const raw = market.yes_bid_dollars != null
+      ? market.yes_bid_dollars
+      : market.last_price_dollars != null
+        ? market.last_price_dollars
+        : null;
+
+    if (raw == null) return;
+    const pct = Math.round(parseFloat(raw) * 100);
+    const cls = colorClass(pct);
+
+    // Probability display
+    const pctEl = document.getElementById('pct-' + series);
+    if (pctEl) { pctEl.textContent = pct + '%'; pctEl.className = 'kc-pct ' + cls; }
+
+    // Progress bar
+    const barEl = document.getElementById('bar-' + series);
+    if (barEl) { barEl.style.width = pct + '%'; barEl.className = 'kc-bar-fill ' + cls; }
+    const barPctEl = document.getElementById('barpct-' + series);
+    if (barPctEl) barPctEl.textContent = pct + '% YES';
+
+    // Volume
+    const volEl = document.getElementById('vol-' + series);
+    if (volEl) volEl.textContent = fmtVolume(market.open_interest_fp);
+
+    // Expiry
+    const expEl = document.getElementById('exp-' + series);
+    if (expEl) expEl.textContent = fmtExpiry(market.close_time);
+  }
 
   fetch('/.netlify/functions/pm-proxy')
-    .then(r => r.json())
-    .then(data => {
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
       if (!data || !Array.isArray(data.kalshi)) return;
 
-      seriesMap.forEach(function(m) {
-        const match = data.kalshi.find(function(k) {
+      SERIES.forEach(function(series) {
+        // Pick the market with the highest open interest for this series
+        const candidates = data.kalshi.filter(function(k) {
           if (!k.ticker) return false;
           const t = k.ticker.toUpperCase();
-          const s = m.series.toUpperCase();
-          return t.includes(s) ||
-                 t.startsWith(s) ||
-                 t.replace(/-/g, '').includes(s.replace(/-/g, ''));
+          const s = series.toUpperCase();
+          return t.includes(s) || t.startsWith(s) || t.replace(/-/g,'').includes(s.replace(/-/g,''));
         });
+        if (!candidates.length) return;
 
-        const el = document.getElementById(m.elId);
-        if (!el) return;
-
-        if (match) {
-          // yes_bid_dollars is a decimal string (e.g. "0.4700"); * 100 = probability %
-          const raw = match.yes_bid_dollars != null
-            ? match.yes_bid_dollars
-            : match.last_price_dollars != null
-              ? match.last_price_dollars
-              : null;
-          if (raw != null) {
-            const pct = Math.round(parseFloat(raw) * 100);
-            el.textContent = pct + '% YES';
-            el.className = 'kalshi-price-val ' + (pct >= 65 ? 'green' : pct >= 35 ? 'gold' : 'red');
-          }
-        }
+        const best = candidates.reduce(function(a, b) {
+          return (parseFloat(b.open_interest_fp) || 0) > (parseFloat(a.open_interest_fp) || 0) ? b : a;
+        });
+        applyCard(series, best);
       });
 
-      // Surface debug info in console for troubleshooting
       if (data.debug_tickers && data.debug_tickers.length) {
         console.log('[pm-proxy] tickers:', data.debug_tickers);
       }
