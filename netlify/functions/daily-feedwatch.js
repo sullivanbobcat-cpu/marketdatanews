@@ -11,6 +11,7 @@ const { getStore } = require('@netlify/blobs');
 // Federal Register API — reliable JSON endpoints replacing broken SEC EDGAR RSS
 const FR_URL = 'https://www.federalregister.gov/api/v1/articles.json?fields[]=title&fields[]=abstract&fields[]=publication_date&fields[]=html_url&per_page=20&order=newest&agencies[]=securities-and-exchange-commission&conditions[term]=SR-';
 const CFTC_URL = 'https://www.federalregister.gov/api/v1/articles.json?fields[]=title&fields[]=abstract&fields[]=publication_date&fields[]=html_url&per_page=10&order=newest&agencies[]=commodity-futures-trading-commission';
+const FED_RSS_URL = 'https://www.federalreserve.gov/feeds/press_all.xml';
 
 async function fetchJson(url, label) {
   try {
@@ -23,6 +24,28 @@ async function fetchJson(url, label) {
   } catch (err) {
     console.error(`[daily-feedwatch] Failed to fetch ${label}:`, err.message);
     return null;
+  }
+}
+
+async function fetchFedRss() {
+  try {
+    const res = await fetch(FED_RSS_URL, {
+      headers: { 'User-Agent': 'MarketDataNews-FeedWatch/1.0' },
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const xml = await res.text();
+    const itemBlocks = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)].map(m => m[1]);
+    const strip = s => s.replace(/<[^>]+>/g, '').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').trim();
+    const pull = (tag, src) => { const m = src.match(new RegExp(`<${tag}[^>]*>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?<\\/${tag}>`, 'i')); return m ? strip(m[1]) : ''; };
+    return itemBlocks.slice(0, 8).map(b => ({
+      title: pull('title', b),
+      link:  pull('link', b) || pull('guid', b),
+      date:  pull('pubDate', b),
+    })).filter(i => i.title);
+  } catch (err) {
+    console.error('[daily-feedwatch] Fed RSS fetch failed:', err.message);
+    return [];
   }
 }
 
@@ -103,14 +126,21 @@ exports.handler = async function (event) {
     } catch (_) { /* no existing digest — proceed with generation */ }
   }
 
-  // Fetch Federal Register feeds in parallel
-  const [frData, cftcData] = await Promise.all([
+  // Fetch all feeds in parallel
+  const [frData, cftcData, fedItems] = await Promise.all([
     fetchJson(FR_URL, 'Federal Register — SEC SR- Filings'),
     fetchJson(CFTC_URL, 'Federal Register — CFTC'),
+    fetchFedRss(),
   ]);
+
+  const fedSection = fedItems.length
+    ? '=== Federal Reserve Recent Releases ===\n' + fedItems.map(i => `- ${i.title} (${i.date})\n  ${i.link}`).join('\n')
+    : '=== Federal Reserve Recent Releases ===\n[Feed unavailable]';
+
   const feedContent = [
     formatArticles(frData, 'Federal Register — SEC Exchange Rule Filings (SR-)'),
     formatArticles(cftcData, 'Federal Register — CFTC'),
+    fedSection,
   ].join('\n\n---\n\n');
 
   // ── FeedWatch date helpers ───────────────────────────────────────────────
@@ -181,6 +211,7 @@ Write a concise daily digest for market data professionals. Focus ONLY on:
 - Connectivity and infrastructure notices
 - CAT, OPRA, UTP, CTA plan updates
 - CFTC notices affecting futures market data
+- Federal Reserve actions relevant to financial markets (rate decisions, payment systems, stress tests, balance sheet)
 
 Format as markdown with these sections:
 

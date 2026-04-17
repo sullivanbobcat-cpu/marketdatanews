@@ -44,6 +44,8 @@ const KEYWORDS = [
   'SR-', 'market data', 'connectivity', 'SIP', 'NMS', 'OPRA', 'CME', 'NYSE',
   'Nasdaq', 'fee', 'port', 'MDP', 'iLink', 'FINRA', 'CAT', 'CFTC', 'rule filing',
   'exchange', 'securities', 'trading', 'regulation', 'clearing', 'order routing',
+  'rate', 'inflation', 'monetary policy', 'federal funds', 'balance sheet',
+  'quantitative', 'reserve', 'payment system', 'financial stability', 'stress test',
 ];
 
 function score(item) {
@@ -65,9 +67,10 @@ const FEEDS = [
     url: 'https://www.federalregister.gov/api/v1/articles.json?fields[]=title&fields[]=publication_date&fields[]=html_url&fields[]=document_number&per_page=5&order=newest&agencies[]=securities-and-exchange-commission&conditions[term]=SR-',
     type: 'json',
   },
-  { url: 'https://www.cmegroup.com/rss/notices.xml',    type: 'rss' },
-  { url: 'https://www.sec.gov/rss/news/press.rss',      type: 'rss' },
-  { url: 'https://www.finra.org/rss/news',              type: 'rss' },
+  { url: 'https://www.cmegroup.com/rss/notices.xml',               type: 'rss' },
+  { url: 'https://www.sec.gov/rss/news/press.rss',                 type: 'rss' },
+  { url: 'https://www.finra.org/rss/news',                         type: 'rss' },
+  { url: 'https://www.federalreserve.gov/feeds/press_all.xml',     type: 'rss' },
 ];
 
 exports.handler = async () => {

@@ -569,6 +569,9 @@ const FEEDS = [
   { url: 'https://feeds.bloomberg.com/markets/news.rss', category: 'Exchanges', label: 'Bloomberg' },
   { url: 'https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines', category: 'Markets', label: 'MarketWatch' },
   { url: 'https://ir.nasdaq.com/rss/news-releases.xml', category: 'Exchanges', label: 'NASDAQ IR' },
+  { url: 'https://www.federalreserve.gov/feeds/press_all.xml', category: 'Monetary Policy', label: 'Federal Reserve' },
+  { url: 'https://fredblog.stlouisfed.org/feed/', category: 'Monetary Policy', label: 'FRED Blog' },
+  { url: 'https://www.newyorkfed.org/medialibrary/media/xml/rss.xml', category: 'Monetary Policy', label: 'NY Fed' },
 ];
 const CACHE_TTL = 10 * 60 * 1000;
 
@@ -577,6 +580,7 @@ const CATEGORY_KEYWORDS = {
   'Regulation': ['SEC','FINRA','CFTC','regulation','regulatory','rule','compliance','enforcement','NMS','CAT','SLATE','Rule 605','Reg SHO'],
   'NMS / SIP': ['NMS','SIP','OPRA','CTA','UTP','consolidated tape','national market system','NMS plan','MDP','iLink','FIX','ITCH'],
   'Feed Status': ['outage','maintenance','degraded','incident','status','downtime','recovery','disruption'],
+  'Monetary Policy': ['federal reserve','fed funds','FOMC','interest rate','monetary policy','balance sheet','quantitative','inflation','CPI','PCE','treasury','reserve','payment system','financial stability','stress test','bank','lending'],
 };
 
 let allArticles = [];
