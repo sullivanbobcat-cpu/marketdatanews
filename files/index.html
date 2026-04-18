@@ -277,6 +277,12 @@
   @media (max-width: 900px) {
     nav { display: none !important; overflow-x: hidden; }
   }
+
+  /* Nav drop group labels and dividers */
+  .nav-drop-group { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #b8860b; text-transform: uppercase; letter-spacing: 0.15em; padding: 8px 16px 4px; cursor: default; display: block; }
+  .nav-drop-divider { border: none; border-top: 1px solid #2a2a2a; margin: 4px 0; }
+  /* Subscribe button */
+  a.nav-subscribe { font-family: 'IBM Plex Mono', monospace !important; font-size: 11px !important; font-weight: 700 !important; padding: 0 18px !important; border-radius: 2px !important; text-transform: uppercase !important; border-right: none !important; letter-spacing: 0.08em !important; }
 </style>
 </head>
 <body>
@@ -328,59 +334,49 @@
     <a href="index.html" style="text-decoration:none;border-left:1px solid var(--rule);border-right:1px solid var(--rule);padding:0 10px;display:flex;align-items:center;flex-shrink:0;" title="Market Data News">
       <img src="favicon.svg" alt="MDN" style="height:26px;width:26px;display:block;">
     </a>
-    <a href="index.html" class="nav-item active">All News</a>
-    <div class="nav-dropdown">
-      <span class="nav-item">Markets &#9662;</span>
-      <div class="nav-dropdown-menu">
-        <a href="exchanges.html" class="nav-drop-item">Exchanges</a>
-        <a href="prediction-markets-live.html" class="nav-drop-item">Live Markets</a>
-        <a href="prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
-      </div>
-    </div>
+    <a href="index.html" class="nav-item active">Home</a>
     <div class="nav-dropdown">
       <span class="nav-item">Intelligence &#9662;</span>
       <div class="nav-dropdown-menu">
+        <div class="nav-drop-group">Trackers</div>
         <a href="calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
         <a href="nms.html" class="nav-drop-item">NMS / SIP Plans</a>
-        <a href="regulation.html" class="nav-drop-item">Regulation</a>
         <a href="feed-status.html" class="nav-drop-item">Feed Status</a>
         <a href="rule-filings.html" class="nav-drop-item">Rule Filings</a>
-        <a href="rulebook-navigator.html" class="nav-drop-item">Rulebooks</a>
-        <a href="execution-quality.html" class="nav-drop-item">Execution Quality</a>
+        <a href="regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
         <a href="ai-digest.html" class="nav-drop-item">AI Digest</a>
-      </div>
-    </div>
-    <div class="nav-dropdown">
-      <span class="nav-item">Articles &#9662;</span>
-      <div class="nav-dropdown-menu">
+        <div class="nav-drop-divider"></div>
+        <div class="nav-drop-group">Articles</div>
         <a href="articles/cme-globex-notices-2026.html" class="nav-drop-item">CME Globex Notices 2026</a>
         <a href="articles/finra-slate-guide.html" class="nav-drop-item">FINRA SLATE Guide</a>
+        <a href="articles/prediction-markets-guide.html" class="nav-drop-item">Prediction Markets Guide</a>
         <a href="articles/index.html" class="nav-drop-item">View All Articles</a>
       </div>
     </div>
-<div class="nav-dropdown">
+    <div class="nav-dropdown">
       <span class="nav-item">Tools &#9662;</span>
       <div class="nav-dropdown-menu nav-dropdown-right">
         <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
-        <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
         <a href="peer-groups.html" class="nav-drop-item">Peer Groups</a>
+        <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
+        <a href="rulebook-navigator.html" class="nav-drop-item">Rulebooks</a>
+        <a href="execution-quality.html" class="nav-drop-item">Execution Quality</a>
       </div>
     </div>
-        <div class="nav-dropdown">
+    <div class="nav-dropdown">
       <span class="nav-item">Learn &#9662;</span>
-      <div class="nav-dropdown-menu">
+      <div class="nav-dropdown-menu nav-dropdown-right">
         <a href="learn.html#sip" class="nav-drop-item">How the SIP Works</a>
         <a href="learn.html#opra" class="nav-drop-item">The OPRA Model</a>
         <a href="learn.html#futures" class="nav-drop-item">Futures Market Data</a>
         <a href="learn.html" class="nav-drop-item">View All Lessons</a>
       </div>
     </div>
-    <a href="about.html" class="nav-item">About</a>
-    <a href="subscribe.html" class="nav-item">Subscribe</a>
+    <a href="subscribe.html" class="nav-item nav-subscribe">Subscribe →</a>
     <div class="nav-right">
-      <div class="search-wrap" id="searchWrap">
-        <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
-        <div class="search-drop" id="searchDrop"></div>
+      <div class="search-wrap">
+        <input class="search-box" type="text" placeholder="Search site..." autocomplete="off">
       </div>
     </div>
   </nav>
@@ -390,35 +386,32 @@
   </div>
 </div>
 <div class="mobile-nav" id="mobileNav">
-  <a href="index.html" class="active">All News</a>
-  <div class="mob-group-label">Markets</div>
-  <a href="exchanges.html">Exchanges</a>
-  <a href="prediction-markets-live.html">Live Markets</a>
-  <a href="prediction-markets.html">Prediction Markets</a>
+  <a href="index.html" class="active">Home</a>
   <div class="mob-group-label">Intelligence</div>
   <a href="calendar.html">FeedWatch Calendar</a>
   <a href="nms.html">NMS / SIP Plans</a>
-  <a href="regulation.html">Regulation</a>
   <a href="feed-status.html">Feed Status</a>
   <a href="rule-filings.html">Rule Filings</a>
-  <a href="rulebook-navigator.html">Rulebooks</a>
-  <a href="execution-quality.html">Execution Quality</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
   <a href="ai-digest.html">AI Digest</a>
-  <div class="mob-group-label">Articles</div>
   <a href="articles/cme-globex-notices-2026.html">CME Globex Notices 2026</a>
   <a href="articles/finra-slate-guide.html">FINRA SLATE Guide</a>
+  <a href="articles/prediction-markets-guide.html">Prediction Markets Guide</a>
   <a href="articles/index.html">View All Articles</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="market-data-fees.html">Fee Calculator</a>
+  <a href="peer-groups.html">Peer Groups</a>
+  <a href="contract-intelligence.html">Contract Intelligence</a>
+  <a href="rulebook-navigator.html">Rulebooks</a>
+  <a href="execution-quality.html">Execution Quality</a>
   <div class="mob-group-label">Learn</div>
   <a href="learn.html#sip">How the SIP Works</a>
   <a href="learn.html#opra">The OPRA Model</a>
   <a href="learn.html#futures">Futures Market Data</a>
   <a href="learn.html">View All Lessons</a>
-  <div class="mob-group-label">Tools</div>
-  <a href="market-data-fees.html">Fee Calculator</a>
-  <a href="contract-intelligence.html">Contract Intelligence</a>
-  <div class="mob-group-label">About</div>
-  <a href="about.html">About</a>
   <a href="subscribe.html">Subscribe</a>
+  <a href="about.html">About</a>
 </div>
 
 <!-- AI Daily Digest -->
