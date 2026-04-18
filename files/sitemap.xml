@@ -79,6 +79,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://marketdatanews.com/peer-groups</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://marketdatanews.com/execution-quality</loc>
     <lastmod>2026-04-02</lastmod>
     <changefreq>monthly</changefreq>

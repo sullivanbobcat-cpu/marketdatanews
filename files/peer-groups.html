@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="/favicon.png" sizes="180x180">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Data Peer Groups | Market Data News</title>
+<meta name="description" content="See how your market data operations compare to peer firms. Feed subscriptions, fee benchmarks, connectivity options, and regulatory priorities by firm type.">
+<meta name="keywords" content="market data benchmarking, peer groups, market data fees, data feed subscriptions, connectivity, hedge fund market data, broker-dealer market data">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Market Data News">
+<link rel="canonical" href="https://marketdatanews.com/peer-groups">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@MDNintelligence">
+<meta name="twitter:title" content="Market Data Peer Groups | Market Data News">
+<meta name="twitter:description" content="See how your market data operations compare to peer firms. Anonymous benchmarks by firm type.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://marketdatanews.com/peer-groups">
+<meta property="og:title" content="Market Data Peer Groups | Market Data News">
+<meta property="og:description" content="See how your market data operations compare to peer firms. Feed subscriptions, fee benchmarks, connectivity options, and regulatory priorities by firm type.">
+<meta property="og:site_name" content="Market Data News">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+    --green: #2e7d32;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; } .ticker-item .down { color: #ff4444; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* FeedWatch Alert Bar */
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-stat:hover { background: rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num, .fw-alertbar-stat.critical .fw-alertbar-label { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num, .fw-alertbar-stat.high .fw-alertbar-label { color: #ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num, .fw-alertbar-stat.action .fw-alertbar-label { color: var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color: #888; } .fw-alertbar-stat.total .fw-alertbar-label { color: #555; }
+  .fw-alertbar-next { margin-left: auto; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #555; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
+  .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: stretch; padding: 0 48px; border-bottom: 1px solid var(--rule); position: relative; flex-wrap: nowrap; overflow: visible; background: var(--cream); }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0 14px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; user-select: none; }
+  a.nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-dropdown { position: relative; display: flex; align-items: stretch; }
+  .nav-dropdown > .nav-item { border-left: none; }
+  .nav-dropdown-menu { display: block; position: absolute; top: 100%; left: 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; min-width: 220px; background: var(--ink); border-top: 2px solid var(--accent); z-index: 1000; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left: auto; right: 0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-drop-item { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #aaa; text-decoration: none; padding: 10px 20px; border-bottom: 1px solid #1e1e1e; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+  .nav-drop-item:last-child { border-bottom: none; }
+  .nav-drop-item:hover, .nav-drop-item.active { color: var(--accent); background: #111; }
+  a.nav-subscribe { background: var(--accent); color: var(--ink) !important; border-right: 1px solid var(--rule); }
+  a.nav-subscribe:hover { background: var(--accent-dark) !important; color: white !important; }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; border-left: 1px solid var(--rule); }
+  .search-wrap { position: relative; display: flex; align-items: center; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 180px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeIn 0.35s ease forwards; }
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  /* ── PAGE HERO ── */
+  .pg-hero { background: var(--cream); border-bottom: 2px solid var(--ink); padding: 48px 48px 40px; }
+  .pg-hero-inner { max-width: 1280px; margin: 0 auto; }
+  .pg-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent-dark); margin-bottom: 14px; }
+  .pg-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 52px); font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 16px; }
+  .pg-hero-sub { font-size: 16px; line-height: 1.7; color: var(--muted); max-width: 640px; margin-bottom: 20px; }
+  .pg-hero-cta-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); background: rgba(184,134,11,0.1); border: 1px solid rgba(184,134,11,0.3); display: inline-block; padding: 5px 14px; border-radius: 2px; }
+
+  /* ── MAIN CONTENT WRAPPER ── */
+  .pg-wrap { max-width: 1280px; margin: 0 auto; padding: 48px 48px 64px; }
+
+  /* ── STEP LABEL ── */
+  .step-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 12px; }
+  .step-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 24px; }
+  .section-divider { border: none; border-top: 2px solid var(--ink); margin: 48px 0 40px; }
+
+  /* ── FIRM TYPE SELECTOR ── */
+  .firm-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 8px; }
+  .firm-card { border: 1px solid var(--border); background: var(--surface); padding: 20px 16px; cursor: pointer; transition: border-color 0.15s, background 0.15s, box-shadow 0.15s; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; border-radius: 2px; }
+  .firm-card:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(184,134,11,0.15); }
+  .firm-card.selected { border-color: var(--accent); border-width: 2px; background: var(--cream); box-shadow: 0 2px 12px rgba(184,134,11,0.2); }
+  .firm-card-icon { color: var(--accent); display: flex; align-items: center; justify-content: center; }
+  .firm-card-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink); line-height: 1.4; }
+
+  /* ── BENCHMARK SECTIONS ── */
+  #benchmark-area { display: none; }
+  #benchmark-area.visible { display: block; }
+
+  .bench-section { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 32px; margin-bottom: 24px; }
+  .bench-section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); }
+  .bench-section-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--rule); line-height: 1; }
+  .bench-section-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); }
+  .bench-section-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-left: auto; }
+
+  /* Feed section */
+  .bench-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent-dark); background: rgba(184,134,11,0.08); border-left: 3px solid var(--accent); padding: 8px 12px; margin-bottom: 20px; line-height: 1.5; }
+  .feed-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .feed-group { }
+  .feed-group-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .feed-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .feed-pill { font-family: 'IBM Plex Mono', monospace; font-size: 10px; background: #f5f2eb; color: #0d0d0d; border: 1px solid #e8e4db; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+  .feed-none { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); font-style: italic; }
+
+  /* Fee section */
+  .fee-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .fee-range-wrap { }
+  .fee-range-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 16px; }
+  .fee-bar-container { position: relative; margin-bottom: 24px; }
+  .fee-bar-track { height: 8px; border-radius: 4px; background: linear-gradient(90deg, #2e7d32 0%, #b8860b 50%, #c0392b 100%); margin: 0 0 8px; }
+  .fee-markers { display: flex; justify-content: space-between; }
+  .fee-marker { text-align: center; }
+  .fee-marker-val { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; display: block; }
+  .fee-marker-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); display: block; }
+  .fee-marker.low .fee-marker-val { color: var(--green); }
+  .fee-marker.mid .fee-marker-val { color: var(--accent); }
+  .fee-marker.high .fee-marker-val { color: var(--red); }
+  .fee-median { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--ink); margin: 16px 0 4px; }
+  .fee-median-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .fee-details { }
+  .fee-line-items-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 12px; }
+  .fee-line-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); padding: 6px 0; border-bottom: 1px solid var(--border); display: flex; gap: 8px; align-items: flex-start; }
+  .fee-line-item::before { content: '→'; color: var(--accent); flex-shrink: 0; }
+  .fee-users { margin-top: 20px; background: var(--paper); border: 1px solid var(--border); padding: 14px 16px; border-radius: 2px; }
+  .fee-users-num { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .fee-users-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
+  .fee-users-note { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  /* Connectivity section */
+  .conn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .conn-box { background: var(--paper); border: 1px solid var(--border); padding: 16px 18px; border-radius: 2px; }
+  .conn-box-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); margin-bottom: 10px; }
+  .conn-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .conn-pill { font-family: 'IBM Plex Mono', monospace; font-size: 10px; background: #f5f2eb; color: #0d0d0d; border: 1px solid #e8e4db; padding: 4px 10px; border-radius: 20px; }
+  .conn-val { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); }
+  .conn-cloud-yes { color: var(--green); }
+  .conn-cloud-no { color: var(--red); }
+  .conn-cloud-partial { color: var(--accent); }
+
+  /* Regulatory section */
+  .reg-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; margin-bottom: 24px; }
+  .reg-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--ink); line-height: 1.4; }
+  .reg-check { color: var(--accent); font-size: 14px; font-weight: 700; flex-shrink: 0; line-height: 1.4; }
+  .reg-cta { background: rgba(184,134,11,0.08); border: 1px solid rgba(184,134,11,0.3); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .reg-cta-text { font-size: 13px; color: var(--ink); line-height: 1.5; }
+  .reg-cta-link { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; white-space: nowrap; }
+  .reg-cta-link:hover { color: var(--accent-dark); text-decoration: underline; }
+
+  /* Comparison section */
+  .compare-trigger { display: flex; justify-content: center; margin: 8px 0 32px; }
+  .compare-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); background: none; border: 1px solid var(--accent-dark); padding: 10px 24px; cursor: pointer; transition: all 0.15s; border-radius: 2px; }
+  .compare-btn:hover { background: var(--accent); color: var(--ink); }
+  #compare-area { display: none; }
+  #compare-area.visible { display: block; }
+  .compare-selector-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 16px; }
+  .compare-side-by-side { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+  .compare-col { background: var(--surface); border: 1px solid var(--border); padding: 24px; border-radius: 2px; }
+  .compare-col-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 8px; }
+  .compare-col-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); }
+  .compare-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .compare-row-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .compare-row-val { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: var(--ink); }
+  .compare-row-val.low { color: var(--green); }
+  .compare-row-val.mid { color: var(--accent); }
+  .compare-row-val.high { color: var(--red); }
+
+  /* Bottom CTA */
+  .bottom-cta { border: 2px solid var(--accent); padding: 36px 40px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; margin-top: 48px; background: rgba(184,134,11,0.04); }
+  .bottom-cta h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+  .bottom-cta p { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 540px; }
+  .bottom-cta-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; background: var(--accent); color: var(--ink); text-decoration: none; padding: 14px 28px; display: inline-block; white-space: nowrap; transition: background 0.15s; border-radius: 2px; }
+  .bottom-cta-btn:hover { background: var(--accent-dark); color: white; }
+
+  /* Disclaimer */
+  .disclaimer { margin-top: 40px; padding: 16px 20px; background: var(--paper); border: 1px solid var(--border); font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); line-height: 1.7; border-radius: 2px; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav { display: none !important; }
+    #mobileBar { display: flex !important; }
+    .pg-hero, .pg-wrap { padding-left: 20px; padding-right: 20px; }
+    .fw-alertbar { padding-left: 20px; padding-right: 20px; }
+    .masthead-top { padding: 16px 20px; flex-direction: column; gap: 10px; text-align: center; }
+    .tagline { text-align: center; }
+    .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
+    .firm-grid { grid-template-columns: repeat(2, 1fr); }
+    .feed-grid { grid-template-columns: 1fr; }
+    .fee-layout { grid-template-columns: 1fr; }
+    .conn-grid { grid-template-columns: 1fr; }
+    .reg-list { grid-template-columns: 1fr; }
+    .compare-side-by-side { grid-template-columns: 1fr; }
+    .bottom-cta { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    footer { padding: 32px 20px; }
+    .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+  }
+  @media (max-width: 500px) {
+    .firm-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+</div></div>
+
+<!-- FeedWatch Alert Bar -->
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
+      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
+    </div>
+    <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="index.html" style="text-decoration:none;border-left:1px solid var(--rule);border-right:1px solid var(--rule);padding:0 10px;display:flex;align-items:center;flex-shrink:0;" title="Market Data News">
+      <img src="favicon.svg" alt="MDN" style="height:26px;width:26px;display:block;">
+    </a>
+    <a href="index.html" class="nav-item">All News</a>
+    <div class="nav-dropdown">
+      <span class="nav-item">Markets &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="exchanges.html" class="nav-drop-item">Exchanges</a>
+        <a href="prediction-markets-live.html" class="nav-drop-item">Live Markets</a>
+        <a href="prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="nms.html" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="rule-filings.html" class="nav-drop-item">Rule Filings</a>
+        <a href="rulebook-navigator.html" class="nav-drop-item">Rulebooks</a>
+        <a href="execution-quality.html" class="nav-drop-item">Execution Quality</a>
+        <a href="ai-digest.html" class="nav-drop-item">AI Digest</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Articles &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="articles/cme-globex-notices-2026.html" class="nav-drop-item">CME Globex Notices 2026</a>
+        <a href="articles/finra-slate-guide.html" class="nav-drop-item">FINRA SLATE Guide</a>
+        <a href="articles/index.html" class="nav-drop-item">View All Articles</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Tools &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
+        <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
+        <a href="peer-groups.html" class="nav-drop-item active">Peer Groups</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Learn &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="learn.html#sip" class="nav-drop-item">How the SIP Works</a>
+        <a href="learn.html#opra" class="nav-drop-item">The OPRA Model</a>
+        <a href="learn.html#futures" class="nav-drop-item">Futures Market Data</a>
+        <a href="learn.html" class="nav-drop-item">View All Lessons</a>
+      </div>
+    </div>
+    <a href="about.html" class="nav-item">About</a>
+    <a href="subscribe.html" class="nav-item">Subscribe</a>
+    <div class="nav-right">
+      <div class="search-wrap">
+        <input class="search-box" type="text" placeholder="Search site..." autocomplete="off">
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">All News</a>
+  <div class="mob-group-label">Markets</div>
+  <a href="exchanges.html">Exchanges</a>
+  <a href="prediction-markets-live.html">Live Markets</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <div class="mob-group-label">Intelligence</div>
+  <a href="calendar.html">FeedWatch Calendar</a>
+  <a href="nms.html">NMS / SIP Plans</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="rule-filings.html">Rule Filings</a>
+  <a href="rulebook-navigator.html">Rulebooks</a>
+  <a href="execution-quality.html">Execution Quality</a>
+  <a href="ai-digest.html">AI Digest</a>
+  <div class="mob-group-label">Articles</div>
+  <a href="articles/cme-globex-notices-2026.html">CME Globex Notices 2026</a>
+  <a href="articles/finra-slate-guide.html">FINRA SLATE Guide</a>
+  <a href="articles/index.html">View All Articles</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="market-data-fees.html">Fee Calculator</a>
+  <a href="contract-intelligence.html">Contract Intelligence</a>
+  <a href="peer-groups.html" class="active">Peer Groups</a>
+  <div class="mob-group-label">Learn</div>
+  <a href="learn.html#sip">How the SIP Works</a>
+  <a href="learn.html#opra">The OPRA Model</a>
+  <a href="learn.html#futures">Futures Market Data</a>
+  <a href="learn.html">View All Lessons</a>
+  <div class="mob-group-label">About</div>
+  <a href="about.html">About</a>
+  <a href="subscribe.html">Subscribe</a>
+</div>
+
+<!-- Hero -->
+<div class="pg-hero">
+  <div class="pg-hero-inner">
+    <div class="pg-hero-label">Free Tool &nbsp;·&nbsp; Market Data Intelligence</div>
+    <h1>Market Data Peer Groups</h1>
+    <p class="pg-hero-sub">See how firms like yours approach market data infrastructure. Anonymous benchmarks by firm type — feeds, fees, connectivity, and regulatory priorities.</p>
+    <span class="pg-hero-cta-label">FREE &nbsp;·&nbsp; SELECT YOUR FIRM TYPE TO BEGIN</span>
+  </div>
+</div>
+
+<!-- Main content -->
+<div class="pg-wrap">
+
+  <!-- STEP 1 -->
+  <div class="step-label">Step 1 of 2</div>
+  <div class="step-title">Select Your Firm Type</div>
+
+  <div class="firm-grid" id="firmGrid">
+
+    <div class="firm-card" data-key="bulge-bank" onclick="selectFirm('bulge-bank')">
+      <div class="firm-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="1"/>
+          <path d="M5 7V5a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v2"/>
+          <line x1="7" y1="11" x2="7" y2="11.01"/>
+          <line x1="12" y1="11" x2="12" y2="11.01"/>
+          <line x1="17" y1="11" x2="17" y2="11.01"/>
+          <line x1="7" y1="15" x2="7" y2="15.01"/>
+          <line x1="12" y1="15" x2="12" y2="15.01"/>
+          <line x1="17" y1="15" x2="17" y2="15.01"/>
+        </svg>
+      </div>
+      <div class="firm-card-label">Bulge Bracket Bank</div>
+    </div>
+
+    <div class="firm-card" data-key="mid-broker" onclick="selectFirm('mid-broker')">
+      <div class="firm-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/>
+          <line x1="3" y1="20" x2="21" y2="20"/>
+        </svg>
+      </div>
+      <div class="firm-card-label">Mid-Size Broker-Dealer</div>
+    </div>
+
+    <div class="firm-card" data-key="regional-broker" onclick="selectFirm('regional-broker')">
+      <div class="firm-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+      </div>
+      <div class="firm-card-label">Regional Broker-Dealer</div>
+    </div>
+
+    <div class="firm-card" data-key="hft-fund" onclick="selectFirm('hft-fund')">
+      <div class="firm-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+      </div>
+      <div class="firm-card-label">Hedge Fund (HFT)</div>
+    </div>
+
+    <div class="firm-card" data-key="fundamental-fund" onclick="selectFirm('fundamental-fund')">
+      <div class="firm-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="16.65" y1="16.65" x2="22" y2="22"/>
+        </svg>
+      </div>
+      <div class="firm-card-label">Hedge Fund (Fundamental)</div>
+    </div>
+
+    <div class="firm-card" data-key="asset-manager" onclick="selectFirm('asset-manager')">
+      <div class="firm-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2"/>
+          <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+          <line x1="12" y1="12" x2="12" y2="16"/>
+          <line x1="10" y1="14" x2="14" y2="14"/>
+        </svg>
+      </div>
+      <div class="firm-card-label">Asset Manager</div>
+    </div>
+
+    <div class="firm-card" data-key="exchange" onclick="selectFirm('exchange')">
+      <div class="firm-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </div>
+      <div class="firm-card-label">Exchange / Venue</div>
+    </div>
+
+    <div class="firm-card" data-key="data-vendor" onclick="selectFirm('data-vendor')">
+      <div class="firm-card-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="12" cy="5" rx="9" ry="3"/>
+          <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+        </svg>
+      </div>
+      <div class="firm-card-label">Data Vendor</div>
+    </div>
+
+  </div><!-- /firm-grid -->
+
+  <!-- STEP 2 — BENCHMARK AREA -->
+  <div id="benchmark-area">
+    <hr class="section-divider">
+    <div class="step-label">Step 2 of 2</div>
+    <div class="step-title" id="bench-title">Benchmark Data</div>
+
+    <!-- SECTION A — FEEDS -->
+    <div class="bench-section" id="sec-feeds">
+      <div class="bench-section-head">
+        <span class="bench-section-num">A</span>
+        <span class="bench-section-title">Data Feeds</span>
+        <span class="bench-section-sub">Typical Feed Subscriptions</span>
+      </div>
+      <div class="bench-note" id="feeds-note"></div>
+      <div class="feed-grid" id="feeds-grid"></div>
+    </div>
+
+    <!-- SECTION B — FEES -->
+    <div class="bench-section" id="sec-fees">
+      <div class="bench-section-head">
+        <span class="bench-section-num">B</span>
+        <span class="bench-section-title">Fee Benchmarks</span>
+        <span class="bench-section-sub">Monthly Market Data Spend</span>
+      </div>
+      <div class="fee-layout">
+        <div class="fee-range-wrap">
+          <div class="fee-range-title">Monthly Spend Range</div>
+          <div class="fee-bar-container">
+            <div class="fee-bar-track"></div>
+            <div class="fee-markers">
+              <div class="fee-marker low">
+                <span class="fee-marker-val" id="fee-low"></span>
+                <span class="fee-marker-label">Low</span>
+              </div>
+              <div class="fee-marker mid">
+                <span class="fee-marker-val" id="fee-mid"></span>
+                <span class="fee-marker-label">Median</span>
+              </div>
+              <div class="fee-marker high">
+                <span class="fee-marker-val" id="fee-high"></span>
+                <span class="fee-marker-label">High</span>
+              </div>
+            </div>
+          </div>
+          <div class="fee-median" id="fee-median-large"></div>
+          <div class="fee-median-label">estimated monthly median spend</div>
+          <div class="fee-users" style="margin-top:20px">
+            <div class="fee-users-num" id="users-range"></div>
+            <div class="fee-users-label">Professional Users (Typical Range)</div>
+            <div class="fee-users-note">Professional users are defined per exchange policy and billed at per-user rates. This is often the largest variable cost driver for data-intensive firms.</div>
+          </div>
+        </div>
+        <div class="fee-details">
+          <div class="fee-line-items-title">Top Cost Drivers</div>
+          <div id="fee-line-items"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION C — CONNECTIVITY -->
+    <div class="bench-section" id="sec-conn">
+      <div class="bench-section-head">
+        <span class="bench-section-num">C</span>
+        <span class="bench-section-title">Connectivity</span>
+        <span class="bench-section-sub">Typical Connectivity Profile</span>
+      </div>
+      <div class="conn-grid" id="conn-grid"></div>
+    </div>
+
+    <!-- SECTION D — REGULATORY -->
+    <div class="bench-section" id="sec-reg">
+      <div class="bench-section-head">
+        <span class="bench-section-num">D</span>
+        <span class="bench-section-title">Regulatory Priorities</span>
+        <span class="bench-section-sub">Key Regulatory Obligations</span>
+      </div>
+      <div class="reg-list" id="reg-list"></div>
+      <div class="reg-cta">
+        <span class="reg-cta-text">Track all regulatory deadlines for your firm type on FeedWatch — the market data industry's infrastructure deadline calendar.</span>
+        <a href="calendar.html" class="reg-cta-link">View FeedWatch →</a>
+      </div>
+    </div>
+
+    <!-- COMPARISON -->
+    <div class="compare-trigger">
+      <button class="compare-btn" onclick="toggleCompare()">Compare with another firm type →</button>
+    </div>
+
+    <div id="compare-area">
+      <hr class="section-divider" style="margin-top:0">
+      <div class="step-label">Comparison Mode</div>
+      <div class="step-title">Select a Firm Type to Compare</div>
+      <div class="firm-grid" id="compareFirmGrid" style="margin-bottom:0"></div>
+      <div id="compare-result"></div>
+    </div>
+
+  </div><!-- /benchmark-area -->
+
+  <!-- BOTTOM CTA -->
+  <div class="bottom-cta">
+    <div>
+      <h3>Is your firm's data missing from these benchmarks?</h3>
+      <p>Market Data News is building the most comprehensive market data benchmarking database in the industry. Share your firm's anonymous data to improve these benchmarks and get early access to Pro tier peer group analytics.</p>
+    </div>
+    <a href="subscribe.html" class="bottom-cta-btn">Join the Waitlist →</a>
+  </div>
+
+  <div class="disclaimer">
+    <strong>Disclaimer:</strong> Benchmarks are estimates based on publicly available information, industry research, and expert knowledge. Individual firm costs vary significantly based on strategy, size, negotiated rates, and specific data requirements. Market Data News does not guarantee accuracy. Last updated: April 2026.
+  </div>
+
+</div><!-- /pg-wrap -->
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="exchanges.html">Exchanges</a>
+      <a href="regulation.html">Regulation</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>FeedWatch</h4>
+      <a href="calendar.html">All Entries</a>
+      <a href="calendar.html?filter=action">Action Required</a>
+      <a href="calendar.html?filter=critical">Critical Alerts</a>
+      <a href="calendar.html?filter=high">High Impact</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="subscribe.html">Subscribe</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+// ── Date line ──
+const _days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const _months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const _now = new Date();
+document.getElementById('dateLine').textContent = _days[_now.getDay()] + ', ' + _months[_now.getMonth()] + ' ' + _now.getDate() + ', ' + _now.getFullYear();
+
+// ── Mobile nav ──
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+
+// ── Peer data ──
+const peerData = {
+  'bulge-bank': {
+    label: 'Bulge Bracket Bank',
+    feeds: {
+      equity: ['CTA/CQ SIP', 'UTP SIP', 'NYSE BQT', 'Nasdaq Basic', 'Cboe One', 'NYSE Integrated Feed', 'Nasdaq TotalView', 'Cboe Depth'],
+      options: ['OPRA', 'Nasdaq ITCH Options', 'Cboe Options Depth'],
+      futures: ['CME MDP 3.0 Full', 'ICE iMpact', 'Eurex'],
+      fixedIncome: ['BrokerTec', 'eSpeed', 'Bloomberg BVAL'],
+      crypto: ['CME CF Crypto', 'Coinbase Advanced'],
+      alternative: ['TRACE', 'CAT', 'FINRA TRF']
+    },
+    fees: {
+      monthly: { low: 250000, mid: 600000, high: 1200000 },
+      topLineItems: ['NYSE Integrated Feed Enterprise', 'Nasdaq TotalView', 'OPRA Full Feed', 'CME MDP 3.0', 'Bloomberg Terminal licenses'],
+      professionalUsers: { low: 500, mid: 1500, high: 3000 }
+    },
+    connectivity: {
+      colocation: ['NYSE Mahwah', 'Nasdaq Carteret', 'Cboe Secaucus', 'CME Aurora'],
+      managed: ['TNS', 'BT Radianz', 'Colt', 'Lumen'],
+      bandwidth: '10Gbps+ per venue',
+      cloud: 'Limited — regulatory constraints'
+    },
+    regulatory: ['Rule 605 reporting', 'CAT reporting', 'FINRA TRACE', 'SEC 17a-25', 'Reg NMS best ex', 'CFTC large trader']
+  },
+
+  'mid-broker': {
+    label: 'Mid-Size Broker-Dealer',
+    feeds: {
+      equity: ['CTA/CQ SIP', 'UTP SIP', 'NYSE BQT', 'Nasdaq Basic', 'Cboe One'],
+      options: ['OPRA'],
+      futures: ['CME MDP 3.0 Selective'],
+      fixedIncome: ['TRACE'],
+      crypto: [],
+      alternative: ['FINRA TRF', 'CAT']
+    },
+    fees: {
+      monthly: { low: 50000, mid: 150000, high: 350000 },
+      topLineItems: ['OPRA full feed', 'CTA/UTP SIP', 'NYSE BQT or Nasdaq Basic', 'CME selective channels'],
+      professionalUsers: { low: 100, mid: 300, high: 800 }
+    },
+    connectivity: {
+      colocation: ['NYSE Mahwah', 'Nasdaq Carteret'],
+      managed: ['TNS', 'BT Radianz'],
+      bandwidth: '1–10Gbps',
+      cloud: 'Exploring for non-latency-sensitive workflows'
+    },
+    regulatory: ['Rule 605 reporting', 'CAT reporting', 'FINRA TRACE', 'Reg NMS best ex']
+  },
+
+  'regional-broker': {
+    label: 'Regional Broker-Dealer',
+    feeds: {
+      equity: ['CTA/CQ SIP', 'UTP SIP'],
+      options: ['OPRA'],
+      futures: [],
+      fixedIncome: ['TRACE'],
+      crypto: [],
+      alternative: ['CAT']
+    },
+    fees: {
+      monthly: { low: 10000, mid: 35000, high: 80000 },
+      topLineItems: ['OPRA feed', 'CTA/UTP SIP', 'Data vendor subscription (Bloomberg/Refinitiv)'],
+      professionalUsers: { low: 20, mid: 75, high: 200 }
+    },
+    connectivity: {
+      colocation: ['None or minimal'],
+      managed: ['Vendor-provided (Bloomberg/Refinitiv)'],
+      bandwidth: 'Vendor managed',
+      cloud: 'Yes — primarily cloud-based workflows'
+    },
+    regulatory: ['CAT reporting', 'FINRA TRACE', 'Reg NMS best ex', 'Rule 606']
+  },
+
+  'hft-fund': {
+    label: 'Hedge Fund (HFT)',
+    feeds: {
+      equity: ['NYSE Integrated Feed', 'Nasdaq TotalView ITCH', 'Cboe Depth', 'IEX DEEP', 'MEMX Depth', 'All venue proprietary feeds'],
+      options: ['OPRA', 'All options venue proprietary feeds'],
+      futures: ['CME MDP 3.0 Full', 'ICE iMpact Full'],
+      fixedIncome: [],
+      crypto: ['CME CF Crypto', 'Multiple crypto venue feeds'],
+      alternative: ['NYSE OpenBook Ultra', 'Nasdaq ITCH 5.0']
+    },
+    fees: {
+      monthly: { low: 100000, mid: 400000, high: 2000000 },
+      topLineItems: ['All proprietary venue feeds', 'Co-location fees', 'Cross-connects', 'CME MDP 3.0 full depth'],
+      professionalUsers: { low: 10, mid: 30, high: 100 }
+    },
+    connectivity: {
+      colocation: ['Every major US venue', 'CME Aurora IL', 'ICE Atlanta', 'Options venues'],
+      managed: ['Minimal — direct only'],
+      bandwidth: '10–40Gbps per venue',
+      cloud: 'No — latency sensitive'
+    },
+    regulatory: ['CAT reporting', 'CFTC large trader', 'SEC 13H large trader']
+  },
+
+  'fundamental-fund': {
+    label: 'Hedge Fund (Fundamental)',
+    feeds: {
+      equity: ['CTA/CQ SIP', 'UTP SIP', 'Bloomberg Terminal'],
+      options: ['OPRA via vendor'],
+      futures: ['CME via Bloomberg/Refinitiv'],
+      fixedIncome: ['Bloomberg BVAL', 'TRACE'],
+      crypto: ['Selective'],
+      alternative: ['Alternative data vendors', 'Satellite data', 'Web scraping']
+    },
+    fees: {
+      monthly: { low: 30000, mid: 100000, high: 500000 },
+      topLineItems: ['Bloomberg Terminal licenses', 'Alternative data subscriptions', 'Refinitiv Eikon', 'Specialized data vendors'],
+      professionalUsers: { low: 20, mid: 60, high: 200 }
+    },
+    connectivity: {
+      colocation: ['Minimal or none'],
+      managed: ['Bloomberg network', 'Refinitiv'],
+      bandwidth: 'Standard internet + vendor networks',
+      cloud: 'Yes — AWS/Azure for data processing'
+    },
+    regulatory: ['CAT reporting', 'SEC 13F', 'SEC 13H if applicable', 'Form PF']
+  },
+
+  'asset-manager': {
+    label: 'Asset Manager',
+    feeds: {
+      equity: ['CTA/CQ SIP', 'UTP SIP', 'Bloomberg Terminal'],
+      options: ['OPRA via vendor'],
+      futures: ['CME via vendor'],
+      fixedIncome: ['Bloomberg BVAL', 'ICE Data Services', 'TRACE'],
+      crypto: ['Minimal'],
+      alternative: ['ESG data', 'Earnings data', 'Economic data']
+    },
+    fees: {
+      monthly: { low: 50000, mid: 200000, high: 800000 },
+      topLineItems: ['Bloomberg Terminal licenses (largest line item)', 'ICE Data Services', 'Refinitiv', 'Index licenses (S&P, MSCI, FTSE)'],
+      professionalUsers: { low: 50, mid: 200, high: 1000 }
+    },
+    connectivity: {
+      colocation: ['None'],
+      managed: ['Bloomberg network', 'Vendor managed'],
+      bandwidth: 'Vendor managed',
+      cloud: 'Yes — cloud-first for most workflows'
+    },
+    regulatory: ['CAT reporting', 'SEC 13F', 'Form PF', 'ERISA if applicable', 'Rule 606 if routing']
+  },
+
+  'exchange': {
+    label: 'Exchange / Venue',
+    feeds: {
+      equity: ['SIP participant', 'Competing consolidator feeds', 'Peer venue feeds for surveillance'],
+      options: ['OPRA participant', 'Peer options venue feeds'],
+      futures: ['CME for cross-margining data'],
+      fixedIncome: ['TRACE for surveillance'],
+      crypto: ['Crypto venue feeds for surveillance'],
+      alternative: ['CAT as reporter and consumer', 'FINRA surveillance feeds']
+    },
+    fees: {
+      monthly: { low: 20000, mid: 80000, high: 300000 },
+      topLineItems: ['SIP participation fees', 'Competing consolidator subscriptions', 'Surveillance data feeds', 'CAT reporting costs'],
+      professionalUsers: { low: 50, mid: 150, high: 500 }
+    },
+    connectivity: {
+      colocation: ['Own data center operator', 'Peer venue cross-connects'],
+      managed: ['Direct cross-connects to other venues'],
+      bandwidth: 'Operate own infrastructure',
+      cloud: 'Selective — CME Google Cloud model emerging'
+    },
+    regulatory: ['SIP NMS Plan participant', 'CAT SRO reporter', 'SEC rule filing obligations', 'FINRA surveillance sharing']
+  },
+
+  'data-vendor': {
+    label: 'Data Vendor',
+    feeds: {
+      equity: ['All SIP feeds', 'All proprietary venue feeds', 'International exchange feeds'],
+      options: ['OPRA full feed', 'All options venue feeds'],
+      futures: ['CME MDP 3.0', 'ICE', 'Eurex', 'Global futures venues'],
+      fixedIncome: ['TRACE', 'BrokerTec', 'MTS', 'Bloomberg'],
+      crypto: ['All major crypto venue feeds'],
+      alternative: ['Everything available']
+    },
+    fees: {
+      monthly: { low: 500000, mid: 2000000, high: 10000000 },
+      topLineItems: ['Exchange data licensing fees (largest cost)', 'Redistribution licenses', 'Display licenses', 'Non-display licenses per client'],
+      professionalUsers: { low: 0, mid: 0, high: 0 }
+    },
+    connectivity: {
+      colocation: ['All major US and global venues'],
+      managed: ['Own global network infrastructure'],
+      bandwidth: '40–100Gbps at major venues',
+      cloud: 'Yes — cloud delivery as primary distribution model'
+    },
+    regulatory: ['Redistribution agreements with all exchanges', 'Non-display licensing compliance', 'Audit obligations to exchanges', 'GDPR if EU data']
+  }
+};
+
+// ── State ──
+let selectedKey = null;
+let compareKey = null;
+let compareVisible = false;
+
+// ── Utilities ──
+function fmt(n) {
+  if (n >= 1000000) return '$' + (n / 1000000).toLocaleString('en-US', {maximumFractionDigits: 1}) + 'M';
+  if (n >= 1000) return '$' + (n / 1000).toLocaleString('en-US', {maximumFractionDigits: 0}) + 'K';
+  return '$' + n.toLocaleString('en-US');
+}
+
+function pillsHtml(arr, cls) {
+  if (!arr || !arr.length) return '<span class="feed-none">None typical</span>';
+  return arr.map(p => `<span class="${cls}">${p}</span>`).join('');
+}
+
+function cloudClass(val) {
+  const v = val.toLowerCase();
+  if (v.startsWith('yes')) return 'conn-cloud-yes';
+  if (v.startsWith('no')) return 'conn-cloud-no';
+  return 'conn-cloud-partial';
+}
+
+// ── Select firm ──
+function selectFirm(key) {
+  selectedKey = key;
+  // Update card selection in main grid
+  document.querySelectorAll('#firmGrid .firm-card').forEach(c => {
+    c.classList.toggle('selected', c.dataset.key === key);
+  });
+  renderBenchmarks(key);
+
+  // If compare already visible, re-render compare result
+  if (compareVisible && compareKey) renderCompare();
+}
+
+function renderBenchmarks(key) {
+  const d = peerData[key];
+
+  // Show area
+  const area = document.getElementById('benchmark-area');
+  area.classList.add('visible');
+  document.getElementById('bench-title').textContent = d.label + ' — Benchmark Data';
+
+  // Section A — Feeds
+  document.getElementById('feeds-note').textContent =
+    'Based on typical subscriptions for ' + d.label + '. Actual subscriptions vary by strategy and size.';
+
+  const feedGroups = [
+    { key: 'equity', label: 'Equity Feeds' },
+    { key: 'options', label: 'Options Feeds' },
+    { key: 'futures', label: 'Futures Feeds' },
+    { key: 'fixedIncome', label: 'Fixed Income' },
+    { key: 'crypto', label: 'Crypto' },
+    { key: 'alternative', label: 'Alternative / Regulatory' },
+  ];
+  document.getElementById('feeds-grid').innerHTML = feedGroups.map(g => `
+    <div class="feed-group">
+      <div class="feed-group-label">${g.label}</div>
+      <div class="feed-pills">${pillsHtml(d.feeds[g.key], 'feed-pill')}</div>
+    </div>
+  `).join('');
+
+  // Section B — Fees
+  document.getElementById('fee-low').textContent = fmt(d.fees.monthly.low);
+  document.getElementById('fee-mid').textContent = fmt(d.fees.monthly.mid);
+  document.getElementById('fee-high').textContent = fmt(d.fees.monthly.high);
+  document.getElementById('fee-median-large').textContent = fmt(d.fees.monthly.mid) + ' / mo';
+
+  document.getElementById('fee-line-items').innerHTML = d.fees.topLineItems.map(item =>
+    `<div class="fee-line-item">${item}</div>`
+  ).join('');
+
+  const pu = d.fees.professionalUsers;
+  const usersText = (pu.low === 0 && pu.high === 0)
+    ? 'N/A — distributes data to clients rather than consuming as end users'
+    : pu.low.toLocaleString() + ' – ' + pu.high.toLocaleString();
+  document.getElementById('users-range').textContent = usersText;
+
+  // Section C — Connectivity
+  document.getElementById('conn-grid').innerHTML = `
+    <div class="conn-box">
+      <div class="conn-box-label">Co-Location Venues</div>
+      <div class="conn-pills">${pillsHtml(d.connectivity.colocation, 'conn-pill')}</div>
+    </div>
+    <div class="conn-box">
+      <div class="conn-box-label">Managed Network</div>
+      <div class="conn-pills">${pillsHtml(d.connectivity.managed, 'conn-pill')}</div>
+    </div>
+    <div class="conn-box">
+      <div class="conn-box-label">Bandwidth</div>
+      <div class="conn-val">${d.connectivity.bandwidth}</div>
+    </div>
+    <div class="conn-box">
+      <div class="conn-box-label">Cloud Adoption</div>
+      <div class="conn-val ${cloudClass(d.connectivity.cloud)}">${d.connectivity.cloud}</div>
+    </div>
+  `;
+
+  // Section D — Regulatory
+  document.getElementById('reg-list').innerHTML = d.regulatory.map(r =>
+    `<div class="reg-item"><span class="reg-check">✓</span><span>${r}</span></div>`
+  ).join('');
+
+  // Scroll into view gently
+  setTimeout(() => {
+    area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 50);
+
+  // Re-build compare grid (to exclude current selection)
+  buildCompareGrid();
+
+  // Reset compare result if firm changed
+  if (compareVisible && compareKey === key) {
+    compareKey = null;
+    document.getElementById('compare-result').innerHTML = '';
+    document.querySelectorAll('#compareFirmGrid .firm-card').forEach(c => c.classList.remove('selected'));
+  } else if (compareVisible && compareKey) {
+    renderCompare();
+  }
+}
+
+// ── Compare ──
+function toggleCompare() {
+  compareVisible = !compareVisible;
+  const area = document.getElementById('compare-area');
+  area.classList.toggle('visible', compareVisible);
+  const btn = document.querySelector('.compare-btn');
+  btn.textContent = compareVisible ? 'Hide comparison ↑' : 'Compare with another firm type →';
+  if (compareVisible) buildCompareGrid();
+}
+
+function buildCompareGrid() {
+  const grid = document.getElementById('compareFirmGrid');
+  grid.innerHTML = '';
+  Object.entries(peerData).forEach(([key, val]) => {
+    const card = document.createElement('div');
+    card.className = 'firm-card' + (compareKey === key ? ' selected' : '');
+    card.dataset.key = key;
+    card.onclick = () => selectCompare(key);
+    card.innerHTML = `<div class="firm-card-label">${val.label}</div>`;
+    if (key === selectedKey) card.style.opacity = '0.4';
+    grid.appendChild(card);
+  });
+}
+
+function selectCompare(key) {
+  if (key === selectedKey) return;
+  compareKey = key;
+  document.querySelectorAll('#compareFirmGrid .firm-card').forEach(c => {
+    c.classList.toggle('selected', c.dataset.key === key);
+  });
+  renderCompare();
+}
+
+function renderCompare() {
+  const a = peerData[selectedKey];
+  const b = peerData[compareKey];
+  const el = document.getElementById('compare-result');
+  el.innerHTML = `
+    <div class="compare-side-by-side fade-in">
+      <div class="compare-col">
+        <div class="compare-col-label">Your Firm Type</div>
+        <div class="compare-col-name">${a.label}</div>
+        <div class="compare-row"><span class="compare-row-label">Low estimate</span><span class="compare-row-val low">${fmt(a.fees.monthly.low)}/mo</span></div>
+        <div class="compare-row"><span class="compare-row-label">Median estimate</span><span class="compare-row-val mid">${fmt(a.fees.monthly.mid)}/mo</span></div>
+        <div class="compare-row"><span class="compare-row-label">High estimate</span><span class="compare-row-val high">${fmt(a.fees.monthly.high)}/mo</span></div>
+        <div class="compare-row"><span class="compare-row-label">Pro users (median)</span><span class="compare-row-val">${a.fees.professionalUsers.mid > 0 ? a.fees.professionalUsers.mid.toLocaleString() : 'N/A'}</span></div>
+        <div class="compare-row"><span class="compare-row-label">Cloud adoption</span><span class="compare-row-val">${a.connectivity.cloud.split('—')[0].trim()}</span></div>
+        <div class="compare-row"><span class="compare-row-label">Bandwidth</span><span class="compare-row-val">${a.connectivity.bandwidth}</span></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-col-label">Comparison Firm Type</div>
+        <div class="compare-col-name">${b.label}</div>
+        <div class="compare-row"><span class="compare-row-label">Low estimate</span><span class="compare-row-val low">${fmt(b.fees.monthly.low)}/mo</span></div>
+        <div class="compare-row"><span class="compare-row-label">Median estimate</span><span class="compare-row-val mid">${fmt(b.fees.monthly.mid)}/mo</span></div>
+        <div class="compare-row"><span class="compare-row-label">High estimate</span><span class="compare-row-val high">${fmt(b.fees.monthly.high)}/mo</span></div>
+        <div class="compare-row"><span class="compare-row-label">Pro users (median)</span><span class="compare-row-val">${b.fees.professionalUsers.mid > 0 ? b.fees.professionalUsers.mid.toLocaleString() : 'N/A'}</span></div>
+        <div class="compare-row"><span class="compare-row-label">Cloud adoption</span><span class="compare-row-val">${b.connectivity.cloud.split('—')[0].trim()}</span></div>
+        <div class="compare-row"><span class="compare-row-label">Bandwidth</span><span class="compare-row-val">${b.connectivity.bandwidth}</span></div>
+      </div>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>
