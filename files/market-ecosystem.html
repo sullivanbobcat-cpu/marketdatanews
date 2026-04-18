@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="/favicon.png" sizes="180x180">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>US Market Structure Ecosystem | Market Data News</title>
+<meta name="description" content="Interactive explorer of US financial market structure — exchanges, ATSs, broker-dealers, clearing houses, market data vendors, and regulators. See how they connect.">
+<meta name="keywords" content="US market structure, financial market ecosystem, exchange, SIP, broker-dealer, clearing house, market data vendor, regulator, DTCC, OCC, SEC, FINRA, CFTC">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Market Data News">
+<link rel="canonical" href="https://marketdatanews.com/market-ecosystem">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@MDNintelligence">
+<meta name="twitter:title" content="US Market Structure Ecosystem | Market Data News">
+<meta name="twitter:description" content="Interactive explorer of US financial market structure — exchanges, ATSs, clearing houses, and how they connect.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://marketdatanews.com/market-ecosystem">
+<meta property="og:title" content="US Market Structure Ecosystem | Market Data News">
+<meta property="og:description" content="Interactive explorer of US financial market structure — exchanges, ATSs, broker-dealers, clearing houses, market data vendors, and regulators.">
+<meta property="og:site_name" content="Market Data News">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before,.ticker-wrap::after { content:''; position:absolute; top:0; bottom:0; width:60px; z-index:2; }
+  .ticker-wrap::before { left:0; background:linear-gradient(90deg,var(--ink),transparent); }
+  .ticker-wrap::after { right:0; background:linear-gradient(-90deg,var(--ink),transparent); }
+  .ticker { display:flex; animation:ticker 40s linear infinite; white-space:nowrap; }
+  .ticker-item { font-family:'IBM Plex Mono',monospace; font-size:11px; padding:0 32px; letter-spacing:0.05em; }
+  .up { color:#00cc66; } .down { color:#ff4444; }
+  @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+  .fw-alertbar { background:#1a0a00; border-bottom:2px solid var(--accent); padding:0 48px; }
+  .fw-alertbar-inner { max-width:1280px; margin:0 auto; display:flex; align-items:center; height:38px; }
+  .fw-alertbar-brand { font-family:'Playfair Display',serif; font-size:15px; font-weight:900; color:white; text-decoration:none; padding-right:16px; white-space:nowrap; }
+  .fw-alertbar-brand span { color:var(--accent); }
+  .fw-alertbar-divider { width:1px; height:20px; background:#3a2a10; margin:0 16px; flex-shrink:0; }
+  .fw-alertbar-stats { display:flex; align-items:center; gap:4px; }
+  .fw-alertbar-stat { display:flex; align-items:center; gap:5px; padding:4px 10px; border-radius:2px; text-decoration:none; transition:background 0.15s; white-space:nowrap; }
+  .fw-alertbar-stat:hover { background:rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width:6px; height:6px; border-radius:50%; background:#ff4444; animation:pulse 2s infinite; flex-shrink:0; }
+  .fw-alertbar-num { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:white; }
+  .fw-alertbar-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num,.fw-alertbar-stat.critical .fw-alertbar-label { color:#ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num,.fw-alertbar-stat.high .fw-alertbar-label { color:#ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num,.fw-alertbar-stat.action .fw-alertbar-label { color:var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color:#888; } .fw-alertbar-stat.total .fw-alertbar-label { color:#555; }
+  .fw-alertbar-next { margin-left:auto; display:flex; align-items:center; gap:8px; white-space:nowrap; }
+  .fw-alertbar-next-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.08em; color:#555; }
+  .fw-alertbar-next-val { font-family:'IBM Plex Mono',monospace; font-size:10px; color:#ff9900; font-weight:600; }
+  .fw-alertbar-cta { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); text-decoration:none; padding:5px 12px; border:1px solid var(--accent-dark); border-radius:2px; margin-left:16px; transition:all 0.15s; white-space:nowrap; }
+  .fw-alertbar-cta:hover { background:var(--accent); color:var(--ink); }
+
+  .masthead { background:var(--cream); border-bottom:3px solid var(--ink); }
+  .masthead-top { display:flex; align-items:center; justify-content:space-between; padding:20px 48px 16px; border-bottom:1px solid var(--rule); }
+  .date-line { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+  .site-title { font-family:'Playfair Display',serif; font-size:clamp(32px,5vw,58px); font-weight:900; letter-spacing:-0.02em; line-height:1; text-align:center; text-decoration:none; color:var(--ink); }
+  .site-title span { color:var(--accent); }
+  .tagline { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); text-align:right; letter-spacing:0.1em; text-transform:uppercase; line-height:1.6; }
+
+  nav { display:flex; align-items:stretch; padding:0 48px; border-bottom:1px solid var(--rule); position:relative; flex-wrap:nowrap; overflow:visible; background:var(--cream); }
+  .nav-item { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; padding:0 14px; cursor:pointer; transition:background 0.15s,color 0.15s; color:var(--ink); border:none; background:none; font-family:'IBM Plex Sans',sans-serif; border-right:1px solid var(--rule); text-decoration:none; display:inline-flex; align-items:center; white-space:nowrap; min-height:40px; user-select:none; }
+  a.nav-item:first-child { border-left:1px solid var(--rule); }
+  .nav-item.active,.nav-item:hover { background:var(--ink); color:var(--accent); }
+  .nav-dropdown { position:relative; display:flex; align-items:stretch; }
+  .nav-dropdown>.nav-item { border-left:none; }
+  .nav-dropdown-menu { display:block; position:absolute; top:100%; left:0; opacity:0; visibility:hidden; transform:translateY(-4px); transition:opacity 0.15s ease,transform 0.15s ease,visibility 0.15s ease; min-width:220px; background:var(--ink); border-top:2px solid var(--accent); z-index:1000; box-shadow:0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left:auto; right:0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity:1; visibility:visible; transform:translateY(0); }
+  .nav-drop-item { display:block; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#aaa; text-decoration:none; padding:10px 20px; border-bottom:1px solid #1e1e1e; transition:color 0.15s,background 0.15s; white-space:nowrap; }
+  .nav-drop-item:last-child { border-bottom:none; }
+  .nav-drop-item:hover,.nav-drop-item.active { color:var(--accent); background:#111; }
+  .nav-drop-group { font-family:'IBM Plex Mono',monospace; font-size:9px; color:#b8860b; text-transform:uppercase; letter-spacing:0.15em; padding:8px 16px 4px; cursor:default; display:block; }
+  .nav-drop-divider { border:none; border-top:1px solid #2a2a2a; margin:4px 0; }
+  a.nav-subscribe { font-family:'IBM Plex Mono',monospace!important; font-size:11px!important; font-weight:700!important; padding:0 18px!important; border-radius:2px!important; text-transform:uppercase!important; border-right:none!important; letter-spacing:0.08em!important; background:var(--accent); color:var(--ink)!important; }
+  a.nav-subscribe:hover { background:var(--accent-dark)!important; color:white!important; }
+  .nav-right { margin-left:auto; display:flex; align-items:center; gap:16px; padding-left:16px; border-left:1px solid var(--rule); }
+  .search-wrap { position:relative; display:flex; align-items:center; }
+  .search-box { background:transparent; border:1px solid var(--rule); padding:5px 12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink); border-radius:2px; width:180px; }
+  .search-box:focus { outline:none; border-color:var(--accent); }
+  .search-box::placeholder { color:var(--muted); }
+
+  .mobile-nav { display:none; flex-direction:column; background:var(--ink); padding:12px 20px; border-bottom:2px solid var(--accent); }
+  .mobile-nav.open { display:flex; }
+  .mobile-nav a { font-family:'IBM Plex Sans',sans-serif; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:#aaa; text-decoration:none; padding:10px 0; border-bottom:1px solid #222; }
+  .mobile-nav a:last-child { border-bottom:none; }
+  .mobile-nav a:hover,.mobile-nav a.active { color:var(--accent); }
+  .mobile-nav .mob-group-label { font-family:'IBM Plex Mono',monospace!important; font-size:9px!important; text-transform:uppercase!important; letter-spacing:0.15em!important; color:var(--accent)!important; padding:14px 0 5px!important; border-bottom:none!important; font-weight:400!important; cursor:default; }
+  .hamburger { background:none; border:none; cursor:pointer; display:flex; flex-direction:column; gap:5px; padding:4px; }
+  .hamburger span { display:block; width:22px; height:2px; background:#aaa; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+  .fade-in { animation:fadeIn 0.25s ease forwards; }
+
+  footer { background:var(--ink); color:#aaa; padding:40px 48px; }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; max-width:1280px; margin:0 auto 32px; }
+  .footer-brand { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; color:white; margin-bottom:10px; }
+  .footer-brand span { color:var(--accent); }
+  .footer-desc { font-size:12px; line-height:1.7; max-width:260px; }
+  .footer-col h4 { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.12em; color:white; margin-bottom:12px; font-family:'IBM Plex Sans',sans-serif; }
+  .footer-col a { display:block; font-size:12px; color:#888; text-decoration:none; margin-bottom:7px; transition:color 0.15s; }
+  .footer-col a:hover { color:var(--accent); }
+  .footer-bottom { border-top:1px solid #222; padding-top:20px; font-family:'IBM Plex Mono',monospace; font-size:10px; display:flex; justify-content:space-between; max-width:1280px; margin:0 auto; }
+
+  /* ── PAGE HERO ── */
+  .pg-hero { background:var(--cream); border-bottom:2px solid var(--ink); padding:48px 48px 40px; }
+  .pg-hero-inner { max-width:1280px; margin:0 auto; }
+  .pg-hero-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:0.18em; color:var(--accent-dark); margin-bottom:14px; }
+  .pg-hero h1 { font-family:'Playfair Display',serif; font-size:clamp(28px,4vw,52px); font-weight:900; line-height:1.1; letter-spacing:-0.02em; color:var(--ink); margin-bottom:16px; }
+  .pg-hero-sub { font-size:16px; line-height:1.7; color:var(--muted); max-width:600px; }
+
+  /* ── MAIN WRAP ── */
+  .pg-wrap { max-width:1280px; margin:0 auto; padding:40px 48px 64px; }
+
+  /* ── EXPLORER LAYOUT ── */
+  .eco-layout { display:grid; grid-template-columns:35% 65%; border:1px solid var(--border); background:var(--surface); min-height:640px; }
+  .eco-left { border-right:2px solid var(--ink); display:flex; flex-direction:column; }
+  .eco-right { overflow-y:auto; padding:28px; max-height:760px; }
+
+  /* ── TABS ── */
+  .eco-tabs { display:flex; flex-wrap:wrap; padding:10px 12px 0; gap:2px; background:var(--paper); border-bottom:1px solid var(--border); }
+  .eco-tab { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; padding:6px 9px; cursor:pointer; border-bottom:2px solid transparent; color:var(--muted); transition:color 0.12s,border-color 0.12s; background:none; border-top:none; border-left:none; border-right:none; }
+  .eco-tab.active,.eco-tab:hover { color:var(--accent); border-bottom-color:var(--accent); }
+
+  /* ── SEARCH ── */
+  .eco-search { padding:10px 12px; border-bottom:1px solid var(--border); background:var(--surface); }
+  .eco-search-input { width:100%; font-family:'IBM Plex Mono',monospace; font-size:11px; padding:7px 10px; border:1px solid var(--border); background:var(--cream); color:var(--ink); outline:none; border-radius:2px; }
+  .eco-search-input:focus { border-color:var(--accent); }
+  .eco-search-input::placeholder { color:var(--muted); }
+
+  /* ── LIST ── */
+  .eco-list { overflow-y:auto; flex:1; max-height:670px; }
+  .eco-list-item { padding:12px 14px; border-bottom:1px solid var(--border); cursor:pointer; transition:background 0.1s; border-left:3px solid transparent; }
+  .eco-list-item:hover { background:var(--cream); border-left-color:var(--accent); }
+  .eco-list-item.selected { background:var(--cream); border-left-color:var(--accent); }
+  .eco-list-name { font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:var(--ink); margin:4px 0 2px; }
+  .eco-list-item.selected .eco-list-name { color:var(--accent); }
+  .eco-list-desc { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .eco-list-empty { padding:20px 14px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); }
+
+  /* ── TYPE BADGE ── */
+  .type-badge { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; padding:2px 8px; border-radius:2px; color:white; display:inline-block; }
+  .type-badge-lg { font-size:10px; padding:4px 12px; }
+
+  /* ── DETAIL CARD ── */
+  .eco-detail-header { margin-bottom:20px; }
+  .eco-detail-fullname { font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:var(--ink); margin:10px 0 4px; line-height:1.2; }
+  .eco-detail-parent { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); margin-bottom:12px; }
+  .eco-detail-role { font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink); line-height:1.7; background:var(--paper); padding:12px 14px; border-radius:2px; border-left:3px solid var(--accent); }
+
+  /* ── INFO GRID ── */
+  .eco-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:20px 0; }
+  .eco-info-box { padding:14px 16px; border-radius:2px; border:1px solid; }
+  .eco-info-box.blue { border-color:#1565C0; background:rgba(21,101,192,0.03); }
+  .eco-info-box.green { border-color:#2E7D32; background:rgba(46,125,50,0.03); }
+  .eco-info-box.gold { border-color:var(--accent); background:rgba(184,134,11,0.03); }
+  .eco-info-box.red { border-color:#C62828; background:rgba(198,40,40,0.03); }
+  .eco-info-box-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.18em; color:var(--muted); margin-bottom:10px; display:block; }
+  .eco-badges { display:flex; flex-wrap:wrap; gap:5px; }
+  .eco-badge { font-family:'IBM Plex Mono',monospace; font-size:10px; padding:3px 9px; border-radius:20px; display:inline-block; }
+  .eco-badge.gold { background:rgba(184,134,11,0.12); color:var(--accent-dark); border:1px solid rgba(184,134,11,0.25); }
+  .eco-badge.gray { background:var(--paper); color:var(--muted); border:1px solid var(--border); }
+  .eco-badge.conn { background:var(--ink); color:#aaa; border:1px solid #333; cursor:pointer; transition:color 0.12s; }
+  .eco-badge.conn:hover { color:var(--accent); }
+  .eco-badge.conn-none { background:var(--paper); color:var(--muted); border:1px solid var(--border); cursor:default; }
+  .eco-badge.reg { background:rgba(198,40,40,0.08); color:#C62828; border:1px solid rgba(198,40,40,0.2); }
+
+  /* ── DETAIL FOOTER ── */
+  .eco-detail-footer { display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px solid var(--border); margin-top:4px; flex-wrap:wrap; gap:8px; }
+  .eco-tape { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); }
+  .eco-tape strong { color:var(--ink); }
+  .eco-ext-link { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:var(--accent); text-decoration:none; transition:color 0.12s; }
+  .eco-ext-link:hover { color:var(--accent-dark); text-decoration:underline; }
+
+  /* ── CONNECTION DIAGRAM ── */
+  .eco-conn-section { margin-top:20px; }
+  .eco-conn-title { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.18em; color:var(--muted); margin-bottom:12px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+  .eco-conn-diagram { display:flex; align-items:stretch; gap:0; overflow-x:auto; }
+  .eco-conn-col { display:flex; flex-direction:column; gap:5px; min-width:130px; padding:12px; background:var(--paper); border:1px solid var(--border); }
+  .eco-conn-col-label { font-family:'IBM Plex Mono',monospace; font-size:8px; text-transform:uppercase; letter-spacing:0.15em; color:var(--muted); margin-bottom:6px; }
+  .eco-conn-center-wrap { display:flex; align-items:center; padding:0 8px; flex-shrink:0; }
+  .eco-conn-arrow { font-size:20px; color:var(--muted); margin:0 4px; }
+  .eco-conn-center-box { background:var(--ink); border:2px solid var(--accent); padding:12px 16px; text-align:center; }
+  .eco-conn-center-name { font-family:'Playfair Display',serif; font-size:13px; font-weight:700; color:var(--accent); }
+  .eco-conn-center-type { font-family:'IBM Plex Mono',monospace; font-size:9px; color:#555; margin-top:3px; }
+  .eco-conn-pill { font-family:'IBM Plex Mono',monospace; font-size:10px; padding:4px 10px; border-radius:2px; cursor:pointer; transition:all 0.1s; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .eco-conn-pill.inbound { background:rgba(46,125,50,0.12); color:#2E7D32; border:1px solid rgba(46,125,50,0.25); }
+  .eco-conn-pill.inbound:hover { background:rgba(46,125,50,0.25); }
+  .eco-conn-pill.outbound { background:rgba(184,134,11,0.12); color:var(--accent-dark); border:1px solid rgba(184,134,11,0.25); }
+  .eco-conn-pill.outbound:hover { background:rgba(184,134,11,0.25); }
+  .eco-conn-pill.plain { background:var(--paper); color:var(--muted); border:1px solid var(--border); cursor:default; }
+  .eco-conn-none { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); font-style:italic; }
+
+  /* ── NARRATIVE SECTION ── */
+  .narrative-section { margin-top:48px; border-top:2px solid var(--ink); padding-top:40px; }
+  .narrative-title { font-family:'Playfair Display',serif; font-size:32px; font-weight:900; color:var(--ink); margin-bottom:32px; }
+  .narrative-body { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
+  .narrative-para { }
+  .narrative-para-label { font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.18em; color:var(--accent); margin-bottom:10px; }
+  .narrative-para p { font-size:14px; line-height:1.8; color:var(--muted); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:900px) {
+    nav { display:none!important; }
+    #mobileBar { display:flex!important; }
+    .pg-hero,.pg-wrap { padding-left:20px; padding-right:20px; }
+    .fw-alertbar,.masthead-top { padding-left:20px; padding-right:20px; }
+    .masthead-top { flex-direction:column; gap:10px; text-align:center; }
+    .tagline { text-align:center; }
+    .fw-alertbar-next,.fw-alertbar-cta,.fw-alertbar-label { display:none; }
+    .eco-layout { grid-template-columns:1fr; }
+    .eco-left { border-right:none; border-bottom:2px solid var(--ink); }
+    .eco-right { max-height:none; }
+    .eco-info-grid { grid-template-columns:1fr; }
+    .eco-conn-diagram { flex-direction:column; }
+    .eco-conn-center-wrap { padding:8px 0; }
+    .eco-conn-arrow { transform:rotate(90deg); }
+    .narrative-body { grid-template-columns:1fr; gap:24px; }
+    .footer-grid { grid-template-columns:1fr 1fr; }
+    footer { padding:32px 20px; }
+    .footer-bottom { flex-direction:column; gap:6px; text-align:center; }
+  }
+  @media (max-width:600px) {
+    .eco-tabs { gap:0; }
+    .eco-tab { font-size:8px; padding:5px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+  <span class="ticker-item">FEEDWATCH &nbsp;·&nbsp; MARKET INFRASTRUCTURE INTELLIGENCE</span>
+  <span class="ticker-item">CME GLOBEX → GOOGLE CLOUD: <span style="color:#ff9900">Q2 2026</span></span>
+  <span class="ticker-item">1GBPS MDP 3 MULTICAST DEADLINE: <span style="color:#ff9900">MARCH 2026</span></span>
+  <span class="ticker-item">ILINK SBE SCHEMA V9: <span class="up">LIVE JAN 25</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">FINRA SLATE: <span class="up">LIVE JAN 2, 2026</span></span>
+</div></div>
+
+<!-- FeedWatch Alert Bar -->
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
+      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span class="fw-alertbar-next-val">CME 1Gbps MDP3 — Mar 1, 2026</span>
+    </div>
+    <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="index.html" style="text-decoration:none;border-left:1px solid var(--rule);border-right:1px solid var(--rule);padding:0 10px;display:flex;align-items:center;flex-shrink:0;" title="Market Data News">
+      <img src="favicon.svg" alt="MDN" style="height:26px;width:26px;display:block;">
+    </a>
+    <a href="index.html" class="nav-item">Home</a>
+    <div class="nav-dropdown">
+      <span class="nav-item active">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <div class="nav-drop-group">Trackers</div>
+        <a href="market-ecosystem.html" class="nav-drop-item active">Market Ecosystem</a>
+        <a href="calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="nms.html" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="rule-filings.html" class="nav-drop-item">Rule Filings</a>
+        <a href="regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
+        <a href="ai-digest.html" class="nav-drop-item">AI Digest</a>
+        <div class="nav-drop-divider"></div>
+        <div class="nav-drop-group">Articles</div>
+        <a href="articles/cme-globex-notices-2026.html" class="nav-drop-item">CME Globex Notices 2026</a>
+        <a href="articles/finra-slate-guide.html" class="nav-drop-item">FINRA SLATE Guide</a>
+        <a href="articles/prediction-markets-guide.html" class="nav-drop-item">Prediction Markets Guide</a>
+        <a href="articles/index.html" class="nav-drop-item">View All Articles</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Tools &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
+        <a href="peer-groups.html" class="nav-drop-item">Peer Groups</a>
+        <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
+        <a href="rulebook-navigator.html" class="nav-drop-item">Rulebooks</a>
+        <a href="execution-quality.html" class="nav-drop-item">Execution Quality</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Learn &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="learn.html#sip" class="nav-drop-item">How the SIP Works</a>
+        <a href="learn.html#opra" class="nav-drop-item">The OPRA Model</a>
+        <a href="learn.html#futures" class="nav-drop-item">Futures Market Data</a>
+        <a href="learn.html" class="nav-drop-item">View All Lessons</a>
+      </div>
+    </div>
+    <a href="subscribe.html" class="nav-item nav-subscribe">Subscribe →</a>
+    <div class="nav-right">
+      <div class="search-wrap">
+        <input class="search-box" type="text" placeholder="Search site..." autocomplete="off">
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">Home</a>
+  <div class="mob-group-label">Intelligence</div>
+  <a href="market-ecosystem.html" class="active">Market Ecosystem</a>
+  <a href="calendar.html">FeedWatch Calendar</a>
+  <a href="nms.html">NMS / SIP Plans</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="rule-filings.html">Rule Filings</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <a href="ai-digest.html">AI Digest</a>
+  <a href="articles/cme-globex-notices-2026.html">CME Globex Notices 2026</a>
+  <a href="articles/finra-slate-guide.html">FINRA SLATE Guide</a>
+  <a href="articles/prediction-markets-guide.html">Prediction Markets Guide</a>
+  <a href="articles/index.html">View All Articles</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="market-data-fees.html">Fee Calculator</a>
+  <a href="peer-groups.html">Peer Groups</a>
+  <a href="contract-intelligence.html">Contract Intelligence</a>
+  <a href="rulebook-navigator.html">Rulebooks</a>
+  <a href="execution-quality.html">Execution Quality</a>
+  <div class="mob-group-label">Learn</div>
+  <a href="learn.html#sip">How the SIP Works</a>
+  <a href="learn.html#opra">The OPRA Model</a>
+  <a href="learn.html#futures">Futures Market Data</a>
+  <a href="learn.html">View All Lessons</a>
+  <a href="subscribe.html">Subscribe</a>
+  <a href="about.html">About</a>
+</div>
+
+<!-- Hero -->
+<div class="pg-hero">
+  <div class="pg-hero-inner">
+    <div class="pg-hero-label">Interactive Explorer &nbsp;·&nbsp; Market Infrastructure</div>
+    <h1>US Market Structure Ecosystem</h1>
+    <p class="pg-hero-sub">Click any participant to explore their role, connections, data flows, and regulatory obligations. Built for market data professionals.</p>
+  </div>
+</div>
+
+<!-- Main content -->
+<div class="pg-wrap">
+
+  <!-- Explorer -->
+  <div class="eco-layout">
+
+    <!-- LEFT PANEL -->
+    <div class="eco-left">
+      <div class="eco-tabs" id="ecoTabs">
+        <button class="eco-tab active" data-cat="all" onclick="filterCat('all',this)">All</button>
+        <button class="eco-tab" data-cat="exchanges" onclick="filterCat('exchanges',this)">Exchanges</button>
+        <button class="eco-tab" data-cat="sips" onclick="filterCat('sips',this)">SIPs</button>
+        <button class="eco-tab" data-cat="brokerDealers" onclick="filterCat('brokerDealers',this)">Broker-Dealers</button>
+        <button class="eco-tab" data-cat="ats" onclick="filterCat('ats',this)">ATSs</button>
+        <button class="eco-tab" data-cat="clearing" onclick="filterCat('clearing',this)">Clearing</button>
+        <button class="eco-tab" data-cat="dataVendors" onclick="filterCat('dataVendors',this)">Data Vendors</button>
+        <button class="eco-tab" data-cat="regulators" onclick="filterCat('regulators',this)">Regulators</button>
+      </div>
+      <div class="eco-search">
+        <input class="eco-search-input" type="text" id="ecoSearch" placeholder="Search participants…" autocomplete="off" oninput="searchParticipants(this.value)">
+      </div>
+      <div class="eco-list" id="ecoList"></div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="eco-right" id="ecoRight">
+      <!-- populated by JS -->
+    </div>
+
+  </div><!-- /eco-layout -->
+
+  <!-- Narrative section -->
+  <div class="narrative-section">
+    <div class="narrative-title">How US Market Structure Works</div>
+    <div class="narrative-body">
+      <div class="narrative-para">
+        <div class="narrative-para-label">The Trading Flow</div>
+        <p>When an investor places an order to buy 100 shares of Apple, that order travels from their broker through a smart order router that checks prices across all 16 US equity exchanges simultaneously. The router finds the best available price — the National Best Bid and Offer, or NBBO — calculated by the SIP from quotes streaming from every exchange. The trade executes in microseconds, clears through DTCC, and settles in one business day.</p>
+      </div>
+      <div class="narrative-para">
+        <div class="narrative-para-label">The Data Flow</div>
+        <p>Every quote and trade generates market data. Exchanges send their data to the SIP for consolidation and directly to subscribers via proprietary feeds. Market data vendors normalize and redistribute this data to thousands of end consumers — trading desks, risk systems, compliance platforms, and retail applications. The market data infrastructure is invisible to most investors but essential to every trade.</p>
+      </div>
+      <div class="narrative-para">
+        <div class="narrative-para-label">The Regulatory Framework</div>
+        <p>The SEC oversees the entire ecosystem through Regulation NMS, which mandates the SIP, requires best execution, and governs market data access and pricing. FINRA regulates broker-dealers and operates critical data infrastructure including CAT and TRACE. The CFTC oversees derivatives markets separately. Every participant in the ecosystem has regulatory obligations that generate their own data flows.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /pg-wrap -->
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="exchanges.html">Exchanges</a>
+      <a href="regulation.html">Regulation</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>FeedWatch</h4>
+      <a href="calendar.html">All Entries</a>
+      <a href="calendar.html?filter=action">Action Required</a>
+      <a href="calendar.html?filter=critical">Critical Alerts</a>
+      <a href="calendar.html?filter=high">High Impact</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="subscribe.html">Subscribe</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+// ── Date line ──────────────────────────────────────────────────────────────
+const _days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const _mos  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const _now  = new Date();
+document.getElementById('dateLine').textContent =
+  _days[_now.getDay()] + ', ' + _mos[_now.getMonth()] + ' ' + _now.getDate() + ', ' + _now.getFullYear();
+
+function toggleMobileNav() { document.getElementById('mobileNav').classList.toggle('open'); }
+
+// ── Type colors ────────────────────────────────────────────────────────────
+const TYPE_COLORS = {
+  'Exchange':      '#b8860b',
+  'SIP':           '#1565C0',
+  'Broker-Dealer': '#2E7D32',
+  'ATS':           '#6A1B9A',
+  'Clearing':      '#C62828',
+  'Data Vendor':   '#00695C',
+  'Regulator':     '#424242',
+};
+
+function badgeStyle(type) {
+  return `background:${TYPE_COLORS[type] || '#555'};`;
+}
+
+// ── Ecosystem data ─────────────────────────────────────────────────────────
+const ecosystem = {
+  exchanges: [
+    {
+      id: 'nyse', name: 'NYSE', fullName: 'New York Stock Exchange',
+      type: 'Exchange', parent: 'ICE (Intercontinental Exchange)',
+      role: 'Primary listing venue for Tape A securities. Operates auction market model with Designated Market Makers (DMMs). Largest US equity exchange by listed market cap.',
+      dataProduced: ['NYSE Integrated Feed', 'NYSE BQT', 'NYSE OpenBook Ultra', 'CTA/CQ SIP contributor'],
+      dataConsumed: ['CAT data', 'FINRA surveillance feeds', 'Competing consolidator feeds'],
+      connects: ['broker-dealers', 'clearing-dtcc', 'cta-sip', 'sec'],
+      regulation: ['SEC', 'Self-regulatory organization (SRO)'],
+      tape: 'Tape A', url: 'nyse.com'
+    },
+    {
+      id: 'nasdaq', name: 'Nasdaq', fullName: 'The Nasdaq Stock Market',
+      type: 'Exchange', parent: 'Nasdaq Inc.',
+      role: 'Primary listing venue for Tape C securities. Electronic market model. Largest US exchange by number of listings. Also operates BX and PHLX.',
+      dataProduced: ['Nasdaq TotalView', 'Nasdaq Basic', 'Nasdaq ITCH 5.0', 'UTP SIP contributor'],
+      dataConsumed: ['CAT data', 'FINRA surveillance feeds'],
+      connects: ['broker-dealers', 'clearing-dtcc', 'utp-sip', 'sec'],
+      regulation: ['SEC', 'SRO'],
+      tape: 'Tape C', url: 'nasdaq.com'
+    },
+    {
+      id: 'cboe', name: 'Cboe', fullName: 'Cboe Global Markets',
+      type: 'Exchange', parent: 'Cboe Global Markets Inc.',
+      role: 'Operates four US equity exchanges (BZX, BYX, EDGX, EDGA) and multiple options exchanges. Leading US options market. Operates Cboe One summary feed.',
+      dataProduced: ['Cboe One Feed', 'Cboe Depth', 'EDGX/EDGA feeds', 'OPRA contributor'],
+      dataConsumed: ['CAT data', 'FINRA surveillance'],
+      connects: ['broker-dealers', 'clearing-oc', 'opra', 'sec'],
+      regulation: ['SEC', 'SRO'],
+      tape: 'Tape B', url: 'cboe.com'
+    },
+    {
+      id: 'cme', name: 'CME Group', fullName: 'CME Group Inc.',
+      type: 'Exchange', parent: 'CME Group Inc.',
+      role: 'World largest derivatives exchange. Operates CME, CBOT, NYMEX, COMEX. Primary venue for interest rate, equity index, agricultural, energy, and metals futures.',
+      dataProduced: ['CME MDP 3.0', 'CME CF Crypto feeds', 'CME Smart Stream'],
+      dataConsumed: ['CFTC large trader reports', 'Cross-margining data'],
+      connects: ['broker-dealers', 'clearing-cme', 'cftc', 'data-vendors'],
+      regulation: ['CFTC', 'Designated Contract Market (DCM)'],
+      tape: 'N/A — Futures', url: 'cmegroup.com'
+    },
+    {
+      id: 'ice', name: 'ICE', fullName: 'Intercontinental Exchange',
+      type: 'Exchange', parent: 'ICE Inc.',
+      role: 'Operates NYSE, NYSE Arca, NYSE American, NYSE Chicago, NYSE Texas. Also operates global futures exchanges and fixed income markets. Parent of ICE Data Services.',
+      dataProduced: ['ICE iMpact', 'NYSE family feeds', 'ICE Data Services products'],
+      dataConsumed: ['CAT data', 'Regulatory reporting'],
+      connects: ['broker-dealers', 'clearing-dtcc', 'cta-sip', 'sec', 'data-vendors'],
+      regulation: ['SEC', 'CFTC', 'SRO'],
+      tape: 'Tape A/B', url: 'ice.com'
+    },
+    {
+      id: 'iex', name: 'IEX', fullName: 'Investors Exchange',
+      type: 'Exchange', parent: 'IEX Group',
+      role: 'Exchange known for speed bump (350 microsecond delay) designed to protect investors from latency arbitrage. Operates DEEP market data feed.',
+      dataProduced: ['IEX DEEP', 'IEX TOPS', 'IEX Last Sale'],
+      dataConsumed: ['CAT data', 'SIP feeds'],
+      connects: ['broker-dealers', 'clearing-dtcc', 'cta-sip', 'utp-sip', 'sec'],
+      regulation: ['SEC', 'SRO'],
+      tape: 'Tape A/B/C', url: 'iex.io'
+    },
+    {
+      id: 'memx', name: 'MEMX', fullName: 'Members Exchange',
+      type: 'Exchange', parent: 'MEMX LLC',
+      role: 'Member-owned exchange launched 2020. Founded by major broker-dealers and market makers to provide competition in exchange services and lower market data costs.',
+      dataProduced: ['MEMX Depth Feed', 'MEMX Summary Feed'],
+      dataConsumed: ['CAT data', 'SIP feeds'],
+      connects: ['broker-dealers', 'clearing-dtcc', 'cta-sip', 'utp-sip', 'sec'],
+      regulation: ['SEC', 'SRO'],
+      tape: 'Tape A/B/C', url: 'memxtrading.com'
+    }
+  ],
+  sips: [
+    {
+      id: 'cta-sip', name: 'CTA/CQ SIP', fullName: 'Consolidated Tape Association / Consolidated Quotation SIP',
+      type: 'SIP', parent: 'Operated by NYSE/ICE',
+      role: 'Consolidates quotes and trades for Tape A (NYSE-listed) and Tape B (regional exchange-listed) securities from all exchanges. Produces the NBBO for Tape A and B.',
+      dataProduced: ['CTS (Consolidated Tape System)', 'CQS (Consolidated Quotation System)', 'NBBO for Tape A/B'],
+      dataConsumed: ['Quote and trade data from all exchanges for Tape A/B securities'],
+      connects: ['exchanges', 'broker-dealers', 'data-vendors', 'competing-consolidators'],
+      regulation: ['SEC', 'CTA NMS Plan', 'CQ NMS Plan'],
+      tape: 'Tape A + Tape B', url: 'ctaplan.com'
+    },
+    {
+      id: 'utp-sip', name: 'UTP SIP', fullName: 'Unlisted Trading Privileges SIP',
+      type: 'SIP', parent: 'Operated by Nasdaq',
+      role: 'Consolidates quotes and trades for Tape C (Nasdaq-listed) securities from all exchanges. Produces the NBBO for Tape C.',
+      dataProduced: ['UTP Quote Data Feed (UQDF)', 'UTP Trade Data Feed (UTDF)', 'NBBO for Tape C'],
+      dataConsumed: ['Quote and trade data from all exchanges for Tape C securities'],
+      connects: ['exchanges', 'broker-dealers', 'data-vendors', 'competing-consolidators'],
+      regulation: ['SEC', 'UTP NMS Plan'],
+      tape: 'Tape C', url: 'utpplan.com'
+    },
+    {
+      id: 'opra', name: 'OPRA', fullName: 'Options Price Reporting Authority',
+      type: 'SIP', parent: 'Operated by NYSE Technologies',
+      role: 'Consolidates last sale and quotation data from all 16 US options exchanges. Highest volume market data feed in US markets — regularly exceeds 100 billion messages per day.',
+      dataProduced: ['OPRA consolidated options feed', '96-channel multicast feed'],
+      dataConsumed: ['Options quote and trade data from all 16 options exchanges'],
+      connects: ['exchanges', 'broker-dealers', 'data-vendors'],
+      regulation: ['SEC', 'OPRA NMS Plan'],
+      tape: 'Options', url: 'opradata.com'
+    }
+  ],
+  brokerDealers: [
+    {
+      id: 'broker-dealers', name: 'Broker-Dealers', fullName: 'Registered Broker-Dealers',
+      type: 'Broker-Dealer', parent: 'Various',
+      role: 'Intermediaries that execute trades on behalf of clients or for their own account. Required to provide best execution. Must subscribe to SIP data at minimum. Heavy market data consumers.',
+      dataProduced: ['Order flow (valuable signal)', 'TRF trade reports', 'CAT order events', 'Rule 605/606 reports'],
+      dataConsumed: ['SIP feeds (required)', 'Proprietary exchange feeds', 'OPRA', 'Alternative data', 'Risk data'],
+      connects: ['nyse', 'nasdaq', 'cboe', 'cme', 'ice', 'iex', 'memx', 'ats', 'clearing-dtcc', 'finra', 'sec', 'data-vendors', 'cta-sip', 'utp-sip', 'opra'],
+      regulation: ['SEC', 'FINRA', 'Reg NMS', 'Rule 15c3-1', 'Rule 15c3-3'],
+      tape: 'N/A — Consumer', url: 'finra.org/brokers'
+    }
+  ],
+  ats: [
+    {
+      id: 'ats', name: 'ATSs / Dark Pools', fullName: 'Alternative Trading Systems',
+      type: 'ATS', parent: 'Various (bank-owned and independent)',
+      role: 'Private trading venues that match buyers and sellers without pre-trade transparency. Dark pools allow large institutional orders to execute without moving the market. Must report to FINRA TRF.',
+      dataProduced: ['TRF trade reports (post-trade only)', 'ATS volume statistics (weekly FINRA publication)'],
+      dataConsumed: ['SIP feeds for pricing reference', 'Proprietary feeds for internal matching'],
+      connects: ['broker-dealers', 'clearing-dtcc', 'finra', 'sec'],
+      regulation: ['SEC Reg ATS', 'FINRA', 'SEC Rule 304'],
+      tape: 'N/A — Reports to TRF', url: 'sec.gov/divisions/marketreg/ats.htm'
+    }
+  ],
+  clearing: [
+    {
+      id: 'clearing-dtcc', name: 'DTCC', fullName: 'Depository Trust & Clearing Corporation',
+      type: 'Clearing', parent: 'DTCC (industry-owned)',
+      role: 'Central counterparty for US equity and fixed income markets. Operates NSCC (equities clearing) and DTC (settlement). Guarantees trade completion and manages counterparty risk.',
+      dataProduced: ['Settlement data', 'Position data', 'Risk exposure data'],
+      dataConsumed: ['Trade data from all venues', 'Reference data'],
+      connects: ['nyse', 'nasdaq', 'cboe', 'ice', 'iex', 'memx', 'broker-dealers', 'sec', 'finra'],
+      regulation: ['SEC', 'Federal Reserve', 'Systemically Important Financial Market Utility (SIFMU)'],
+      tape: 'N/A — Post-trade', url: 'dtcc.com'
+    },
+    {
+      id: 'clearing-oc', name: 'OCC', fullName: 'Options Clearing Corporation',
+      type: 'Clearing', parent: 'OCC (exchange-owned)',
+      role: 'Central counterparty and clearing house for US listed options. Issues and guarantees all listed options contracts in the US. Largest equity derivatives clearing organization globally.',
+      dataProduced: ['Options position data', 'Open interest data', 'Settlement data'],
+      dataConsumed: ['Options trade data from all venues', 'Underlying security prices'],
+      connects: ['cboe', 'broker-dealers', 'sec'],
+      regulation: ['SEC', 'CFTC', 'SIFMU'],
+      tape: 'N/A — Post-trade', url: 'theocc.com'
+    },
+    {
+      id: 'clearing-cme', name: 'CME Clearing', fullName: 'CME Clearing',
+      type: 'Clearing', parent: 'CME Group',
+      role: 'Central counterparty for CME Group futures and options. One of the largest derivatives clearing houses globally. Manages margin and default risk for futures markets.',
+      dataProduced: ['Futures settlement prices', 'Open interest data', 'Margin data'],
+      dataConsumed: ['Futures trade data', 'Reference prices'],
+      connects: ['cme', 'broker-dealers', 'cftc'],
+      regulation: ['CFTC', 'SIFMU'],
+      tape: 'N/A — Post-trade', url: 'cmegroup.com/clearing'
+    }
+  ],
+  dataVendors: [
+    {
+      id: 'data-vendors', name: 'Market Data Vendors', fullName: 'Market Data Distributors and Vendors',
+      type: 'Data Vendor', parent: 'Various',
+      role: 'Aggregate, normalize, and distribute market data from exchanges and other sources to end consumers. Examples: Bloomberg, Refinitiv/LSEG, ICE Data Services, FactSet, S&P Global Market Intelligence.',
+      dataProduced: ['Normalized data feeds', 'Analytics and derived data', 'Historical data', 'Reference data', 'Pricing services'],
+      dataConsumed: ['Raw exchange feeds', 'SIP data', 'Alternative data', 'Fixed income data', 'Global market data'],
+      connects: ['nyse', 'nasdaq', 'cboe', 'cme', 'ice', 'cta-sip', 'utp-sip', 'opra', 'broker-dealers'],
+      regulation: ['Exchange redistribution agreements', 'Non-display licensing', 'Display licensing'],
+      tape: 'N/A — Distributor', url: 'Various'
+    },
+    {
+      id: 'competing-consolidators', name: 'Competing Consolidators', fullName: 'Competing Consolidators (post-2023)',
+      type: 'Data Vendor', parent: 'Various — new entrant category',
+      role: 'New category created by SEC market data rules in 2023. Private firms that consolidate equity market data as an alternative to the SIP. Can include odd-lots and depth data the SIP excludes.',
+      dataProduced: ['Consolidated equity feeds with enhanced content vs SIP'],
+      dataConsumed: ['Raw exchange feeds directly from all exchanges'],
+      connects: ['nyse', 'nasdaq', 'cboe', 'ice', 'iex', 'memx', 'broker-dealers', 'sec'],
+      regulation: ['SEC', 'NMS Plan participant'],
+      tape: 'Tape A/B/C', url: 'sec.gov'
+    }
+  ],
+  regulators: [
+    {
+      id: 'sec', name: 'SEC', fullName: 'Securities and Exchange Commission',
+      type: 'Regulator', parent: 'US Federal Government',
+      role: 'Primary regulator of US securities markets. Oversees exchanges, broker-dealers, ATSs, clearing houses, and market data. Administers Regulation NMS which governs market data.',
+      dataProduced: ['EDGAR filings', 'Enforcement actions', 'Rule releases', 'No-action letters'],
+      dataConsumed: ['CAT data', 'Exchange surveillance data', 'Market data feeds for oversight'],
+      connects: ['nyse', 'nasdaq', 'cboe', 'ice', 'iex', 'memx', 'broker-dealers', 'ats', 'clearing-dtcc', 'finra'],
+      regulation: ['N/A — Is the regulator'],
+      tape: 'N/A', url: 'sec.gov'
+    },
+    {
+      id: 'finra', name: 'FINRA', fullName: 'Financial Industry Regulatory Authority',
+      type: 'Regulator', parent: 'Self-regulatory organization under SEC oversight',
+      role: 'Self-regulatory organization overseeing broker-dealers. Operates TRACE (bond trade reporting), CAT (consolidated audit trail), TRF (trade reporting facilities), and SLATE (securities lending).',
+      dataProduced: ['FINRA TRACE data', 'ATS volume statistics', 'Market data capacity statistics', 'Regulatory notices'],
+      dataConsumed: ['Broker-dealer trade reports', 'CAT data', 'Exchange surveillance feeds'],
+      connects: ['broker-dealers', 'nyse', 'nasdaq', 'cboe', 'sec', 'cta-sip', 'utp-sip'],
+      regulation: ['N/A — Is a regulator under SEC oversight'],
+      tape: 'N/A', url: 'finra.org'
+    },
+    {
+      id: 'cftc', name: 'CFTC', fullName: 'Commodity Futures Trading Commission',
+      type: 'Regulator', parent: 'US Federal Government',
+      role: 'Primary regulator of US derivatives markets including futures, options on futures, and swaps. Oversees CME Group and other DCMs. Also regulates prediction markets like Kalshi.',
+      dataProduced: ['COT reports', 'Large trader reports', 'Enforcement actions', 'Rule releases'],
+      dataConsumed: ['Large trader position reports', 'Exchange surveillance data'],
+      connects: ['cme', 'broker-dealers', 'clearing-cme'],
+      regulation: ['N/A — Is the regulator'],
+      tape: 'N/A', url: 'cftc.gov'
+    }
+  ]
+};
+
+// ── Build flat lookup ──────────────────────────────────────────────────────
+const allParticipants = [];
+const byId = {};
+
+Object.entries(ecosystem).forEach(([catKey, list]) => {
+  list.forEach(p => {
+    p._catKey = catKey;
+    allParticipants.push(p);
+    byId[p.id] = p;
+  });
+});
+
+// ── State ──────────────────────────────────────────────────────────────────
+let currentCat = 'all';
+let currentSearch = '';
+let selectedId = 'nyse';
+
+// ── Filter helpers ─────────────────────────────────────────────────────────
+function getVisible() {
+  return allParticipants.filter(p => {
+    if (currentCat !== 'all' && p._catKey !== currentCat) return false;
+    if (currentSearch) {
+      const q = currentSearch.toLowerCase();
+      return (p.name + ' ' + p.fullName + ' ' + p.role).toLowerCase().includes(q);
+    }
+    return true;
+  });
+}
+
+// ── Render list ────────────────────────────────────────────────────────────
+function renderList() {
+  const list = document.getElementById('ecoList');
+  const visible = getVisible();
+  if (!visible.length) {
+    list.innerHTML = '<div class="eco-list-empty">No participants match.</div>';
+    return;
+  }
+  list.innerHTML = visible.map(p => `
+    <div class="eco-list-item${selectedId === p.id ? ' selected' : ''}" onclick="selectParticipant('${p.id}')">
+      <span class="type-badge" style="${badgeStyle(p.type)}">${p.type}</span>
+      <div class="eco-list-name">${p.name}</div>
+      <div class="eco-list-desc">${p.role}</div>
+    </div>
+  `).join('');
+}
+
+// ── Render detail ──────────────────────────────────────────────────────────
+function renderDetail(p) {
+  const right = document.getElementById('ecoRight');
+  if (!p) { right.innerHTML = '<div style="padding:32px;font-family:IBM Plex Mono,monospace;font-size:12px;color:var(--muted)">Select a participant to explore.</div>'; return; }
+
+  // Build connection lists
+  const outbound = (p.connects || []).map(id => byId[id]).filter(Boolean);
+  const inbound  = allParticipants.filter(q => q.id !== p.id && (q.connects || []).includes(p.id));
+
+  const badgesHtml = (arr, cls) => arr.length
+    ? arr.map(s => `<span class="eco-badge ${cls}">${s}</span>`).join('')
+    : '<span class="eco-badge gray">None</span>';
+
+  const connBadges = (p.connects || []).map(id => {
+    const target = byId[id];
+    return target
+      ? `<span class="eco-badge conn" onclick="selectParticipant('${id}')" title="${target.fullName}">${target.name}</span>`
+      : `<span class="eco-badge conn-none">${id}</span>`;
+  }).join('');
+
+  const regBadges = (p.regulation || []).map(r => `<span class="eco-badge reg">${r}</span>`).join('');
+
+  // Connection diagram pills
+  const inPills = inbound.length
+    ? inbound.map(q => `<span class="eco-conn-pill inbound" onclick="selectParticipant('${q.id}')">${q.name}</span>`).join('')
+    : '<span class="eco-conn-none">None identified</span>';
+
+  const outPills = outbound.length
+    ? outbound.map(q => `<span class="eco-conn-pill outbound" onclick="selectParticipant('${q.id}')">${q.name}</span>`).join('')
+    : '<span class="eco-conn-none">None identified</span>';
+
+  const urlDisplay = p.url && p.url !== 'Various' ? p.url : null;
+
+  right.innerHTML = `
+    <div class="fade-in">
+      <div class="eco-detail-header">
+        <span class="type-badge type-badge-lg" style="${badgeStyle(p.type)}">${p.type}</span>
+        <div class="eco-detail-fullname">${p.fullName}</div>
+        <div class="eco-detail-parent">↳ ${p.parent}</div>
+        <div class="eco-detail-role">${p.role}</div>
+      </div>
+
+      <div class="eco-info-grid">
+        <div class="eco-info-box blue">
+          <span class="eco-info-box-label">Data Produced</span>
+          <div class="eco-badges">${badgesHtml(p.dataProduced, 'gold')}</div>
+        </div>
+        <div class="eco-info-box green">
+          <span class="eco-info-box-label">Data Consumed</span>
+          <div class="eco-badges">${badgesHtml(p.dataConsumed, 'gray')}</div>
+        </div>
+        <div class="eco-info-box gold">
+          <span class="eco-info-box-label">Connects To — click to explore</span>
+          <div class="eco-badges">${connBadges || '<span class="eco-badge gray">None listed</span>'}</div>
+        </div>
+        <div class="eco-info-box red">
+          <span class="eco-info-box-label">Regulatory Framework</span>
+          <div class="eco-badges">${regBadges}</div>
+        </div>
+      </div>
+
+      <div class="eco-detail-footer">
+        <span class="eco-tape"><strong>Tape:</strong> ${p.tape}</span>
+        ${urlDisplay ? `<a href="https://${urlDisplay}" target="_blank" rel="noopener" class="eco-ext-link">Visit ${p.name} →</a>` : ''}
+      </div>
+
+      <div class="eco-conn-section">
+        <div class="eco-conn-title">Connection Map</div>
+        <div class="eco-conn-diagram">
+          <div class="eco-conn-col">
+            <div class="eco-conn-col-label">↳ Feeds Into This</div>
+            ${inPills}
+          </div>
+          <div class="eco-conn-center-wrap">
+            <span class="eco-conn-arrow">→</span>
+            <div class="eco-conn-center-box">
+              <div class="eco-conn-center-name">${p.name}</div>
+              <div class="eco-conn-center-type">${p.type}</div>
+            </div>
+            <span class="eco-conn-arrow">→</span>
+          </div>
+          <div class="eco-conn-col">
+            <div class="eco-conn-col-label">This Connects To ↴</div>
+            ${outPills}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ── Select participant ─────────────────────────────────────────────────────
+function selectParticipant(id) {
+  selectedId = id;
+  const p = byId[id];
+  // Expand category if needed
+  if (p && currentCat !== 'all' && p._catKey !== currentCat) {
+    currentCat = 'all';
+    document.querySelectorAll('.eco-tab').forEach(t => t.classList.toggle('active', t.dataset.cat === 'all'));
+  }
+  renderList();
+  renderDetail(p);
+  // Scroll list item into view
+  setTimeout(() => {
+    const sel = document.querySelector('.eco-list-item.selected');
+    if (sel) sel.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    document.getElementById('ecoRight').scrollTop = 0;
+  }, 30);
+}
+
+// ── Filter by category ─────────────────────────────────────────────────────
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.eco-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderList();
+}
+
+// ── Search ─────────────────────────────────────────────────────────────────
+function searchParticipants(val) {
+  currentSearch = val.trim();
+  renderList();
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+renderList();
+renderDetail(byId['nyse']);
+</script>
+</body>
+</html>
