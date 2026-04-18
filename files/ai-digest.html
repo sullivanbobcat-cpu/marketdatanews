@@ -216,7 +216,7 @@
   .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
 @media (max-width: 900px) {
   html, body { overflow-x: hidden; max-width: 100vw; }
-  * { max-width: 100%; box-sizing: border-box; }
+  img, video, iframe, table { max-width: 100%; } * { box-sizing: border-box; }
   .mobile-nav { width: 100%; max-width: 100vw; overflow-x: hidden; }
 }
 
@@ -343,8 +343,9 @@
     </div>
     <a href="subscribe.html" class="nav-item nav-subscribe">Subscribe →</a>
     <div class="nav-right">
-      <div class="search-wrap">
-        <input class="search-box" type="text" placeholder="Search site..." autocomplete="off">
+      <div class="search-wrap" id="searchWrap">
+        <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
+        <div class="search-drop" id="searchDrop"></div>
       </div>
     </div>
   </nav>
