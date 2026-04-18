@@ -52,10 +52,6 @@
   .site-title span{color:var(--accent);}
   .tagline{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-align:right;letter-spacing:0.1em;text-transform:uppercase;line-height:1.6;}
 
-  nav{display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--rule);overflow-x:auto;}
-  .nav-item{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;padding:8px 12px;cursor:pointer;transition:background 0.15s,color 0.15s;color:var(--ink);border:none;background:none;font-family:'IBM Plex Sans',sans-serif;border-right:1px solid var(--rule);text-decoration:none;display:inline-block;white-space:nowrap;}
-  .nav-item:first-child{border-left:1px solid var(--rule);}
-  .nav-item.active,.nav-item:hover{background:var(--ink);color:var(--accent);}
   .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;padding-left:16px;}
   .search-wrap{position:relative;display:flex;align-items:center;}
   .search-box{background:transparent;border:1px solid var(--rule);padding:5px 12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink);border-radius:2px;width:180px;}
@@ -124,12 +120,12 @@
   .page-container{max-width:1280px;width:100%;margin:0 auto;padding:40px 48px 64px;box-sizing:border-box;}
 
   /* ── TWO-COLUMN DESKTOP GRID (default — overridden to block on mobile) ── */
-  .digest-layout{display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start;width:100%;max-width:100%;}
-  .digest-main{min-width:0;width:100%;}
-  .digest-side{display:flex;flex-direction:column;gap:32px;width:100%;}
+  .digest-layout{display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:stretch;width:100%;max-width:100%;}
+  .digest-main{min-width:0;width:100%;display:flex;flex-direction:column;gap:24px;}
+  .digest-side{display:flex;flex-direction:column;gap:24px;width:100%;}
 
   /* ── CONTENT CARDS ── */
-  .digest-card{background:var(--surface);border:1px solid var(--border);margin-top:0;}
+  .digest-card{background:var(--surface);border:1px solid var(--border);margin-top:0;flex:1;}
   .digest-card-head{display:flex;align-items:center;gap:12px;padding:16px 24px;border-bottom:2px solid var(--ink);background:var(--cream);}
   .digest-card-num{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.1em;}
   .digest-card-title{font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--ink);}
@@ -566,6 +562,13 @@ async function loadContent() {
     var res = await fetch('/.netlify/functions/get-content');
     if (!res.ok) throw new Error('HTTP ' + res.status);
     var data = await res.json();
+
+    console.log('[digest-debug] content response:', {
+      hasFeedwatch: !!data.feedwatch,
+      hasFeeAlerts: !!data.feeAlerts,
+      hasRegulatory: !!data.regulatory,
+      keys: Object.keys(data),
+    });
 
     // ── Card 1: Daily Digest ──
     if (data.feedwatch && data.feedwatch.stale) {
