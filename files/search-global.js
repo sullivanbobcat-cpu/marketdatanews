@@ -12,7 +12,7 @@
   }
 
   function init() {
-    var box = document.getElementById('searchBox');
+    var box = document.getElementById('search-input');
     var drop = document.getElementById('searchDrop');
     var wrap = document.getElementById('searchWrap');
     if (!box || !drop) return;
@@ -125,3 +125,10 @@
     init();
   }
 })();
+
+window.doSearch = function() {
+  var box = document.getElementById('search-input');
+  if (!box) return;
+  var q = box.value.trim();
+  if (q) window.location.href = '/search-results.html?q=' + encodeURIComponent(q);
+};

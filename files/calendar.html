@@ -408,7 +408,7 @@
     <a href="subscribe.html" class="nav-item nav-subscribe">Subscribe →</a>
     <div class="nav-right">
       <div class="search-wrap" id="searchWrap">
-        <input class="search-box" type="text" placeholder="Search site..." id="searchBox" autocomplete="off">
+        <input class="search-box" type="text" placeholder="Search site..." id="search-input" onkeypress="if(event.key==='Enter') doSearch()" autocomplete="off">
         <div class="search-drop" id="searchDrop"></div>
       </div>
     </div>
