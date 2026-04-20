@@ -1,132 +1,81 @@
 (function () {
-  var MIN_Q = 3;
-  var debounceTimer = null;
-  var activeIndex = -1;
+  var searchTimeout;
 
-  function esc(s) {
-    return String(s)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
+  function initSearch() {
+    var input = document.getElementById('search-input');
+    var dropdown = document.getElementById('search-dropdown');
+    var wrap = document.getElementById('search-wrap');
+    if (!input || !dropdown) return;
 
-  function init() {
-    var box = document.getElementById('search-input');
-    var drop = document.getElementById('searchDrop');
-    var wrap = document.getElementById('searchWrap');
-    if (!box || !drop) return;
+    input.addEventListener('input', function () {
+      var q = this.value.trim();
+      clearTimeout(searchTimeout);
 
-    // Remove any legacy oninput that might conflict
-    box.removeAttribute('oninput');
+      if (q.length < 3) {
+        dropdown.style.display = 'none';
+        return;
+      }
 
-    box.addEventListener('input', function () {
-      clearTimeout(debounceTimer);
-      var q = box.value.trim();
-      if (q.length < MIN_Q) { close(drop); return; }
-      debounceTimer = setTimeout(function () { doSearch(q, drop); }, 220);
+      searchTimeout = setTimeout(async function () {
+        try {
+          var res = await fetch('/.netlify/functions/search?q=' + encodeURIComponent(q));
+          var data = await res.json();
+          var results = (data.results || []).slice(0, 6);
+
+          if (results.length === 0) {
+            dropdown.style.display = 'none';
+            return;
+          }
+
+          dropdown.innerHTML = results.map(function (r) {
+            var title = String(r.title || r.url).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            var cat = String(r.type || r.category || 'Page').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            var url = String(r.url).replace(/"/g,'&quot;');
+            return '<a href="' + url + '" style="display:block;padding:10px 14px;text-decoration:none;border-bottom:1px solid #f0ede6;cursor:pointer;background:#fff;" onmouseover="this.style.background=\'#f5f2eb\'" onmouseout="this.style.background=\'#fff\'">'
+              + '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;font-weight:700;color:#0d0d0d;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + title + '</div>'
+              + '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:#888;text-transform:uppercase;letter-spacing:0.08em;">' + cat + '</div>'
+              + '</a>';
+          }).join('')
+          + '<a href="/search-results.html?q=' + encodeURIComponent(q) + '" style="display:block;padding:10px 14px;text-decoration:none;background:#f5f2eb;font-family:\'IBM Plex Mono\',monospace;font-size:10px;font-weight:700;color:#b8860b;text-align:center;">See all results for \u201c' + q.replace(/</g,'&lt;') + '\u201d \u2192</a>';
+
+          dropdown.style.display = 'block';
+        } catch (e) {
+          dropdown.style.display = 'none';
+        }
+      }, 300);
     });
 
-    box.addEventListener('keydown', function (e) {
-      var items = drop.querySelectorAll('.search-drop-item');
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        activeIndex = Math.min(activeIndex + 1, items.length - 1);
-        updateActive(items);
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        activeIndex = Math.max(activeIndex - 1, -1);
-        updateActive(items);
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        if (activeIndex >= 0 && items[activeIndex] && items[activeIndex].dataset.url) {
-          window.location.href = items[activeIndex].dataset.url;
-        } else if (box.value.trim()) {
-          window.location.href = '/search-results.html?q=' + encodeURIComponent(box.value.trim());
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        var q = this.value.trim();
+        if (q) {
+          dropdown.style.display = 'none';
+          window.location.href = '/search-results.html?q=' + encodeURIComponent(q);
         }
-      } else if (e.key === 'Escape') {
-        close(drop);
-        box.blur();
       }
     });
 
+    input.addEventListener('blur', function () {
+      setTimeout(function () {
+        dropdown.style.display = 'none';
+      }, 200);
+    });
+
     document.addEventListener('click', function (e) {
-      if (wrap && !wrap.contains(e.target)) close(drop);
+      if (wrap && !wrap.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
     });
-  }
-
-  function updateActive(items) {
-    items.forEach(function (el, i) {
-      el.classList.toggle('active', i === activeIndex);
-    });
-  }
-
-  function close(drop) {
-    if (drop) { drop.classList.remove('open'); drop.innerHTML = ''; }
-    activeIndex = -1;
-  }
-
-  async function doSearch(q, drop) {
-    try {
-      var res = await fetch('/.netlify/functions/search?q=' + encodeURIComponent(q));
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      var results = await res.json();
-      renderDrop(results, q, drop);
-    } catch (err) {
-      drop.innerHTML = '<div class="search-drop-empty">Search unavailable</div>';
-      drop.classList.add('open');
-    }
-  }
-
-  function renderDrop(results, q, drop) {
-    activeIndex = -1;
-    if (!results.length) {
-      drop.innerHTML = '<div class="search-drop-empty">No results for &ldquo;' + esc(q) + '&rdquo;</div>';
-      drop.classList.add('open');
-      return;
-    }
-
-    // Cap at 8, group by category
-    var capped = results.slice(0, 8);
-    var order = ['Pages', 'FeedWatch', 'Topics'];
-    var grouped = {};
-    capped.forEach(function (r) {
-      if (!grouped[r.category]) grouped[r.category] = [];
-      grouped[r.category].push(r);
-    });
-
-    var html = '';
-    order.forEach(function (cat) {
-      var group = grouped[cat];
-      if (!group || !group.length) return;
-      html += '<div class="search-drop-group">' + esc(cat) + '</div>';
-      group.forEach(function (r) {
-        var catClass = cat.toLowerCase().replace(/\s+/g, '');
-        var snippet = r.description.length > 90 ? r.description.slice(0, 90) + '\u2026' : r.description;
-        var url = esc(r.url);
-        html += '<a class="search-drop-item" href="' + url + '" data-url="' + url + '">'
-          + '<div class="search-drop-title">' + esc(r.title)
-          + '<span class="search-drop-cat ' + catClass + '">' + esc(cat) + '</span></div>'
-          + '<div class="search-drop-snippet">' + esc(snippet) + '</div>'
-          + '</a>';
-      });
-    });
-
-    html += '<div class="search-drop-footer"><a href="/search-results.html?q='
-      + encodeURIComponent(q) + '">View all results for &ldquo;' + esc(q) + '&rdquo; \u2192</a></div>';
-
-    drop.innerHTML = html;
-    drop.classList.add('open');
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', initSearch);
   } else {
-    init();
+    initSearch();
   }
 })();
 
-window.doSearch = function() {
+window.doSearch = function () {
   var box = document.getElementById('search-input');
   if (!box) return;
   var q = box.value.trim();

@@ -333,9 +333,9 @@
     </div>
     <a href="../subscribe.html" class="nav-item nav-subscribe">Subscribe →</a>
     <div class="nav-right">
-      <div class="search-wrap" id="searchWrap">
+      <div class="search-wrap" id="search-wrap">
         <input class="search-box" type="text" placeholder="Search site..." id="search-input" onkeydown="if(event.key==='Enter') doSearch()" autocomplete="off">
-        <div class="search-drop" id="searchDrop"></div>
+        <div id="search-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #e8e4db;border-top:none;border-radius:0 0 4px 4px;max-height:320px;overflow-y:auto;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,0.08);"></div>
       </div>
     </div>
   </nav>
