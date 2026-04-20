@@ -132,18 +132,20 @@
   .digest-card-title{font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--ink);}
   .digest-card-line{flex:1;height:1px;background:var(--rule);}
   .digest-card-ts{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
-  .digest-card-body{padding:28px 32px;}
+  .digest-card-body{padding:28px 32px;overflow-x:hidden;word-break:break-word;overflow-wrap:break-word;}
 
   /* Content from Claude */
-  .ai-content{font-size:13px;line-height:1.8;color:var(--muted);}
+  .ai-content{font-size:13px;line-height:1.8;color:var(--muted);overflow-x:hidden;word-break:break-word;overflow-wrap:break-word;}
   .ai-content h1{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);margin:0 0 16px;}
   .ai-content h2,.ai-content h3{font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--ink);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
   .ai-content ul{padding-left:20px;margin:8px 0 16px;}
   .ai-content li{margin-bottom:8px;}
   .ai-content p{margin-bottom:12px;}
   .ai-content strong{color:var(--ink);font-weight:600;}
-  .ai-content a{color:var(--accent-dark);text-decoration:none;border-bottom:1px solid var(--rule);}
+  .ai-content a{color:var(--accent-dark);text-decoration:none;border-bottom:1px solid var(--rule);word-break:break-all;}
   .ai-content a:hover{color:var(--ink);}
+  .ai-content table{width:100%;table-layout:fixed;border-collapse:collapse;}
+  .ai-content pre,.ai-content code{white-space:pre-wrap;word-break:break-all;}
 
   /* Fee alert */
   .fee-alert-list{display:flex;flex-direction:column;gap:0;}
@@ -348,7 +350,7 @@
     <a href="subscribe.html" class="nav-item nav-subscribe">Subscribe →</a>
     <div class="nav-right">
       <div class="search-wrap" id="searchWrap">
-        <input class="search-box" type="text" placeholder="Search site..." id="search-input" onkeypress="if(event.key==='Enter') doSearch()" autocomplete="off">
+        <input class="search-box" type="text" placeholder="Search site..." id="search-input" onkeydown="if(event.key==='Enter') doSearch()" autocomplete="off">
         <div class="search-drop" id="searchDrop"></div>
       </div>
     </div>
