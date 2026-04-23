@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="/favicon.png" sizes="180x180">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Structure Intelligence | Market Data News</title>
+<meta name="description" content="Maker-taker fee models, ATS dark pool volumes, new exchange developments, and market structure intelligence for market data and trading professionals.">
+<meta name="keywords" content="maker-taker, ATS, dark pool, market structure, exchange fees, FINRA ATS, new exchange, market microstructure, order routing">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Market Data News">
+<link rel="canonical" href="https://marketdatanews.com/market-structure">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@MDNintelligence">
+<meta name="twitter:title" content="Market Structure Intelligence | Market Data News">
+<meta name="twitter:description" content="Maker-taker fee tracker, ATS dark pool monitor, and new exchange status for market data professionals.">
+<meta name="twitter:image" content="https://marketdatanews.com/og-image.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://marketdatanews.com/market-structure">
+<meta property="og:title" content="Market Structure Intelligence | Market Data News">
+<meta property="og:description" content="Maker-taker fee models, ATS dark pool volumes, new exchange developments, and market structure intelligence.">
+<meta property="og:site_name" content="Market Data News">
+<meta property="og:image" content="https://marketdatanews.com/og-image.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .ticker-item .up { color: #00cc66; } .ticker-item .down { color: #ff4444; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: stretch; padding: 0 48px; border-bottom: 1px solid var(--rule); position: relative; flex-wrap: nowrap; overflow: visible; background: var(--cream); }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0 14px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; user-select: none; }
+  a.nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-dropdown { position: relative; display: flex; align-items: stretch; }
+  .nav-dropdown > .nav-item { border-left: none; }
+  .nav-dropdown-menu { display: block; position: absolute; top: 100%; left: 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; min-width: 220px; background: var(--ink); border-top: 2px solid var(--accent); z-index: 1000; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left: auto; right: 0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-drop-item { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #aaa; text-decoration: none; padding: 10px 20px; border-bottom: 1px solid #1e1e1e; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+  .nav-drop-item:last-child { border-bottom: none; }
+  .nav-drop-item:hover { color: var(--accent); background: #111; }
+  a.nav-subscribe { background: var(--accent); color: var(--ink) !important; border-right: 1px solid var(--rule); font-family: 'IBM Plex Mono', monospace !important; font-size: 11px !important; font-weight: 700 !important; padding: 0 18px !important; border-radius: 2px !important; text-transform: uppercase !important; border-right: none !important; letter-spacing: 0.08em !important; }
+  a.nav-subscribe:hover { background: var(--accent-dark) !important; color: white !important; }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; border-left: 1px solid var(--rule); }
+  .search-wrap { position: relative; display: flex; align-items: center; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 180px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+  .nav-drop-group { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #b8860b; text-transform: uppercase; letter-spacing: 0.15em; padding: 8px 16px 4px; cursor: default; display: block; }
+  .nav-drop-divider { border: none; border-top: 1px solid #2a2a2a; margin: 4px 0; }
+
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
+  .mobile-nav .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
+
+  /* FeedWatch Alert Bar */
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-stat:hover { background: rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num, .fw-alertbar-stat.critical .fw-alertbar-label { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num, .fw-alertbar-stat.high .fw-alertbar-label { color: #ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num, .fw-alertbar-stat.action .fw-alertbar-label { color: var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color: #888; } .fw-alertbar-stat.total .fw-alertbar-label { color: #555; }
+  .fw-alertbar-next { margin-left: auto; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #555; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
+  .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  /* Page layout */
+  .page-container { max-width: 1280px; margin: 0 auto; padding: 0 48px 64px; }
+
+  /* Hero */
+  .ms-hero { background: var(--surface); border-left: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 3px solid var(--ink); padding: 40px 48px; margin-bottom: 0; }
+  .ms-hero-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .ms-hero-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .ms-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 900; color: var(--ink); line-height: 1.15; margin-bottom: 14px; }
+  .ms-hero-sub { font-size: 15px; line-height: 1.7; color: var(--muted); max-width: 680px; margin-bottom: 24px; }
+  .ms-hero-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  .ms-anchor-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink); text-decoration: none; padding: 6px 14px; border: 1px solid var(--rule); border-radius: 2px; transition: all 0.15s; background: var(--paper); }
+  .ms-anchor-btn:hover { background: var(--ink); color: var(--accent); border-color: var(--ink); }
+
+  /* Section headers */
+  .ms-section { margin-top: 40px; }
+  .ms-section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+  .ms-section-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; color: var(--rule); line-height: 1; min-width: 36px; }
+  .ms-section-title { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink); }
+  .ms-section-rule { border: none; border-top: 2px solid var(--ink); margin-bottom: 24px; }
+
+  /* Data panel */
+  .ms-panel { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--ink); padding: 28px 32px; }
+
+  /* Tables */
+  .ms-table { width: 100%; border-collapse: collapse; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .ms-table th { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); padding: 8px 12px; border-bottom: 2px solid var(--ink); text-align: left; background: var(--paper); white-space: nowrap; }
+  .ms-table th.right { text-align: right; }
+  .ms-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--ink); vertical-align: middle; }
+  .ms-table td.right { text-align: right; }
+  .ms-table tr:last-child td { border-bottom: none; }
+  .ms-table tr:hover td { background: var(--paper); }
+  .ms-table tbody tr:nth-child(even) td { background: #faf9f6; }
+  .ms-table tbody tr:nth-child(even):hover td { background: var(--paper); }
+
+  /* Badges */
+  .badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 7px; border-radius: 2px; white-space: nowrap; }
+  .badge-standard { background: #eaf0ff; color: #2a5298; }
+  .badge-inverted { background: #fff3e0; color: #b45309; }
+  .badge-no-rebate { background: #f0f0f0; color: #555; }
+  .badge-equity { background: #e8f5e9; color: #2e7d32; }
+  .badge-options { background: #f3e5f5; color: #6a1b9a; }
+  .badge-futures { background: #e0f7fa; color: #00695c; }
+  .badge-active { background: #e8f5e9; color: #2e7d32; }
+  .badge-pending { background: #fff8e1; color: #b8860b; }
+  .badge-approved { background: #e3f2fd; color: #1565c0; }
+  .badge-live { background: #c8e6c9; color: #1b5e20; }
+  .badge-under-review { background: #fce4ec; color: #880e4f; }
+
+  /* Fee values */
+  .fee-maker { color: #2e7d32; font-weight: 600; }
+  .fee-taker { color: #c0392b; font-weight: 600; }
+  .fee-neutral { color: var(--muted); }
+  .fee-rebate { color: #2e7d32; }
+  .fee-charge { color: #c0392b; }
+
+  /* Sort controls */
+  .ms-table th.sortable { cursor: pointer; user-select: none; }
+  .ms-table th.sortable:hover { color: var(--ink); }
+  .sort-arrow { font-size: 9px; margin-left: 4px; opacity: 0.5; }
+  .ms-table th.sort-asc .sort-arrow::after { content: ' ▲'; opacity: 1; }
+  .ms-table th.sort-desc .sort-arrow::after { content: ' ▼'; opacity: 1; }
+
+  /* Explainer box */
+  .explainer { background: var(--paper); border: 1px solid var(--rule); border-left: 3px solid var(--accent); padding: 16px 20px; margin-top: 20px; }
+  .explainer-head { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+  .explainer-body { font-size: 13px; line-height: 1.8; color: var(--muted); }
+  .explainer-body p { margin-bottom: 10px; }
+  .explainer-body p:last-child { margin-bottom: 0; }
+  .explainer-body strong { color: var(--ink); font-weight: 600; }
+  .explainer-toggle { font-size: 14px; }
+
+  /* Note row */
+  .ms-note { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 12px; line-height: 1.6; }
+  .ms-note a { color: var(--accent-dark); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .ms-note a:hover { color: var(--ink); }
+
+  /* News cards */
+  .news-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .news-card-sm { background: var(--surface); border: 1px solid var(--border); padding: 18px 20px; text-decoration: none; color: inherit; display: block; transition: border-color 0.15s, background 0.15s; }
+  .news-card-sm:hover { border-color: var(--ink); background: var(--paper); }
+  .news-card-sm-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .news-card-sm-cat { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 2px 6px; border-radius: 2px; background: var(--ink); color: var(--accent); }
+  .news-card-sm-date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .news-card-sm-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; line-height: 1.35; color: var(--ink); margin-bottom: 6px; }
+  .news-card-sm:hover .news-card-sm-title { color: var(--accent-dark); }
+  .news-card-sm-desc { font-size: 12px; line-height: 1.6; color: var(--muted); }
+
+  /* CTA block */
+  .ms-cta { background: var(--ink); color: white; padding: 32px 40px; margin-top: 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .ms-cta-text h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: white; margin-bottom: 6px; }
+  .ms-cta-text p { font-size: 13px; color: #888; line-height: 1.5; }
+  .ms-cta-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink); background: var(--accent); text-decoration: none; padding: 10px 24px; border-radius: 2px; white-space: nowrap; transition: background 0.15s; }
+  .ms-cta-btn:hover { background: var(--accent-dark); color: white; }
+
+  /* Disclaimer */
+  .ms-disclaimer { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 32px; padding: 16px 20px; border: 1px solid var(--rule); border-left: 3px solid var(--rule); line-height: 1.7; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    html, body { overflow-x: hidden; max-width: 100vw; }
+    nav { display: none !important; }
+    #mobileBar { display: flex !important; }
+    .masthead-top, .fw-alertbar, footer { padding-left: 20px; padding-right: 20px; }
+    .masthead-top { flex-direction: column; gap: 10px; text-align: center; }
+    .tagline { text-align: center; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+    .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
+    .page-container { padding: 0 16px 48px; }
+    .ms-hero { padding: 24px 20px; }
+    .ms-panel { padding: 20px 16px; }
+    .ms-table { font-size: 11px; }
+    .ms-table th, .ms-table td { padding: 8px 8px; }
+    .news-grid-2 { grid-template-columns: 1fr; }
+    .ms-cta { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">MARKET STRUCTURE INTELLIGENCE &nbsp;·&nbsp; MAKER-TAKER &nbsp;·&nbsp; ATS &nbsp;·&nbsp; DARK POOLS</span>
+  <span class="ticker-item">FINRA ATS TRANSPARENCY DATA: <span style="color:#ff9900">UPDATED MONTHLY</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">IEX: <span class="up">NO MAKER-TAKER MODEL</span></span>
+  <span class="ticker-item">MEMX: <span class="up">LIVE</span></span>
+  <span class="ticker-item">LONG-TERM STOCK EXCHANGE (LTSE): <span class="up">LIVE</span></span>
+  <span class="ticker-item">MARKET STRUCTURE INTELLIGENCE &nbsp;·&nbsp; MAKER-TAKER &nbsp;·&nbsp; ATS &nbsp;·&nbsp; DARK POOLS</span>
+  <span class="ticker-item">FINRA ATS TRANSPARENCY DATA: <span style="color:#ff9900">UPDATED MONTHLY</span></span>
+  <span class="ticker-item">RULE 605 NMS PLAN: <span style="color:#ff9900">AUG 1, 2026</span></span>
+  <span class="ticker-item">IEX: <span class="up">NO MAKER-TAKER MODEL</span></span>
+  <span class="ticker-item">MEMX: <span class="up">LIVE</span></span>
+  <span class="ticker-item">LONG-TERM STOCK EXCHANGE (LTSE): <span class="up">LIVE</span></span>
+</div></div>
+
+<!-- FeedWatch Alert Bar -->
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span id="fw-critical-count" class="fw-alertbar-num">1</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="calendar.html?filter=high" class="fw-alertbar-stat high"><span id="fw-high-count" class="fw-alertbar-num">7</span><span class="fw-alertbar-label">High</span></a>
+      <a href="calendar.html?filter=action" class="fw-alertbar-stat action"><span id="fw-action-count" class="fw-alertbar-num">15</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="calendar.html" class="fw-alertbar-stat total"><span id="fw-active-count" class="fw-alertbar-num">20</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span id="fw-next-deadline" class="fw-alertbar-next-val">CME 1Gbps MDP3 - Mar 1, 2026</span>
+    </div>
+    <a href="calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="index.html" style="text-decoration:none;border-left:1px solid var(--rule);border-right:1px solid var(--rule);padding:0 10px;display:flex;align-items:center;flex-shrink:0;" title="Market Data News">
+      <img src="favicon.svg" alt="MDN" style="height:26px;width:26px;display:block;">
+    </a>
+    <a href="index.html" class="nav-item">Home</a>
+    <div class="nav-dropdown">
+      <span class="nav-item">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <div class="nav-drop-group">Trackers</div>
+        <a href="calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="nms.html" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="rule-filings.html" class="nav-drop-item">Rule Filings</a>
+        <a href="regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
+        <a href="ai-digest.html" class="nav-drop-item">AI Digest</a>
+        <div class="nav-drop-divider"></div>
+        <div class="nav-drop-group">Articles</div>
+        <a href="articles/cme-globex-notices-2026.html" class="nav-drop-item">CME Globex Notices 2026</a>
+        <a href="articles/finra-slate-guide.html" class="nav-drop-item">FINRA SLATE Guide</a>
+        <a href="articles/index.html" class="nav-drop-item">View All Articles</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item active">Market Structure &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="market-structure.html#maker-taker" class="nav-drop-item">Maker-Taker Tracker</a>
+        <a href="market-structure.html#dark-pools" class="nav-drop-item">ATS Dark Pool Monitor</a>
+        <a href="market-structure.html#new-exchanges" class="nav-drop-item">New Exchange Tracker</a>
+        <a href="market-structure.html" class="nav-drop-item">View All</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Tools &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
+        <a href="peer-groups.html" class="nav-drop-item">Peer Groups</a>
+        <a href="contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
+        <a href="rulebook-navigator.html" class="nav-drop-item">Rulebooks</a>
+        <a href="execution-quality.html" class="nav-drop-item">Execution Quality</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Learn &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="market-ecosystem.html" class="nav-drop-item">Market Ecosystem</a>
+        <a href="learn.html#sip" class="nav-drop-item">How the SIP Works</a>
+        <a href="learn.html#opra" class="nav-drop-item">The OPRA Model</a>
+        <a href="learn.html#futures" class="nav-drop-item">Futures Market Data</a>
+        <a href="learn.html" class="nav-drop-item">View All Lessons</a>
+      </div>
+    </div>
+    <a href="subscribe.html" class="nav-item nav-subscribe">Subscribe →</a>
+    <div class="nav-right">
+      <div class="search-wrap" id="search-wrap">
+        <input class="search-box" type="text" placeholder="Search site..." id="search-input" onkeydown="if(event.key==='Enter') doSearch()" autocomplete="off">
+        <div id="search-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #e8e4db;border-top:none;border-radius:0 0 4px 4px;max-height:320px;overflow-y:auto;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,0.08);"></div>
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html">Home</a>
+  <div class="mob-group-label">Intelligence</div>
+  <a href="calendar.html">FeedWatch Calendar</a>
+  <a href="nms.html">NMS / SIP Plans</a>
+  <a href="feed-status.html">Feed Status</a>
+  <a href="rule-filings.html">Rule Filings</a>
+  <a href="regulation.html">Regulation</a>
+  <a href="prediction-markets.html">Prediction Markets</a>
+  <a href="ai-digest.html">AI Digest</a>
+  <a href="articles/cme-globex-notices-2026.html">CME Globex Notices 2026</a>
+  <a href="articles/finra-slate-guide.html">FINRA SLATE Guide</a>
+  <a href="articles/index.html">View All Articles</a>
+  <div class="mob-group-label">Market Structure</div>
+  <a href="market-structure.html#maker-taker" class="active">Maker-Taker Tracker</a>
+  <a href="market-structure.html#dark-pools">ATS Dark Pool Monitor</a>
+  <a href="market-structure.html#new-exchanges">New Exchange Tracker</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="market-data-fees.html">Fee Calculator</a>
+  <a href="peer-groups.html">Peer Groups</a>
+  <a href="contract-intelligence.html">Contract Intelligence</a>
+  <a href="rulebook-navigator.html">Rulebooks</a>
+  <a href="execution-quality.html">Execution Quality</a>
+  <div class="mob-group-label">Learn</div>
+  <a href="market-ecosystem.html">Market Ecosystem</a>
+  <a href="learn.html#sip">How the SIP Works</a>
+  <a href="learn.html#opra">The OPRA Model</a>
+  <a href="learn.html#futures">Futures Market Data</a>
+  <a href="learn.html">View All Lessons</a>
+  <a href="subscribe.html">Subscribe</a>
+  <a href="about.html">About</a>
+</div>
+
+<!-- Hero -->
+<div class="page-container">
+  <div class="ms-hero">
+    <div class="ms-hero-eyebrow">Market Structure Intelligence</div>
+    <h1>Exchange Fee Models, Dark Pools &amp; New Venues</h1>
+    <p class="ms-hero-sub">Comprehensive tracking of maker-taker fee structures across all U.S. equity exchanges, FINRA ATS transparency data, and the evolving landscape of new trading venues and alternative market structures.</p>
+    <div class="ms-hero-nav">
+      <a href="#maker-taker" class="ms-anchor-btn">Maker-Taker Tracker</a>
+      <a href="#dark-pools" class="ms-anchor-btn">ATS Dark Pool Monitor</a>
+      <a href="#new-exchanges" class="ms-anchor-btn">New Exchange Tracker</a>
+      <a href="#news" class="ms-anchor-btn">Market Structure News</a>
+    </div>
+  </div>
+
+  <!-- SECTION 01: MAKER-TAKER -->
+  <div class="ms-section" id="maker-taker">
+    <div class="ms-section-head">
+      <span class="ms-section-num">01</span>
+      <span class="ms-section-title">Maker-Taker Fee Tracker</span>
+    </div>
+    <hr class="ms-section-rule">
+    <div class="ms-panel">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.7;">Fee schedules as of Q1 2026. All rates in dollars per 100 shares. Click column headers to sort. Inverted and no-rebate models noted.</p>
+      <div style="overflow-x:auto;">
+        <table class="ms-table" id="makerTakerTable">
+          <thead>
+            <tr>
+              <th class="sortable" data-col="0">Exchange <span class="sort-arrow"></span></th>
+              <th class="sortable right" data-col="1">Maker Rebate <span class="sort-arrow"></span></th>
+              <th class="sortable right" data-col="2">Taker Fee <span class="sort-arrow"></span></th>
+              <th>Asset Class</th>
+              <th>Model</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>NYSE</strong></td>
+              <td class="right fee-rebate">$0.0022</td>
+              <td class="right fee-charge">$0.0030</td>
+              <td><span class="badge badge-equity">Equity</span></td>
+              <td><span class="badge badge-standard">Standard</span></td>
+              <td style="color:var(--muted);font-size:11px;">Tiered by volume; top tier up to $0.0027 rebate</td>
+            </tr>
+            <tr>
+              <td><strong>NYSE Arca</strong></td>
+              <td class="right fee-rebate">$0.0020</td>
+              <td class="right fee-charge">$0.0030</td>
+              <td><span class="badge badge-equity">Equity</span> <span class="badge badge-options">Options</span></td>
+              <td><span class="badge badge-standard">Standard</span></td>
+              <td style="color:var(--muted);font-size:11px;">Equity + options venue; options fee schedule separate</td>
+            </tr>
+            <tr>
+              <td><strong>NYSE American</strong></td>
+              <td class="right fee-rebate">$0.0018</td>
+              <td class="right fee-charge">$0.0030</td>
+              <td><span class="badge badge-equity">Equity</span> <span class="badge badge-options">Options</span></td>
+              <td><span class="badge badge-standard">Standard</span></td>
+              <td style="color:var(--muted);font-size:11px;">Small-cap focus; formerly AMEX</td>
+            </tr>
+            <tr>
+              <td><strong>Nasdaq</strong></td>
+              <td class="right fee-rebate">$0.0020</td>
+              <td class="right fee-charge">$0.0030</td>
+              <td><span class="badge badge-equity">Equity</span></td>
+              <td><span class="badge badge-standard">Standard</span></td>
+              <td style="color:var(--muted);font-size:11px;">Volume tiers up to $0.0025 rebate; MPID-based</td>
+            </tr>
+            <tr>
+              <td><strong>Nasdaq BX</strong></td>
+              <td class="right fee-charge" style="color:#c0392b;">($0.0009)</td>
+              <td class="right fee-rebate">$0.0004 rebate</td>
+              <td><span class="badge badge-equity">Equity</span></td>
+              <td><span class="badge badge-inverted">Inverted</span></td>
+              <td style="color:var(--muted);font-size:11px;">Inverted model - maker pays, taker earns rebate</td>
+            </tr>
+            <tr>
+              <td><strong>Cboe BZX</strong></td>
+              <td class="right fee-rebate">$0.0020</td>
+              <td class="right fee-charge">$0.0030</td>
+              <td><span class="badge badge-equity">Equity</span></td>
+              <td><span class="badge badge-standard">Standard</span></td>
+              <td style="color:var(--muted);font-size:11px;">Cboe Global Markets flagship equity venue</td>
+            </tr>
+            <tr>
+              <td><strong>Cboe EDGX</strong></td>
+              <td class="right fee-rebate">$0.0018</td>
+              <td class="right fee-charge">$0.0030</td>
+              <td><span class="badge badge-equity">Equity</span></td>
+              <td><span class="badge badge-standard">Standard</span></td>
+              <td style="color:var(--muted);font-size:11px;">Second Cboe equity venue; competitive rebate tiers</td>
+            </tr>
+            <tr>
+              <td><strong>Cboe BYX</strong></td>
+              <td class="right fee-charge" style="color:#c0392b;">($0.0007)</td>
+              <td class="right fee-rebate">$0.0003 rebate</td>
+              <td><span class="badge badge-equity">Equity</span></td>
+              <td><span class="badge badge-inverted">Inverted</span></td>
+              <td style="color:var(--muted);font-size:11px;">Inverted model; targeted at retail and passive flow</td>
+            </tr>
+            <tr>
+              <td><strong>Cboe EDGA</strong></td>
+              <td class="right fee-charge" style="color:#c0392b;">($0.0003)</td>
+              <td class="right fee-rebate">$0.0001 rebate</td>
+              <td><span class="badge badge-equity">Equity</span></td>
+              <td><span class="badge badge-inverted">Inverted</span></td>
+              <td style="color:var(--muted);font-size:11px;">Lowest-fee inverted venue; minimal spread impact</td>
+            </tr>
+            <tr>
+              <td><strong>IEX</strong></td>
+              <td class="right fee-neutral">$0.0000</td>
+              <td class="right fee-charge">$0.0009</td>
+              <td><span class="badge badge-equity">Equity</span></td>
+              <td><span class="badge badge-no-rebate">No-Rebate</span></td>
+              <td style="color:var(--muted);font-size:11px;">Speed bump (350us); no maker rebate; "Flash Boys" exchange</td>
+            </tr>
+            <tr>
+              <td><strong>MEMX</strong></td>
+              <td class="right fee-rebate">$0.0020</td>
+              <td class="right fee-charge">$0.0030</td>
+              <td><span class="badge badge-equity">Equity</span></td>
+              <td><span class="badge badge-standard">Standard</span></td>
+              <td style="color:var(--muted);font-size:11px;">Member Exchange; launched 2020; competitive tiering</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ms-note">* Rates shown are standard/base tier. All exchanges offer volume-based tiered pricing. Rates subject to change; verify with each exchange's current fee schedule. <a href="https://www.sec.gov/rules/sro.shtml" target="_blank" rel="noopener">SEC SRO rule filings</a> are the authoritative source.</div>
+
+      <div class="explainer" id="makerTakerExplainer">
+        <div class="explainer-head" onclick="toggleExplainer('makerTakerBody', 'makerTakerToggle')">
+          What is the Maker-Taker Model?
+          <span class="explainer-toggle" id="makerTakerToggle">+</span>
+        </div>
+        <div class="explainer-body" id="makerTakerBody" style="display:none;">
+          <p>The <strong>maker-taker model</strong> is a fee structure used by most U.S. equity exchanges in which market makers (liquidity providers) receive a rebate for posting limit orders that rest in the book, while market takers (liquidity removers) pay a fee for executing against that resting liquidity.</p>
+          <p>The model creates financial incentives to provide liquidity, which theoretically improves market quality by narrowing spreads. Critics argue that it creates conflicts of interest for broker-dealers routing orders to maximize rebates rather than execution quality - a concern that has driven multiple SEC and Congressional reviews.</p>
+          <p><strong>Inverted models</strong> reverse the incentive: takers receive a rebate and makers pay a fee. These venues attract order flow that would otherwise sweep away liquidity (aggressive institutional flow), since they pay for taking. <strong>No-rebate models</strong> (like IEX) charge a single flat take fee and offer no maker rebate, removing the routing conflict entirely.</p>
+          <p>The NMS Plan amendment under Rule 605 (effective August 1, 2026) will expand execution quality disclosure requirements, making venue-level routing decisions more transparent.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 02: ATS DARK POOLS -->
+  <div class="ms-section" id="dark-pools">
+    <div class="ms-section-head">
+      <span class="ms-section-num">02</span>
+      <span class="ms-section-title">ATS Dark Pool Monitor</span>
+    </div>
+    <hr class="ms-section-rule">
+    <div class="ms-panel">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.7;">FINRA ATS transparency data - approximate weekly NMS volume shares. Source: FINRA ATS Transparency Data, updated monthly. Ranked by approximate share volume.</p>
+      <div style="overflow-x:auto;">
+        <table class="ms-table" id="atsTable">
+          <thead>
+            <tr>
+              <th>ATS / Dark Pool</th>
+              <th>Operator</th>
+              <th class="right">Approx. Weekly Shares (M)</th>
+              <th class="right">Est. NMS Share %</th>
+              <th>Type</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>UBS ATS</strong></td>
+              <td style="color:var(--muted);">UBS Securities</td>
+              <td class="right">1,800</td>
+              <td class="right">~4.2%</td>
+              <td><span class="badge badge-equity">Broker-Dealer</span></td>
+              <td style="color:var(--muted);font-size:11px;">Largest U.S. ATS by volume; institutional block matching</td>
+            </tr>
+            <tr>
+              <td><strong>MS POOL</strong></td>
+              <td style="color:var(--muted);">Morgan Stanley</td>
+              <td class="right">1,550</td>
+              <td class="right">~3.6%</td>
+              <td><span class="badge badge-equity">Broker-Dealer</span></td>
+              <td style="color:var(--muted);font-size:11px;">Morgan Stanley institutional dark pool</td>
+            </tr>
+            <tr>
+              <td><strong>Credit Suisse Crossfinder</strong></td>
+              <td style="color:var(--muted);">Credit Suisse</td>
+              <td class="right">1,200</td>
+              <td class="right">~2.8%</td>
+              <td><span class="badge badge-equity">Broker-Dealer</span></td>
+              <td style="color:var(--muted);font-size:11px;">High-frequency and institutional flow; algo-driven</td>
+            </tr>
+            <tr>
+              <td><strong>Goldman Sachs SIGMA X2</strong></td>
+              <td style="color:var(--muted);">Goldman Sachs</td>
+              <td class="right">1,100</td>
+              <td class="right">~2.5%</td>
+              <td><span class="badge badge-equity">Broker-Dealer</span></td>
+              <td style="color:var(--muted);font-size:11px;">Successor to SIGMA X; institutional block trading</td>
+            </tr>
+            <tr>
+              <td><strong>Liquidnet H2O</strong></td>
+              <td style="color:var(--muted);">Liquidnet</td>
+              <td class="right">900</td>
+              <td class="right">~2.1%</td>
+              <td><span class="badge badge-equity">Broker-Dealer</span></td>
+              <td style="color:var(--muted);font-size:11px;">Block-focused; buy-side only network; no HFT</td>
+            </tr>
+            <tr>
+              <td><strong>Barclays LX</strong></td>
+              <td style="color:var(--muted);">Barclays Capital</td>
+              <td class="right">820</td>
+              <td class="right">~1.9%</td>
+              <td><span class="badge badge-equity">Broker-Dealer</span></td>
+              <td style="color:var(--muted);font-size:11px;">Subject of 2014 NYAG dark pool case; restructured</td>
+            </tr>
+            <tr>
+              <td><strong>BATS Trading</strong></td>
+              <td style="color:var(--muted);">Cboe Global Markets</td>
+              <td class="right">750</td>
+              <td class="right">~1.7%</td>
+              <td><span class="badge badge-equity">Exchange ATS</span></td>
+              <td style="color:var(--muted);font-size:11px;">Cboe-operated dark venue; complement to lit books</td>
+            </tr>
+            <tr>
+              <td><strong>ITG POSIT</strong></td>
+              <td style="color:var(--muted);">Virtu Financial (ITG)</td>
+              <td class="right">680</td>
+              <td class="right">~1.6%</td>
+              <td><span class="badge badge-equity">Broker-Dealer</span></td>
+              <td style="color:var(--muted);font-size:11px;">Acquired by Virtu 2019; block crossing specialist</td>
+            </tr>
+            <tr>
+              <td><strong>Citi Match</strong></td>
+              <td style="color:var(--muted);">Citigroup</td>
+              <td class="right">610</td>
+              <td class="right">~1.4%</td>
+              <td><span class="badge badge-equity">Broker-Dealer</span></td>
+              <td style="color:var(--muted);font-size:11px;">Citi internal crossing network; institutional focus</td>
+            </tr>
+            <tr>
+              <td><strong>JP Morgan ATS</strong></td>
+              <td style="color:var(--muted);">J.P. Morgan</td>
+              <td class="right">550</td>
+              <td class="right">~1.3%</td>
+              <td><span class="badge badge-equity">Broker-Dealer</span></td>
+              <td style="color:var(--muted);font-size:11px;">JPMorgan dark pool; broad institutional client base</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ms-note">* Volume estimates based on FINRA ATS Transparency Data (public monthly reports). Actual figures vary weekly. NMS share % calculated against approximately 43 billion shares/week total NMS volume. <a href="https://www.finra.org/finra-data/browse-catalog/equity-short-interest/alternative-trading-system-data" target="_blank" rel="noopener">View FINRA ATS Data</a></div>
+
+      <div class="explainer" style="margin-top:20px;">
+        <div class="explainer-head" onclick="toggleExplainer('darkPoolBody', 'darkPoolToggle')">
+          What are ATS and Dark Pools?
+          <span class="explainer-toggle" id="darkPoolToggle">+</span>
+        </div>
+        <div class="explainer-body" id="darkPoolBody" style="display:none;">
+          <p>An <strong>Alternative Trading System (ATS)</strong> is an SEC-registered trading platform that matches buyers and sellers but is not registered as a national securities exchange. Most ATS operate as dark pools, meaning they do not display pre-trade quotes publicly to the consolidated tape.</p>
+          <p>Dark pools serve a legitimate purpose: allowing large institutional investors to trade large blocks of stock without moving the market against themselves. When a mutual fund needs to sell 5 million shares, displaying that order publicly would cause other participants to front-run the execution, increasing market impact costs.</p>
+          <p><strong>FINRA Rule 4552</strong> requires ATS to report their weekly trading volume data, which FINRA makes public on a two-week lag. This transparency initiative, launched in 2014, allows the public to see which dark pools are most active, though pre-trade information remains private by design.</p>
+          <p>Total dark pool and ATS volume has historically represented 35-40% of U.S. NMS equity volume, with the remainder executing on lit exchanges like NYSE, Nasdaq, and Cboe.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 03: NEW EXCHANGES -->
+  <div class="ms-section" id="new-exchanges">
+    <div class="ms-section-head">
+      <span class="ms-section-num">03</span>
+      <span class="ms-section-title">New Exchange Status Tracker</span>
+    </div>
+    <hr class="ms-section-rule">
+    <div class="ms-panel">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.7;">Status of new, proposed, and recently launched U.S. trading venues. Market data engineers should monitor these for new connectivity, feed, and data licensing requirements.</p>
+      <div style="overflow-x:auto;">
+        <table class="ms-table">
+          <thead>
+            <tr>
+              <th>Venue</th>
+              <th>Operator</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Key Feature</th>
+              <th>Launch / Target</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>MEMX</strong></td>
+              <td style="color:var(--muted);">Member Exchange</td>
+              <td><span class="badge badge-equity">Equity</span></td>
+              <td><span class="badge badge-live">Live</span></td>
+              <td style="font-size:12px;">Broker-dealer consortium; low-cost market data</td>
+              <td style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);">Sep 2020</td>
+            </tr>
+            <tr>
+              <td><strong>LTSE</strong></td>
+              <td style="color:var(--muted);">Long-Term Stock Exchange</td>
+              <td><span class="badge badge-equity">Equity</span></td>
+              <td><span class="badge badge-live">Live</span></td>
+              <td style="font-size:12px;">Long-term focus; governance-based listing standards</td>
+              <td style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);">Sep 2020</td>
+            </tr>
+            <tr>
+              <td><strong>MIAX Pearl Equities</strong></td>
+              <td style="color:var(--muted);">Miami International Holdings</td>
+              <td><span class="badge badge-equity">Equity</span> <span class="badge badge-options">Options</span></td>
+              <td><span class="badge badge-live">Live</span></td>
+              <td style="font-size:12px;">MIAX exchange group equity entry; technology-focused</td>
+              <td style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);">Feb 2021</td>
+            </tr>
+            <tr>
+              <td><strong>24X National Exchange</strong></td>
+              <td style="color:var(--muted);">24X Holdings</td>
+              <td><span class="badge badge-equity">Equity</span></td>
+              <td><span class="badge badge-approved">SEC Approved</span></td>
+              <td style="font-size:12px;">23-hour/day trading; overnight equities market</td>
+              <td style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);">2025 (pending)</td>
+            </tr>
+            <tr>
+              <td><strong>Texas Stock Exchange (TXSE)</strong></td>
+              <td style="color:var(--muted);">TXSE Group</td>
+              <td><span class="badge badge-equity">Equity</span></td>
+              <td><span class="badge badge-pending">Application Filed</span></td>
+              <td style="font-size:12px;">Dallas-based; reduced ESG listing constraints</td>
+              <td style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);">2026 (target)</td>
+            </tr>
+            <tr>
+              <td><strong>EDX Markets</strong></td>
+              <td style="color:var(--muted);">EDX Markets LLC</td>
+              <td><span class="badge badge-equity" style="background:#e0f7fa;color:#00695c;">Crypto</span></td>
+              <td><span class="badge badge-live">Live</span></td>
+              <td style="font-size:12px;">Institutional crypto exchange; non-custodial model</td>
+              <td style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);">Jun 2023</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="explainer" style="margin-top:20px;background:#fff8e1;border-left-color:#b8860b;">
+        <div class="explainer-head" style="color:#b8860b;">
+          24-Hour Trading - What It Means for Market Data
+        </div>
+        <div class="explainer-body">
+          <p>The SEC approval of <strong>24X National Exchange</strong> and growing overnight equities activity (via Blue Ocean ATS and similar platforms) has significant implications for market data infrastructure:</p>
+          <p><strong>Feed infrastructure</strong> currently assumes scheduled trading hours with maintenance windows overnight. Continuous 23-hour operation would require always-on multicast feeds, eliminating the overnight maintenance window that many market data teams rely on for system updates and connectivity testing.</p>
+          <p><strong>Consolidated tape</strong> (SIP) architecture would need to handle continuous consolidated quote and trade reporting, adding operational complexity. The CTA and UTP Plans have not yet published formal implementation guidance for extended-hours SIP reporting.</p>
+          <p><strong>Market data engineers</strong> should begin evaluating whether their downstream systems (risk engines, data warehouses, analytics platforms) can handle continuous intraday data with no defined daily session boundaries.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 04: MARKET STRUCTURE NEWS -->
+  <div class="ms-section" id="news">
+    <div class="ms-section-head">
+      <span class="ms-section-num">04</span>
+      <span class="ms-section-title">Market Structure News</span>
+    </div>
+    <hr class="ms-section-rule">
+    <div class="news-grid-2">
+      <a class="news-card-sm" href="rule-filings.html">
+        <div class="news-card-sm-meta">
+          <span class="news-card-sm-cat">Rule Filing</span>
+          <span class="news-card-sm-date">Apr 2026</span>
+        </div>
+        <div class="news-card-sm-title">SEC Reviews Maker-Taker Fee Cap Proposal</div>
+        <div class="news-card-sm-desc">The SEC continues deliberations on whether to impose a cap on access fees under Rule 610, which could structurally alter the maker-taker rebate economics that drive most exchange fee schedules.</div>
+      </a>
+      <a class="news-card-sm" href="rule-filings.html">
+        <div class="news-card-sm-meta">
+          <span class="news-card-sm-cat">Exchange</span>
+          <span class="news-card-sm-date">Mar 2026</span>
+        </div>
+        <div class="news-card-sm-title">TXSE Files SEC Registration: Dallas Exchange Targets 2026 Launch</div>
+        <div class="news-card-sm-desc">The Texas Stock Exchange has filed its Form 1 registration with the SEC, seeking approval to operate as a national securities exchange with reduced ESG-related listing requirements.</div>
+      </a>
+      <a class="news-card-sm" href="nms.html">
+        <div class="news-card-sm-meta">
+          <span class="news-card-sm-cat">NMS / SIP</span>
+          <span class="news-card-sm-date">Feb 2026</span>
+        </div>
+        <div class="news-card-sm-title">Rule 605 Amendments Expand Execution Quality Reporting Requirements</div>
+        <div class="news-card-sm-desc">New Rule 605 amendments effective August 1, 2026 will expand execution quality disclosure to include more venue types and order categories, increasing transparency in routing decisions including dark pool usage.</div>
+      </a>
+      <a class="news-card-sm" href="regulation.html">
+        <div class="news-card-sm-meta">
+          <span class="news-card-sm-cat">Regulation</span>
+          <span class="news-card-sm-date">Jan 2026</span>
+        </div>
+        <div class="news-card-sm-title">FINRA ATS Transparency Data Now Includes Fractional Share Volume</div>
+        <div class="news-card-sm-desc">FINRA has updated its monthly ATS transparency data reporting to include fractional share trading volume separately, improving insight into retail-driven dark pool activity at broker-dealer ATS.</div>
+      </a>
+      <a class="news-card-sm" href="exchanges.html">
+        <div class="news-card-sm-meta">
+          <span class="news-card-sm-cat">Exchange</span>
+          <span class="news-card-sm-date">Jan 2026</span>
+        </div>
+        <div class="news-card-sm-title">IEX Launches New Discretionary Limit Order Type</div>
+        <div class="news-card-sm-desc">IEX has introduced a new discretionary limit order type designed to interact with midpoint liquidity at the IEX speed bump, providing additional execution options for institutional order flow without sacrificing price improvement.</div>
+      </a>
+      <a class="news-card-sm" href="regulation.html">
+        <div class="news-card-sm-meta">
+          <span class="news-card-sm-cat">Regulation</span>
+          <span class="news-card-sm-date">Dec 2025</span>
+        </div>
+        <div class="news-card-sm-title">SEC Settles Dark Pool Transparency Case - $12M Penalty</div>
+        <div class="news-card-sm-desc">The SEC reached a settlement with a major broker-dealer over allegations that its dark pool gave preferential treatment to certain high-frequency trading firms while misrepresenting the pool's operation to institutional clients.</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="ms-cta">
+    <div class="ms-cta-text">
+      <h3>Track Every Market Structure Change</h3>
+      <p>FeedWatch monitors exchange rule filings, fee schedule changes, ATS registrations, and new venue developments - with deadline alerts so nothing slips through.</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <a href="calendar.html" class="ms-cta-btn">FeedWatch Calendar</a>
+      <a href="rule-filings.html" class="ms-cta-btn" style="background:transparent;color:var(--accent);border:1px solid var(--accent-dark);">Rule Filings →</a>
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="ms-disclaimer">
+    DISCLAIMER: Fee schedules, volume estimates, and status information on this page are provided for informational purposes only and may not reflect the most current exchange or regulatory filings. Rates, models, and regulatory status change frequently. Always verify directly with the relevant exchange, FINRA, or the SEC before making business or routing decisions. Market Data News is not a registered investment adviser, broker-dealer, or exchange.
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="exchanges.html">Exchanges</a>
+      <a href="regulation.html">Regulation</a>
+      <a href="nms.html">NMS / SIP</a>
+      <a href="feed-status.html">Feed Status</a>
+      <a href="prediction-markets.html">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>FeedWatch</h4>
+      <a href="calendar.html">All Entries</a>
+      <a href="calendar.html?filter=action">Action Required</a>
+      <a href="calendar.html?filter=critical">Critical Alerts</a>
+      <a href="calendar.html?filter=high">High Impact</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="subscribe.html">Subscribe</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com - All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now = new Date();
+document.getElementById('dateLine').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+
+function toggleExplainer(bodyId, toggleId) {
+  var body = document.getElementById(bodyId);
+  var toggle = document.getElementById(toggleId);
+  if (body.style.display === 'none') {
+    body.style.display = 'block';
+    if (toggle) toggle.textContent = '-';
+  } else {
+    body.style.display = 'none';
+    if (toggle) toggle.textContent = '+';
+  }
+}
+
+// Sortable table
+(function() {
+  var table = document.getElementById('makerTakerTable');
+  if (!table) return;
+  var headers = table.querySelectorAll('th.sortable');
+  var sortCol = -1, sortAsc = true;
+
+  headers.forEach(function(th) {
+    th.addEventListener('click', function() {
+      var col = parseInt(th.dataset.col);
+      if (sortCol === col) { sortAsc = !sortAsc; } else { sortCol = col; sortAsc = true; }
+      headers.forEach(function(h) { h.classList.remove('sort-asc', 'sort-desc'); });
+      th.classList.add(sortAsc ? 'sort-asc' : 'sort-desc');
+      var tbody = table.querySelector('tbody');
+      var rows = Array.from(tbody.querySelectorAll('tr'));
+      rows.sort(function(a, b) {
+        var aVal = a.cells[col].textContent.replace(/[^0-9.\-]/g, '') || a.cells[col].textContent;
+        var bVal = b.cells[col].textContent.replace(/[^0-9.\-]/g, '') || b.cells[col].textContent;
+        var aNum = parseFloat(aVal), bNum = parseFloat(bVal);
+        if (!isNaN(aNum) && !isNaN(bNum)) { return sortAsc ? aNum - bNum : bNum - aNum; }
+        return sortAsc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      });
+      rows.forEach(function(r) { tbody.appendChild(r); });
+    });
+  });
+})();
+
+// FeedWatch alertbar load
+(async function() {
+  try {
+    var res = await fetch('/.netlify/functions/get-feedwatch');
+    var data = await res.json();
+    var entries = (data.entries || []).filter(function(e) { return e.status !== 'resolved'; });
+    var critical = entries.filter(function(e) { return e.priority === 'critical'; }).length;
+    var high = entries.filter(function(e) { return e.priority === 'high'; }).length;
+    var action = entries.filter(function(e) { return e.actionRequired; }).length;
+    if (document.getElementById('fw-critical-count')) document.getElementById('fw-critical-count').textContent = critical;
+    if (document.getElementById('fw-high-count')) document.getElementById('fw-high-count').textContent = high;
+    if (document.getElementById('fw-action-count')) document.getElementById('fw-action-count').textContent = action;
+    if (document.getElementById('fw-active-count')) document.getElementById('fw-active-count').textContent = entries.length;
+  } catch(e) {}
+})();
+</script>
+<script src="search-global.js"></script>
+</body>
+</html>
