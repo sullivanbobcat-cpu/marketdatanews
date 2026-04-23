@@ -41,7 +41,7 @@ exports.handler = async function () {
 
     const month = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
-    const message = `Market Data News — ${month} update:\n📡 45 feeds monitored\n📋 ${entryCount} FeedWatch entries active\n🏛️ 60+ exchanges tracked\n📜 8 NMS plans covered\n\nFree intelligence for market data professionals:\nmarketdatanews.com\n#MarketData #MarketStructure #FinTech`;
+    const message = `Market Data News - ${month} update:\n📡 45 feeds monitored\n📋 ${entryCount} FeedWatch entries active\n🏛️ 60+ exchanges tracked\n📜 8 NMS plans covered\n\nFree intelligence for market data professionals:\nmarketdatanews.com\n#MarketData #MarketStructure #FinTech`;
     if (message.length > 280) {
       console.warn('[monthly-stats] Tweet too long:', message.length);
       return { statusCode: 200, body: JSON.stringify({ skipped: 'tweet too long' }) };

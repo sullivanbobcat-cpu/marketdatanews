@@ -56,7 +56,7 @@ exports.handler = async function () {
     for (const e of entries) {
       if (!['CRITICAL', 'HIGH'].includes((e.severity || '').toUpperCase())) continue;
       const dateStr = e.effectiveDate || e.deadline || e.date || '';
-      // Skip Q-dates and TBD — can't calculate exact days
+      // Skip Q-dates and TBD - can't calculate exact days
       if (!dateStr || /^TBD$/i.test(dateStr) || /Q[1-4]$/i.test(dateStr)) continue;
       const d = new Date(dateStr);
       if (isNaN(d.getTime())) continue;

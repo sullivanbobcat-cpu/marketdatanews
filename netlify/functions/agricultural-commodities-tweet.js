@@ -1,5 +1,5 @@
 // agricultural-commodities-tweet.js
-// Schedule: '0 21 * * 1-5' (4pm ET weekdays — after CBOT close)
+// Schedule: '0 21 * * 1-5' (4pm ET weekdays - after CBOT close)
 // Tweets CBOT settlements if any commodity moved >1.5%
 
 const { TwitterApi } = require('twitter-api-v2');
@@ -50,7 +50,7 @@ exports.handler = async () => {
     // Only tweet if at least one moved >1.5%
     const anyNotable = [corn, wheat, soybeans].some(q => q.changePct !== null && Math.abs(q.changePct) >= 1.5);
     if (!anyNotable) {
-      console.log('[ag-tweet] No notable ag moves — skipping');
+      console.log('[ag-tweet] No notable ag moves - skipping');
       return { statusCode: 200, body: JSON.stringify({ skipped: 'no notable moves', corn: corn.changePct, wheat: wheat.changePct, soybeans: soybeans.changePct }) };
     }
 

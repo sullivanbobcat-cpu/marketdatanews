@@ -40,7 +40,7 @@ exports.handler = async () => {
     const isNotableLevel = price >= 100 || price <= 70;
 
     if (!isNotableMove && !isNotableLevel) {
-      console.log(`[oil-tweet] Move only $${fmt(Math.abs(change))} — skipping`);
+      console.log(`[oil-tweet] Move only $${fmt(Math.abs(change))} - skipping`);
       return { statusCode: 200, body: JSON.stringify({ skipped: 'not notable', price, change }) };
     }
 

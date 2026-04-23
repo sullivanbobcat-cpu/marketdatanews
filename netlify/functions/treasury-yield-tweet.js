@@ -46,7 +46,7 @@ exports.handler = async () => {
     const triggerFromLastTweet = bpsFromLastTweet !== null && Math.abs(bpsFromLastTweet) >= 8;
 
     if (!triggerFromClose && !triggerFromLastTweet) {
-      console.log(`[yield-tweet] Only ${bpsFromClose}bps from close, ${bpsFromLastTweet}bps from last tweet — skipping`);
+      console.log(`[yield-tweet] Only ${bpsFromClose}bps from close, ${bpsFromLastTweet}bps from last tweet - skipping`);
       return { statusCode: 200, body: JSON.stringify({ skipped: 'move too small', bpsFromClose, bpsFromLastTweet }) };
     }
 

@@ -61,7 +61,7 @@ async function callClaude(title, desc, url) {
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 300,
-      system: 'You are a financial regulation news account. Write a factual tweet under 230 chars about this SEC or CFTC enforcement action. State what happened and the penalty if known. No hashtags. No emojis. No speculation. End with marketdatanews.com/regulation',
+      system: 'You are a financial regulation news account. Write a factual tweet under 230 chars about this SEC or CFTC enforcement action. State what happened and the penalty if known. No hashtags. No emojis. No speculation. End with marketdatanews.com/regulation. Never use em dashes in your response. Use a hyphen (-) or colon (:) instead.',
       messages: [{ role: 'user', content: `Title: ${title}\nDescription: ${desc}\nURL: ${url}` }],
     }),
     signal: AbortSignal.timeout(25000),

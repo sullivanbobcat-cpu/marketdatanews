@@ -2,8 +2,8 @@ const { TwitterApi } = require('twitter-api-v2');
 const { getStore } = require('@netlify/blobs');
 
 const FACTS = [
-  'OPRA is the highest-volume market data feed in US markets — regularly exceeding 100 billion messages per day across 96 multicast channels. marketdatanews.com/feed-status #MarketData',
-  'There are 8 separate NMS Plans governing US market data infrastructure — CTA, CQ, UTP, OPRA, CAT, LULD, ISRA, and Rule 605. We track all of them: marketdatanews.com/nms #MarketData',
+  'OPRA is the highest-volume market data feed in US markets - regularly exceeding 100 billion messages per day across 96 multicast channels. marketdatanews.com/feed-status #MarketData',
+  'There are 8 separate NMS Plans governing US market data infrastructure - CTA, CQ, UTP, OPRA, CAT, LULD, ISRA, and Rule 605. We track all of them: marketdatanews.com/nms #MarketData',
   'CME deprecated 1Gbps support for MDP 3.0 multicast in March 2026. If your feed handler is on 1Gbps you may be losing packets at market open. marketdatanews.com/feed-status #MarketData',
 ];
 

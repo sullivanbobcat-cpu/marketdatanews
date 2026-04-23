@@ -86,7 +86,7 @@ exports.handler = async function () {
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 300,
-        system: 'You are a market intelligence account. Write a weekly prediction market roundup tweet listing the 5 most-traded markets and their current YES probabilities. Format as a numbered list. Keep total under 270 chars. End with marketdatanews.com/prediction-markets-live #PredictionMarkets #MacroMarkets',
+        system: 'You are a market intelligence account. Write a weekly prediction market roundup tweet listing the 5 most-traded markets and their current YES probabilities. Format as a numbered list. Keep total under 270 chars. End with marketdatanews.com/prediction-markets-live #PredictionMarkets #MacroMarkets. Never use em dashes in your response. Use a hyphen (-) or colon (:) instead.',
         messages: [{ role: 'user', content: `Top 5 Kalshi markets this week:\n${JSON.stringify(marketList, null, 2)}` }],
       }),
       signal: AbortSignal.timeout(25000),

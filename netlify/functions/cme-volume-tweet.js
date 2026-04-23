@@ -1,5 +1,5 @@
 // cme-volume-tweet.js
-// Schedule: '0 22 * * 1-5' (5pm ET weekdays — after market close)
+// Schedule: '0 22 * * 1-5' (5pm ET weekdays - after market close)
 // Tweets notable CME daily volume across asset classes
 
 const { TwitterApi } = require('twitter-api-v2');
@@ -23,7 +23,7 @@ async function callClaude(prompt) {
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 280,
-      system: 'You are a futures market data account. Write a tweet under 220 chars about today notable CME trading volume. Be specific with numbers. No hashtags. No emojis. End with marketdatanews.com/feed-status',
+      system: 'You are a futures market data account. Write a tweet under 220 chars about today notable CME trading volume. Be specific with numbers. No hashtags. No emojis. End with marketdatanews.com/feed-status. Never use em dashes in your response. Use a hyphen (-) or colon (:) instead.',
       messages: [{ role: 'user', content: prompt }],
     }),
     signal: AbortSignal.timeout(25000),

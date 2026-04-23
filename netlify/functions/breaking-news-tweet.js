@@ -156,7 +156,7 @@ exports.handler = async () => {
         const msg = await anthropic.messages.create({
           model: 'claude-haiku-4-5-20251001',
           max_tokens: 200,
-          system: 'You are a market data infrastructure news account on X. Write a breaking news tweet under 240 characters. Lead with the key fact. End with the URL and 2-3 relevant hashtags from: #MarketData #MarketStructure #NYSE #Nasdaq #CME #OPRA #CAT #FINRA #SEC #CFTC #FinTech. Output only the tweet text, nothing else.',
+          system: 'You are a market data infrastructure news account on X. Write a breaking news tweet under 240 characters. Lead with the key fact. End with the URL and 2-3 relevant hashtags from: #MarketData #MarketStructure #NYSE #Nasdaq #CME #OPRA #CAT #FINRA #SEC #CFTC #FinTech. Output only the tweet text, nothing else. Never use em dashes in your response. Use a hyphen (-) or colon (:) instead.',
           messages: [{ role: 'user', content: `Title: ${item.title}\nURL: ${item.link}` }],
         });
 
@@ -176,7 +176,7 @@ exports.handler = async () => {
       await store.set('tweeted-items', JSON.stringify(updated));
       await store.set(hourKey, JSON.stringify(hourCount + tweetsPosted));
       await store.set(`daily-tweet-count-${today}`, JSON.stringify(dailyCount + tweetsPosted));
-      // expire rate-limit key after 2 hours by overwriting only if needed — Blobs has no TTL,
+      // expire rate-limit key after 2 hours by overwriting only if needed - Blobs has no TTL,
       // but the key is unique per hour so stale keys are naturally abandoned
     }
 

@@ -58,12 +58,12 @@ exports.handler = async () => {
     await store.set(blobKey, JSON.stringify({ prob: currentProb, updatedAt: new Date().toISOString() }));
 
     if (prevProb === null) {
-      return { statusCode: 200, body: JSON.stringify({ skipped: 'first run — baseline stored' }) };
+      return { statusCode: 200, body: JSON.stringify({ skipped: 'first run - baseline stored' }) };
     }
 
     const change = currentProb - prevProb;
     if (Math.abs(change) < 5) {
-      console.log(`[fed-policy-tweet] Change only ${change}pp — skipping`);
+      console.log(`[fed-policy-tweet] Change only ${change}pp - skipping`);
       return { statusCode: 200, body: JSON.stringify({ skipped: 'change too small', change }) };
     }
 

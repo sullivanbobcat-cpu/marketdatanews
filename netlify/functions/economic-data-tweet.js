@@ -1,5 +1,5 @@
 // economic-data-tweet.js
-// Schedule: '*/15 12-16 * * 1-5' (every 15 min, 7am-11am ET — when data drops)
+// Schedule: '*/15 12-16 * * 1-5' (every 15 min, 7am-11am ET - when data drops)
 // Monitors BLS and Fed press releases for key economic data releases
 
 const { TwitterApi } = require('twitter-api-v2');
@@ -53,7 +53,7 @@ async function callClaude(title, desc) {
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 300,
-      system: 'You are a market data intelligence account. Write a tweet under 230 chars reporting this economic data release. Include the actual number if present and briefly note if it was above or below consensus if mentioned. No hashtags. No emojis. End with marketdatanews.com',
+      system: 'You are a market data intelligence account. Write a tweet under 230 chars reporting this economic data release. Include the actual number if present and briefly note if it was above or below consensus if mentioned. No hashtags. No emojis. End with marketdatanews.com. Never use em dashes in your response. Use a hyphen (-) or colon (:) instead.',
       messages: [{ role: 'user', content: `Title: ${title}\nDescription: ${desc}` }],
     }),
     signal: AbortSignal.timeout(25000),

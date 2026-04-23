@@ -76,7 +76,7 @@ exports.handler = async function () {
       const title = (e.title || '').length > titleMax
         ? e.title.slice(0, titleMax - 2) + '..'
         : (e.title || '');
-      return `${i + 1}. ${exchange} — ${title} (${e.daysLeft}d)`;
+      return `${i + 1}. ${exchange} - ${title} (${e.daysLeft}d)`;
     });
 
     const message = `📅 This week in market data infrastructure:\n${lines.join('\n')}\n\nFull deadline calendar:\nmarketdatanews.com/calendar\n#MarketData #MarketStructure`;

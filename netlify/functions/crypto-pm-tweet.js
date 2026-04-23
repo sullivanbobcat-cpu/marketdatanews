@@ -143,7 +143,7 @@ async function tweetPredictionMarket(store, tweetedIds) {
   const probPct = Math.round(m.prob * 100);
   const expiry = m.close_time ? new Date(m.close_time).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'open';
 
-  const system = 'You are a market intelligence account covering prediction markets and macro finance. Write a punchy tweet under 240 chars about this prediction market. Include the probability, why it matters to financial professionals, and end with marketdatanews.com/prediction-markets-live and hashtags #PredictionMarkets #Kalshi #MacroMarkets. Be direct and insightful not hype-y.';
+  const system = 'You are a market intelligence account covering prediction markets and macro finance. Write a punchy tweet under 240 chars about this prediction market. Include the probability, why it matters to financial professionals, and end with marketdatanews.com/prediction-markets-live and hashtags #PredictionMarkets #Kalshi #MacroMarkets. Be direct and insightful not hype-y. Never use em dashes in your response. Use a hyphen (-) or colon (:) instead.';
   const user = `Market: ${m.title} | Probability: ${probPct}% YES | Volume: ${fmtVolume(vol)} | Expiry: ${expiry}`;
 
   const tweet = await callClaude(system, user);
@@ -196,7 +196,7 @@ async function tweetCryptoNews(store, tweetedIds) {
   if (!eligible.length) return { skipped: 'no eligible news items' };
 
   const item = eligible[0];
-  const system = 'You are a market data and fintech intelligence account. Write a punchy tweet under 240 chars about this crypto or regulatory news relevant to financial market professionals. End with the source URL and 2-3 hashtags from: #Crypto #MarketData #FinTech #CFTC #Bitcoin #PredictionMarkets. No hype, just the key fact and why it matters.';
+  const system = 'You are a market data and fintech intelligence account. Write a punchy tweet under 240 chars about this crypto or regulatory news relevant to financial market professionals. End with the source URL and 2-3 hashtags from: #Crypto #MarketData #FinTech #CFTC #Bitcoin #PredictionMarkets. No hype, just the key fact and why it matters. Never use em dashes in your response. Use a hyphen (-) or colon (:) instead.';
   const user = `Title: ${item.title}\nDescription: ${(item.description || '').slice(0, 400)}\nURL: ${item.link}`;
 
   const tweet = await callClaude(system, user);

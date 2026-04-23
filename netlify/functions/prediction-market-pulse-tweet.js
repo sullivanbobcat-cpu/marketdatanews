@@ -90,7 +90,7 @@ exports.handler = async function () {
         ? `$${(volume / 1000).toFixed(0)}K`
         : `$${volume}`;
 
-    const message = `📊 Prediction Market Pulse\n${market.title}\nYES: ${prob}% probability\nVolume: ${volFormatted}\n\nVia Kalshi — full macro dashboard:\nmarketdatanews.com/prediction-markets-live\n#PredictionMarkets #MacroMarkets #Kalshi`;
+    const message = `📊 Prediction Market Pulse\n${market.title}\nYES: ${prob}% probability\nVolume: ${volFormatted}\n\nVia Kalshi - full macro dashboard:\nmarketdatanews.com/prediction-markets-live\n#PredictionMarkets #MacroMarkets #Kalshi`;
     if (message.length > 280) {
       console.warn('[pm-pulse] Tweet too long:', message.length);
       return { statusCode: 200, body: JSON.stringify({ skipped: 'tweet too long' }) };

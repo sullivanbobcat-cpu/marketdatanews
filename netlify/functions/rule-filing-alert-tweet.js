@@ -102,7 +102,7 @@ exports.handler = async function () {
     const cutoff = new Date(Date.now() - 20 * 60 * 1000);
     const recent = articles.filter(a => {
       if (!a.publication_date) return false;
-      // Federal Register dates are YYYY-MM-DD — treat as published today if date is today
+      // Federal Register dates are YYYY-MM-DD - treat as published today if date is today
       const pub = new Date(a.publication_date + 'T00:00:00Z');
       // Accept anything published today (FR API doesn't provide time)
       return pub >= new Date(today + 'T00:00:00Z');
@@ -126,7 +126,7 @@ exports.handler = async function () {
       ? article.title.slice(0, 117) + '...'
       : article.title;
 
-    const message = `NEW FILING: ${fileNum}\n${title}\n\nComment period open — full filing:\nmarketdatanews.com/rule-filings\n#MarketData #${tag} #MarketStructure`;
+    const message = `NEW FILING: ${fileNum}\n${title}\n\nComment period open - full filing:\nmarketdatanews.com/rule-filings\n#MarketData #${tag} #MarketStructure`;
     if (message.length > 280) {
       console.warn('[rule-filing-alert] Tweet too long:', message.length);
       return { statusCode: 200, body: JSON.stringify({ skipped: 'tweet too long' }) };

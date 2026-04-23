@@ -81,7 +81,7 @@ exports.handler = async () => {
           console.log(`[outage-tweet] Outage tweet for ${exchange.name}:`, tweet.data.id);
 
         } else if (!operational && incident) {
-          // Existing incident — rate limit to 1 tweet per hour
+          // Existing incident - rate limit to 1 tweet per hour
           const hoursSinceLastTweet = (now - incident.lastTweetTime) / 3600000;
           if (hoursSinceLastTweet >= 1 && currentDailyCount < 15) {
             const message = [

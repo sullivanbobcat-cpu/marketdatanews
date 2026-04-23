@@ -1,5 +1,5 @@
 // cot-report-tweet.js
-// Schedule: '0 21 * * 5' (4pm ET Fridays — when COT releases)
+// Schedule: '0 21 * * 5' (4pm ET Fridays - when COT releases)
 // Tweets notable positioning changes from CFTC Commitment of Traders report
 
 const { TwitterApi } = require('twitter-api-v2');
@@ -30,7 +30,7 @@ async function callClaude(summary) {
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 300,
-      system: 'You are a futures market intelligence account. Write a tweet under 230 chars summarizing the most notable positioning change in this week\'s CFTC Commitment of Traders report. Be specific with numbers. No hashtags. No emojis. End with marketdatanews.com',
+      system: 'You are a futures market intelligence account. Write a tweet under 230 chars summarizing the most notable positioning change in this week\'s CFTC Commitment of Traders report. Be specific with numbers. No hashtags. No emojis. End with marketdatanews.com. Never use em dashes in your response. Use a hyphen (-) or colon (:) instead.',
       messages: [{ role: 'user', content: summary }],
     }),
     signal: AbortSignal.timeout(25000),
