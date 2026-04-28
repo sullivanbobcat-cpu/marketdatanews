@@ -6,7 +6,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { message } = JSON.parse(event.body);
+    const { message, replyToId } = JSON.parse(event.body);
     if (!message) return { statusCode: 400, body: JSON.stringify({ error: 'No message provided' }) };
     if (message.length > 280) return { statusCode: 400, body: JSON.stringify({ error: 'Tweet too long' }) };
 
@@ -17,7 +17,9 @@ exports.handler = async (event) => {
       accessSecret: process.env.TWITTER_ACCESS_SECRET,
     });
 
-    const tweet = await client.v2.tweet(message);
+    const tweetData = { text: message };
+    if (replyToId) tweetData.reply = { in_reply_to_tweet_id: replyToId };
+    const tweet = await client.v2.tweet(tweetData);
     return {
       statusCode: 200,
       headers: { 'Access-Control-Allow-Origin': '*' },

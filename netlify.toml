@@ -98,6 +98,12 @@
 [functions."auto-discover-feedwatch"]
   schedule = "0 11 * * 1"
 
+[functions."weekly-thread-tweet"]
+  schedule = "0 14 * * 3"
+
+[functions."daily-reply-digest"]
+  schedule = "0 13 * * 1-5"
+
 [[headers]]
   for = '/favicon.*'
   [headers.values]
