@@ -71,9 +71,6 @@
 [functions."prediction-markets-legislation-tweet"]
   schedule = "15 13 * * 1-5"
 
-[functions."oil-markets-tweet"]
-  schedule = "30 13 * * 1-5"
-
 [functions."economic-data-tweet"]
   schedule = "45 13 * * 1-5"
 
