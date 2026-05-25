@@ -284,20 +284,19 @@ exports.handler = async function () {
 
   const result = { date: today, checkedAt: new Date().toISOString(), ...parsed };
 
-  if (parsed.hasChanges) {
-    try {
-      const store = getStore({
-        name: 'content',
-        siteID: process.env.NETLIFY_SITE_ID,
-        token: process.env.NETLIFY_TOKEN,
-      });
-      await store.set('fee-alerts', JSON.stringify(result));
-      console.log('[fee-change-monitor] Fee changes detected — saved to Netlify Blobs.');
-    } catch (err) {
-      console.error('[fee-change-monitor] Failed to save alerts to Blobs:', err.message);
-    }
-  } else {
-    console.log('[fee-change-monitor] No fee changes detected.');
+  // Always write today's result so stale alerts from previous days are overwritten.
+  // get-content.js discards any blob whose date doesn't match today, so writing
+  // hasChanges=false here is what clears a stale positive from the homepage.
+  try {
+    const store = getStore({
+      name: 'content',
+      siteID: process.env.NETLIFY_SITE_ID,
+      token: process.env.NETLIFY_TOKEN,
+    });
+    await store.set('fee-alerts', JSON.stringify(result));
+    console.log(`[fee-change-monitor] Result saved to Blobs — hasChanges=${parsed.hasChanges}`);
+  } catch (err) {
+    console.error('[fee-change-monitor] Failed to save result to Blobs:', err.message);
   }
 
   return {

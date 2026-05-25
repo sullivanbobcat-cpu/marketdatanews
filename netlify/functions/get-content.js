@@ -15,7 +15,7 @@ exports.handler = async function (event) {
     token: process.env.NETLIFY_TOKEN,
   });
 
-  const [feedwatch, regulatory, feeAlerts] = await Promise.all([
+  const [feedwatch, regulatory, feeAlertsRaw] = await Promise.all([
     store.get('feedwatch-digest', { type: 'json' }).catch((err) => {
       console.error('[get-content] Failed to read feedwatch-digest:', err.message);
       return null;
@@ -34,6 +34,14 @@ exports.handler = async function (event) {
   // The frontend will trigger ?refresh=true regeneration when it sees stale=true.
   const today = new Date().toISOString().split('T')[0];
   const digestStale = !feedwatch || !feedwatch.date || feedwatch.date !== today;
+
+  // Fee alerts are only valid for the day they were generated.
+  // Discard any blob whose date doesn't match today to prevent stale alerts
+  // from persisting on the homepage indefinitely.
+  const feeAlerts = feeAlertsRaw && feeAlertsRaw.date === today ? feeAlertsRaw : null;
+  if (feeAlertsRaw && !feeAlerts) {
+    console.log(`[get-content] Discarding stale fee-alerts from ${feeAlertsRaw.date} (today is ${today})`);
+  }
 
   const feedwatchOut = feedwatch
     ? { ...feedwatch, stale: digestStale }
