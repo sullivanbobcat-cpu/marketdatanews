@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /admin-feedwatch
 
 Sitemap: https://marketdatanews.com/sitemap.xml

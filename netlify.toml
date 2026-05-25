@@ -1,4 +1,5 @@
 [build]
+  command = "node scripts/seo-audit.mjs"
   publish = "files"
   functions = "netlify/functions"
 

@@ -1,0 +1,6 @@
+node_modules/
+netlify/functions/node_modules/
+package-lock.json
+
+# SEO audit reports — internal only, never commit
+_reports/
