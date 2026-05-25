@@ -31,7 +31,8 @@ const SYSTEM_PROMPT =
   '\n' +
   'EXCLUDE and do NOT flag: dividends, earnings, executive pay, stock repurchases, ' +
   'corporate actions, M&A, investor relations announcements, or general business news. ' +
-  'If content is garbled, corrupt, or unreadable, treat it as no findings.\n' +
+  'If content is garbled, corrupt, or unreadable, treat it as no findings and do NOT ' +
+  'mention it anywhere in your output, including the summary field. Omit it silently.\n' +
   '\n' +
   'Output ONLY valid JSON: { "hasChanges": boolean, "changes": [ { "exchange": string, ' +
   '"product": string, "changeType": string, "description": string, "effectiveDate": string, ' +
@@ -50,6 +51,9 @@ const IR_SIGNALS = [
   /\binvestor relations\b/i, /\bshare repurchase\b/i, /\bbuyback\b/i,
   /\bexecutive compensation\b/i, /\bappoints\b/i, /\bacquires\b/i,
   /\bmerger\b/i, /\bacquisition\b/i, /\bearnings release\b/i,
+  /\bcash dividend\b/i, /\bdeclares.*dividend\b/i, /\bdividend.*payable\b/i,
+  /\bpayable\s+\w+\s+\d+/i, /\bper.*share.*payable\b/i,
+  /\bincreases.*dividend\b/i, /\bquarterly cash\b/i, /\bstock.*dividend\b/i,
 ];
 
 const SR_SIGNALS = [
@@ -102,10 +106,10 @@ function validateFindings(changes) {
   const valid = [];
   for (const c of changes) {
     const url = c.sourceUrl || '';
-    if (!url || FEE_URL_PATTERNS.some((re) => re.test(url))) {
+    if (url && FEE_URL_PATTERNS.some((re) => re.test(url))) {
       valid.push(c);
     } else {
-      console.warn(`[fee-change-monitor] Dropping finding "${c.product}" — source URL failed validation: ${url}`);
+      console.warn(`[fee-change-monitor] Dropping finding "${c.product}" — source URL failed validation: ${url || '(empty)'}`);
     }
   }
   return valid;
@@ -175,9 +179,10 @@ function filterAndExtractRssItems(xml, sourceName) {
 
   for (const block of itemBlocks) {
     const title = pullFirst('title', block);
-    const description = pullFirst('description', block).slice(0, 300);
+    const fullDescription = pullFirst('description', block);
+    const description = fullDescription.slice(0, 300);
     const link = pullFirst('link', block) || pullFirst('guid', block);
-    const docType = classifyItem(title, description, link);
+    const docType = classifyItem(title, fullDescription, link);  // classify against full text
 
     if (FEE_ELIGIBLE_TYPES.has(docType)) {
       kept.push(`[${docType}] ${title}${description ? ': ' + description : ''}`);
