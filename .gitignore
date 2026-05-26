@@ -4,3 +4,6 @@ package-lock.json
 
 # SEO audit reports — internal only, never commit
 _reports/
+
+# SQLite databases — binary, use JSON export instead
+data/*.db

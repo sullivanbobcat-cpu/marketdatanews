@@ -4,6 +4,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.33.0",
     "@netlify/blobs": "^8.1.0",
+    "better-sqlite3": "^11.10.0",
     "sharp": "^0.34.5",
     "twitter-api-v2": "^1.18.2"
   }
