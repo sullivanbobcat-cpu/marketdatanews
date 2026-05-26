@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="alternate icon" href="../../favicon.ico">
+<link rel="apple-touch-icon" href="/favicon.png" sizes="180x180">
+<link rel="manifest" href="../../site.webmanifest">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Colocation Surge: How Nasdaq's Data Center Expansion Drove an 18x Jump in Exchange Colo Filings | Market Data News</title>
+<meta name="description" content="In 2024, US stock exchanges filed 117 colocation fee rule changes — up from just 6 in 2023. Nasdaq alone filed 89, simultaneously across all 6 venues, as its Carteret NY11-4 data center expansion triggered new fee schedules for Ultra High Density Cabinets and a 5.5% broad price increase.">
+<meta name="keywords" content="exchange colocation fees, Nasdaq data center, NY11-4, colocation fee filings, 19b-4 colocation, exchange colo pricing, Carteret data center, cabinet fees, SEC colocation fees">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Market Data News">
+<link rel="canonical" href="https://marketdatanews.com/research/colocation-filing-surge">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://marketdatanews.com/research/colocation-filing-surge">
+<meta property="og:title" content="The Colocation Surge: Nasdaq's Data Center Expansion Drove 18x More Colo Filings in 2024">
+<meta property="og:description" content="6 colo filings in 2023. 117 in 2024. Nasdaq's NY11-4 expansion in Carteret triggered simultaneous repricing across all 6 venues — Ultra High Density Cabinets, new power options, and a 5.5% broad increase.">
+<meta property="og:site_name" content="Market Data News">
+<meta property="og:image" content="https://marketdatanews.com/og-image.png?v=2">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Market Data News | Market Infrastructure Intelligence">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@MDNintelligence">
+<meta name="twitter:title" content="Nasdaq Filed 89 Colo Fee Changes in 2024. Here's Why.">
+<meta name="twitter:description" content="NY11-4 data center expansion in Carteret, NJ → Ultra High Density Cabinets + 5.5% broad increase + simultaneous multi-venue filing = 89 rule changes from one exchange group in one year.">
+<meta name="twitter:image" content="https://marketdatanews.com/og-image.png?v=2">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 50s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: stretch; padding: 0 48px; border-bottom: 1px solid var(--rule); position: relative; flex-wrap: nowrap; overflow: visible; background: var(--cream); }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0 14px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; user-select: none; }
+  a.nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-dropdown { position: relative; display: flex; align-items: stretch; }
+  .nav-dropdown > .nav-item { border-left: none; }
+  .nav-dropdown-menu { display: block; position: absolute; top: 100%; left: 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; min-width: 220px; background: var(--ink); border-top: 2px solid var(--accent); z-index: 1000; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left: auto; right: 0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-drop-item { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #aaa; text-decoration: none; padding: 10px 20px; border-bottom: 1px solid #1e1e1e; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+  .nav-drop-item:last-child { border-bottom: none; }
+  .nav-drop-item:hover, .nav-drop-item.active { color: var(--accent); background: #111; }
+  a.nav-subscribe { background: var(--accent); color: var(--ink) !important; border-right: 1px solid var(--rule); }
+  a.nav-subscribe:hover { background: var(--accent-dark) !important; color: white !important; }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; }
+  .search-wrap { position: relative; display: flex; align-items: center; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 180px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); transition: 0.2s; }
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { color: #aaa; text-decoration: none; padding: 8px 0; font-size: 13px; border-bottom: 1px solid #1a1a1a; }
+  .mobile-nav a:hover { color: var(--accent); }
+  .mob-group-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #555; padding: 12px 0 4px; }
+  .nav-drop-group { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #b8860b; text-transform: uppercase; letter-spacing: 0.15em; padding: 8px 16px 4px; cursor: default; display: block; }
+  .nav-drop-divider { border: none; border-top: 1px solid #2a2a2a; margin: 4px 0; }
+  a.nav-subscribe { font-family: 'IBM Plex Mono', monospace !important; font-size: 11px !important; font-weight: 700 !important; padding: 0 18px !important; border-radius: 2px !important; text-transform: uppercase !important; border-right: none !important; letter-spacing: 0.08em !important; }
+
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num { color: var(--accent); }
+  .fw-alertbar-stat.action .fw-alertbar-num { color: #5b9bd5; }
+  .fw-alertbar-next { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); text-decoration: none; border: 1px solid #3a2a10; padding: 4px 10px; margin-left: 16px; white-space: nowrap; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  .article-hero { background: var(--ink); color: white; padding: 56px 48px 48px; border-bottom: 3px solid var(--accent); }
+  .article-hero-inner { max-width: 1100px; margin: 0 auto; }
+  .breadcrumb { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #555; margin-bottom: 20px; }
+  .breadcrumb a { color: var(--accent); text-decoration: none; }
+  .breadcrumb span { margin: 0 8px; }
+  .article-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  .article-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(24px, 3.2vw, 42px); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+  .article-hero-meta { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .article-hero-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 0.08em; }
+  .article-hero-meta-item strong { color: #aaa; }
+  .badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; white-space: nowrap; }
+  .badge-research { background: #0d1f40; color: #5b9bd5; }
+  .badge-data { background: #1a3300; color: #6abf6a; }
+
+  .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 9999; transition: width 0.1s; }
+
+  .research-wrap { max-width: 1100px; margin: 0 auto; padding: 48px; }
+  .article-lead { font-size: 17px; line-height: 1.75; color: var(--muted); margin-bottom: 40px; border-left: 3px solid var(--accent); padding-left: 20px; }
+  .article-section { margin-bottom: 56px; }
+  .article-section h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .article-section p { font-size: 14px; line-height: 1.8; color: #333; margin-bottom: 14px; }
+  .article-section ul { margin-left: 20px; margin-bottom: 14px; }
+  .article-section li { font-size: 14px; line-height: 1.8; color: #333; margin-bottom: 6px; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+  .kpi-card { background: var(--cream); border: 1px solid var(--border); border-top: 3px solid var(--accent); padding: 20px; }
+  .kpi-value { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: var(--ink); line-height: 1; margin-bottom: 6px; }
+  .kpi-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); line-height: 1.5; }
+  .kpi-card.blue { border-top-color: #1565c0; }
+  .kpi-card.blue .kpi-value { color: #1565c0; }
+  .kpi-card.green { border-top-color: #2e7d32; }
+  .kpi-card.green .kpi-value { color: #2e7d32; }
+
+  .chart-wrap { background: var(--surface); border: 1px solid var(--border); padding: 24px; margin-bottom: 24px; }
+  .chart-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 16px; }
+  .chart-toggle { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .toggle-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 5px 12px; border: 1px solid var(--border); background: var(--cream); color: var(--muted); cursor: pointer; text-transform: uppercase; letter-spacing: 0.08em; transition: all 0.15s; }
+  .toggle-btn.active { background: var(--ink); color: var(--accent); border-color: var(--ink); }
+
+  .tl-wrap { position: relative; margin-bottom: 32px; }
+  .tl-line { position: absolute; left: 20px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+  .tl-item { position: relative; padding: 0 0 28px 52px; }
+  .tl-dot { position: absolute; left: 12px; top: 4px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); border: 3px solid var(--paper); z-index: 1; }
+  .tl-dot.blue { background: #1565c0; }
+  .tl-dot.green { background: #2e7d32; }
+  .tl-dot.grey { background: #888; }
+  .tl-date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .tl-date.blue { color: #1565c0; }
+  .tl-date.green { color: #2e7d32; }
+  .tl-date.grey { color: #888; }
+  .tl-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .tl-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .tl-ref { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); margin-top: 4px; }
+  .tl-tag { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; background: #0d1f40; color: #5b9bd5; padding: 2px 7px; border-radius: 2px; margin: 3px 3px 0 0; text-transform: uppercase; letter-spacing: 0.08em; }
+  .tl-tag.green { background: #1a3300; color: #6abf6a; }
+  .tl-tag.amber { background: #1f1200; color: var(--accent); }
+
+  .info-box { background: var(--cream); border: 1px solid var(--border); border-left: 4px solid var(--accent); padding: 20px 24px; margin-bottom: 28px; }
+  .info-box-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-dark); margin-bottom: 10px; font-weight: 600; }
+  .info-box p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 8px; }
+  .info-box p:last-child { margin-bottom: 0; }
+
+  .data-table-wrap { overflow-x: auto; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: var(--ink); color: #aaa; font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; padding: 10px 14px; text-align: left; white-space: nowrap; }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:nth-child(even) { background: var(--cream); }
+  tbody td { padding: 10px 14px; color: #333; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  td.num { text-align: right; }
+  td.highlight { color: #1565c0; font-weight: 600; }
+  td.big { color: #c0392b; font-weight: 600; }
+
+  .related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+  .related-card { display: block; padding: 20px; border: 1px solid var(--border); background: var(--cream); text-decoration: none; transition: border-color 0.15s; }
+  .related-card:hover { border-color: var(--accent); }
+  .related-card-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 8px; }
+  .related-card-title { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+
+  .method-box { background: #f0ece2; border: 1px solid var(--border); padding: 20px 24px; margin-bottom: 28px; }
+  .method-box p { font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 6px; }
+  .method-box p:last-child { margin-bottom: 0; }
+
+  @media (max-width: 900px) {
+    nav { display: none !important; }
+    .article-hero { padding: 40px 20px; }
+    .research-wrap { padding: 32px 20px; }
+    .masthead-top { padding: 16px 20px; }
+    .fw-alertbar { padding: 0 16px; }
+    .fw-alertbar-next, .fw-alertbar-cta { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+    footer { padding: 32px 20px; }
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+    .related-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The Colocation Surge: How Nasdaq's Data Center Expansion Drove an 18x Jump in Exchange Colo Filings",
+  "description": "Analysis of 336 colocation fee filings (2017–2026) reveals a sharp 2024 surge driven by Nasdaq's NY11-4 data center expansion in Carteret, NJ and a 5.5% across-the-board price increase applied simultaneously across all 6 Nasdaq venues.",
+  "url": "https://marketdatanews.com/research/colocation-filing-surge",
+  "datePublished": "2026-05-25",
+  "dateModified": "2026-05-25",
+  "author": { "@type": "Organization", "name": "Market Data News" },
+  "publisher": { "@type": "Organization", "name": "Market Data News", "logo": { "@type": "ImageObject", "url": "https://marketdatanews.com/favicon.svg" } },
+  "image": "https://marketdatanews.com/og-image.png?v=2"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Exchange Colocation Fee Filings 2017–2026",
+  "description": "336 SEC 19b-4 colocation fee filings by NYSE, Nasdaq, Cboe, MIAX, and BOX from 2017 through May 2026, sourced from the Federal Register.",
+  "url": "https://marketdatanews.com/research/colocation-filing-surge",
+  "creator": { "@type": "Organization", "name": "Market Data News" },
+  "temporalCoverage": "2017/2026",
+  "license": "https://creativecommons.org/licenses/by/4.0/"
+}
+</script>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="ticker-wrap"><div class="ticker" id="ticker">
+  <span class="ticker-item">COLO STUDY &nbsp;·&nbsp; 336 FILINGS ANALYZED &nbsp;·&nbsp; NYSE · NASDAQ · CBOE · MIAX</span>
+  <span class="ticker-item">2024: 117 COLO FILINGS — UP FROM 6 IN 2023 (18× SURGE)</span>
+  <span class="ticker-item">NASDAQ FILED 89 COLO FILINGS IN 2024 ACROSS 6 VENUES SIMULTANEOUSLY</span>
+  <span class="ticker-item">NY11-4: NASDAQ'S CARTERET DATA CENTER EXPANSION TRIGGERED ULTRA HIGH DENSITY CABINET FEES</span>
+  <span class="ticker-item">MARCH 2024: NASDAQ RAISED ALL GENERAL 8 COLO FEES BY 5.5%</span>
+  <span class="ticker-item">COLO STUDY &nbsp;·&nbsp; 336 FILINGS ANALYZED &nbsp;·&nbsp; NYSE · NASDAQ · CBOE · MIAX</span>
+  <span class="ticker-item">2024: 117 COLO FILINGS — UP FROM 6 IN 2023 (18× SURGE)</span>
+  <span class="ticker-item">NASDAQ FILED 89 COLO FILINGS IN 2024 ACROSS 6 VENUES SIMULTANEOUSLY</span>
+  <span class="ticker-item">NY11-4: NASDAQ'S CARTERET DATA CENTER EXPANSION TRIGGERED ULTRA HIGH DENSITY CABINET FEES</span>
+  <span class="ticker-item">MARCH 2024: NASDAQ RAISED ALL GENERAL 8 COLO FEES BY 5.5%</span>
+</div></div>
+
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="../../calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="../../calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span id="fw-critical-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="../../calendar.html?filter=high" class="fw-alertbar-stat high"><span id="fw-high-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">High</span></a>
+      <a href="../../calendar.html?filter=action" class="fw-alertbar-stat action"><span id="fw-action-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="../../calendar.html" class="fw-alertbar-stat total"><span id="fw-active-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span id="fw-next-deadline" class="fw-alertbar-next-val">Loading…</span>
+    </div>
+    <a href="../../calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="../../index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="../../index.html" style="text-decoration:none;border-left:1px solid var(--rule);border-right:1px solid var(--rule);padding:0 10px;display:flex;align-items:center;flex-shrink:0;" title="Market Data News">
+      <img src="../../favicon.svg" alt="MDN" style="height:26px;width:26px;display:block;">
+    </a>
+    <a href="../../index.html" class="nav-item">Home</a>
+    <div class="nav-dropdown">
+      <span class="nav-item active">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <div class="nav-drop-group">Trackers</div>
+        <a href="../../calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="../../nms.html" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="../../feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="../../rule-filings.html" class="nav-drop-item">Rule Filings</a>
+        <a href="../../regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="../../prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
+        <a href="../../ai-digest.html" class="nav-drop-item">AI Digest</a>
+        <div class="nav-drop-divider"></div>
+        <div class="nav-drop-group">Research</div>
+        <a href="self-certification-rates.html" class="nav-drop-item">Study 1: Self-Certification Rates</a>
+        <a href="fee-filing-volume.html" class="nav-drop-item">Study 2: Fee Filing Volume</a>
+        <a href="port-fee-inflation.html" class="nav-drop-item">Study 3: Port Fee Inflation</a>
+        <a href="colocation-filing-surge.html" class="nav-drop-item active">Study 4: Colocation Surge</a>
+        <div class="nav-drop-divider"></div>
+        <div class="nav-drop-group">Articles</div>
+        <a href="../../articles/cme-globex-notices-2026.html" class="nav-drop-item">CME Globex Notices 2026</a>
+        <a href="../../articles/finra-slate-guide.html" class="nav-drop-item">FINRA SLATE Guide</a>
+        <a href="../../articles/index.html" class="nav-drop-item">View All Articles</a>
+      </div>
+    </div>
+    <a href="../../market-structure.html" class="nav-item">Market Structure</a>
+    <a href="../../market-data-fees.html" class="nav-item">Fee Calculator</a>
+    <a href="../../rule-filings.html" class="nav-item">Rule Filings</a>
+    <a href="../../learn.html" class="nav-item">Learn</a>
+    <div class="nav-right">
+      <div class="search-wrap">
+        <input class="search-box" placeholder="Search…" type="search" id="searchBox">
+      </div>
+      <button class="hamburger" id="hamburgerBtn" style="display:none" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <a href="../../subscribe.html" class="nav-item nav-subscribe">Subscribe →</a>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <div class="mob-group-label">Intelligence</div>
+    <a href="../../calendar.html">FeedWatch Calendar</a>
+    <a href="../../nms.html">NMS / SIP Plans</a>
+    <a href="../../feed-status.html">Feed Status</a>
+    <a href="../../rule-filings.html">Rule Filings</a>
+    <a href="self-certification-rates.html">Self-Certification Study</a>
+    <a href="fee-filing-volume.html">Fee Filing Volume</a>
+    <a href="port-fee-inflation.html">Port Fee Inflation</a>
+    <a href="colocation-filing-surge.html">Colocation Surge</a>
+    <div class="mob-group-label">Market Structure</div>
+    <a href="../../market-structure.html">Market Structure</a>
+    <div class="mob-group-label">Tools</div>
+    <a href="../../market-data-fees.html">Fee Calculator</a>
+  </div>
+</div>
+
+<div class="article-hero">
+  <div class="article-hero-inner">
+    <div class="breadcrumb">
+      <a href="../../index.html">Market Data News</a>
+      <span>›</span>
+      <a href="self-certification-rates.html">Research</a>
+      <span>›</span>
+      Study 4
+    </div>
+    <div class="article-hero-label">Research Series &nbsp;·&nbsp; Study 4 of 4</div>
+    <h1 class="article-hero-title">The Colocation Surge:<br>How Nasdaq's Data Center Expansion Drove an 18× Jump in Exchange Colo Filings</h1>
+    <div class="article-hero-meta">
+      <div class="article-hero-meta-item">Published <strong>May 25, 2026</strong></div>
+      <div class="article-hero-meta-item">Dataset <strong>2017 – 2026*</strong></div>
+      <div class="article-hero-meta-item">Filings <strong>336 colocation</strong></div>
+      <span class="badge badge-research">SEC 19b-4</span>
+      <span class="badge badge-data">Federal Register</span>
+    </div>
+  </div>
+</div>
+
+<div class="research-wrap">
+
+  <p class="article-lead">In 2023, US stock exchanges filed 6 colocation fee rule changes with the SEC. In 2024, they filed 117. The 18-fold surge was not driven by a wave of new entrants or a regulatory mandate — it was triggered by a single cause: Nasdaq's expansion of its primary Carteret, NJ data center, known internally as NY11-4, which created new pricing categories, new cabinet tiers, and new power options that each required a separate 19b-4 filing across every Nasdaq-affiliated venue simultaneously.</p>
+
+  <div class="kpi-row">
+    <div class="kpi-card blue">
+      <div class="kpi-value">18×</div>
+      <div class="kpi-label">Colocation filing surge<br>2023 → 2024<br>(6 → 117 filings)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">89</div>
+      <div class="kpi-label">Nasdaq colo filings<br>in 2024 alone<br>(76% of all colo filings)</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-value">5.5%</div>
+      <div class="kpi-label">Broad price increase<br>across all General 8<br>colo fees, March 2024</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">6×</div>
+      <div class="kpi-label">Filing amplification<br>per change (one per<br>Nasdaq venue)</div>
+    </div>
+  </div>
+
+  <!-- Chart 1: Stacked bar by year -->
+  <div class="article-section">
+    <h2>Annual Colocation Filing Volume, by Exchange Group</h2>
+    <p>NYSE dominated colocation fee filings from 2017 through 2022, filing 18–37 changes per year as it built out its Mahwah, NJ data center (NY4/NY5) and refined its cabinet and cross-connect pricing. Nasdaq, Cboe, and MIAX filed few or no colocation rule changes during that period. Then, in 2024, the dynamic reversed entirely.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Colocation fee filings per year by exchange group — 2017 to 2026*</div>
+      <div class="chart-toggle">
+        <button class="toggle-btn active" id="btn-stacked" onclick="setMode('stacked')">Stacked</button>
+        <button class="toggle-btn" id="btn-grouped" onclick="setMode('grouped')">Grouped</button>
+      </div>
+      <canvas id="coloByYearChart" height="320"></canvas>
+    </div>
+
+    <p>NYSE filed zero colocation fee changes in 2024 after averaging 18 per year from 2017 to 2022. The exchange's Mahwah infrastructure was mature, and NYSE Group did not open a new major data center facility during this period. Nasdaq's 2024 surge of 89 filings accounts for 76% of all 2024 colocation filings industry-wide. Cboe contributed 24 filings — up from zero in most prior years — reflecting new connectivity product launches across its four US equity venues (BZX, BYX, EDGX, EDGA).</p>
+
+    <p>The 2026 data (through May 25) shows Nasdaq continuing at an elevated pace, with 30 colocation filings in less than five months — and a seventh venue, Nasdaq Texas (NasdaqTX), appearing for the first time in March 2026 as the exchange's newest market begins establishing its fee schedule.</p>
+  </div>
+
+  <!-- Chart 2: Nasdaq batch heatmap / timeline -->
+  <div class="article-section">
+    <h2>How Nasdaq's Multi-Venue Filing Pattern Works</h2>
+    <p>Nasdaq's elevated filing count is partly structural. When Nasdaq changes a colocation fee, it must file a separate 19b-4 with the SEC for each registered exchange it operates. In 2024, that meant six venues: The Nasdaq Stock Market (NASDAQ), Nasdaq BX (BX), Nasdaq PHLX (PHLX), Nasdaq ISE (ISE), Nasdaq GEMX (GEMX), and Nasdaq MRX (MRX). A single pricing decision generates six simultaneous filings.</p>
+
+    <div class="info-box">
+      <div class="info-box-title">The Simultaneous Filing Pattern</div>
+      <p>On March 6, 2024, Nasdaq filed identical colocation fee changes across all six of its venues at once. The same occurred on March 21, March 26, May 17, July 18, July 31, September 16, September 24, October 11, October 31, November 27, and December 6 — twelve separate batches of six. Four additional batches targeted subsets of venues for venue-specific changes.</p>
+      <p>Each filing is immediately effective under Section 19(b)(3)(A), meaning the fees take effect on the filing date. The SEC has 60 days to suspend an immediately effective filing — it has not done so for any of Nasdaq's 2024 colocation changes.</p>
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Nasdaq 2024 colocation filings — venues per batch date</div>
+      <canvas id="batchChart" height="220"></canvas>
+    </div>
+
+    <p>The batch dates reveal a monthly-or-more cadence throughout 2024. The March batches were driven by the 5.5% general fee increase across all General 8 (connectivity and co-location) services. The July–December batches were largely driven by new fee structures for the NY11-4 data center expansion.</p>
+  </div>
+
+  <!-- The NY11-4 story -->
+  <div class="article-section">
+    <h2>The NY11-4 Expansion: A New Data Center, New Pricing Categories</h2>
+    <p>Nasdaq's primary co-location facility is NY11, located in Carteret, New Jersey. As demand for power and cabinet space grew, Nasdaq began an expansion of the facility — designated NY11-4 — to add new capacity. The expansion created pricing scenarios that had never existed before, each requiring its own 19b-4 filing:</p>
+
+    <div class="tl-wrap">
+      <div class="tl-line"></div>
+
+      <div class="tl-item">
+        <div class="tl-dot amber"></div>
+        <div class="tl-date">March 6, 2024</div>
+        <div class="tl-title">Cabinet Proximity Option Program Expanded</div>
+        <div class="tl-desc">Nasdaq expanded its Cabinet Proximity Option program, allowing customers to reserve up to 20 unused cabinets near their existing equipment for future use. Reserved cabinets can be converted to powered cabinets on demand. Filing applied across all 6 Nasdaq venues simultaneously.</div>
+        <div class="tl-ref">SR-NASDAQ-2024-007 and 5 parallel filings</div>
+        <div><span class="tl-tag">New Service</span><span class="tl-tag green">Immediately Effective</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot amber"></div>
+        <div class="tl-date">March 21, 2024</div>
+        <div class="tl-title">5.5% Across-the-Board General 8 Fee Increase</div>
+        <div class="tl-desc">Nasdaq raised all fees in General 8 of its fee schedule — covering cabinets, external telco/inter-cabinet connectivity, physical connectivity to the exchange, third-party connectivity, market data connectivity, cabinet power installation, and additional services — by 5.5%. Fees for GPS Antenna services were excluded. The increase also applied to remote MITCH Wave Ports and Nasdaq Testing Facility (NTF) connection fees in Carteret.</div>
+        <div class="tl-ref">SR-NASDAQ-2024-008 and 5 parallel filings</div>
+        <div><span class="tl-tag amber">Price Increase +5.5%</span><span class="tl-tag green">Immediately Effective</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot blue"></div>
+        <div class="tl-date">July 15 – 31, 2024</div>
+        <div class="tl-title">NY11-4 Expansion: Ultra High Density Cabinets and New Power Options</div>
+        <div class="tl-desc">As the NY11-4 expansion opened, Nasdaq established fees for entirely new product categories: Ultra High Density (UHD) Cabinets, installation fees specific to NY11-4, power installation options in the new wing, and power distribution unit (PDU) configurations. UHD Cabinets support higher power density than standard cabinets, serving customers running AI workloads and high-frequency compute. Each new product category required its own 19b-4 filing across all venues, with the fee schedule operative August 15, 2024.</div>
+        <div class="tl-ref">SR-NASDAQ-2024-026, -030, -032, -039 and parallel venue filings</div>
+        <div><span class="tl-tag">New Tier: UHD Cabinets</span><span class="tl-tag">New Power Options</span><span class="tl-tag green">Immediately Effective</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot amber"></div>
+        <div class="tl-date">Sep – Dec 2024</div>
+        <div class="tl-title">Ongoing Fee Schedule Updates (6 More Batch Rounds)</div>
+        <div class="tl-desc">Nasdaq filed six additional batches of colocation fee changes in the second half of 2024, covering refinements to NY11-4 pricing, additional power tier options, and further connectivity service adjustments. Each batch was filed simultaneously across all six venues and took effect immediately.</div>
+        <div class="tl-ref">SR-NASDAQ-2024-053 through -071 (representative); 36 filings total</div>
+        <div><span class="tl-tag amber">Ongoing Repricing</span><span class="tl-tag green">All Immediately Effective</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot grey"></div>
+        <div class="tl-date">February 2026</div>
+        <div class="tl-title">2026 Cadence Continues; NasdaqTX Joins</div>
+        <div class="tl-desc">The coordinated multi-venue batch filing pattern continues into 2026, with six colocation filings on February 2 and a large March 2026 batch. Nasdaq Texas (SR-NasdaqTX-2026-*) appears for the first time as a seventh venue, establishing its initial colocation fee schedule as the new exchange begins operations.</div>
+        <div class="tl-ref">SR-NasdaqTX-2026-004, SR-NasdaqTX-2026-007 and parallel filings</div>
+        <div><span class="tl-tag">New Venue: NasdaqTX</span><span class="tl-tag green">Immediately Effective</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison table -->
+  <div class="article-section">
+    <h2>Colocation Filing Activity by Exchange Group, 2017–2026</h2>
+    <p>The table below shows raw colocation filing counts per exchange group per year. NYSE's dominant position in 2017–2022 reflects its decade-long buildout of the Mahwah and Secaucus data centers. The sharp reversal in 2024 reflects Nasdaq's NY11-4 investment cycle.</p>
+
+    <div class="data-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Exchange</th>
+            <th class="num">2017</th>
+            <th class="num">2018</th>
+            <th class="num">2019</th>
+            <th class="num">2020</th>
+            <th class="num">2021</th>
+            <th class="num">2022</th>
+            <th class="num">2023</th>
+            <th class="num">2024</th>
+            <th class="num">2025</th>
+            <th class="num">2026*</th>
+            <th class="num">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>NYSE Group</td>
+            <td class="num">18</td><td class="num">16</td><td class="num">30</td><td class="num">37</td><td class="num">20</td><td class="num">11</td><td class="num">5</td><td class="num big">0</td><td class="num">5</td><td class="num">0</td><td class="num">142</td>
+          </tr>
+          <tr>
+            <td>Nasdaq</td>
+            <td class="num">2</td><td class="num">6</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">1</td><td class="num highlight">89</td><td class="num">7</td><td class="num highlight">30</td><td class="num">135</td>
+          </tr>
+          <tr>
+            <td>Cboe</td>
+            <td class="num">0</td><td class="num">0</td><td class="num">1</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">24</td><td class="num">16</td><td class="num">4</td><td class="num">45</td>
+          </tr>
+          <tr>
+            <td>MIAX</td>
+            <td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">4</td><td class="num">8</td><td class="num">0</td><td class="num">12</td>
+          </tr>
+          <tr>
+            <td>BOX</td>
+            <td class="num">0</td><td class="num">0</td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">2</td>
+          </tr>
+          <tr style="background:var(--ink);color:white;">
+            <td style="color:#aaa;font-weight:600;">Total</td>
+            <td class="num" style="color:white;">20</td><td class="num" style="color:white;">22</td><td class="num" style="color:white;">33</td><td class="num" style="color:white;">37</td><td class="num" style="color:white;">20</td><td class="num" style="color:white;">11</td><td class="num" style="color:white;">6</td><td class="num" style="color:#b8860b;font-weight:700;">117</td><td class="num" style="color:white;">36</td><td class="num" style="color:white;">34</td><td class="num" style="color:#b8860b;font-weight:700;">336</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12px;color:var(--muted);">* 2026 data through May 25, 2026 (partial year). Source: SEC Federal Register 19b-4 filings database.</p>
+  </div>
+
+  <!-- NYSE absence -->
+  <div class="article-section">
+    <h2>NYSE's Notable Absence in 2024</h2>
+    <p>NYSE Group filed zero colocation fee rule changes in 2024 — a sharp contrast to the 11–37 it filed annually from 2017 to 2022. The last significant NYSE colocation action before 2025 was a June 2023 batch across five venues (NYSE, NYSE Arca, NYSE American, NYSE National, NYSE Chicago) amending Partial Cabinet Solution bundles. In 2025, NYSE returned with a small five-venue batch in October, including the newly-formed NYSE Texas.</p>
+
+    <p>The divergence between NYSE and Nasdaq in 2024 reflects different infrastructure cycles. NYSE's Mahwah, NJ (NY4/NY5) campus — one of the largest financial data centers in the world — was fully operational throughout this period, requiring only incremental pricing refinements. Nasdaq's Carteret expansion represented active capital deployment into new capacity, which naturally produces more regulatory filings as new products and pricing tiers are established.</p>
+
+    <p>NYSE Texas's appearance in October 2025 parallels NasdaqTX's 2026 debut: new exchange venues must file their colocation fee schedules from scratch, briefly elevating filing counts before settling into a maintenance cadence.</p>
+  </div>
+
+  <!-- What is colocation -->
+  <div class="article-section">
+    <h2>What Exchange Colocation Fees Cover</h2>
+
+    <div class="info-box">
+      <div class="info-box-title">Background: Colocation Services</div>
+      <p>Colocation (colo) refers to the practice of housing a trading firm's servers in the same physical data center as the exchange's matching engine. Because electronic trading is latency-sensitive to the microsecond level, physical proximity to the exchange reduces round-trip signal times and provides a structural performance advantage.</p>
+      <p>Exchange colocation fee schedules typically cover: <strong>cabinets</strong> (rack space, measured in U-height and power density), <strong>power</strong> (kW allocation and power distribution units), <strong>cross-connects</strong> (fiber cables between customer cages and exchange infrastructure), <strong>external telco/inter-cabinet connectivity</strong> (connections between customer racks in different areas of the same data center), and <strong>market data connectivity feeds</strong> (direct feed subscriptions delivered over physical infrastructure).</p>
+      <p>Physical port fees (the subject of Study 3) are a related but distinct product — they cover direct fiber circuits to the exchange matching engine rather than cabinet space in the same building.</p>
+    </div>
+
+    <p>The SEC's oversight role over colocation fees stems from a 2010 concept release and subsequent regulatory guidance establishing that colocation services provided by exchanges in connection with their trading operations constitute exchange services subject to the fee filing requirements of Section 19(b). As a result, any change to colocation pricing — adding a new cabinet tier, changing a power allocation rate, adjusting a cross-connect fee, or offering a new reservation program — requires a 19b-4 filing.</p>
+
+    <p>This creates an inherent filing multiplier for exchanges that operate multiple registered venues. Nasdaq's six venues in 2024 meant every single colocation product decision generated six rule filings. When Nasdaq launched Ultra High Density Cabinets in NY11-4, that was not one filing — it was six.</p>
+  </div>
+
+  <!-- Cboe context -->
+  <div class="article-section">
+    <h2>Cboe: New Connectivity Products Across Four Venues</h2>
+    <p>Cboe's 24 colocation filings in 2024 represent a sharp uptick from the 0–1 filings per year it had filed from 2017 to 2023. The filings were spread across Cboe's four US equity venues (BZX, BYX, EDGX, EDGA) in coordinated batches — typically all four venues filing on the same date or within days of each other.</p>
+
+    <p>Unlike Nasdaq's filings, which were driven by a specific infrastructure event, Cboe's 2024 colocation activity appears to reflect new connectivity product launches — including a new connectivity offering announced in mid-2024 — rather than a single data center buildout. Cboe's colocation filings continued at a reduced but elevated pace in 2025 (16 filings), suggesting this represents a new normal rather than a one-time event.</p>
+
+    <p>MIAX filed four colocation changes in December 2024, simultaneously across all four MIAX venues (MIAX, MIAX Pearl, MIAX Emerald, MIAX Sapphire), followed by eight more in 2025. Like Cboe, MIAX appears to be entering a phase of more active colocation fee management after years of minimal activity in this category.</p>
+  </div>
+
+  <!-- Methodology -->
+  <div class="article-section">
+    <h2>Methodology and Data</h2>
+
+    <div class="method-box">
+      <p><strong>Source:</strong> All 19b-4 filings published in the Federal Register from January 1, 2017 through May 25, 2026, for exchanges in the NYSE, Nasdaq, Cboe, MIAX, BOX, IEX, MEMX, and LTSE families. Data extracted via the Federal Register API and stored in a local SQLite database.</p>
+      <p><strong>Classification:</strong> Filings are classified as <code>FEE_COLOCATION</code> when their title contains keywords including "colocation," "co-location," "cabinet," "cage," "colo," or "cross-connect" (case-insensitive). This is a title-based classification; body text is not read during classification. Filing bodies for key 2024 filings were read directly for this study to verify the NY11-4 narrative.</p>
+      <p><strong>Filing attribution:</strong> Each exchange venue is counted separately. When Nasdaq files across 6 venues on the same date, that counts as 6 filings. This matches the regulatory reality — each is a distinct legal filing with the SEC.</p>
+      <p><strong>Limitations:</strong> The title-based classifier may miss filings that describe colocation fee changes without using standard keywords (e.g., a filing titled "Amendment to General 8 Fee Schedule" would be classified as FEE_OTHER). The true count of colocation fee changes may be modestly higher than reported here.</p>
+    </div>
+  </div>
+
+  <!-- Navigation and related -->
+  <div class="article-section">
+    <div style="display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap;">
+      <a href="port-fee-inflation.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--ink);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:11px;text-decoration:none;transition:background 0.15s;">← Study 3: Port Fee Inflation</a>
+      <a href="../../rule-filings.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--cream);color:var(--ink);border:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:11px;text-decoration:none;transition:background 0.15s;">Live Rule Filings Tracker →</a>
+    </div>
+
+    <div class="related-grid">
+      <a href="fee-filing-volume.html" class="related-card">
+        <div class="related-card-label">Study 2</div>
+        <div class="related-card-title">Fee Filing Volume: Port Fee Filings Surged 11× in Seven Years as Exchanges Race to Expand Connectivity</div>
+      </a>
+      <a href="port-fee-inflation.html" class="related-card">
+        <div class="related-card-label">Study 3</div>
+        <div class="related-card-title">Port Fee Inflation: How Cboe BZX Has Been Blocked 13+ Times from Raising Its 10Gb Port Fee</div>
+      </a>
+      <a href="self-certification-rates.html" class="related-card">
+        <div class="related-card-label">Study 1</div>
+        <div class="related-card-title">SRO Self-Certification Rates: How 86.5% of Exchange Rule Filings Bypass SEC Pre-Approval</div>
+      </a>
+      <a href="../../rule-filings.html" class="related-card">
+        <div class="related-card-label">Live Tracker</div>
+        <div class="related-card-title">Rule Filings Intelligence — Live feed of current SRO 19b-4 filings filtered for market data professionals</div>
+      </a>
+    </div>
+  </div>
+
+</div><!-- /research-wrap -->
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">Free intelligence for market data professionals — exchange notices, NMS plans, SIP feeds, fee benchmarks, and regulatory deadlines.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Intelligence</h4>
+      <a href="../../calendar.html">FeedWatch Calendar</a>
+      <a href="../../nms.html">NMS / SIP Plans</a>
+      <a href="../../feed-status.html">Feed Status</a>
+      <a href="../../rule-filings.html">Rule Filings</a>
+      <a href="../../ai-digest.html">AI Digest</a>
+    </div>
+    <div class="footer-col">
+      <h4>Research</h4>
+      <a href="self-certification-rates.html">Study 1: Self-Certification</a>
+      <a href="fee-filing-volume.html">Study 2: Fee Filing Volume</a>
+      <a href="port-fee-inflation.html">Study 3: Port Fee Inflation</a>
+      <a href="colocation-filing-surge.html">Study 4: Colocation Surge</a>
+      <a href="../../articles/finra-slate-guide.html">FINRA SLATE Guide</a>
+      <a href="../../articles/index.html">All Articles</a>
+    </div>
+    <div class="footer-col">
+      <h4>Learn</h4>
+      <a href="../../market-ecosystem.html">Market Ecosystem</a>
+      <a href="../../learn.html">All Lessons</a>
+      <a href="../../market-structure.html">Market Structure</a>
+      <a href="../../about.html">About</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Market Data News. Independent market structure intelligence.</span>
+    <span>Data: Federal Register API · SEC EDGAR</span>
+  </div>
+</footer>
+
+<script>
+// ─── Date line ────────────────────────────────────────────────────────────────
+document.getElementById('dateLine').textContent = new Date().toLocaleDateString('en-US', {
+  weekday:'long', year:'numeric', month:'long', day:'numeric'
+}).toUpperCase();
+
+// ─── Progress bar ─────────────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  const pct = d.scrollTop / (d.scrollHeight - d.clientHeight) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+});
+
+// ─── Hamburger ────────────────────────────────────────────────────────────────
+document.getElementById('hamburgerBtn').addEventListener('click', () => {
+  document.getElementById('mobileNav').classList.toggle('open');
+});
+
+// ─── Chart data ───────────────────────────────────────────────────────────────
+const YEARS = ['2017','2018','2019','2020','2021','2022','2023','2024','2025','2026*'];
+const COLO_DATA = {
+  NYSE:   [18, 16, 30, 37, 20, 11,  5,   0,  5,  0],
+  Nasdaq: [ 2,  6,  0,  0,  0,  0,  1,  89,  7, 30],
+  Cboe:   [ 0,  0,  1,  0,  0,  0,  0,  24, 16,  4],
+  MIAX:   [ 0,  0,  0,  0,  0,  0,  0,   4,  8,  0],
+  BOX:    [ 0,  0,  2,  0,  0,  0,  0,   0,  0,  0],
+};
+const PALETTE = {
+  NYSE:   '#1565c0',
+  Nasdaq: '#b8860b',
+  Cboe:   '#2e7d32',
+  MIAX:   '#c0392b',
+  BOX:    '#888888',
+};
+
+// ─── Chart 1: Stacked/Grouped bar ────────────────────────────────────────────
+const ctx1 = document.getElementById('coloByYearChart').getContext('2d');
+const datasets1 = Object.entries(COLO_DATA).map(([ex, data]) => ({
+  label: ex,
+  data,
+  backgroundColor: PALETTE[ex],
+  borderWidth: 0,
+}));
+
+let currentMode = 'stacked';
+const chart1 = new Chart(ctx1, {
+  type: 'bar',
+  data: { labels: YEARS, datasets: datasets1 },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { family: 'IBM Plex Mono', size: 10 }, padding: 16, boxWidth: 12 } },
+      tooltip: {
+        callbacks: {
+          footer(items) {
+            const total = items.reduce((s, i) => s + i.raw, 0);
+            return 'Total: ' + total;
+          }
+        }
+      }
+    },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { font: { family: 'IBM Plex Mono', size: 10 } } },
+      y: { stacked: true, beginAtZero: true, ticks: { font: { family: 'IBM Plex Mono', size: 10 } }, grid: { color: '#eee' } },
+    }
+  }
+});
+
+function setMode(mode) {
+  currentMode = mode;
+  const stacked = (mode === 'stacked');
+  chart1.options.scales.x.stacked = stacked;
+  chart1.options.scales.y.stacked = stacked;
+  chart1.update();
+  document.getElementById('btn-stacked').classList.toggle('active', mode === 'stacked');
+  document.getElementById('btn-grouped').classList.toggle('active', mode === 'grouped');
+}
+
+// ─── Chart 2: Nasdaq 2024 batch timeline ─────────────────────────────────────
+const batchDates = [
+  'Mar 6','Mar 21','Mar 26','May 17','May 28–29',
+  'Jul 3','Jul 15','Jul 16','Jul 18','Jul 24–25',
+  'Jul 31','Sep 16','Sep 24','Oct 11','Oct 31',
+  'Nov 27','Dec 6',
+];
+const batchVenues = [6, 6, 6, 6, 6, 2, 2, 3, 6, 4, 6, 6, 6, 6, 6, 6, 6];
+const batchColors = batchVenues.map(v => v >= 6 ? '#b8860b' : '#e8d080');
+
+const ctx2 = document.getElementById('batchChart').getContext('2d');
+new Chart(ctx2, {
+  type: 'bar',
+  data: {
+    labels: batchDates,
+    datasets: [{
+      label: 'Venues filing',
+      data: batchVenues,
+      backgroundColor: batchColors,
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label(ctx) { return ctx.raw + (ctx.raw === 1 ? ' venue' : ' venues'); }
+        }
+      }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { family: 'IBM Plex Mono', size: 9 }, maxRotation: 45 } },
+      y: { beginAtZero: true, max: 7, ticks: { font: { family: 'IBM Plex Mono', size: 10 }, stepSize: 1 }, grid: { color: '#eee' } },
+    }
+  }
+});
+
+// ─── FeedWatch alertbar ───────────────────────────────────────────────────────
+fetch('https://api.marketdatanews.com/calendar-stats')
+  .then(r => r.ok ? r.json() : null)
+  .then(d => {
+    if (!d) return;
+    if (d.critical !== undefined) document.getElementById('fw-critical-count').textContent = d.critical;
+    if (d.high !== undefined) document.getElementById('fw-high-count').textContent = d.high;
+    if (d.action !== undefined) document.getElementById('fw-action-count').textContent = d.action;
+    if (d.active !== undefined) document.getElementById('fw-active-count').textContent = d.active;
+    if (d.nextDeadline) document.getElementById('fw-next-deadline').textContent = d.nextDeadline;
+  }).catch(() => {});
+</script>
+
+</body>
+</html>
