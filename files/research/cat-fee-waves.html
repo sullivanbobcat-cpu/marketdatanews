@@ -5,20 +5,20 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
 <link rel="alternate icon" href="../favicon.ico">
-<link rel="apple-touch-icon" href="/favicon.png" sizes="180x180">
+<link rel="apple-touch-icon" href="../favicon.png" sizes="180x180">
 <link rel="manifest" href="../site.webmanifest">
 <meta name="theme-color" content="#0d0d0d">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Colocation Surge: How Nasdaq's Data Center Expansion Drove an 18x Jump in Exchange Colo Filings | Market Data News</title>
-<meta name="description" content="In 2024, US stock exchanges filed 117 colocation fee rule changes — up from just 6 in 2023. Nasdaq alone filed 89, simultaneously across all 6 venues, as its Carteret NY11-4 data center expansion triggered new fee schedules for Ultra High Density Cabinets and a 5.5% broad price increase.">
-<meta name="keywords" content="exchange colocation fees, Nasdaq data center, NY11-4, colocation fee filings, 19b-4 colocation, exchange colo pricing, Carteret data center, cabinet fees, SEC colocation fees">
+<title>The CAT Blackout: How a Two-Year Freeze in CAT Fee Filings Gave Way to the Most Synchronized Regulatory Wave in Exchange History | Market Data News</title>
+<meta name="description" content="US exchanges filed zero CAT-related fee rule changes for two consecutive years (2022–2023), then restarted simultaneously in September 2024. By May 2026, 25 exchanges filed on the same day — the largest single-day coordinated regulatory action in the 19b-4 dataset.">
+<meta name="keywords" content="CAT NMS Plan fees, Consolidated Audit Trail fees, exchange fee filings, 19b-4 CAT, SRO CAT fees, SEC CAT funding, exchange fee filing gap 2022 2023">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Market Data News">
-<link rel="canonical" href="https://marketdatanews.com/research/colocation-filing-surge">
+<link rel="canonical" href="https://marketdatanews.com/research/cat-fee-waves">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://marketdatanews.com/research/colocation-filing-surge">
-<meta property="og:title" content="The Colocation Surge: Nasdaq's Data Center Expansion Drove 18x More Colo Filings in 2024">
-<meta property="og:description" content="6 colo filings in 2023. 117 in 2024. Nasdaq's NY11-4 expansion in Carteret triggered simultaneous repricing across all 6 venues — Ultra High Density Cabinets, new power options, and a 5.5% broad increase.">
+<meta property="og:url" content="https://marketdatanews.com/research/cat-fee-waves">
+<meta property="og:title" content="The CAT Blackout: Zero Exchange Fee Filings for Two Years, Then 25 on One Day">
+<meta property="og:description" content="CAT fee filings vanished for 2022–2023, then restarted across all 9 exchange families simultaneously. In May 2026, 25 SROs filed on the same day — the most synchronized regulatory event in the 19b-4 record.">
 <meta property="og:site_name" content="Market Data News">
 <meta property="og:image" content="https://marketdatanews.com/og-image.png?v=2">
 <meta property="og:image:type" content="image/png">
@@ -27,8 +27,8 @@
 <meta property="og:image:alt" content="Market Data News | Market Infrastructure Intelligence">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@MDNintelligence">
-<meta name="twitter:title" content="Nasdaq Filed 89 Colo Fee Changes in 2024. Here's Why.">
-<meta name="twitter:description" content="NY11-4 data center expansion in Carteret, NJ → Ultra High Density Cabinets + 5.5% broad increase + simultaneous multi-venue filing = 89 rule changes from one exchange group in one year.">
+<meta name="twitter:title" content="Zero CAT Fee Filings for Two Years. Then 25 Exchanges in One Day.">
+<meta name="twitter:description" content="The complete 2022–2023 blackout in CAT fee filings — and the synchronized wave that followed — is unlike anything else in the 19b-4 dataset.">
 <meta name="twitter:image" content="https://marketdatanews.com/og-image.png?v=2">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -148,6 +148,8 @@
   .kpi-card.blue .kpi-value { color: #1565c0; }
   .kpi-card.green { border-top-color: #2e7d32; }
   .kpi-card.green .kpi-value { color: #2e7d32; }
+  .kpi-card.red { border-top-color: #c0392b; }
+  .kpi-card.red .kpi-value { color: #c0392b; }
 
   .chart-wrap { background: var(--surface); border: 1px solid var(--border); padding: 24px; margin-bottom: 24px; }
   .chart-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 16px; }
@@ -162,21 +164,26 @@
   .tl-dot.blue { background: #1565c0; }
   .tl-dot.green { background: #2e7d32; }
   .tl-dot.grey { background: #888; }
+  .tl-dot.red { background: #c0392b; }
   .tl-date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
   .tl-date.blue { color: #1565c0; }
   .tl-date.green { color: #2e7d32; }
   .tl-date.grey { color: #888; }
+  .tl-date.red { color: #c0392b; }
   .tl-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
   .tl-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
   .tl-ref { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); margin-top: 4px; }
   .tl-tag { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; background: #0d1f40; color: #5b9bd5; padding: 2px 7px; border-radius: 2px; margin: 3px 3px 0 0; text-transform: uppercase; letter-spacing: 0.08em; }
   .tl-tag.green { background: #1a3300; color: #6abf6a; }
   .tl-tag.amber { background: #1f1200; color: var(--accent); }
+  .tl-tag.red { background: #2a0000; color: #ff6b6b; }
 
   .info-box { background: var(--cream); border: 1px solid var(--border); border-left: 4px solid var(--accent); padding: 20px 24px; margin-bottom: 28px; }
   .info-box-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-dark); margin-bottom: 10px; font-weight: 600; }
   .info-box p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 8px; }
   .info-box p:last-child { margin-bottom: 0; }
+  .info-box.red { border-left-color: #c0392b; }
+  .info-box.red .info-box-title { color: #c0392b; }
 
   .data-table-wrap { overflow-x: auto; margin-bottom: 24px; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -187,6 +194,7 @@
   td.num { text-align: right; }
   td.highlight { color: #1565c0; font-weight: 600; }
   td.big { color: #c0392b; font-weight: 600; }
+  td.zero { color: #bbb; }
 
   .related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
   .related-card { display: block; padding: 20px; border: 1px solid var(--border); background: var(--cream); text-decoration: none; transition: border-color 0.15s; }
@@ -197,6 +205,11 @@
   .method-box { background: #f0ece2; border: 1px solid var(--border); padding: 20px 24px; margin-bottom: 28px; }
   .method-box p { font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 6px; }
   .method-box p:last-child { margin-bottom: 0; }
+
+  .blackout-band { background: #1a0000; border: 1px solid #3a0000; border-left: 4px solid #c0392b; padding: 20px 24px; margin-bottom: 28px; }
+  .blackout-band .info-box-title { color: #ff6b6b; }
+  .blackout-band p { color: #cc9999; font-size: 13px; line-height: 1.7; margin-bottom: 8px; }
+  .blackout-band p:last-child { margin-bottom: 0; }
 
   @media (max-width: 900px) {
     nav { display: none !important; }
@@ -216,9 +229,9 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "The Colocation Surge: How Nasdaq's Data Center Expansion Drove an 18x Jump in Exchange Colo Filings",
-  "description": "Analysis of 336 colocation fee filings (2017–2026) reveals a sharp 2024 surge driven by Nasdaq's NY11-4 data center expansion in Carteret, NJ and a 5.5% across-the-board price increase applied simultaneously across all 6 Nasdaq venues.",
-  "url": "https://marketdatanews.com/research/colocation-filing-surge",
+  "headline": "The CAT Blackout: How a Two-Year Freeze in CAT Fee Filings Gave Way to the Most Synchronized Regulatory Wave in Exchange History",
+  "description": "Analysis of 329 CAT-related fee filings (2017–2026) across 9 exchange families reveals a complete two-year blackout in 2022–2023, followed by a synchronized restart in September 2024, culminating in 25 exchanges filing on a single day in May 2026.",
+  "url": "https://marketdatanews.com/research/cat-fee-waves",
   "datePublished": "2026-05-25",
   "dateModified": "2026-05-25",
   "author": { "@type": "Organization", "name": "Market Data News" },
@@ -231,9 +244,9 @@
 {
   "@context": "https://schema.org",
   "@type": "Dataset",
-  "name": "Exchange Colocation Fee Filings 2017–2026",
-  "description": "336 SEC 19b-4 colocation fee filings by NYSE, Nasdaq, Cboe, MIAX, and BOX from 2017 through May 2026, sourced from the Federal Register.",
-  "url": "https://marketdatanews.com/research/colocation-filing-surge",
+  "name": "CAT NMS Plan Fee Filings 2017–2026",
+  "description": "329 SEC 19b-4 CAT-related fee filings by all registered US exchange families from 2017 through May 2026, sourced from the Federal Register.",
+  "url": "https://marketdatanews.com/research/cat-fee-waves",
   "creator": { "@type": "Organization", "name": "Market Data News" },
   "temporalCoverage": "2017/2026",
   "license": "https://creativecommons.org/licenses/by/4.0/"
@@ -245,16 +258,16 @@
 <div class="progress-bar" id="progressBar"></div>
 
 <div class="ticker-wrap"><div class="ticker" id="ticker">
-  <span class="ticker-item">COLO STUDY &nbsp;·&nbsp; 336 FILINGS ANALYZED &nbsp;·&nbsp; NYSE · NASDAQ · CBOE · MIAX</span>
-  <span class="ticker-item">2024: 117 COLO FILINGS — UP FROM 6 IN 2023 (18× SURGE)</span>
-  <span class="ticker-item">NASDAQ FILED 89 COLO FILINGS IN 2024 ACROSS 6 VENUES SIMULTANEOUSLY</span>
-  <span class="ticker-item">NY11-4: NASDAQ'S CARTERET DATA CENTER EXPANSION TRIGGERED ULTRA HIGH DENSITY CABINET FEES</span>
-  <span class="ticker-item">MARCH 2024: NASDAQ RAISED ALL GENERAL 8 COLO FEES BY 5.5%</span>
-  <span class="ticker-item">COLO STUDY &nbsp;·&nbsp; 336 FILINGS ANALYZED &nbsp;·&nbsp; NYSE · NASDAQ · CBOE · MIAX</span>
-  <span class="ticker-item">2024: 117 COLO FILINGS — UP FROM 6 IN 2023 (18× SURGE)</span>
-  <span class="ticker-item">NASDAQ FILED 89 COLO FILINGS IN 2024 ACROSS 6 VENUES SIMULTANEOUSLY</span>
-  <span class="ticker-item">NY11-4: NASDAQ'S CARTERET DATA CENTER EXPANSION TRIGGERED ULTRA HIGH DENSITY CABINET FEES</span>
-  <span class="ticker-item">MARCH 2024: NASDAQ RAISED ALL GENERAL 8 COLO FEES BY 5.5%</span>
+  <span class="ticker-item">CAT STUDY &nbsp;·&nbsp; 329 FILINGS ANALYZED &nbsp;·&nbsp; 9 EXCHANGE FAMILIES &nbsp;·&nbsp; 2017–2026</span>
+  <span class="ticker-item">ZERO CAT FEE FILINGS IN 2022 AND 2023 — COMPLETE 2-YEAR BLACKOUT</span>
+  <span class="ticker-item">MAY 12 2026: 25 EXCHANGES FILED ON A SINGLE DAY — LARGEST BATCH IN THE DATASET</span>
+  <span class="ticker-item">CAT FEES ARE THE ONLY FEE CATEGORY WHERE ALL SROS FILE SIMULTANEOUSLY</span>
+  <span class="ticker-item">JUNE 2017: 59 FILINGS IN TWO WEEKS AS CAT NMS PLAN ADOPTED ACROSS ALL SROS</span>
+  <span class="ticker-item">CAT STUDY &nbsp;·&nbsp; 329 FILINGS ANALYZED &nbsp;·&nbsp; 9 EXCHANGE FAMILIES &nbsp;·&nbsp; 2017–2026</span>
+  <span class="ticker-item">ZERO CAT FEE FILINGS IN 2022 AND 2023 — COMPLETE 2-YEAR BLACKOUT</span>
+  <span class="ticker-item">MAY 12 2026: 25 EXCHANGES FILED ON A SINGLE DAY — LARGEST BATCH IN THE DATASET</span>
+  <span class="ticker-item">CAT FEES ARE THE ONLY FEE CATEGORY WHERE ALL SROS FILE SIMULTANEOUSLY</span>
+  <span class="ticker-item">JUNE 2017: 59 FILINGS IN TWO WEEKS AS CAT NMS PLAN ADOPTED ACROSS ALL SROS</span>
 </div></div>
 
 <div class="fw-alertbar">
@@ -303,7 +316,8 @@
         <a href="self-certification-rates.html" class="nav-drop-item">Study 1: Self-Certification Rates</a>
         <a href="fee-filing-volume.html" class="nav-drop-item">Study 2: Fee Filing Volume</a>
         <a href="port-fee-inflation.html" class="nav-drop-item">Study 3: Port Fee Inflation</a>
-        <a href="colocation-filing-surge.html" class="nav-drop-item active">Study 4: Colocation Surge</a>
+        <a href="colocation-filing-surge.html" class="nav-drop-item">Study 4: Colocation Surge</a>
+        <a href="cat-fee-waves.html" class="nav-drop-item active">Study 5: CAT Fee Waves</a>
         <div class="nav-drop-divider"></div>
         <div class="nav-drop-group">Articles</div>
         <a href="../articles/cme-globex-notices-2026.html" class="nav-drop-item">CME Globex Notices 2026</a>
@@ -335,6 +349,7 @@
     <a href="fee-filing-volume.html">Fee Filing Volume</a>
     <a href="port-fee-inflation.html">Port Fee Inflation</a>
     <a href="colocation-filing-surge.html">Colocation Surge</a>
+    <a href="cat-fee-waves.html">CAT Fee Waves</a>
     <div class="mob-group-label">Market Structure</div>
     <a href="../market-structure.html">Market Structure</a>
     <div class="mob-group-label">Tools</div>
@@ -349,14 +364,14 @@
       <span>›</span>
       <a href="self-certification-rates.html">Research</a>
       <span>›</span>
-      Study 4
+      Study 5
     </div>
-    <div class="article-hero-label">Research Series &nbsp;·&nbsp; Study 4 of 5</div>
-    <h1 class="article-hero-title">The Colocation Surge:<br>How Nasdaq's Data Center Expansion Drove an 18× Jump in Exchange Colo Filings</h1>
+    <div class="article-hero-label">Research Series &nbsp;·&nbsp; Study 5 of 5</div>
+    <h1 class="article-hero-title">The CAT Blackout:<br>How a Two-Year Freeze Gave Way to the Most Synchronized Regulatory Wave in Exchange History</h1>
     <div class="article-hero-meta">
       <div class="article-hero-meta-item">Published <strong>May 25, 2026</strong></div>
       <div class="article-hero-meta-item">Dataset <strong>2017 – 2026*</strong></div>
-      <div class="article-hero-meta-item">Filings <strong>336 colocation</strong></div>
+      <div class="article-hero-meta-item">Filings <strong>329 CAT fee filings</strong></div>
       <span class="badge badge-research">SEC 19b-4</span>
       <span class="badge badge-data">Federal Register</span>
     </div>
@@ -365,124 +380,112 @@
 
 <div class="research-wrap">
 
-  <p class="article-lead">In 2023, US stock exchanges filed 6 colocation fee rule changes with the SEC. In 2024, they filed 117. The 18-fold surge was not driven by a wave of new entrants or a regulatory mandate — it was triggered by a single cause: Nasdaq's expansion of its primary Carteret, NJ data center, known internally as NY11-4, which created new pricing categories, new cabinet tiers, and new power options that each required a separate 19b-4 filing across every Nasdaq-affiliated venue simultaneously.</p>
+  <p class="article-lead">Every fee category in the 19b-4 filing dataset has noise in it — individual exchanges acting on their own timelines, their own pricing decisions, their own infrastructure cycles. CAT fees are different. They are the only category where all nine US exchange families file simultaneously, driven not by individual business decisions but by a single shared cost obligation: the Consolidated Audit Trail. And in 2022 and 2023, every one of them stopped filing at the same time — producing a two-year, industry-wide blackout that has no parallel in any other fee category.</p>
 
   <div class="kpi-row">
+    <div class="kpi-card red">
+      <div class="kpi-value">0</div>
+      <div class="kpi-label">CAT fee filings in<br>2022 and 2023<br>(complete 2-year blackout)</div>
+    </div>
     <div class="kpi-card blue">
-      <div class="kpi-value">18×</div>
-      <div class="kpi-label">Colocation filing surge<br>2023 → 2024<br>(6 → 117 filings)</div>
+      <div class="kpi-value">25</div>
+      <div class="kpi-label">Exchanges filing<br>on May 12, 2026<br>(largest single-day wave)</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-value">89</div>
-      <div class="kpi-label">Nasdaq colo filings<br>in 2024 alone<br>(76% of all colo filings)</div>
+      <div class="kpi-value">329</div>
+      <div class="kpi-label">Total CAT fee filings<br>across 9 exchange families<br>2017–2026*</div>
     </div>
     <div class="kpi-card green">
-      <div class="kpi-value">5.5%</div>
-      <div class="kpi-label">Broad price increase<br>across all General 8<br>colo fees, March 2024</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-value">6×</div>
-      <div class="kpi-label">Filing amplification<br>per change (one per<br>Nasdaq venue)</div>
+      <div class="kpi-value">59</div>
+      <div class="kpi-label">Filings in June 2017<br>when CAT NMS Plan<br>was first adopted</div>
     </div>
   </div>
 
-  <!-- Chart 1: Stacked bar by year -->
+  <!-- Chart 1: Annual filing volume stacked/grouped -->
   <div class="article-section">
-    <h2>Annual Colocation Filing Volume, by Exchange Group</h2>
-    <p>NYSE dominated colocation fee filings from 2017 through 2022, filing 18–37 changes per year as it built out its Mahwah, NJ data center (NY4/NY5) and refined its cabinet and cross-connect pricing. Nasdaq, Cboe, and MIAX filed few or no colocation rule changes during that period. Then, in 2024, the dynamic reversed entirely.</p>
+    <h2>Annual CAT Fee Filing Volume, by Exchange Group</h2>
+    <p>No other fee category shows this pattern: industry-wide activity, a complete stop across all participants, then a synchronized restart. The 2022–2023 gap is the defining feature of the CAT fee filing record, and it is not a data artifact — it is confirmed across all nine exchange families simultaneously.</p>
 
     <div class="chart-wrap">
-      <div class="chart-title">Colocation fee filings per year by exchange group — 2017 to 2026*</div>
+      <div class="chart-title">CAT-related fee filings per year by exchange group — 2017 to 2026*</div>
       <div class="chart-toggle">
         <button class="toggle-btn active" id="btn-stacked" onclick="setMode('stacked')">Stacked</button>
         <button class="toggle-btn" id="btn-grouped" onclick="setMode('grouped')">Grouped</button>
       </div>
-      <canvas id="coloByYearChart" height="320"></canvas>
+      <canvas id="catByYearChart" height="320"></canvas>
     </div>
 
-    <p>NYSE filed zero colocation fee changes in 2024 after averaging 18 per year from 2017 to 2022. The exchange's Mahwah infrastructure was mature, and NYSE Group did not open a new major data center facility during this period. Nasdaq's 2024 surge of 89 filings accounts for 76% of all 2024 colocation filings industry-wide. Cboe contributed 24 filings — up from zero in most prior years — reflecting new connectivity product launches across its four US equity venues (BZX, BYX, EDGX, EDGA).</p>
+    <p>The filing record has three distinct phases. The first phase (2017–2021) is the establishment period, beginning with the original CAT NMS Plan adoption in June 2017 and continuing through annual adjustments as CAT costs were allocated among SROs. The second phase (2022–2023) is the blackout — zero filings across the entire industry. The third phase (2024–present) is the restart, with filing volumes not only returning but exceeding pre-blackout levels, peaking at 72 filings in 2025 and 56 through May 2026 alone.</p>
 
-    <p>The 2026 data (through May 25) shows Nasdaq continuing at an elevated pace, with 30 colocation filings in less than five months — and a seventh venue, Nasdaq Texas (NasdaqTX), appearing for the first time in March 2026 as the exchange's newest market begins establishing its fee schedule.</p>
+    <p>Cboe leads all exchange families with 91 total CAT fee filings, reflecting its six registered venues (BZX, BYX, EDGX, EDGA, Cboe, C2). Nasdaq follows with 64, NYSE with 53, and MIAX with 46 across its four venues. MEMX (13) and LTSE (10) joined CAT filing activity in 2020, the year after they launched, establishing their cost-sharing obligations for the first time.</p>
   </div>
 
-  <!-- Chart 2: Nasdaq batch heatmap / timeline -->
+  <!-- The blackout -->
   <div class="article-section">
-    <h2>How Nasdaq's Multi-Venue Filing Pattern Works</h2>
-    <p>Nasdaq's elevated filing count is partly structural. When Nasdaq changes a colocation fee, it must file a separate 19b-4 with the SEC for each registered exchange it operates. In 2024, that meant six venues: The Nasdaq Stock Market (NASDAQ), Nasdaq BX (BX), Nasdaq PHLX (PHLX), Nasdaq ISE (ISE), Nasdaq GEMX (GEMX), and Nasdaq MRX (MRX). A single pricing decision generates six simultaneous filings.</p>
+    <h2>The 2022–2023 Blackout: When Every Exchange Stopped at Once</h2>
+
+    <div class="blackout-band">
+      <div class="info-box-title">Industry-Wide Filing Halt</div>
+      <p>From January 1, 2022 through December 31, 2023, not a single US exchange filed a CAT-related fee rule change with the SEC. This is not a gap caused by one exchange family going quiet — it is a simultaneous, complete halt across NYSE, Nasdaq, Cboe, MIAX, BOX, IEX, MEMX, LTSE, and FINRA. In any other fee category, a two-year gap for one exchange would be notable. Here, it happened to all of them at the same time.</p>
+      <p>This kind of synchronized inaction is only possible in a category where all exchanges share the same external obligation. When that obligation is frozen — whether due to plan amendments, cost formula revisions, or renegotiation of the underlying funding mechanism — no exchange has anything to file, because the source of the fee change is external to every one of them.</p>
+    </div>
+
+    <p>The CAT NMS Plan has been through several rounds of significant amendment since it was originally approved in November 2016. The period encompassing 2021–2023 coincided with extensive rulemaking activity around how CAT costs are allocated among SROs and industry members, as the SEC worked to revise the funding model that was originally set out in the plan. During this period, the underlying cost formula that drives exchange CAT fee schedules was in flux, and no exchange had a stable basis on which to file a fee change.</p>
+
+    <p>When the new framework stabilized, all exchanges filed at once — and the September 2024 restart was as synchronized as the 2017 launch had been.</p>
+  </div>
+
+  <!-- The synchronized restart -->
+  <div class="article-section">
+    <h2>The September 2024 Restart: All Families, One Week</h2>
+    <p>The first CAT fee filing after the two-year blackout landed on September 3, 2024. Within three weeks, every exchange family had filed — twelve separate filings on September 3 alone, followed by clusters on September 4, 5, 9, 10, 11, 12, 13, and 25. By September 30, all nine SRO families had resumed their CAT cost-sharing obligations.</p>
 
     <div class="info-box">
-      <div class="info-box-title">The Simultaneous Filing Pattern</div>
-      <p>On March 6, 2024, Nasdaq filed identical colocation fee changes across all six of its venues at once. The same occurred on March 21, March 26, May 17, July 18, July 31, September 16, September 24, October 11, October 31, November 27, and December 6 — twelve separate batches of six. Four additional batches targeted subsets of venues for venue-specific changes.</p>
-      <p>Each filing is immediately effective under Section 19(b)(3)(A), meaning the fees take effect on the filing date. The SEC has 60 days to suspend an immediately effective filing — it has not done so for any of Nasdaq's 2024 colocation changes.</p>
+      <div class="info-box-title">The September 2024 Wave</div>
+      <p>September 3: 12 filings — Cboe (6 venues), BOX, IEX, MEMX, MIAX (2 venues), NYSE. The first CAT fee batch since December 2021.</p>
+      <p>September 4–5: Nasdaq (6 venues), NYSE (4 venues), MIAX (3 venues), FINRA. All Nasdaq venues filing on September 5 completed the first full-industry restart batch.</p>
+      <p>September 9–12: LTSE, MIAX (4), BOX, IEX, MEMX, Cboe (3), Nasdaq (4). Final stragglers confirming that 100% of SRO families had re-engaged within 10 business days.</p>
+      <p>September 25: NYSE (5 venues) — the final September 2024 batch, bringing the month's total to approximately 50 filings.</p>
     </div>
+
+    <p>The restart pattern confirms that these are not independent decisions. No exchange "decided" to resume CAT fee filings in September 2024 — they all received the same signal from the CAT NMS Plan's revised cost allocation formula, and all filed within the same short window. The spread from first to last filer (September 3 to September 25) reflects only administrative processing time, not different underlying decisions.</p>
+  </div>
+
+  <!-- Chart 2: May 2026 wave -->
+  <div class="article-section">
+    <h2>May 2026: The Largest Single-Day Filing Wave in the Dataset</h2>
+    <p>On May 12, 2026, 25 exchange venues filed CAT fee rule changes on the same day — the largest single-day coordinated filing event anywhere in the 19b-4 dataset across all fee categories. The wave continued across the week of May 11–18, ultimately encompassing at least 55 filings from all nine exchange families within eight days.</p>
 
     <div class="chart-wrap">
-      <div class="chart-title">Nasdaq 2024 colocation filings — venues per batch date</div>
-      <canvas id="batchChart" height="220"></canvas>
+      <div class="chart-title">May 2026 CAT fee wave — filings per day (May 11–18)</div>
+      <canvas id="may2026Chart" height="200"></canvas>
     </div>
 
-    <p>The batch dates reveal a monthly-or-more cadence throughout 2024. The March batches were driven by the 5.5% general fee increase across all General 8 (connectivity and co-location) services. The July–December batches were largely driven by new fee structures for the NY11-4 data center expansion.</p>
+    <p>The May 12 batch included Cboe's six US equity venues (BZX, BYX, EDGX, EDGA, Cboe, C2), NYSE's five venues (NYSE, NYSE Arca, NYSE American, NYSE National, NYSE Texas), MIAX's four venues (MIAX, MIAX Pearl, MIAX Sapphire, MIAX Emerald, plus two additional MIAX Pearl and MIAX Sapphire filings), IEX (twice), and BOX — all on the same calendar day. Nasdaq filed on May 14 and 15, MEMX on May 15, and LTSE and FINRA on May 18, completing the wave.</p>
+
+    <p>The appearance of NYSE Texas and Nasdaq Texas in the May 2026 batch is notable. Both are newly registered exchanges that launched in late 2025 and early 2026 respectively. Their inclusion in the May 2026 CAT wave — alongside all legacy SROs — means all registered US exchanges are now simultaneously contributing to CAT cost sharing, including the newest entrants.</p>
   </div>
 
-  <!-- The NY11-4 story -->
+  <!-- What CAT fees are -->
   <div class="article-section">
-    <h2>The NY11-4 Expansion: A New Data Center, New Pricing Categories</h2>
-    <p>Nasdaq's primary co-location facility is NY11, located in Carteret, New Jersey. As demand for power and cabinet space grew, Nasdaq began an expansion of the facility — designated NY11-4 — to add new capacity. The expansion created pricing scenarios that had never existed before, each requiring its own 19b-4 filing:</p>
+    <h2>What CAT Fees Are and Why They Synchronize</h2>
 
-    <div class="tl-wrap">
-      <div class="tl-line"></div>
-
-      <div class="tl-item">
-        <div class="tl-dot amber"></div>
-        <div class="tl-date">March 6, 2024</div>
-        <div class="tl-title">Cabinet Proximity Option Program Expanded</div>
-        <div class="tl-desc">Nasdaq expanded its Cabinet Proximity Option program, allowing customers to reserve up to 20 unused cabinets near their existing equipment for future use. Reserved cabinets can be converted to powered cabinets on demand. Filing applied across all 6 Nasdaq venues simultaneously.</div>
-        <div class="tl-ref">SR-NASDAQ-2024-007 and 5 parallel filings</div>
-        <div><span class="tl-tag">New Service</span><span class="tl-tag green">Immediately Effective</span></div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot amber"></div>
-        <div class="tl-date">March 21, 2024</div>
-        <div class="tl-title">5.5% Across-the-Board General 8 Fee Increase</div>
-        <div class="tl-desc">Nasdaq raised all fees in General 8 of its fee schedule — covering cabinets, external telco/inter-cabinet connectivity, physical connectivity to the exchange, third-party connectivity, market data connectivity, cabinet power installation, and additional services — by 5.5%. Fees for GPS Antenna services were excluded. The increase also applied to remote MITCH Wave Ports and Nasdaq Testing Facility (NTF) connection fees in Carteret.</div>
-        <div class="tl-ref">SR-NASDAQ-2024-008 and 5 parallel filings</div>
-        <div><span class="tl-tag amber">Price Increase +5.5%</span><span class="tl-tag green">Immediately Effective</span></div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot blue"></div>
-        <div class="tl-date">July 15 – 31, 2024</div>
-        <div class="tl-title">NY11-4 Expansion: Ultra High Density Cabinets and New Power Options</div>
-        <div class="tl-desc">As the NY11-4 expansion opened, Nasdaq established fees for entirely new product categories: Ultra High Density (UHD) Cabinets, installation fees specific to NY11-4, power installation options in the new wing, and power distribution unit (PDU) configurations. UHD Cabinets support higher power density than standard cabinets, serving customers running AI workloads and high-frequency compute. Each new product category required its own 19b-4 filing across all venues, with the fee schedule operative August 15, 2024.</div>
-        <div class="tl-ref">SR-NASDAQ-2024-026, -030, -032, -039 and parallel venue filings</div>
-        <div><span class="tl-tag">New Tier: UHD Cabinets</span><span class="tl-tag">New Power Options</span><span class="tl-tag green">Immediately Effective</span></div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot amber"></div>
-        <div class="tl-date">Sep – Dec 2024</div>
-        <div class="tl-title">Ongoing Fee Schedule Updates (6 More Batch Rounds)</div>
-        <div class="tl-desc">Nasdaq filed six additional batches of colocation fee changes in the second half of 2024, covering refinements to NY11-4 pricing, additional power tier options, and further connectivity service adjustments. Each batch was filed simultaneously across all six venues and took effect immediately.</div>
-        <div class="tl-ref">SR-NASDAQ-2024-053 through -071 (representative); 36 filings total</div>
-        <div><span class="tl-tag amber">Ongoing Repricing</span><span class="tl-tag green">All Immediately Effective</span></div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot grey"></div>
-        <div class="tl-date">February 2026</div>
-        <div class="tl-title">2026 Cadence Continues; NasdaqTX Joins</div>
-        <div class="tl-desc">The coordinated multi-venue batch filing pattern continues into 2026, with six colocation filings on February 2 and a large March 2026 batch. Nasdaq Texas (SR-NasdaqTX-2026-*) appears for the first time as a seventh venue, establishing its initial colocation fee schedule as the new exchange begins operations.</div>
-        <div class="tl-ref">SR-NasdaqTX-2026-004, SR-NasdaqTX-2026-007 and parallel filings</div>
-        <div><span class="tl-tag">New Venue: NasdaqTX</span><span class="tl-tag green">Immediately Effective</span></div>
-      </div>
+    <div class="info-box">
+      <div class="info-box-title">Background: The Consolidated Audit Trail</div>
+      <p>The Consolidated Audit Trail (CAT) is the SEC's centralized database for tracking all orders and trades across US equity and options markets. Mandated by SEC Rule 613 (adopted July 2012), CAT requires every broker-dealer and exchange to report order lifecycle data to a central repository operated by CAT, LLC — a subsidiary of FINRA.</p>
+      <p>Building and operating CAT is expensive. The costs are shared among SROs according to a formula set out in the CAT NMS Plan, which all exchanges and FINRA have adopted as a governing document. When CAT's operating costs change — due to new infrastructure, expanded reporting requirements, or changes in reported trading volumes — the cost allocation formula produces a new set of fee schedules for each SRO. Every SRO receiving a new cost allocation must file a 19b-4 to update its CAT fee schedule.</p>
+      <p>This is the mechanism behind the synchronization: a single external cost event produces a mandatory filing obligation for every SRO simultaneously. Unlike port fees or colocation fees, which individual exchanges can raise or lower at their own discretion, CAT fees are not discretionary — they are the exchange's share of a shared infrastructure bill.</p>
     </div>
+
+    <p>The synchronization goes deeper than just the timing. The <em>amounts</em> are also externally driven. Two exchanges facing the same CAT cost allocation formula and the same market share denominator will arrive at the same fee adjustment. This is the opposite of every other fee category, where each exchange independently sets its own rates, structures, and competitive pricing. In CAT fees, the exchange is a pass-through, not a price-setter.</p>
+
+    <p>This also explains why newer exchanges appear in CAT filings almost immediately after launch. MEMX launched in September 2020 and filed its first CAT fee changes in 2020. LTSE launched in October 2019 and filed its first CAT changes in 2020. 24X National Exchange appears in the May 2026 batch. Each new SRO joins the cost-sharing framework on its first annual cycle, producing its first CAT fee filing as a kind of regulatory debut.</p>
   </div>
 
-  <!-- Comparison table -->
+  <!-- Filing table -->
   <div class="article-section">
-    <h2>Colocation Filing Activity by Exchange Group, 2017–2026</h2>
-    <p>The table below shows raw colocation filing counts per exchange group per year. NYSE's dominant position in 2017–2022 reflects its decade-long buildout of the Mahwah and Secaucus data centers. The sharp reversal in 2024 reflects Nasdaq's NY11-4 investment cycle.</p>
+    <h2>CAT Fee Filing Activity by Exchange Group, 2017–2026</h2>
+    <p>The table below shows raw CAT fee filing counts per exchange group per year. The 2022–2023 columns are empty for every row. The post-restart volumes (2024–2026) are higher than the pre-blackout period for most exchange families, reflecting both the completion of the funding model revision and the expansion of the SRO universe.</p>
 
     <div class="data-table-wrap">
       <table>
@@ -504,69 +507,116 @@
         </thead>
         <tbody>
           <tr>
-            <td>NYSE Group</td>
-            <td class="num">18</td><td class="num">16</td><td class="num">30</td><td class="num">37</td><td class="num">20</td><td class="num">11</td><td class="num">5</td><td class="num big">0</td><td class="num">5</td><td class="num">0</td><td class="num">142</td>
+            <td>Cboe</td>
+            <td class="num">18</td><td class="num">0</td><td class="num">0</td><td class="num">16</td><td class="num">11</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">17</td><td class="num">17</td><td class="num highlight">12</td><td class="num">91</td>
           </tr>
           <tr>
             <td>Nasdaq</td>
-            <td class="num">2</td><td class="num">6</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">1</td><td class="num highlight">89</td><td class="num">7</td><td class="num highlight">30</td><td class="num">135</td>
+            <td class="num">6</td><td class="num">13</td><td class="num">0</td><td class="num">1</td><td class="num">7</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">12</td><td class="num">13</td><td class="num">12</td><td class="num">64</td>
           </tr>
           <tr>
-            <td>Cboe</td>
-            <td class="num">0</td><td class="num">0</td><td class="num">1</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">24</td><td class="num">16</td><td class="num">4</td><td class="num">45</td>
+            <td>NYSE</td>
+            <td class="num">18</td><td class="num">0</td><td class="num">0</td><td class="num">5</td><td class="num">0</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">10</td><td class="num">10</td><td class="num highlight">10</td><td class="num">53</td>
           </tr>
           <tr>
             <td>MIAX</td>
-            <td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">4</td><td class="num">8</td><td class="num">0</td><td class="num">12</td>
+            <td class="num">5</td><td class="num">0</td><td class="num">1</td><td class="num">4</td><td class="num">0</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">14</td><td class="num">12</td><td class="num highlight">10</td><td class="num">46</td>
+          </tr>
+          <tr>
+            <td>Other / FINRA</td>
+            <td class="num">4</td><td class="num">0</td><td class="num">1</td><td class="num">2</td><td class="num">1</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">4</td><td class="num">4</td><td class="num">5</td><td class="num">21</td>
+          </tr>
+          <tr>
+            <td>IEX</td>
+            <td class="num">4</td><td class="num">0</td><td class="num">0</td><td class="num">2</td><td class="num">1</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">3</td><td class="num">4</td><td class="num">2</td><td class="num">16</td>
           </tr>
           <tr>
             <td>BOX</td>
-            <td class="num">0</td><td class="num">0</td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">2</td>
+            <td class="num">4</td><td class="num">0</td><td class="num">0</td><td class="num">2</td><td class="num">0</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">3</td><td class="num">4</td><td class="num">2</td><td class="num">15</td>
+          </tr>
+          <tr>
+            <td>MEMX</td>
+            <td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">2</td><td class="num">1</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">4</td><td class="num">4</td><td class="num">2</td><td class="num">13</td>
+          </tr>
+          <tr>
+            <td>LTSE</td>
+            <td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">2</td><td class="num">0</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">3</td><td class="num">4</td><td class="num">1</td><td class="num">10</td>
           </tr>
           <tr style="background:var(--ink);color:white;">
             <td style="color:#aaa;font-weight:600;">Total</td>
-            <td class="num" style="color:white;">20</td><td class="num" style="color:white;">22</td><td class="num" style="color:white;">33</td><td class="num" style="color:white;">37</td><td class="num" style="color:white;">20</td><td class="num" style="color:white;">11</td><td class="num" style="color:white;">6</td><td class="num" style="color:#b8860b;font-weight:700;">117</td><td class="num" style="color:white;">36</td><td class="num" style="color:white;">34</td><td class="num" style="color:#b8860b;font-weight:700;">336</td>
+            <td class="num" style="color:white;">59</td>
+            <td class="num" style="color:white;">13</td>
+            <td class="num" style="color:white;">2</td>
+            <td class="num" style="color:white;">36</td>
+            <td class="num" style="color:white;">21</td>
+            <td class="num" style="color:#c0392b;font-weight:700;">0</td>
+            <td class="num" style="color:#c0392b;font-weight:700;">0</td>
+            <td class="num" style="color:white;">70</td>
+            <td class="num" style="color:white;">72</td>
+            <td class="num" style="color:#b8860b;font-weight:700;">56</td>
+            <td class="num" style="color:#b8860b;font-weight:700;">329</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size:12px;color:var(--muted);">* 2026 data through May 25, 2026 (partial year). Source: SEC Federal Register 19b-4 filings database.</p>
+    <p style="font-size:12px;color:var(--muted);">* 2026 data through May 25, 2026 (partial year). Dashes (—) indicate zero filings. Source: SEC Federal Register 19b-4 filings database.</p>
   </div>
 
-  <!-- NYSE absence -->
+  <!-- The CAT timeline -->
   <div class="article-section">
-    <h2>NYSE's Notable Absence in 2024</h2>
-    <p>NYSE Group filed zero colocation fee rule changes in 2024 — a sharp contrast to the 11–37 it filed annually from 2017 to 2022. The last significant NYSE colocation action before 2025 was a June 2023 batch across five venues (NYSE, NYSE Arca, NYSE American, NYSE National, NYSE Chicago) amending Partial Cabinet Solution bundles. In 2025, NYSE returned with a small five-venue batch in October, including the newly-formed NYSE Texas.</p>
+    <h2>CAT Fee Filing Timeline: Five Phases</h2>
 
-    <p>The divergence between NYSE and Nasdaq in 2024 reflects different infrastructure cycles. NYSE's Mahwah, NJ (NY4/NY5) campus — one of the largest financial data centers in the world — was fully operational throughout this period, requiring only incremental pricing refinements. Nasdaq's Carteret expansion represented active capital deployment into new capacity, which naturally produces more regulatory filings as new products and pricing tiers are established.</p>
+    <div class="tl-wrap">
+      <div class="tl-line"></div>
 
-    <p>NYSE Texas's appearance in October 2025 parallels NasdaqTX's 2026 debut: new exchange venues must file their colocation fee schedules from scratch, briefly elevating filing counts before settling into a maintenance cadence.</p>
-  </div>
+      <div class="tl-item">
+        <div class="tl-dot green"></div>
+        <div class="tl-date green">June 2017</div>
+        <div class="tl-title">CAT NMS Plan Adopted — 59 Simultaneous Filings</div>
+        <div class="tl-desc">Following the SEC's approval of the CAT NMS Plan in November 2016 and its phased implementation timeline, exchanges began filing their initial CAT fee schedules in early 2017. June 1, 2017 produced the single largest batch of that year — 17 filings in one day — as NYSE, Cboe, IEX, MIAX, Nasdaq, and BOX all filed simultaneously. The rapid 2017 cluster (59 filings across five months) established the synchronized filing pattern that would recur in all future waves.</div>
+        <div><span class="tl-tag green">Plan Launch</span><span class="tl-tag">All SROs Filing</span></div>
+      </div>
 
-  <!-- What is colocation -->
-  <div class="article-section">
-    <h2>What Exchange Colocation Fees Cover</h2>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2018–2021</div>
+        <div class="tl-title">Annual Adjustment Cycle — Moderate Synchronized Waves</div>
+        <div class="tl-desc">Between 2018 and 2021, exchanges filed CAT fee changes on an approximately annual basis, driven by each year's CAT cost allocation update. The 2020 wave (36 filings) was the largest of this period, as new entrants MEMX and LTSE joined the SRO universe and filed their inaugural CAT fee schedules. Cboe's May 10, 2021 batch (12 filings — 6 Cboe venues + 6 Nasdaq venues on the same day) illustrates the characteristic all-at-once filing pattern. The annual cycle was predictable enough that experienced market participants could anticipate when to expect the next wave.</div>
+        <div><span class="tl-tag amber">Annual Cycle</span><span class="tl-tag">MEMX + LTSE Join</span></div>
+      </div>
 
-    <div class="info-box">
-      <div class="info-box-title">Background: Colocation Services</div>
-      <p>Colocation (colo) refers to the practice of housing a trading firm's servers in the same physical data center as the exchange's matching engine. Because electronic trading is latency-sensitive to the microsecond level, physical proximity to the exchange reduces round-trip signal times and provides a structural performance advantage.</p>
-      <p>Exchange colocation fee schedules typically cover: <strong>cabinets</strong> (rack space, measured in U-height and power density), <strong>power</strong> (kW allocation and power distribution units), <strong>cross-connects</strong> (fiber cables between customer cages and exchange infrastructure), <strong>external telco/inter-cabinet connectivity</strong> (connections between customer racks in different areas of the same data center), and <strong>market data connectivity feeds</strong> (direct feed subscriptions delivered over physical infrastructure).</p>
-      <p>Physical port fees (the subject of Study 3) are a related but distinct product — they cover direct fiber circuits to the exchange matching engine rather than cabinet space in the same building.</p>
+      <div class="tl-item">
+        <div class="tl-dot red"></div>
+        <div class="tl-date red">2022 – 2023</div>
+        <div class="tl-title">The Blackout — Zero Filings for Two Years</div>
+        <div class="tl-desc">Beginning in January 2022, no US exchange filed a CAT-related fee rule change. The blackout lasted the entire calendar year 2022 and all of 2023 — 730 days with zero activity. This coincided with an extended period of CAT NMS Plan amendment activity, during which the SEC and CAT LLC revised the cost methodology that underlies all SRO CAT fee schedules. With the underlying formula under revision, no exchange had a stable basis for filing a fee change. The two-year halt is unique in the history of the 19b-4 dataset: no other fee category has ever produced a complete industry-wide filing stop of this duration.</div>
+        <div><span class="tl-tag red">Zero Filings</span><span class="tl-tag">Plan Amendments</span><span class="tl-tag red">All 9 Families Halted</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot blue"></div>
+        <div class="tl-date blue">September 2024</div>
+        <div class="tl-title">Synchronized Restart — All Families Resume Within 3 Weeks</div>
+        <div class="tl-desc">On September 3, 2024, Cboe filed six simultaneous CAT fee changes across its six US equity venues — the first CAT fee filings since 2021. Within three weeks, all nine exchange families had filed. The restart was as coordinated as the original 2017 launch, confirming that the underlying cost formula had been finalized and all SROs received the same update at the same time. The September 2024 wave produced approximately 50 filings — immediately exceeding the annual volumes from 2019 and 2021.</div>
+        <div><span class="tl-tag blue">Restart</span><span class="tl-tag green">Formula Finalized</span><span class="tl-tag">3-Week Wave</span></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">May 2026</div>
+        <div class="tl-title">Record Single-Day Wave — 25 Exchanges, One Day</div>
+        <div class="tl-desc">The May 2026 wave produced 25 filings on a single day (May 12), the largest single-day coordinated filing event in the 19b-4 database across all fee categories. NYSE Texas and Nasdaq Texas participated for the first time, as did 24X National Exchange — representing a new cohort of SROs joining the CAT cost-sharing framework. The expansion of the SRO universe means future CAT waves will be even larger as additional venues launch and establish their filing obligations.</div>
+        <div><span class="tl-tag amber">Record: 25 on One Day</span><span class="tl-tag">NYSE Texas + NasdaqTX Debut</span><span class="tl-tag green">24X Joins</span></div>
+      </div>
     </div>
-
-    <p>The SEC's oversight role over colocation fees stems from a 2010 concept release and subsequent regulatory guidance establishing that colocation services provided by exchanges in connection with their trading operations constitute exchange services subject to the fee filing requirements of Section 19(b). As a result, any change to colocation pricing — adding a new cabinet tier, changing a power allocation rate, adjusting a cross-connect fee, or offering a new reservation program — requires a 19b-4 filing.</p>
-
-    <p>This creates an inherent filing multiplier for exchanges that operate multiple registered venues. Nasdaq's six venues in 2024 meant every single colocation product decision generated six rule filings. When Nasdaq launched Ultra High Density Cabinets in NY11-4, that was not one filing — it was six.</p>
   </div>
 
-  <!-- Cboe context -->
+  <!-- Withdrawal rates in CAT -->
   <div class="article-section">
-    <h2>Cboe: New Connectivity Products Across Four Venues</h2>
-    <p>Cboe's 24 colocation filings in 2024 represent a sharp uptick from the 0–1 filings per year it had filed from 2017 to 2023. The filings were spread across Cboe's four US equity venues (BZX, BYX, EDGX, EDGA) in coordinated batches — typically all four venues filing on the same date or within days of each other.</p>
+    <h2>CAT Withdrawals: Rare But Concentrated in Newer Entrants</h2>
+    <p>Of 329 total CAT fee filings, 15 have been withdrawn — a rate of 4.6%, slightly higher than the overall 19b-4 withdrawal rate of around 3%. Most CAT withdrawals are not reversals of fee decisions — they tend to reflect superseding filings, where an exchange refiled a corrected or updated version of the same fee change and withdrew the original.</p>
 
-    <p>Unlike Nasdaq's filings, which were driven by a specific infrastructure event, Cboe's 2024 colocation activity appears to reflect new connectivity product launches — including a new connectivity offering announced in mid-2024 — rather than a single data center buildout. Cboe's colocation filings continued at a reduced but elevated pace in 2025 (16 filings), suggesting this represents a new normal rather than a one-time event.</p>
-
-    <p>MIAX filed four colocation changes in December 2024, simultaneously across all four MIAX venues (MIAX, MIAX Pearl, MIAX Emerald, MIAX Sapphire), followed by eight more in 2025. Like Cboe, MIAX appears to be entering a phase of more active colocation fee management after years of minimal activity in this category.</p>
+    <p>Cboe and MIAX account for 5 withdrawals each (roughly 5.5% of their respective CAT filings). MEMX (2 withdrawals, 15.4% of its 13 CAT filings) and LTSE (1 withdrawal) show higher rates, consistent with the pattern of newer entrants experiencing more administrative amendments as they establish their CAT fee frameworks for the first time. NYSE and Nasdaq have zero CAT fee withdrawals — reflecting their longer institutional experience with the filing process and their more established relationships with the SEC's Division of Trading and Markets.</p>
   </div>
 
   <!-- Methodology -->
@@ -574,21 +624,25 @@
     <h2>Methodology and Data</h2>
 
     <div class="method-box">
-      <p><strong>Source:</strong> All 19b-4 filings published in the Federal Register from January 1, 2017 through May 25, 2026, for exchanges in the NYSE, Nasdaq, Cboe, MIAX, BOX, IEX, MEMX, and LTSE families. Data extracted via the Federal Register API and stored in a local SQLite database.</p>
-      <p><strong>Classification:</strong> Filings are classified as <code>FEE_COLOCATION</code> when their title contains keywords including "colocation," "co-location," "cabinet," "cage," "colo," or "cross-connect" (case-insensitive). This is a title-based classification; body text is not read during classification. Filing bodies for key 2024 filings were read directly for this study to verify the NY11-4 narrative.</p>
-      <p><strong>Filing attribution:</strong> Each exchange venue is counted separately. When Nasdaq files across 6 venues on the same date, that counts as 6 filings. This matches the regulatory reality — each is a distinct legal filing with the SEC.</p>
-      <p><strong>Limitations:</strong> The title-based classifier may miss filings that describe colocation fee changes without using standard keywords (e.g., a filing titled "Amendment to General 8 Fee Schedule" would be classified as FEE_OTHER). The true count of colocation fee changes may be modestly higher than reported here.</p>
+      <p><strong>Source:</strong> All 19b-4 filings published in the Federal Register from January 1, 2017 through May 25, 2026, for exchanges in the NYSE, Nasdaq, Cboe, MIAX, BOX, IEX, MEMX, LTSE, and Other (including FINRA) families. Data extracted via the Federal Register API and stored in a local SQLite database of 10,610 filings.</p>
+      <p><strong>Classification:</strong> Filings are classified as <code>FEE_CAT</code> when their title contains keywords related to CAT, Consolidated Audit Trail, or Rule 613 fee obligations. This is a title-based classification; filing bodies are not read during classification. A small number of CAT-related filings that use atypical title language may be excluded.</p>
+      <p><strong>Filing attribution:</strong> Each exchange venue is counted separately. When Cboe files across all 6 of its venues on the same date, that counts as 6 filings. This matches the regulatory reality — each is a distinct legal filing with the SEC that must be separately noticed, commented upon, and potentially suspended.</p>
+      <p><strong>The blackout confirmation:</strong> The 2022–2023 zero-filing result was verified by directly querying the database for all filings with filing dates in those years and <code>category = 'FEE_CAT'</code>. The result is zero. The same query across all other fee categories produces non-zero results for 2022 and 2023, confirming the blackout is category-specific.</p>
     </div>
   </div>
 
   <!-- Navigation and related -->
   <div class="article-section">
     <div style="display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap;">
-      <a href="port-fee-inflation.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--ink);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:11px;text-decoration:none;transition:background 0.15s;">← Study 3: Port Fee Inflation</a>
-      <a href="cat-fee-waves.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--cream);color:var(--ink);border:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:11px;text-decoration:none;transition:background 0.15s;">Study 5: CAT Fee Waves →</a>
+      <a href="colocation-filing-surge.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--ink);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:11px;text-decoration:none;transition:background 0.15s;">← Study 4: Colocation Surge</a>
+      <a href="../rule-filings.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--cream);color:var(--ink);border:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:11px;text-decoration:none;transition:background 0.15s;">Live Rule Filings Tracker →</a>
     </div>
 
     <div class="related-grid">
+      <a href="self-certification-rates.html" class="related-card">
+        <div class="related-card-label">Study 1</div>
+        <div class="related-card-title">SRO Self-Certification Rates: How 86.5% of Exchange Rule Filings Bypass SEC Pre-Approval</div>
+      </a>
       <a href="fee-filing-volume.html" class="related-card">
         <div class="related-card-label">Study 2</div>
         <div class="related-card-title">Fee Filing Volume: Port Fee Filings Surged 11× in Seven Years as Exchanges Race to Expand Connectivity</div>
@@ -597,13 +651,9 @@
         <div class="related-card-label">Study 3</div>
         <div class="related-card-title">Port Fee Inflation: How Cboe BZX Has Been Blocked 13+ Times from Raising Its 10Gb Port Fee</div>
       </a>
-      <a href="self-certification-rates.html" class="related-card">
-        <div class="related-card-label">Study 1</div>
-        <div class="related-card-title">SRO Self-Certification Rates: How 86.5% of Exchange Rule Filings Bypass SEC Pre-Approval</div>
-      </a>
-      <a href="cat-fee-waves.html" class="related-card">
-        <div class="related-card-label">Study 5</div>
-        <div class="related-card-title">The CAT Blackout: Two Years of Zero Filings, Then 25 Exchanges in a Single Day</div>
+      <a href="colocation-filing-surge.html" class="related-card">
+        <div class="related-card-label">Study 4</div>
+        <div class="related-card-title">The Colocation Surge: How Nasdaq's Data Center Expansion Drove an 18× Jump in Exchange Colo Filings</div>
       </a>
     </div>
   </div>
@@ -668,31 +718,42 @@ document.getElementById('hamburgerBtn').addEventListener('click', () => {
 
 // ─── Chart data ───────────────────────────────────────────────────────────────
 const YEARS = ['2017','2018','2019','2020','2021','2022','2023','2024','2025','2026*'];
-const COLO_DATA = {
-  NYSE:   [18, 16, 30, 37, 20, 11,  5,   0,  5,  0],
-  Nasdaq: [ 2,  6,  0,  0,  0,  0,  1,  89,  7, 30],
-  Cboe:   [ 0,  0,  1,  0,  0,  0,  0,  24, 16,  4],
-  MIAX:   [ 0,  0,  0,  0,  0,  0,  0,   4,  8,  0],
-  BOX:    [ 0,  0,  2,  0,  0,  0,  0,   0,  0,  0],
-};
-const PALETTE = {
-  NYSE:   '#1565c0',
-  Nasdaq: '#b8860b',
-  Cboe:   '#2e7d32',
-  MIAX:   '#c0392b',
-  BOX:    '#888888',
+
+// CAT filings by exchange × year
+// Order: Cboe, Nasdaq, NYSE, MIAX, Other/FINRA, IEX, BOX, MEMX, LTSE
+const CAT_DATA = {
+  Cboe:   [18,  0, 0, 16, 11, 0, 0, 17, 17, 12],
+  Nasdaq: [ 6, 13, 0,  1,  7, 0, 0, 12, 13, 12],
+  NYSE:   [18,  0, 0,  5,  0, 0, 0, 10, 10, 10],
+  MIAX:   [ 5,  0, 1,  4,  0, 0, 0, 14, 12, 10],
+  Other:  [ 4,  0, 1,  2,  1, 0, 0,  4,  4,  5],
+  IEX:    [ 4,  0, 0,  2,  1, 0, 0,  3,  4,  2],
+  BOX:    [ 4,  0, 0,  2,  0, 0, 0,  3,  4,  2],
+  MEMX:   [ 0,  0, 0,  2,  1, 0, 0,  4,  4,  2],
+  LTSE:   [ 0,  0, 0,  2,  0, 0, 0,  3,  4,  1],
 };
 
-// ─── Chart 1: Stacked/Grouped bar ────────────────────────────────────────────
-const ctx1 = document.getElementById('coloByYearChart').getContext('2d');
-const datasets1 = Object.entries(COLO_DATA).map(([ex, data]) => ({
+const PALETTE = {
+  Cboe:   '#2e7d32',
+  Nasdaq: '#b8860b',
+  NYSE:   '#1565c0',
+  MIAX:   '#c0392b',
+  Other:  '#7b1fa2',
+  IEX:    '#00796b',
+  BOX:    '#e65100',
+  MEMX:   '#455a64',
+  LTSE:   '#795548',
+};
+
+// ─── Chart 1: CAT by year, stacked/grouped ───────────────────────────────────
+const ctx1 = document.getElementById('catByYearChart').getContext('2d');
+const datasets1 = Object.entries(CAT_DATA).map(([ex, data]) => ({
   label: ex,
   data,
   backgroundColor: PALETTE[ex],
   borderWidth: 0,
 }));
 
-let currentMode = 'stacked';
 const chart1 = new Chart(ctx1, {
   type: 'bar',
   data: { labels: YEARS, datasets: datasets1 },
@@ -717,7 +778,6 @@ const chart1 = new Chart(ctx1, {
 });
 
 function setMode(mode) {
-  currentMode = mode;
   const stacked = (mode === 'stacked');
   chart1.options.scales.x.stacked = stacked;
   chart1.options.scales.y.stacked = stacked;
@@ -726,25 +786,20 @@ function setMode(mode) {
   document.getElementById('btn-grouped').classList.toggle('active', mode === 'grouped');
 }
 
-// ─── Chart 2: Nasdaq 2024 batch timeline ─────────────────────────────────────
-const batchDates = [
-  'Mar 6','Mar 21','Mar 26','May 17','May 28–29',
-  'Jul 3','Jul 15','Jul 16','Jul 18','Jul 24–25',
-  'Jul 31','Sep 16','Sep 24','Oct 11','Oct 31',
-  'Nov 27','Dec 6',
-];
-const batchVenues = [6, 6, 6, 6, 6, 2, 2, 3, 6, 4, 6, 6, 6, 6, 6, 6, 6];
-const batchColors = batchVenues.map(v => v >= 6 ? '#b8860b' : '#e8d080');
+// ─── Chart 2: May 2026 wave by day ────────────────────────────────────────────
+const may2026Days   = ['May 11', 'May 12', 'May 14', 'May 15', 'May 18'];
+const may2026Counts = [5, 25, 9, 9, 7];
+const may2026Colors = may2026Counts.map(n => n >= 20 ? '#c0392b' : n >= 9 ? '#b8860b' : '#888');
 
-const ctx2 = document.getElementById('batchChart').getContext('2d');
+const ctx2 = document.getElementById('may2026Chart').getContext('2d');
 new Chart(ctx2, {
   type: 'bar',
   data: {
-    labels: batchDates,
+    labels: may2026Days,
     datasets: [{
-      label: 'Venues filing',
-      data: batchVenues,
-      backgroundColor: batchColors,
+      label: 'Filings',
+      data: may2026Counts,
+      backgroundColor: may2026Colors,
       borderWidth: 0,
     }]
   },
@@ -754,13 +809,13 @@ new Chart(ctx2, {
       legend: { display: false },
       tooltip: {
         callbacks: {
-          label(ctx) { return ctx.raw + (ctx.raw === 1 ? ' venue' : ' venues'); }
+          label(ctx) { return ctx.raw + ' filing' + (ctx.raw === 1 ? '' : 's'); }
         }
       }
     },
     scales: {
-      x: { grid: { display: false }, ticks: { font: { family: 'IBM Plex Mono', size: 9 }, maxRotation: 45 } },
-      y: { beginAtZero: true, max: 7, ticks: { font: { family: 'IBM Plex Mono', size: 10 }, stepSize: 1 }, grid: { color: '#eee' } },
+      x: { grid: { display: false }, ticks: { font: { family: 'IBM Plex Mono', size: 11 } } },
+      y: { beginAtZero: true, max: 30, ticks: { font: { family: 'IBM Plex Mono', size: 10 }, stepSize: 5 }, grid: { color: '#eee' } },
     }
   }
 });
