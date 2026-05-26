@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="alternate icon" href="../../favicon.ico">
+<link rel="apple-touch-icon" href="/favicon.png" sizes="180x180">
+<link rel="manifest" href="../../site.webmanifest">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRO Self-Certification Rates: How 86% of Exchange Rule Filings Bypass SEC Pre-Approval | Market Data News</title>
+<meta name="description" content="Analysis of 9,261 SEC 19b-4 filings from 2017–2026 reveals that 86.5% of exchange rule changes take effect the same day they are filed, with routing fees achieving 100% self-certification. Data-driven breakdown by exchange and category.">
+<meta name="keywords" content="19b-4 filings, SEC self-certification, immediate effectiveness, SRO rule filings, exchange rule changes, 19(b)(3)(A), Federal Register, NYSE Cboe Nasdaq fee filings">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Market Data News">
+<link rel="canonical" href="https://marketdatanews.com/research/self-certification-rates">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://marketdatanews.com/research/self-certification-rates">
+<meta property="og:title" content="SRO Self-Certification Rates: How 86% of Exchange Rule Filings Bypass SEC Pre-Approval">
+<meta property="og:description" content="Data-driven analysis of 9,261 SEC 19b-4 filings (2017–2026): routing fees achieve 100% self-certification, NYSE submits 3× more SEC-reviewed filings than MIAX.">
+<meta property="og:site_name" content="Market Data News">
+<meta property="og:image" content="https://marketdatanews.com/og-image.png?v=2">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Market Data News | Market Infrastructure Intelligence">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@MDNintelligence">
+<meta name="twitter:title" content="SRO Self-Certification: 86% of Exchange Rule Filings Take Effect Same Day">
+<meta name="twitter:description" content="9,261 Federal Register filings, 2017–2026. Routing fees: 100% self-certified. NYSE submits the most SEC-reviewed rule changes of any exchange group.">
+<meta name="twitter:image" content="https://marketdatanews.com/og-image.png?v=2">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+    --ie-color: #2e7d32; --nc-color: #b8860b; --wd-color: #555;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: stretch; padding: 0 48px; border-bottom: 1px solid var(--rule); position: relative; flex-wrap: nowrap; overflow: visible; background: var(--cream); }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0 14px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; user-select: none; }
+  a.nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-dropdown { position: relative; display: flex; align-items: stretch; }
+  .nav-dropdown > .nav-item { border-left: none; }
+  .nav-dropdown-menu { display: block; position: absolute; top: 100%; left: 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; min-width: 220px; background: var(--ink); border-top: 2px solid var(--accent); z-index: 1000; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left: auto; right: 0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-drop-item { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #aaa; text-decoration: none; padding: 10px 20px; border-bottom: 1px solid #1e1e1e; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+  .nav-drop-item:last-child { border-bottom: none; }
+  .nav-drop-item:hover, .nav-drop-item.active { color: var(--accent); background: #111; }
+  a.nav-subscribe { background: var(--accent); color: var(--ink) !important; border-right: 1px solid var(--rule); }
+  a.nav-subscribe:hover { background: var(--accent-dark) !important; color: white !important; }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; }
+  .search-wrap { position: relative; display: flex; align-items: center; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 180px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); transition: 0.2s; }
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { color: #aaa; text-decoration: none; padding: 8px 0; font-size: 13px; border-bottom: 1px solid #1a1a1a; }
+  .mobile-nav a:hover { color: var(--accent); }
+  .mob-group-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #555; padding: 12px 0 4px; }
+  .nav-drop-group { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #b8860b; text-transform: uppercase; letter-spacing: 0.15em; padding: 8px 16px 4px; cursor: default; display: block; }
+  .nav-drop-divider { border: none; border-top: 1px solid #2a2a2a; margin: 4px 0; }
+  a.nav-subscribe { font-family: 'IBM Plex Mono', monospace !important; font-size: 11px !important; font-weight: 700 !important; padding: 0 18px !important; border-radius: 2px !important; text-transform: uppercase !important; border-right: none !important; letter-spacing: 0.08em !important; }
+
+  /* FeedWatch Alert Bar */
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num { color: var(--accent); }
+  .fw-alertbar-stat.action .fw-alertbar-num { color: #5b9bd5; }
+  .fw-alertbar-next { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); text-decoration: none; border: 1px solid #3a2a10; padding: 4px 10px; margin-left: 16px; white-space: nowrap; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  /* Article layout */
+  .article-hero { background: var(--ink); color: white; padding: 56px 48px 48px; border-bottom: 3px solid var(--accent); }
+  .article-hero-inner { max-width: 1100px; margin: 0 auto; }
+  .breadcrumb { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #555; margin-bottom: 20px; }
+  .breadcrumb a { color: var(--accent); text-decoration: none; }
+  .breadcrumb span { margin: 0 8px; }
+  .article-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  .article-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3.5vw, 44px); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+  .article-hero-meta { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .article-hero-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 0.08em; }
+  .article-hero-meta-item strong { color: #aaa; }
+
+  .badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; white-space: nowrap; }
+  .badge-research { background: #0d1f40; color: #5b9bd5; }
+  .badge-data { background: #1a3300; color: #6abf6a; }
+
+  .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 9999; transition: width 0.1s; }
+
+  /* Research body */
+  .research-wrap { max-width: 1100px; margin: 0 auto; padding: 48px; }
+
+  .article-lead { font-size: 17px; line-height: 1.75; color: var(--muted); margin-bottom: 40px; border-left: 3px solid var(--accent); padding-left: 20px; }
+
+  .article-section { margin-bottom: 56px; }
+  .article-section h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .article-section p { font-size: 14px; line-height: 1.8; color: #333; margin-bottom: 14px; }
+  .article-section ul { margin-left: 20px; margin-bottom: 14px; }
+  .article-section li { font-size: 14px; line-height: 1.8; color: #333; margin-bottom: 6px; }
+
+  /* KPI row */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+  .kpi-card { background: var(--cream); border: 1px solid var(--border); border-top: 3px solid var(--accent); padding: 20px; }
+  .kpi-value { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: var(--ink); line-height: 1; margin-bottom: 6px; }
+  .kpi-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .kpi-card.green { border-top-color: #2e7d32; }
+  .kpi-card.green .kpi-value { color: #2e7d32; }
+  .kpi-card.amber { border-top-color: var(--accent); }
+  .kpi-card.grey { border-top-color: #777; }
+  .kpi-card.grey .kpi-value { color: #555; }
+
+  /* Chart containers */
+  .chart-wrap { background: var(--surface); border: 1px solid var(--border); padding: 24px; margin-bottom: 24px; }
+  .chart-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 16px; }
+  .chart-canvas-wrap { position: relative; }
+
+  /* Legend */
+  .chart-legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* Data table */
+  .data-table-wrap { overflow-x: auto; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: var(--ink); color: #aaa; font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; padding: 10px 14px; text-align: left; white-space: nowrap; }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:nth-child(even) { background: var(--cream); }
+  tbody td { padding: 10px 14px; color: #333; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  td.num { text-align: right; }
+  td.rate-high { color: #2e7d32; font-weight: 600; }
+  td.rate-mid { color: var(--accent-dark); font-weight: 600; }
+  td.rate-low { color: #c0392b; font-weight: 600; }
+
+  /* Rate bar inline */
+  .rate-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .rate-bar { height: 6px; border-radius: 2px; background: #2e7d32; flex-shrink: 0; }
+  .rate-bar.amber { background: var(--accent); }
+
+  /* Info box */
+  .info-box { background: var(--cream); border: 1px solid var(--border); border-left: 4px solid var(--accent); padding: 20px 24px; margin-bottom: 28px; }
+  .info-box-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-dark); margin-bottom: 10px; font-weight: 600; }
+  .info-box p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 8px; }
+  .info-box p:last-child { margin-bottom: 0; }
+
+  /* Methodology */
+  .method-box { background: #f0ece2; border: 1px solid var(--border); padding: 20px 24px; margin-bottom: 28px; }
+  .method-box p { font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 6px; }
+  .method-box p:last-child { margin-bottom: 0; }
+
+  @media (max-width: 900px) {
+    nav { display: none !important; }
+    .article-hero { padding: 40px 20px; }
+    .research-wrap { padding: 32px 20px; }
+    .masthead-top { padding: 16px 20px; }
+    .fw-alertbar { padding: 0 16px; }
+    .fw-alertbar-next, .fw-alertbar-cta { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+    footer { padding: 32px 20px; }
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "SEC 19b-4 SRO Rule Filings 2017–2026",
+  "description": "9,261 SRO rule filings from the Federal Register covering NYSE, Nasdaq, Cboe, IEX, MEMX, MIAX, BOX, and LTSE from January 2017 through May 2026. Classified by exchange family, filing type (immediate_effectiveness, notice_and_comment, withdrawn), and fee category.",
+  "url": "https://marketdatanews.com/research/self-certification-rates",
+  "creator": {
+    "@type": "Organization",
+    "name": "Market Data News",
+    "url": "https://marketdatanews.com"
+  },
+  "datePublished": "2026-05-25",
+  "dateModified": "2026-05-25",
+  "temporalCoverage": "2017-01-01/2026-05-25",
+  "spatialCoverage": "US",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "keywords": ["19b-4", "SRO filings", "immediate effectiveness", "exchange rules", "SEC filings", "Federal Register"],
+  "distribution": {
+    "@type": "DataDownload",
+    "encodingFormat": "application/json",
+    "contentUrl": "https://marketdatanews.com/data/sec-19b4-filings.json"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "SRO Self-Certification: How 86.5% of Exchange Rule Filings Bypass SEC Pre-Approval",
+  "description": "Data-driven analysis of 9,261 Federal Register 19b-4 filings from 2017–2026 reveals that exchanges self-certify the vast majority of rule changes, with routing fee changes achieving 100% immediate effectiveness.",
+  "url": "https://marketdatanews.com/research/self-certification-rates",
+  "datePublished": "2026-05-25",
+  "dateModified": "2026-05-25",
+  "author": { "@type": "Organization", "name": "Market Data News" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Market Data News",
+    "logo": { "@type": "ImageObject", "url": "https://marketdatanews.com/favicon.svg" }
+  },
+  "image": "https://marketdatanews.com/og-image.png?v=2"
+}
+</script>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="ticker-wrap"><div class="ticker" id="ticker">
+  <span class="ticker-item">SEC 19b-4 FILINGS STUDY &nbsp;·&nbsp; 9,261 FILINGS ANALYZED &nbsp;·&nbsp; 2017–2026</span>
+  <span class="ticker-item">IMMEDIATE EFFECTIVENESS RATE: <strong style="color:#2e7d32">86.5%</strong></span>
+  <span class="ticker-item">ROUTING FEES: <strong style="color:#2e7d32">100% SELF-CERTIFIED</strong></span>
+  <span class="ticker-item">NYSE: HIGHEST SEC REVIEW RATE AT 17.0%</span>
+  <span class="ticker-item">CAT FEES: LOWEST IE RATE AMONG FEE CATEGORIES AT 76.3%</span>
+  <span class="ticker-item">DATA SOURCE: FEDERAL REGISTER API &nbsp;·&nbsp; ALL IN-SCOPE SRO FILINGS 2017–2026</span>
+  <span class="ticker-item">SEC 19b-4 FILINGS STUDY &nbsp;·&nbsp; 9,261 FILINGS ANALYZED &nbsp;·&nbsp; 2017–2026</span>
+  <span class="ticker-item">IMMEDIATE EFFECTIVENESS RATE: <strong style="color:#2e7d32">86.5%</strong></span>
+  <span class="ticker-item">ROUTING FEES: <strong style="color:#2e7d32">100% SELF-CERTIFIED</strong></span>
+  <span class="ticker-item">NYSE: HIGHEST SEC REVIEW RATE AT 17.0%</span>
+  <span class="ticker-item">CAT FEES: LOWEST IE RATE AMONG FEE CATEGORIES AT 76.3%</span>
+  <span class="ticker-item">DATA SOURCE: FEDERAL REGISTER API &nbsp;·&nbsp; ALL IN-SCOPE SRO FILINGS 2017–2026</span>
+</div></div>
+
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="../../calendar.html" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="../../calendar.html?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span id="fw-critical-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="../../calendar.html?filter=high" class="fw-alertbar-stat high"><span id="fw-high-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">High</span></a>
+      <a href="../../calendar.html?filter=action" class="fw-alertbar-stat action"><span id="fw-action-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="../../calendar.html" class="fw-alertbar-stat total"><span id="fw-active-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span id="fw-next-deadline" class="fw-alertbar-next-val">Loading…</span>
+    </div>
+    <a href="../../calendar.html" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading...</div>
+    <a href="../../index.html" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="../../index.html" style="text-decoration:none;border-left:1px solid var(--rule);border-right:1px solid var(--rule);padding:0 10px;display:flex;align-items:center;flex-shrink:0;" title="Market Data News">
+      <img src="../../favicon.svg" alt="MDN" style="height:26px;width:26px;display:block;">
+    </a>
+    <a href="../../index.html" class="nav-item">Home</a>
+    <div class="nav-dropdown">
+      <span class="nav-item active">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <div class="nav-drop-group">Trackers</div>
+        <a href="../../calendar.html" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="../../nms.html" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="../../feed-status.html" class="nav-drop-item">Feed Status</a>
+        <a href="../../rule-filings.html" class="nav-drop-item">Rule Filings</a>
+        <a href="../../regulation.html" class="nav-drop-item">Regulation</a>
+        <a href="../../prediction-markets.html" class="nav-drop-item">Prediction Markets</a>
+        <a href="../../ai-digest.html" class="nav-drop-item">AI Digest</a>
+        <div class="nav-drop-divider"></div>
+        <div class="nav-drop-group">Research</div>
+        <a href="self-certification-rates.html" class="nav-drop-item active">Self-Certification Study</a>
+        <div class="nav-drop-divider"></div>
+        <div class="nav-drop-group">Articles</div>
+        <a href="../../articles/cme-globex-notices-2026.html" class="nav-drop-item">CME Globex Notices 2026</a>
+        <a href="../../articles/finra-slate-guide.html" class="nav-drop-item">FINRA SLATE Guide</a>
+        <a href="../../articles/index.html" class="nav-drop-item">View All Articles</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Market Structure &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="../../market-structure.html#maker-taker" class="nav-drop-item">Maker-Taker Tracker</a>
+        <a href="../../market-structure.html#dark-pools" class="nav-drop-item">ATS Dark Pool Monitor</a>
+        <a href="../../market-structure.html#new-exchanges" class="nav-drop-item">New Exchange Tracker</a>
+        <a href="../../market-structure.html" class="nav-drop-item">View All</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Tools &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="../../market-data-fees.html" class="nav-drop-item">Fee Calculator</a>
+        <a href="../../peer-groups.html" class="nav-drop-item">Peer Groups</a>
+        <a href="../../contract-intelligence.html" class="nav-drop-item">Contract Intelligence</a>
+        <a href="../../rulebook-navigator.html" class="nav-drop-item">Rulebooks</a>
+        <a href="../../execution-quality.html" class="nav-drop-item">Execution Quality</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Learn &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="../../market-ecosystem.html" class="nav-drop-item">Market Ecosystem</a>
+        <a href="../../learn.html#sip" class="nav-drop-item">How the SIP Works</a>
+        <a href="../../learn.html#opra" class="nav-drop-item">The OPRA Model</a>
+        <a href="../../learn.html#futures" class="nav-drop-item">Futures Market Data</a>
+        <a href="../../learn.html" class="nav-drop-item">View All Lessons</a>
+      </div>
+    </div>
+    <a href="../../subscribe.html" class="nav-item nav-subscribe">Subscribe →</a>
+    <div class="nav-right">
+      <div class="search-wrap">
+        <input class="search-box" type="text" placeholder="Search site..." id="search-input" autocomplete="off">
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="document.getElementById('mobileNav').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="../../index.html">Home</a>
+  <div class="mob-group-label">Intelligence</div>
+  <a href="../../calendar.html">FeedWatch Calendar</a>
+  <a href="../../nms.html">NMS / SIP Plans</a>
+  <a href="../../feed-status.html">Feed Status</a>
+  <a href="../../rule-filings.html">Rule Filings</a>
+  <a href="self-certification-rates.html">Self-Certification Study</a>
+  <div class="mob-group-label">Market Structure</div>
+  <a href="../../market-structure.html">Market Structure</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="../../market-data-fees.html">Fee Calculator</a>
+  <a href="../../peer-groups.html">Peer Groups</a>
+  <div class="mob-group-label">Learn</div>
+  <a href="../../learn.html">All Lessons</a>
+  <a href="../../subscribe.html">Subscribe</a>
+</div>
+
+<div class="article-hero">
+  <div class="article-hero-inner">
+    <div class="breadcrumb">
+      <a href="../../index.html">Home</a><span>›</span>
+      Research<span>›</span>
+      SRO Self-Certification Study
+    </div>
+    <div class="article-hero-label">
+      <span class="badge badge-research">Research</span>
+      &nbsp;
+      <span class="badge badge-data">9,261 Filings</span>
+      &nbsp;
+      <span class="badge badge-data">2017 – 2026</span>
+    </div>
+    <h1 class="article-hero-title">SRO Self-Certification Rates: How 86.5% of Exchange Rule Filings Bypass SEC Pre-Approval</h1>
+    <div class="article-hero-meta">
+      <div class="article-hero-meta-item"><strong>Published:</strong> May 25, 2026</div>
+      <div class="article-hero-meta-item"><strong>Coverage:</strong> Jan 2017 – May 2026</div>
+      <div class="article-hero-meta-item"><strong>Source:</strong> Federal Register API</div>
+      <div class="article-hero-meta-item"><strong>Exchanges:</strong> NYSE, Nasdaq, Cboe, IEX, MEMX, MIAX, BOX, LTSE</div>
+    </div>
+  </div>
+</div>
+
+<div class="research-wrap">
+
+  <p class="article-lead">Under Section 19(b)(3)(A) of the Securities Exchange Act, exchanges may designate rule changes — including virtually all fee changes — as immediately effective upon filing, without waiting for SEC approval. An analysis of 9,261 Federal Register filings from 2017 through May 2026 reveals just how thoroughly this mechanism shapes the modern regulatory pipeline: 8,008 filings (86.5%) took effect the same day they were filed.</p>
+
+  <!-- KPI Row -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-value">9,261</div>
+      <div class="kpi-label">Total In-Scope Filings</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-value">86.5%</div>
+      <div class="kpi-label">Immediate Effectiveness Rate</div>
+    </div>
+    <div class="kpi-card amber">
+      <div class="kpi-value">11.7%</div>
+      <div class="kpi-label">Require SEC Notice &amp; Comment</div>
+    </div>
+    <div class="kpi-card grey">
+      <div class="kpi-value">1.8%</div>
+      <div class="kpi-label">Withdrawn Before Effectiveness</div>
+    </div>
+  </div>
+
+  <!-- Section 1: The Rule -->
+  <div class="article-section">
+    <h2>1. The Regulatory Framework: Section 19(b)(3)(A)</h2>
+    <p>Every exchange rule change in the United States must be filed with the SEC under Section 19(b) of the Securities Exchange Act of 1934. The process has two tracks:</p>
+    <ul>
+      <li><strong>Immediate effectiveness</strong> — Under Section 19(b)(3)(A), exchanges may designate fee changes, non-controversial procedural amendments, and other specified rule changes as effective upon filing. The SEC has 60 days to abrogate, but the rule operates from day one. These appear in the Federal Register as <em>"Notice of Filing and Immediate Effectiveness."</em></li>
+      <li><strong>Notice and comment</strong> — All other rule changes, filed under Section 19(b)(2), require publication in the Federal Register, a 45-day public comment period, and SEC approval before taking effect. These are the <em>"Notice of Filing of Proposed Rule Change"</em> filings.</li>
+    </ul>
+    <div class="info-box">
+      <div class="info-box-title">Why This Matters for Market Data Professionals</div>
+      <p>Immediate-effectiveness filings are the primary mechanism by which exchanges change fees for ports, colocation, market data, and routing. When a port fee increases, subscribers typically have 30 days notice — but the SEC has already received a fait accompli. Understanding which fee categories require SEC review vs. simple notification is essential for forecasting costs and comment-letter strategy.</p>
+    </div>
+    <p>The scope of what qualifies for immediate effectiveness has been a contested area of securities law. The SEC's 2020 proposal to require a pilot period before certain fee increases could take effect — which would have curtailed immediate effectiveness for some fee categories — was withdrawn in 2023 after exchange opposition. The data below reflects the current regime.</p>
+  </div>
+
+  <!-- Section 2: Year-by-year chart -->
+  <div class="article-section">
+    <h2>2. Filing Volume and Self-Certification Rate by Year</h2>
+    <p>The overall self-certification rate trended upward from 77.9% in 2017 to 86.5% today. The 2017 figure is lower because the dataset captures a transitional period when the Bats exchanges (Cboe's predecessor) filed many structural rule changes following the Cboe acquisition of Bats Global Markets in March 2017.</p>
+    <p>The 2022 anomaly — the lowest total volume (784 filings) with the highest withdrawal count (50) — coincides with the SEC's active market structure reform agenda under Chair Gensler, when exchanges pulled several pending fee proposals amid regulatory uncertainty. Filing volume rebounded sharply in 2024 (1,112) and 2025 (1,140).</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Annual SRO Filings by Type (2017 – 2026, in-scope exchanges)</div>
+      <div class="chart-canvas-wrap" style="height:320px">
+        <canvas id="chartByYear"></canvas>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#2e7d32"></div>Immediate Effectiveness (same-day)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#b8860b"></div>Notice &amp; Comment (45-day SEC review)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#777"></div>Withdrawn</div>
+      </div>
+    </div>
+
+    <div class="data-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th class="num">Total</th>
+            <th class="num">Immediate</th>
+            <th class="num">Notice &amp; Comment</th>
+            <th class="num">Withdrawn</th>
+            <th class="num">IE Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>2017</td><td class="num">1,047</td><td class="num">816</td><td class="num">222</td><td class="num">9</td><td class="num rate-mid">77.9%</td></tr>
+          <tr><td>2018</td><td class="num">942</td><td class="num">833</td><td class="num">102</td><td class="num">7</td><td class="num rate-high">88.4%</td></tr>
+          <tr><td>2019</td><td class="num">982</td><td class="num">864</td><td class="num">96</td><td class="num">22</td><td class="num rate-high">88.0%</td></tr>
+          <tr><td>2020</td><td class="num">1,011</td><td class="num">862</td><td class="num">140</td><td class="num">9</td><td class="num rate-high">85.3%</td></tr>
+          <tr><td>2021</td><td class="num">891</td><td class="num">758</td><td class="num">123</td><td class="num">10</td><td class="num rate-high">85.1%</td></tr>
+          <tr><td>2022</td><td class="num">784</td><td class="num">688</td><td class="num">46</td><td class="num">50</td><td class="num rate-high">87.8%</td></tr>
+          <tr><td>2023</td><td class="num">822</td><td class="num">731</td><td class="num">67</td><td class="num">24</td><td class="num rate-high">88.9%</td></tr>
+          <tr><td>2024</td><td class="num">1,112</td><td class="num">1,003</td><td class="num">77</td><td class="num">32</td><td class="num rate-high">90.2%</td></tr>
+          <tr><td>2025</td><td class="num">1,140</td><td class="num">963</td><td class="num">176</td><td class="num">1</td><td class="num rate-high">84.5%</td></tr>
+          <tr><td>2026*</td><td class="num">530</td><td class="num">490</td><td class="num">36</td><td class="num">4</td><td class="num rate-high">92.5%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:-8px">* 2026 data through May 25, 2026 (partial year).</p>
+  </div>
+
+  <!-- Section 3: By exchange -->
+  <div class="article-section">
+    <h2>3. Self-Certification Rate by Exchange Group</h2>
+    <p>NYSE Group files the most notice-and-comment filings in absolute terms (409) and has the lowest immediate-effectiveness rate (82.2%) of the major exchange groups. This reflects NYSE's dominant position in listing fees and complex market structure rules — categories where the SEC more frequently requires public input. MIAX leads on self-certification at 91.7%, consistent with its newer-entrant focus on straightforward fee schedules.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Self-Certification Rate by Exchange Group</div>
+      <div class="chart-canvas-wrap" style="height:280px">
+        <canvas id="chartByFamily"></canvas>
+      </div>
+    </div>
+
+    <div class="data-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Exchange Group</th>
+            <th class="num">Total Filings</th>
+            <th class="num">Immediate</th>
+            <th class="num">Notice &amp; Comment</th>
+            <th class="num">Withdrawn</th>
+            <th class="num">IE Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Cboe</td><td class="num">2,633</td><td class="num">2,242</td><td class="num">333</td><td class="num">58</td><td class="num rate-high">85.2%</td></tr>
+          <tr><td>Nasdaq</td><td class="num">2,422</td><td class="num">2,159</td><td class="num">237</td><td class="num">26</td><td class="num rate-high">89.1%</td></tr>
+          <tr><td>NYSE</td><td class="num">2,405</td><td class="num">1,977</td><td class="num">409</td><td class="num">19</td><td class="num rate-mid">82.2%</td></tr>
+          <tr><td>MIAX</td><td class="num">1,071</td><td class="num">982</td><td class="num">46</td><td class="num">43</td><td class="num rate-high">91.7%</td></tr>
+          <tr><td>BOX</td><td class="num">252</td><td class="num">213</td><td class="num">33</td><td class="num">6</td><td class="num rate-high">84.5%</td></tr>
+          <tr><td>IEX</td><td class="num">212</td><td class="num">193</td><td class="num">18</td><td class="num">1</td><td class="num rate-high">91.0%</td></tr>
+          <tr><td>MEMX</td><td class="num">183</td><td class="num">166</td><td class="num">3</td><td class="num">14</td><td class="num rate-high">90.7%</td></tr>
+          <tr><td>LTSE</td><td class="num">83</td><td class="num">76</td><td class="num">6</td><td class="num">1</td><td class="num rate-high">91.6%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 4: By category -->
+  <div class="article-section">
+    <h2>4. Self-Certification Rate by Rule Category</h2>
+    <p>The most striking finding in the dataset is the 100% immediate-effectiveness rate for transaction (routing) fee changes. Every single one of the 202 routing fee filings in our dataset — maker-taker credits, taker fees, add/remove fee schedules — was effective the same day it was filed. Market data and general fee changes follow at 95–96% IE rates.</p>
+    <p>At the other end, listing fees have the lowest self-certification rate (69.0%), reflecting the SEC's historical scrutiny of listing standards and the competitive sensitivity of annual listing fees between NYSE and Nasdaq. CAT (Consolidated Audit Trail) funding fees also show a below-average IE rate of 76.3%, consistent with the contentious history of CAT cost allocations between exchanges and broker-dealers.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Self-Certification Rate by Fee Category</div>
+      <div class="chart-canvas-wrap" style="height:280px">
+        <canvas id="chartByCat"></canvas>
+      </div>
+    </div>
+
+    <div class="data-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th class="num">Total</th>
+            <th class="num">Immediate</th>
+            <th class="num">Notice &amp; Comment</th>
+            <th class="num">IE Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Routing / Transaction Fees</td><td class="num">202</td><td class="num">202</td><td class="num">0</td><td class="num rate-high">100.0%</td></tr>
+          <tr><td>Market Data Fees</td><td class="num">263</td><td class="num">252</td><td class="num">1</td><td class="num rate-high">95.8%</td></tr>
+          <tr><td>General Fee Changes</td><td class="num">2,748</td><td class="num">2,636</td><td class="num">56</td><td class="num rate-high">95.9%</td></tr>
+          <tr><td>Colocation Fees</td><td class="num">336</td><td class="num">318</td><td class="num">17</td><td class="num rate-high">94.6%</td></tr>
+          <tr><td>Port / Connectivity Fees</td><td class="num">437</td><td class="num">365</td><td class="num">40</td><td class="num rate-high">83.5%</td></tr>
+          <tr><td>CAT Funding Fees</td><td class="num">308</td><td class="num">235</td><td class="num">58</td><td class="num rate-mid">76.3%</td></tr>
+          <tr><td>Listing Fees</td><td class="num">116</td><td class="num">80</td><td class="num">34</td><td class="num rate-low">69.0%</td></tr>
+          <tr><td>Structural Rule Changes</td><td class="num">4,851</td><td class="num">3,920</td><td class="num">879</td><td class="num rate-mid">80.8%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box">
+      <div class="info-box-title">CAT Fee Filings: The Exception That Proves the Rule</div>
+      <p>The 308 Consolidated Audit Trail (CAT) funding fee filings stand out: 76.3% immediate effectiveness, well below the overall average. CAT budget assessments — which apportion the costs of the NMS plan across exchanges and broker-dealers — have been routinely challenged by SIFMA and large broker-dealers as excessive. The SEC has on multiple occasions issued abrogation orders or required exchanges to refile CAT fee proposals through notice-and-comment, explaining the lower self-certification rate for this category.</p>
+    </div>
+  </div>
+
+  <!-- Section 5: Methodology -->
+  <div class="article-section">
+    <h2>5. Methodology and Data Sources</h2>
+    <div class="method-box">
+      <p><strong>Data source:</strong> Federal Register API (<code>federalregister.gov/api/v1</code>), filtered for SEC agency + "self-regulatory organizations" term, 2017-01-01 through 2026-05-25.</p>
+      <p><strong>In-scope exchanges:</strong> NYSE Group (NYSE, NYSE Arca, NYSE American, NYSE National, NYSE Chicago, NYSE Texas), Nasdaq Group (Nasdaq, Nasdaq BX, Phlx, ISE, ISE Mercury/Gemini, GEMX, MRX, NasdaqTX), Cboe Group (Cboe, C2, BZX, BYX, EDGA, EDGX, CFE, Bats legacy), IEX, MEMX, MIAX Group (MIAX, PEARL, Emerald, Sapphire), BOX, LTSE.</p>
+      <p><strong>Excluded:</strong> FINRA (280), OCC/NSCC/DTC/FICC clearinghouses (616), ICEEU (143), ICC (108), MSRB (73), LCH SA (69), NFA (5), and 24X/TXSE new entrants not yet operational (37). Total excluded: 1,349.</p>
+      <p><strong>Classification:</strong> Filing type determined by title keyword matching (immediate_effectiveness / notice_and_comment / withdrawn). Category assigned by rule-based pattern matching against filing titles: routing fees (rebate/taker/maker-taker/transaction), port fees (port fee/connectivity/VCC), colocation (co-location/cabinet/rack), market data (ITCH/PITCH/data fee/OPRA), CAT fees (CAT/consolidated audit trail), listing fees, and structural rule changes.</p>
+      <p><strong>Limitations:</strong> Category classification is title-based and may misclassify filings with non-standard titling conventions. The 2026 data covers only through May 25 (partial year). Effective dates for notice-and-comment filings are not captured in this dataset.</p>
+    </div>
+    <p>The underlying dataset — 10,610 total SRO filings including out-of-scope entries — is available as a JSON export. The SQLite database is maintained locally and updated via incremental re-scrape.</p>
+    <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;">
+      <a href="../../rule-filings.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--ink);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:11px;text-decoration:none;transition:background 0.15s;">Live Rule Filings Tracker →</a>
+      <a href="../../nms.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--cream);color:var(--ink);border:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:11px;text-decoration:none;transition:background 0.15s;">NMS Plan Governance →</a>
+    </div>
+  </div>
+
+</div><!-- /research-wrap -->
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">Free intelligence for market data professionals — exchange notices, NMS plans, SIP feeds, fee benchmarks, and regulatory deadlines.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Intelligence</h4>
+      <a href="../../calendar.html">FeedWatch Calendar</a>
+      <a href="../../nms.html">NMS / SIP Plans</a>
+      <a href="../../feed-status.html">Feed Status</a>
+      <a href="../../rule-filings.html">Rule Filings</a>
+      <a href="../../ai-digest.html">AI Digest</a>
+    </div>
+    <div class="footer-col">
+      <h4>Research</h4>
+      <a href="self-certification-rates.html">Self-Certification Study</a>
+      <a href="../../articles/finra-slate-guide.html">FINRA SLATE Guide</a>
+      <a href="../../articles/index.html">All Articles</a>
+    </div>
+    <div class="footer-col">
+      <h4>Learn</h4>
+      <a href="../../market-ecosystem.html">Market Ecosystem</a>
+      <a href="../../learn.html">All Lessons</a>
+      <a href="../../subscribe.html">Subscribe</a>
+      <a href="../../about.html">About</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Market Data News. For informational purposes only.</span>
+    <span>Data: Federal Register API · Updated May 25, 2026</span>
+  </div>
+</footer>
+
+<script>
+// Date line
+const now = new Date();
+document.getElementById('dateLine').textContent = now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}).toUpperCase();
+
+// Progress bar
+window.addEventListener('scroll', () => {
+  const el = document.getElementById('progressBar');
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  el.style.width = Math.min(pct, 100) + '%';
+});
+
+// Mobile bar show/hide
+const mobileBar = document.getElementById('mobileBar');
+if (window.innerWidth <= 900) mobileBar.style.display = 'flex';
+window.addEventListener('resize', () => {
+  mobileBar.style.display = window.innerWidth <= 900 ? 'flex' : 'none';
+});
+
+// Chart.js defaults
+Chart.defaults.font.family = "'IBM Plex Mono', monospace";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#6b6555';
+
+// ── Chart 1: Filings by year (stacked bar) ──────────────────────────────────
+const yearData = {
+  labels: ['2017','2018','2019','2020','2021','2022','2023','2024','2025','2026*'],
+  ie:  [816, 833, 864, 862, 758, 688, 731, 1003, 963, 490],
+  nc:  [222, 102,  96, 140, 123,  46,  67,   77, 176,  36],
+  wd:  [  9,   7,  22,   9,  10,  50,  24,   32,   1,   4],
+};
+
+new Chart(document.getElementById('chartByYear'), {
+  type: 'bar',
+  data: {
+    labels: yearData.labels,
+    datasets: [
+      { label: 'Immediate Effectiveness', data: yearData.ie, backgroundColor: '#2e7d32', stack: 'a' },
+      { label: 'Notice & Comment',        data: yearData.nc, backgroundColor: '#b8860b', stack: 'a' },
+      { label: 'Withdrawn',               data: yearData.wd, backgroundColor: '#777777', stack: 'a' },
+    ],
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: {
+      callbacks: {
+        footer: (items) => {
+          const total = items.reduce((s, i) => s + i.raw, 0);
+          const ie = items[0]?.raw || 0;
+          return `IE Rate: ${(ie/total*100).toFixed(1)}%`;
+        }
+      }
+    }},
+    scales: {
+      x: { stacked: true, grid: { display: false } },
+      y: { stacked: true, grid: { color: '#e8e0d0' }, beginAtZero: true,
+           title: { display: true, text: 'Filings', color: '#6b6555' } },
+    },
+  },
+});
+
+// ── Chart 2: IE rate by exchange (horizontal bar) ────────────────────────────
+const familyData = {
+  labels: ['NYSE','BOX','Cboe','Nasdaq','MEMX','IEX','LTSE','MIAX'],
+  rates:  [82.2, 84.5, 85.2, 89.1, 90.7, 91.0, 91.6, 91.7],
+};
+
+new Chart(document.getElementById('chartByFamily'), {
+  type: 'bar',
+  data: {
+    labels: familyData.labels,
+    datasets: [{
+      data: familyData.rates,
+      backgroundColor: familyData.rates.map(r => r < 85 ? '#b8860b' : '#2e7d32'),
+      borderRadius: 2,
+    }],
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: {
+      callbacks: { label: (c) => ` ${c.raw.toFixed(1)}% immediate effectiveness` }
+    }},
+    scales: {
+      x: { min: 75, max: 100, grid: { color: '#e8e0d0' },
+           title: { display: true, text: 'Immediate Effectiveness Rate (%)', color: '#6b6555' } },
+      y: { grid: { display: false } },
+    },
+  },
+});
+
+// ── Chart 3: IE rate by category (horizontal bar) ────────────────────────────
+const catData = {
+  labels:  ['Routing / Tx Fees','Market Data Fees','General Fee Changes','Colocation Fees','Structural Rules','Port / Connectivity','CAT Funding Fees','Listing Fees'],
+  rates:   [100.0, 95.8, 95.9, 94.6, 80.8, 83.5, 76.3, 69.0],
+};
+
+new Chart(document.getElementById('chartByCat'), {
+  type: 'bar',
+  data: {
+    labels: catData.labels,
+    datasets: [{
+      data: catData.rates,
+      backgroundColor: catData.rates.map(r => r >= 90 ? '#2e7d32' : r >= 80 ? '#b8860b' : '#c0392b'),
+      borderRadius: 2,
+    }],
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: {
+      callbacks: { label: (c) => ` ${c.raw.toFixed(1)}% immediate effectiveness` }
+    }},
+    scales: {
+      x: { min: 60, max: 100, grid: { color: '#e8e0d0' },
+           title: { display: true, text: 'Immediate Effectiveness Rate (%)', color: '#6b6555' } },
+      y: { grid: { display: false } },
+    },
+  },
+});
+
+// FeedWatch bar (best-effort, non-blocking)
+(async () => {
+  try {
+    const r = await fetch('/.netlify/functions/get-content?keys=feedwatch-digest');
+    if (!r.ok) return;
+    const d = await r.json();
+    const fw = d['feedwatch-digest'];
+    if (!fw) return;
+    const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    if (fw.criticalCount !== undefined) setEl('fw-critical-count', fw.criticalCount);
+    if (fw.highCount !== undefined) setEl('fw-high-count', fw.highCount);
+    if (fw.actionCount !== undefined) setEl('fw-action-count', fw.actionCount);
+    if (fw.activeCount !== undefined) setEl('fw-active-count', fw.activeCount);
+    if (fw.nextDeadline) setEl('fw-next-deadline', fw.nextDeadline);
+  } catch {}
+})();
+</script>
+</body>
+</html>
