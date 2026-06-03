@@ -145,6 +145,19 @@
   .footer-col a:hover { color: var(--accent); }
   .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
 
+  /* Subscription section */
+  .sub-section { margin-top: 4px; }
+  .sub-status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+  .sub-status-badge { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 8px; border-radius: 2px; }
+  .sub-status-badge.active { background: #d4edda; color: #2a7a50; }
+  .sub-status-badge.cancelled { background: #f8d7da; color: #c0392b; }
+  .sub-status-badge.none { background: var(--paper); color: var(--muted); border: 1px solid var(--border); }
+  .manage-btn { display: block; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; background: transparent; color: var(--ink); border: 1px solid var(--ink); padding: 11px 20px; cursor: pointer; transition: all 0.15s; width: 100%; margin-bottom: 12px; }
+  .manage-btn:hover:not(:disabled) { background: var(--ink); color: var(--accent); }
+  .manage-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .subscribe-cta { display: block; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; background: var(--accent); color: var(--ink); text-decoration: none; padding: 13px 20px; transition: background 0.15s; margin-bottom: 12px; }
+  .subscribe-cta:hover { background: var(--accent-dark); color: white; }
+
   /* Responsive */
   @media (max-width: 900px) {
     nav { display: none !important; }
@@ -330,7 +343,20 @@
             <div class="account-field-label">Signed in as</div>
             <div class="account-field-value" id="user-email"></div>
           </div>
-          <!-- Phase 2: subscription status will go here -->
+          <!-- Subscription status -->
+          <hr class="account-divider">
+          <div class="sub-section" id="sub-section">
+            <div class="account-field-label">Subscription</div>
+            <div class="account-field-value" style="margin-bottom:12px">
+              <span id="sub-status-badge" class="sub-status-badge none">Loading…</span>
+              <span id="sub-plan" style="font-size:12px;color:var(--muted);margin-left:6px"></span>
+            </div>
+            <div id="sub-renewal" class="account-field-label" style="margin-bottom:16px"></div>
+            <!-- Shown when active -->
+            <button id="manage-btn" class="manage-btn" style="display:none">Manage Subscription →</button>
+            <!-- Shown when no active subscription -->
+            <a id="subscribe-cta" href="/subscribe" class="subscribe-cta" style="display:none">Subscribe to Pro →</a>
+          </div>
           <hr class="account-divider">
           <button id="logout-btn" class="logout-btn">Sign Out</button>
         </div>
@@ -405,38 +431,119 @@ function toggleMobileNav() {
 <script type="module">
 import { supabase } from './supabase-client.js'
 
-const loadingView  = document.getElementById('loading-view')
-const loggedInView = document.getElementById('logged-in-view')
+const loadingView   = document.getElementById('loading-view')
+const loggedInView  = document.getElementById('logged-in-view')
 const loggedOutView = document.getElementById('logged-out-view')
-const userEmailEl  = document.getElementById('user-email')
-const logoutBtn    = document.getElementById('logout-btn')
-const heroSub      = document.getElementById('hero-sub')
-const cardLabel    = document.getElementById('card-label')
-const statusDot    = document.getElementById('status-dot')
+const userEmailEl   = document.getElementById('user-email')
+const logoutBtn     = document.getElementById('logout-btn')
+const heroSub       = document.getElementById('hero-sub')
+const cardLabel     = document.getElementById('card-label')
+const statusDot     = document.getElementById('status-dot')
+
+// Subscription elements
+const subStatusBadge = document.getElementById('sub-status-badge')
+const subPlan        = document.getElementById('sub-plan')
+const subRenewal     = document.getElementById('sub-renewal')
+const manageBtn      = document.getElementById('manage-btn')
+const subscribeCta   = document.getElementById('subscribe-cta')
 
 function showLoggedIn(session) {
   userEmailEl.textContent = session.user.email
   heroSub.textContent = 'You are signed in.'
   cardLabel.textContent = 'Signed In'
   statusDot.classList.add('online')
-  loadingView.style.display  = 'none'
-  loggedInView.style.display = 'block'
+  loadingView.style.display   = 'none'
+  loggedInView.style.display  = 'block'
   loggedOutView.style.display = 'none'
+  loadSubscription(session.user.email)
 }
 
 function showLoggedOut() {
   heroSub.textContent = 'You are not signed in.'
   cardLabel.textContent = 'Not Signed In'
   statusDot.classList.remove('online')
-  loadingView.style.display  = 'none'
-  loggedInView.style.display = 'none'
+  loadingView.style.display   = 'none'
+  loggedInView.style.display  = 'none'
   loggedOutView.style.display = 'block'
 }
 
-// onAuthStateChange fires for both:
-//   - existing session (page reload)  → event = 'INITIAL_SESSION'
-//   - magic-link arrival              → event = 'SIGNED_IN'
-//   - sign-out                        → event = 'SIGNED_OUT'
+async function loadSubscription(email) {
+  try {
+    const res = await fetch('/.netlify/functions/get-subscription', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    })
+    const sub = await res.json()
+
+    if (sub.subscribed && sub.subscription_status === 'active') {
+      subStatusBadge.textContent = 'Active'
+      subStatusBadge.className = 'sub-status-badge active'
+      subPlan.textContent = sub.plan === 'founding_team' ? 'Founding Team' : sub.plan || ''
+      if (sub.current_period_end) {
+        const renewDate = new Date(sub.current_period_end).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+        subRenewal.textContent = 'Renews ' + renewDate
+      }
+      manageBtn.style.display = 'block'
+      manageBtn.dataset.customerId = sub.stripe_customer_id
+      subscribeCta.style.display = 'none'
+    } else if (sub.subscription_status === 'cancelled') {
+      subStatusBadge.textContent = 'Cancelled'
+      subStatusBadge.className = 'sub-status-badge cancelled'
+      subPlan.textContent = ''
+      subRenewal.textContent = ''
+      manageBtn.style.display = 'none'
+      subscribeCta.style.display = 'block'
+    } else {
+      subStatusBadge.textContent = 'No subscription'
+      subStatusBadge.className = 'sub-status-badge none'
+      subPlan.textContent = ''
+      subRenewal.textContent = ''
+      manageBtn.style.display = 'none'
+      subscribeCta.style.display = 'block'
+    }
+
+    // ?paid=1 on URL means they just came back from successful checkout
+    if (new URLSearchParams(window.location.search).get('paid') === '1') {
+      heroSub.textContent = 'Subscription confirmed — welcome aboard.'
+    }
+  } catch (e) {
+    subStatusBadge.textContent = 'Unavailable'
+    subStatusBadge.className = 'sub-status-badge none'
+    console.error('get-subscription error:', e)
+  }
+}
+
+manageBtn.addEventListener('click', async () => {
+  const customerId = manageBtn.dataset.customerId
+  if (!customerId) return
+  manageBtn.textContent = 'Loading…'
+  manageBtn.disabled = true
+  try {
+    const res = await fetch('/.netlify/functions/portal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ stripe_customer_id: customerId }),
+    })
+    const data = await res.json()
+    if (data.url) {
+      window.location.href = data.url
+    } else {
+      alert('Could not open billing portal: ' + (data.error || 'unknown error'))
+      manageBtn.textContent = 'Manage Subscription →'
+      manageBtn.disabled = false
+    }
+  } catch (e) {
+    alert('Error connecting to billing portal. Please try again.')
+    manageBtn.textContent = 'Manage Subscription →'
+    manageBtn.disabled = false
+  }
+})
+
+// onAuthStateChange fires for:
+//   - existing session on reload  → INITIAL_SESSION
+//   - magic-link arrival          → SIGNED_IN
+//   - sign-out                    → SIGNED_OUT
 supabase.auth.onAuthStateChange((event, session) => {
   if (session) {
     showLoggedIn(session)
@@ -449,7 +556,7 @@ logoutBtn.addEventListener('click', async () => {
   logoutBtn.disabled = true
   logoutBtn.textContent = 'Signing out…'
   await supabase.auth.signOut()
-  // onAuthStateChange will fire SIGNED_OUT and call showLoggedOut()
+  // onAuthStateChange fires SIGNED_OUT → showLoggedOut()
 })
 </script>
 

@@ -446,15 +446,17 @@
         <li><span class="sub-card-check">✓</span> All free tools included</li>
       </ul>
       <hr class="sub-card-divider">
+      <!-- Auth state message -->
+      <div id="auth-msg" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:12px;min-height:16px;"></div>
       <div class="sub-card-label">Your work email</div>
       <input class="sub-input" type="email" id="email" placeholder="your@firm.com" autocomplete="email">
-      <button class="sub-btn" id="checkout-btn" onclick="startCheckout()">START SUBSCRIPTION →</button>
+      <button class="sub-btn" id="checkout-btn">START SUBSCRIPTION →</button>
       <div class="sub-secure">
         <span class="sub-secure-icon">🔒</span>
         <span>Secured by Stripe</span>
       </div>
       <div class="sub-fine">
-        Cancel anytime. No contracts. Billed monthly.<br>
+        Cancel anytime. No contracts. Billed annually.<br>
         Questions? <a href="mailto:hello@marketdatanews.com">hello@marketdatanews.com</a>
       </div>
     </div>
@@ -539,32 +541,62 @@ function toggleMobileNav() {
   window.addEventListener('resize', check);
 })();
 
-async function startCheckout() {
-  const email = document.getElementById('email').value;
-  const btn = document.getElementById('checkout-btn');
-  btn.textContent = 'Loading...';
-  btn.disabled = true;
+// startCheckout is now handled by the module script below
+</script>
+<script type="module">
+import { supabase } from './supabase-client.js'
+
+const emailInput  = document.getElementById('email')
+const checkoutBtn = document.getElementById('checkout-btn')
+const authMsg     = document.getElementById('auth-msg')
+
+let sessionEmail = null
+
+// Check auth state on load
+supabase.auth.getSession().then(({ data: { session } }) => {
+  if (session) {
+    sessionEmail = session.user.email
+    emailInput.value = sessionEmail
+    emailInput.readOnly = true
+    emailInput.style.color = 'var(--muted)'
+    authMsg.textContent = 'Signed in as ' + sessionEmail
+  } else {
+    authMsg.innerHTML = 'You\'ll be asked to <a href="/login" style="color:var(--accent-dark)">sign in</a> before checkout.'
+  }
+})
+
+checkoutBtn.addEventListener('click', async () => {
+  // Enforce login before checkout
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session) {
+    window.location.href = '/login?return=/subscribe'
+    return
+  }
+
+  const email = session.user.email
+  checkoutBtn.textContent = 'Loading…'
+  checkoutBtn.disabled = true
 
   try {
     const res = await fetch('/.netlify/functions/create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    });
-    const data = await res.json();
+      body: JSON.stringify({ email }),
+    })
+    const data = await res.json()
     if (data.url) {
-      window.location.href = data.url;
+      window.location.href = data.url
     } else {
-      alert('Error: ' + (data.error || 'Please try again'));
-      btn.textContent = 'START SUBSCRIPTION →';
-      btn.disabled = false;
+      alert('Error: ' + (data.error || 'Please try again'))
+      checkoutBtn.textContent = 'START SUBSCRIPTION →'
+      checkoutBtn.disabled = false
     }
-  } catch(e) {
-    alert('Error connecting to payment processor. Please try again.');
-    btn.textContent = 'START SUBSCRIPTION →';
-    btn.disabled = false;
+  } catch (e) {
+    alert('Error connecting to payment processor. Please try again.')
+    checkoutBtn.textContent = 'START SUBSCRIPTION →'
+    checkoutBtn.disabled = false
   }
-}
+})
 </script>
 <script src="search-global.js"></script>
 <script src="chat-widget.js"></script>

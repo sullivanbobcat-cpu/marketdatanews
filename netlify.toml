@@ -64,7 +64,7 @@
   included_files = []
 
 [functions."stripe-webhook"]
-  included_files = ["node_modules/stripe/**"]
+  included_files = ["node_modules/stripe/**", "node_modules/@supabase/**"]
 
 [functions."fed-policy-tweet"]
   schedule = "0 13 * * 1-5"
