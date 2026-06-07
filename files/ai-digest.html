@@ -141,21 +141,32 @@
   .digest-card-date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); font-weight: 600; letter-spacing: 0.06em; white-space: nowrap; padding: 0 8px; background: rgba(184,134,11,0.08); border-radius: 2px; }
   .digest-card-line { flex: 1; height: 1px; background: var(--rule); min-width: 0; }
   .digest-card-ts { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); white-space: nowrap; }
-  .digest-card-body { padding: 28px 32px; overflow: hidden; word-break: break-word; overflow-wrap: break-word; }
+  .digest-card-body { padding: 28px 32px; overflow: hidden; min-width: 0; }
 
   /* ── AI CONTENT ── */
-  .ai-content { font-size: 13px; line-height: 1.8; color: var(--muted); overflow: hidden; word-break: break-word; overflow-wrap: break-word; }
-  .ai-content h1 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); margin: 0 0 16px; }
-  .ai-content h2, .ai-content h3 { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink); margin: 20px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
-  .ai-content ul { padding-left: 20px; margin: 8px 0 16px; }
-  .ai-content li { margin-bottom: 8px; }
-  .ai-content p { margin-bottom: 12px; }
-  .ai-content strong { color: var(--ink); font-weight: 600; }
-  .ai-content a { color: var(--accent-dark); text-decoration: none; border-bottom: 1px solid var(--rule); overflow-wrap: break-word; word-break: break-all; }
-  .ai-content a:hover { color: var(--ink); }
-  .ai-content table { width: 100%; table-layout: fixed; border-collapse: collapse; }
-  .ai-content td, .ai-content th { overflow-wrap: break-word; word-break: break-word; }
-  .ai-content pre, .ai-content code { white-space: pre-wrap; word-break: break-all; }
+  /* All elements inside AI content are strictly contained — the AI can generate
+     arbitrary HTML with inline styles; we override everything to prevent overflow. */
+  .ai-content { font-size: 13px; line-height: 1.8; color: var(--muted); overflow: hidden; min-width: 0; }
+  .ai-content * { max-width: 100% !important; box-sizing: border-box !important; word-break: break-word !important; overflow-wrap: break-word !important; }
+  /* Override any inline colors/fonts the AI might inject */
+  .ai-content h1 { font-family: 'Playfair Display', serif !important; font-size: 20px !important; font-weight: 700 !important; color: var(--ink) !important; margin: 0 0 16px !important; }
+  .ai-content h2, .ai-content h3 { font-family: 'IBM Plex Sans', sans-serif !important; font-size: 11px !important; font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: 0.12em !important; color: var(--ink) !important; margin: 20px 0 10px !important; padding-bottom: 6px !important; border-bottom: 1px solid var(--border) !important; background: none !important; }
+  .ai-content h4, .ai-content h5, .ai-content h6 { font-family: 'IBM Plex Sans', sans-serif !important; font-size: 11px !important; font-weight: 700 !important; color: var(--ink) !important; margin: 16px 0 8px !important; background: none !important; }
+  .ai-content ul, .ai-content ol { padding-left: 20px !important; margin: 8px 0 16px !important; }
+  .ai-content li { margin-bottom: 8px !important; }
+  .ai-content p { margin-bottom: 12px !important; }
+  .ai-content strong, .ai-content b { color: var(--ink) !important; font-weight: 600 !important; }
+  .ai-content a { color: var(--accent-dark) !important; text-decoration: none !important; border-bottom: 1px solid var(--rule) !important; }
+  .ai-content a:hover { color: var(--ink) !important; }
+  /* Tables — fixed layout prevents any column from blowing out */
+  .ai-content table { width: 100% !important; table-layout: fixed !important; border-collapse: collapse !important; }
+  .ai-content td, .ai-content th { overflow-wrap: break-word !important; word-break: break-word !important; padding: 6px 8px !important; }
+  /* Pre / code — wrap instead of scroll */
+  .ai-content pre, .ai-content code { white-space: pre-wrap !important; word-break: break-all !important; max-width: 100% !important; overflow: hidden !important; }
+  /* Nuke any divs/sections the AI wraps content in with fixed widths or colored backgrounds */
+  .ai-content div, .ai-content section, .ai-content article, .ai-content aside { max-width: 100% !important; overflow: hidden !important; }
+  /* Strip inline notice/alert boxes the AI generates */
+  .ai-content div[style], .ai-content p[style], .ai-content span[style] { background: none !important; border: none !important; border-left: 3px solid var(--rule) !important; padding-left: 10px !important; color: var(--muted) !important; }
 
   /* Fee alerts */
   .fee-alert-list { display: flex; flex-direction: column; gap: 0; }
