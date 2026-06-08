@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
-<link rel="alternate icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="/favicon.png" sizes="180x180">
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#0d0d0d">
@@ -27,8 +26,6 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@MDNintelligence">
 <meta name="twitter:image" content="https://marketdatanews.com/og-image.png?v=2">
-<meta name="twitter:title" content="FeedWatch AI Digest | Market Data News">
-<meta name="twitter:description" content="AI-generated daily digest of regulatory notices, exchange updates, and market data infrastructure changes.">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -115,61 +112,49 @@
   .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
   .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
 
-  /* Page hero */
+  /* Page hero — identical to account.html */
   .page-hero { background: var(--cream); border-bottom: 2px solid var(--ink); padding: 36px 48px 32px; }
   .page-hero-inner { max-width: 1280px; margin: 0 auto; }
   .page-hero-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-dark); margin-bottom: 10px; }
   .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(26px, 3.5vw, 42px); font-weight: 900; line-height: 1.15; margin-bottom: 12px; color: var(--ink); }
   .page-hero h1 span { color: var(--accent); }
-  .page-hero-sub { font-size: 14px; line-height: 1.7; color: var(--muted); max-width: 700px; }
+  .page-hero-sub { font-size: 14px; line-height: 1.7; color: var(--muted); max-width: 600px; }
 
-  /* ── PAGE CONTAINER ── */
-  .page-container { padding: 40px 48px 64px; }
+  /* Page container — identical to account.html */
+  .page-container { max-width: 1280px; margin: 0 auto; padding: 40px 48px 64px; }
 
-  /* ── DIGEST LAYOUT: stack vertically, full-width per row ── */
-  /* Row 1: main AI digest — full width */
-  .digest-main-card { background: var(--surface); border: 1px solid var(--border); margin-bottom: 32px; }
+  /* Digest card layout — row 1 full width, row 2 two-up */
+  .digest-main-card { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--ink); margin-bottom: 32px; }
+  .digest-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+  .digest-side-card { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--ink); }
 
-  /* Row 2: two cards side by side */
-  .digest-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-  .digest-side-card { background: var(--surface); border: 1px solid var(--border); }
-
-  /* ── CARD CHROME ── */
-  .digest-card-head { display: flex; align-items: center; gap: 12px; padding: 16px 24px; border-bottom: 2px solid var(--ink); background: var(--cream); }
-  .digest-card-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.1em; }
-  .digest-card-title { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink); white-space: nowrap; }
-  .digest-card-date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); font-weight: 600; letter-spacing: 0.06em; white-space: nowrap; padding: 0 8px; background: rgba(184,134,11,0.08); border-radius: 2px; }
+  /* Card chrome */
+  .digest-card-head { display: flex; align-items: center; gap: 12px; padding: 16px 24px; border-bottom: 1px solid var(--border); background: var(--cream); }
+  .digest-card-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.1em; flex-shrink: 0; }
+  .digest-card-title { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink); white-space: nowrap; flex-shrink: 0; }
+  .digest-card-date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); font-weight: 600; letter-spacing: 0.06em; white-space: nowrap; padding: 0 8px; background: rgba(184,134,11,0.08); border-radius: 2px; flex-shrink: 0; }
   .digest-card-line { flex: 1; height: 1px; background: var(--rule); min-width: 0; }
-  .digest-card-ts { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); white-space: nowrap; }
-  .digest-card-body { padding: 28px 32px; overflow: hidden; min-width: 0; }
+  .digest-card-ts { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+  .digest-card-body { padding: 28px 32px; overflow: hidden; }
 
-  /* ── AI CONTENT ── */
-  /* All elements inside AI content are strictly contained — the AI can generate
-     arbitrary HTML with inline styles; we override everything to prevent overflow. */
-  .ai-content { font-size: 13px; line-height: 1.8; color: var(--muted); overflow: hidden; min-width: 0; }
-  .ai-content * { max-width: 100% !important; box-sizing: border-box !important; word-break: break-word !important; overflow-wrap: break-word !important; }
-  /* Override any inline colors/fonts the AI might inject */
-  .ai-content h1 { font-family: 'Playfair Display', serif !important; font-size: 20px !important; font-weight: 700 !important; color: var(--ink) !important; margin: 0 0 16px !important; }
-  .ai-content h2, .ai-content h3 { font-family: 'IBM Plex Sans', sans-serif !important; font-size: 11px !important; font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: 0.12em !important; color: var(--ink) !important; margin: 20px 0 10px !important; padding-bottom: 6px !important; border-bottom: 1px solid var(--border) !important; background: none !important; }
-  .ai-content h4, .ai-content h5, .ai-content h6 { font-family: 'IBM Plex Sans', sans-serif !important; font-size: 11px !important; font-weight: 700 !important; color: var(--ink) !important; margin: 16px 0 8px !important; background: none !important; }
-  .ai-content ul, .ai-content ol { padding-left: 20px !important; margin: 8px 0 16px !important; }
-  .ai-content li { margin-bottom: 8px !important; }
-  .ai-content p { margin-bottom: 12px !important; }
-  .ai-content strong, .ai-content b { color: var(--ink) !important; font-weight: 600 !important; }
-  .ai-content a { color: var(--accent-dark) !important; text-decoration: none !important; border-bottom: 1px solid var(--rule) !important; }
-  .ai-content a:hover { color: var(--ink) !important; }
-  /* Tables — fixed layout prevents any column from blowing out */
-  .ai-content table { width: 100% !important; table-layout: fixed !important; border-collapse: collapse !important; }
-  .ai-content td, .ai-content th { overflow-wrap: break-word !important; word-break: break-word !important; padding: 6px 8px !important; }
-  /* Pre / code — wrap instead of scroll */
-  .ai-content pre, .ai-content code { white-space: pre-wrap !important; word-break: break-all !important; max-width: 100% !important; overflow: hidden !important; }
-  /* Nuke any divs/sections the AI wraps content in with fixed widths or colored backgrounds */
-  .ai-content div, .ai-content section, .ai-content article, .ai-content aside { max-width: 100% !important; overflow: hidden !important; }
-  /* Strip inline notice/alert boxes the AI generates */
-  .ai-content div[style], .ai-content p[style], .ai-content span[style] { background: none !important; border: none !important; border-left: 3px solid var(--rule) !important; padding-left: 10px !important; color: var(--muted) !important; }
+  /* AI content — normalize AI-generated HTML, prevent overflow */
+  .ai-content { font-size: 13px; line-height: 1.8; color: var(--muted); overflow: hidden; }
+  .ai-content h1 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--ink); margin: 0 0 16px; }
+  .ai-content h2, .ai-content h3, .ai-content h4 { font-family: 'IBM Plex Sans', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink); margin: 20px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); background: none; }
+  .ai-content p { margin-bottom: 12px; }
+  .ai-content ul, .ai-content ol { padding-left: 20px; margin: 8px 0 16px; }
+  .ai-content li { margin-bottom: 8px; }
+  .ai-content strong, .ai-content b { color: var(--ink); font-weight: 600; }
+  .ai-content a { color: var(--accent-dark); text-decoration: none; word-break: break-word; }
+  .ai-content table { width: 100%; table-layout: fixed; border-collapse: collapse; }
+  .ai-content td, .ai-content th { padding: 6px 8px; word-break: break-word; overflow-wrap: break-word; }
+  .ai-content pre, .ai-content code { white-space: pre-wrap; word-break: break-all; max-width: 100%; display: block; overflow: hidden; }
+  /* Contain any div the AI generates — no fixed widths, no colored backgrounds */
+  .ai-content div { max-width: 100%; overflow: hidden; background: none; color: inherit; border: none; padding: 0; }
+  .ai-content span { color: inherit; background: none; }
 
   /* Fee alerts */
-  .fee-alert-list { display: flex; flex-direction: column; gap: 0; }
+  .fee-alert-list { display: flex; flex-direction: column; }
   .fee-alert-item { padding: 14px 0; border-bottom: 1px solid var(--border); }
   .fee-alert-item:last-child { border-bottom: none; }
   .fee-alert-exchange { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; color: var(--accent-dark); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
@@ -220,22 +205,6 @@
     .footer-grid { grid-template-columns: 1fr; }
   }
 </style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Market Data News",
-  "url": "https://marketdatanews.com",
-  "logo": {
-    "@type": "ImageObject",
-    "url": "https://marketdatanews.com/favicon.svg",
-    "width": 512,
-    "height": 512
-  },
-  "sameAs": ["https://twitter.com/MDNintelligence"],
-  "description": "Free intelligence platform for market data professionals. Exchange notices, NMS plans, SIP feeds, fee benchmarks and regulatory deadlines."
-}
-</script>
 </head>
 <body>
 
@@ -413,10 +382,9 @@
     </div>
   </div>
 
-  <!-- Row 2: Fee Monitor + Regulatory Roundup side by side -->
+  <!-- Row 2: Fee Monitor + Regulatory Roundup -->
   <div class="digest-row2">
 
-    <!-- Card 2: Fee Change Monitor -->
     <div class="digest-side-card">
       <div class="digest-card-head">
         <span class="digest-card-num">02</span>
@@ -432,7 +400,6 @@
       </div>
     </div>
 
-    <!-- Card 3: Weekly Regulatory Roundup -->
     <div class="digest-side-card">
       <div class="digest-card-head">
         <span class="digest-card-num">03</span>
@@ -452,7 +419,7 @@
       </div>
     </div>
 
-  </div><!-- end digest-row2 -->
+  </div>
 
 </div><!-- end page-container -->
 
@@ -490,7 +457,6 @@
 </footer>
 
 <script>
-// Date line
 (function() {
   var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -513,8 +479,7 @@ function toggleMobileNav() {
 
 function fmt(iso) {
   if (!iso) return '';
-  var d = new Date(iso);
-  return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+  return new Date(iso).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
 }
 
 function renderDigest(fw) {
@@ -539,7 +504,7 @@ function triggerRegen() {
     .then(function(fresh) { renderDigest(fresh); })
     .catch(function(err) {
       console.warn('[ai-digest] Regen failed:', err.message);
-      if (digestTs) digestTs.textContent = 'Regen failed — will retry at 6am ET';
+      if (document.getElementById('digestTs')) document.getElementById('digestTs').textContent = 'Regen failed — will retry at 6am ET';
     });
 }
 
@@ -549,14 +514,14 @@ async function loadContent() {
     if (!res.ok) throw new Error('HTTP ' + res.status);
     var data = await res.json();
 
-    // ── Card 1: Daily Digest ──
+    // Card 1: Daily Digest
     if (data.feedwatch && data.feedwatch.stale) {
       triggerRegen();
     } else {
       renderDigest(data.feedwatch);
     }
 
-    // ── Card 2: Fee Monitor ──
+    // Card 2: Fee Monitor
     var feeTs   = document.getElementById('feeTs');
     var feeBody = document.getElementById('feeBody');
     var fee = data.feeAlerts;
@@ -569,9 +534,7 @@ async function loadContent() {
           '<div class="fee-alert-meta">' + (c.description || '') + (c.effectiveDate ? ' &nbsp;·&nbsp; Effective: ' + c.effectiveDate : '') + '</div>' +
         '</div>';
       }).join('');
-      feeBody.innerHTML = '<div class="badge-change">⚠ ' + fee.changes.length + ' Change' + (fee.changes.length > 1 ? 's' : '') + ' Detected</div>' +
-        '<div class="fee-alert-list fade-in">' + itemsHtml + '</div>' +
-        (fee.summary ? '<p style="font-size:12px;color:var(--muted);margin-top:16px;line-height:1.6">' + fee.summary + '</p>' : '');
+      feeBody.innerHTML = '<div class="badge-change">⚠ ' + fee.changes.length + ' Change' + (fee.changes.length > 1 ? 's' : '') + ' Detected</div><div class="fee-alert-list fade-in">' + itemsHtml + '</div>' + (fee.summary ? '<p style="font-size:12px;color:var(--muted);margin-top:16px;line-height:1.6">' + fee.summary + '</p>' : '');
     } else if (fee && !fee.hasChanges) {
       if (feeTs) feeTs.textContent = fmt(fee.checkedAt);
       feeBody.innerHTML = '<div class="fee-status-ok">No fee changes detected — last checked ' + (fee.checkedAt ? fmt(fee.checkedAt) : 'recently') + '</div>';
@@ -579,7 +542,7 @@ async function loadContent() {
       feeBody.innerHTML = '<p style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--muted);padding:8px 0">' + (fee && fee.message ? fee.message : 'No fee data available yet.') + '</p>';
     }
 
-    // ── Card 3: Weekly Regulatory ──
+    // Card 3: Weekly Regulatory
     var regTs   = document.getElementById('regTs');
     var regBody = document.getElementById('regBody');
     if (data.regulatory && data.regulatory.html) {
@@ -594,10 +557,6 @@ async function loadContent() {
     ['digestBody','feeBody','regBody'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) el.innerHTML = '<p style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--muted);padding:8px 0">Content unavailable — will retry on next scheduled run.</p>';
-    });
-    ['digestTs','feeTs','regTs'].forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) el.textContent = '';
     });
   }
 }
