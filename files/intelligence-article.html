@@ -531,7 +531,7 @@ async function init() {
     // Not signed in — show login paywall immediately, no need to call the API
     setPaywallContent('401', titleHint, categoryHint)
     const returnUrl = encodeURIComponent(window.location.pathname + window.location.search)
-    document.getElementById('paywall-401-login-link').href = `/login?return=${returnUrl}`
+    document.getElementById('paywall-401-login-link').href = `/login?redirect=${returnUrl}`
     showState('state-401')
     return
   }
@@ -551,7 +551,7 @@ async function init() {
   if (res.status === 401) {
     setPaywallContent('401', titleHint, categoryHint)
     const returnUrl = encodeURIComponent(window.location.pathname + window.location.search)
-    document.getElementById('paywall-401-login-link').href = `/login?return=${returnUrl}`
+    document.getElementById('paywall-401-login-link').href = `/login?redirect=${returnUrl}`
     showState('state-401')
     return
   }
@@ -596,13 +596,31 @@ function renderArticle(article) {
   showState('state-content')
 }
 
-// Handle session changes (e.g. magic link arrival on this page)
+// Handle session changes fired by Supabase across tabs via localStorage
 supabase.auth.onAuthStateChange((event, session) => {
   if (event === 'SIGNED_IN' && session) {
-    // Re-run init so the page fetches content with the new session
     showState('state-loading')
     init()
   }
+})
+
+// Safety net: re-check session when tab regains visibility.
+// Covers the case where the user logs in in a separate tab and switches back —
+// onAuthStateChange fires reliably for same-page magic links but can race on tab
+// switches depending on browser timing.
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState !== 'visible') return
+  const s401 = document.getElementById('state-401')
+  const s403 = document.getElementById('state-403')
+  const isLocked = (s401 && s401.style.display !== 'none') ||
+                   (s403 && s403.style.display !== 'none')
+  if (!isLocked) return
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    if (session) {
+      showState('state-loading')
+      init()
+    }
+  })
 })
 
 init()

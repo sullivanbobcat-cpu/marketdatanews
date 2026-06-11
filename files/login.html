@@ -404,9 +404,25 @@ const successView = document.getElementById('success-view')
 const sentEmail  = document.getElementById('sent-email')
 const tryAgain   = document.getElementById('try-again-link')
 
-// If already logged in, go straight to /account
+// Read and validate the ?redirect= param. Only accept relative paths on this
+// origin to prevent open-redirect attacks.
+function safeRedirectUrl() {
+  const raw = new URLSearchParams(window.location.search).get('redirect')
+  if (!raw) return null
+  try {
+    const decoded = decodeURIComponent(raw)
+    // Must be a relative path (starts with /) — never an external URL
+    if (!decoded.startsWith('/') || decoded.startsWith('//')) return null
+    return window.location.origin + decoded
+  } catch (e) {
+    return null
+  }
+}
+const redirectTo = safeRedirectUrl()
+
+// If already logged in, honour the redirect param instead of always going to /account
 supabase.auth.getSession().then(({ data: { session } }) => {
-  if (session) window.location.replace('/account')
+  if (session) window.location.replace(redirectTo || '/account')
 })
 
 async function sendLink() {
@@ -423,7 +439,10 @@ async function sendLink() {
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: window.location.origin + '/account',
+      // Send the user back to the article (or /account as fallback) after
+      // they click the magic link. Supabase will validate this against the
+      // allowed redirect URLs configured in the project dashboard.
+      emailRedirectTo: redirectTo || (window.location.origin + '/account'),
     },
   })
 
