@@ -49,13 +49,19 @@ exports.handler = async (event) => {
       const customerId = session.customer;
 
       // Fetch subscription for period end
-      const subscription = await stripe.subscriptions.retrieve(session.subscription);
+      let current_period_end = null;
+      if (session.subscription) {
+        const subscription = await stripe.subscriptions.retrieve(session.subscription);
+        current_period_end = subscription.current_period_end ?? null;
+      } else {
+        console.warn('checkout.session.completed has no subscription ID — current_period_end will be null');
+      }
 
       await upsertSubscriber({
         email,
         stripe_customer_id: customerId,
         subscription_status: 'active',
-        current_period_end: subscription.current_period_end,
+        current_period_end,
       });
 
     } else if (type === 'customer.subscription.updated') {
@@ -104,7 +110,7 @@ async function upsertSubscriber({ email, stripe_customer_id, subscription_status
       stripe_customer_id,
       subscription_status,
       plan: 'founding_team',
-      current_period_end: new Date(current_period_end * 1000).toISOString(),
+      current_period_end: current_period_end != null ? new Date(current_period_end * 1000).toISOString() : null,
     },
     { onConflict: 'email' }
   );
