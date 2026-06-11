@@ -407,16 +407,14 @@ const tryAgain   = document.getElementById('try-again-link')
 // Read and validate the ?redirect= param. Only accept relative paths on this
 // origin to prevent open-redirect attacks.
 function safeRedirectUrl() {
+  // URLSearchParams.get() already percent-decodes the value — no second decode needed.
   const raw = new URLSearchParams(window.location.search).get('redirect')
   if (!raw) return null
-  try {
-    const decoded = decodeURIComponent(raw)
-    // Must be a relative path (starts with /) — never an external URL
-    if (!decoded.startsWith('/') || decoded.startsWith('//')) return null
-    return window.location.origin + decoded
-  } catch (e) {
-    return null
-  }
+  // Must be a relative path (starts with /) — never an external URL.
+  if (!raw.startsWith('/') || raw.startsWith('//')) return null
+  const full = window.location.origin + raw
+  console.log('[login] safeRedirectUrl:', raw, '→', full)
+  return full
 }
 const redirectTo = safeRedirectUrl()
 
