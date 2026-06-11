@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/favicon.png" sizes="180x180">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intelligence | Market Data News</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- marked.js for server-returned markdown rendering -->
+<script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+<style>
+  :root {
+    --ink: #0d0d0d; --paper: #f5f2eb; --cream: #faf8f3; --rule: #d4c9b0;
+    --accent: #b8860b; --accent-dark: #8b6508; --muted: #6b6555;
+    --red: #c0392b; --surface: #ffffff; --border: #e8e0d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { overflow-x: hidden; max-width: 100vw; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; }
+
+  .ticker-wrap { background: var(--ink); color: var(--accent); padding: 7px 0; overflow: hidden; position: relative; }
+  .ticker-wrap::before, .ticker-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+  .ticker-wrap::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); }
+  .ticker-wrap::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+  .ticker { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 0 32px; letter-spacing: 0.05em; }
+  .up { color: #00cc66; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .fw-alertbar { background: #1a0a00; border-bottom: 2px solid var(--accent); padding: 0 48px; }
+  .fw-alertbar-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 38px; }
+  .fw-alertbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 900; color: white; text-decoration: none; padding-right: 16px; white-space: nowrap; }
+  .fw-alertbar-brand span { color: var(--accent); }
+  .fw-alertbar-divider { width: 1px; height: 20px; background: #3a2a10; margin: 0 16px; flex-shrink: 0; }
+  .fw-alertbar-stats { display: flex; align-items: center; gap: 4px; }
+  .fw-alertbar-stat { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 2px; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .fw-alertbar-stat:hover { background: rgba(255,255,255,0.08); }
+  .fw-alertbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff4444; animation: pulse 2s infinite; flex-shrink: 0; }
+  .fw-alertbar-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: white; }
+  .fw-alertbar-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fw-alertbar-stat.critical .fw-alertbar-num, .fw-alertbar-stat.critical .fw-alertbar-label { color: #ff4444; }
+  .fw-alertbar-stat.high .fw-alertbar-num, .fw-alertbar-stat.high .fw-alertbar-label { color: #ff8c00; }
+  .fw-alertbar-stat.action .fw-alertbar-num, .fw-alertbar-stat.action .fw-alertbar-label { color: var(--accent); }
+  .fw-alertbar-stat.total .fw-alertbar-num { color: #888; } .fw-alertbar-stat.total .fw-alertbar-label { color: #555; }
+  .fw-alertbar-next { margin-left: auto; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .fw-alertbar-next-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #555; }
+  .fw-alertbar-next-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #ff9900; font-weight: 600; }
+  .fw-alertbar-cta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; padding: 5px 12px; border: 1px solid var(--accent-dark); border-radius: 2px; margin-left: 16px; transition: all 0.15s; white-space: nowrap; }
+  .fw-alertbar-cta:hover { background: var(--accent); color: var(--ink); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .masthead { background: var(--cream); border-bottom: 3px solid var(--ink); }
+  .masthead-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px 16px; border-bottom: 1px solid var(--rule); }
+  .date-line { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .site-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 58px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-align: center; text-decoration: none; color: var(--ink); }
+  .site-title span { color: var(--accent); }
+  .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.6; }
+
+  nav { display: flex; align-items: stretch; padding: 0 48px; border-bottom: 1px solid var(--rule); position: relative; flex-wrap: nowrap; overflow: visible; background: var(--cream); }
+  .nav-item { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0 14px; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--ink); border: none; background: none; font-family: 'IBM Plex Sans', sans-serif; border-right: 1px solid var(--rule); text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap; min-height: 40px; user-select: none; }
+  a.nav-item:first-child { border-left: 1px solid var(--rule); }
+  .nav-item.active, .nav-item:hover { background: var(--ink); color: var(--accent); }
+  .nav-dropdown { position: relative; display: flex; align-items: stretch; }
+  .nav-dropdown > .nav-item { border-left: none; }
+  .nav-dropdown-menu { display: block; position: absolute; top: 100%; left: 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease; min-width: 220px; background: var(--ink); border-top: 2px solid var(--accent); z-index: 1000; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+  .nav-dropdown-menu.nav-dropdown-right { left: auto; right: 0; }
+  .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-drop-item { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #aaa; text-decoration: none; padding: 10px 20px; border-bottom: 1px solid #1e1e1e; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+  .nav-drop-item:last-child { border-bottom: none; }
+  .nav-drop-item:hover { color: var(--accent); background: #111; }
+  .nav-drop-group { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #b8860b; text-transform: uppercase; letter-spacing: 0.15em; padding: 8px 16px 4px; cursor: default; display: block; }
+  .nav-drop-divider { border: none; border-top: 1px solid #2a2a2a; margin: 4px 0; }
+  a.nav-subscribe { background: var(--accent); color: var(--ink) !important; font-family: 'IBM Plex Mono', monospace !important; font-size: 11px !important; font-weight: 700 !important; padding: 0 18px !important; border-radius: 2px !important; text-transform: uppercase !important; border-right: none !important; letter-spacing: 0.08em !important; }
+  a.nav-subscribe:hover { background: var(--accent-dark) !important; color: white !important; }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; padding-left: 16px; border-left: 1px solid var(--rule); }
+  .search-wrap { position: relative; display: flex; align-items: center; }
+  .search-box { background: transparent; border: 1px solid var(--rule); padding: 5px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-radius: 2px; width: 180px; }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+
+  .mobile-nav { display: none; flex-direction: column; background: var(--ink); padding: 12px 20px; border-bottom: 2px solid var(--accent); }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; text-decoration: none; padding: 10px 0; border-bottom: 1px solid #222; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent); }
+  .mob-group-label { font-family: 'IBM Plex Mono', monospace !important; font-size: 9px !important; text-transform: uppercase !important; letter-spacing: 0.15em !important; color: var(--accent) !important; padding: 14px 0 5px !important; border-bottom: none !important; font-weight: 400 !important; cursor: default; }
+  .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #aaa; }
+
+  /* ── Article container ── */
+  .article-outer { max-width: 800px; margin: 0 auto; padding: 48px 48px 80px; }
+
+  /* Breadcrumb */
+  .breadcrumb { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-bottom: 28px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--accent); }
+  .breadcrumb span { margin: 0 6px; }
+
+  /* Loading skeleton */
+  .skel { background: linear-gradient(90deg, var(--border) 25%, var(--paper) 50%, var(--border) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 2px; }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  /* Article content */
+  .article-meta-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+  .article-category-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-dark); background: var(--paper); border: 1px solid var(--rule); padding: 3px 8px; border-radius: 2px; }
+  .article-date-badge { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .article-heading { font-family: 'Playfair Display', serif; font-size: clamp(24px, 3.5vw, 38px); font-weight: 900; line-height: 1.2; margin-bottom: 16px; color: var(--ink); }
+  .article-deck { font-size: 16px; line-height: 1.75; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 32px; font-style: italic; }
+  .article-rule { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+  /* Prose (markdown output) */
+  .prose h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin: 32px 0 12px; color: var(--ink); line-height: 1.25; }
+  .prose h3 { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; margin: 24px 0 10px; color: var(--ink); }
+  .prose p { font-size: 15px; line-height: 1.85; color: var(--ink); margin-bottom: 18px; }
+  .prose ul, .prose ol { padding-left: 24px; margin-bottom: 18px; }
+  .prose li { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 6px; }
+  .prose strong { font-weight: 600; }
+  .prose em { font-style: italic; }
+  .prose blockquote { border-left: 3px solid var(--accent); padding: 12px 20px; margin: 20px 0; background: var(--cream); }
+  .prose blockquote p { color: var(--muted); margin-bottom: 0; font-style: italic; }
+  .prose code { font-family: 'IBM Plex Mono', monospace; font-size: 13px; background: var(--paper); border: 1px solid var(--border); padding: 1px 5px; border-radius: 2px; }
+  .prose pre { background: var(--ink); border-radius: 2px; padding: 16px 20px; margin: 20px 0; overflow-x: auto; }
+  .prose pre code { background: none; border: none; color: #ccc; font-size: 12px; padding: 0; }
+  .prose table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+  .prose th { font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; background: var(--ink); color: var(--accent); padding: 10px 14px; text-align: left; }
+  .prose td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--ink); }
+  .prose tr:last-child td { border-bottom: none; }
+  .prose tr:nth-child(even) td { background: var(--cream); }
+  .prose a { color: var(--accent-dark); text-decoration: underline; }
+  .prose a:hover { color: var(--accent); }
+
+  /* ── Paywall states ── */
+  .paywall-outer { padding: 60px 48px 80px; display: flex; flex-direction: column; align-items: center; }
+  .paywall-breadcrumb { width: 100%; max-width: 520px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-bottom: 32px; }
+  .paywall-breadcrumb a { color: var(--muted); text-decoration: none; }
+  .paywall-breadcrumb a:hover { color: var(--accent); }
+  .paywall-breadcrumb span { margin: 0 6px; }
+  .paywall-card { width: 100%; max-width: 520px; background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--ink); padding: 40px; text-align: center; }
+  .paywall-lock { font-size: 28px; color: var(--muted); margin-bottom: 20px; line-height: 1; }
+  .paywall-category { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-dark); margin-bottom: 14px; }
+  .paywall-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; line-height: 1.35; color: var(--ink); margin-bottom: 16px; }
+  .paywall-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+  .paywall-message { font-size: 14px; line-height: 1.75; color: var(--muted); margin-bottom: 28px; }
+  .paywall-cta-primary { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; background: var(--ink); color: var(--accent); text-decoration: none; padding: 14px 20px; transition: background 0.15s; margin-bottom: 10px; }
+  .paywall-cta-primary:hover { background: #1a1a1a; }
+  .paywall-cta-accent { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; background: var(--accent); color: var(--ink); text-decoration: none; padding: 14px 20px; transition: background 0.15s; margin-bottom: 10px; }
+  .paywall-cta-accent:hover { background: var(--accent-dark); color: white; }
+  .paywall-cta-secondary { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); text-decoration: none; padding: 10px; margin-top: 4px; transition: color 0.15s; }
+  .paywall-cta-secondary:hover { color: var(--ink); }
+  .paywall-feature-list { text-align: left; margin: 0 0 24px; padding: 0; list-style: none; }
+  .paywall-feature-list li { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); padding: 6px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .paywall-feature-list li:last-child { border-bottom: none; }
+  .paywall-feature-list li::before { content: '→'; color: var(--accent); flex-shrink: 0; }
+
+  /* 404 / error */
+  .state-message { text-align: center; padding: 80px 48px; }
+  .state-message h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+  .state-message p { font-size: 13px; line-height: 1.7; color: var(--muted); margin-bottom: 20px; }
+  .state-message a { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; }
+  .state-message a:hover { text-decoration: underline; }
+
+  footer { background: var(--ink); color: #aaa; padding: 40px 48px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto 32px; }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: white; margin-bottom: 12px; font-family: 'IBM Plex Sans', sans-serif; }
+  .footer-col a { display: block; font-size: 12px; color: #888; text-decoration: none; margin-bottom: 7px; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; display: flex; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+
+  @media (max-width: 900px) {
+    nav { display: none !important; }
+    #mobileBar { display: flex !important; }
+    .masthead-top, .fw-alertbar { padding-left: 20px; padding-right: 20px; }
+    .masthead-top { flex-direction: column; gap: 10px; text-align: center; }
+    .tagline { text-align: center; }
+    .fw-alertbar-next, .fw-alertbar-cta, .fw-alertbar-label { display: none; }
+    footer { padding: 28px 20px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+    .article-outer, .paywall-outer { padding-left: 20px; padding-right: 20px; }
+    .paywall-card { padding: 28px 20px; }
+  }
+  @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap"><div class="ticker">
+  <span class="ticker-item">INTELLIGENCE &nbsp;·&nbsp; SUBSCRIBER ANALYSIS</span>
+  <span class="ticker-item">FEE FILINGS &nbsp;·&nbsp; PROTOCOL CHANGES &nbsp;·&nbsp; MARKET STRUCTURE</span>
+  <span class="ticker-item">INTELLIGENCE &nbsp;·&nbsp; SUBSCRIBER ANALYSIS</span>
+  <span class="ticker-item">FEE FILINGS &nbsp;·&nbsp; PROTOCOL CHANGES &nbsp;·&nbsp; MARKET STRUCTURE</span>
+</div></div>
+
+<!-- FeedWatch Alert Bar -->
+<div class="fw-alertbar">
+  <div class="fw-alertbar-inner">
+    <a href="/calendar" class="fw-alertbar-brand">Feed<span>Watch</span></a>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-stats">
+      <a href="/calendar?filter=critical" class="fw-alertbar-stat critical"><span class="fw-alertbar-dot"></span><span id="fw-critical-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Critical</span></a>
+      <a href="/calendar?filter=high" class="fw-alertbar-stat high"><span id="fw-high-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">High</span></a>
+      <a href="/calendar?filter=action" class="fw-alertbar-stat action"><span id="fw-action-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Action Required</span></a>
+      <a href="/calendar" class="fw-alertbar-stat total"><span id="fw-active-count" class="fw-alertbar-num">—</span><span class="fw-alertbar-label">Active Entries</span></a>
+    </div>
+    <div class="fw-alertbar-divider"></div>
+    <div class="fw-alertbar-next">
+      <span class="fw-alertbar-next-label">Next deadline:</span>
+      <span id="fw-next-deadline" class="fw-alertbar-next-val">Loading…</span>
+    </div>
+    <a href="/calendar" class="fw-alertbar-cta">View All →</a>
+  </div>
+</div>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-top">
+    <div class="date-line" id="dateLine">Loading…</div>
+    <a href="/" class="site-title">Market Data <span>News</span></a>
+    <div class="tagline">The Industry Standard<br>Since 2025</div>
+  </div>
+  <nav>
+    <a href="/" style="text-decoration:none;border-left:1px solid var(--rule);border-right:1px solid var(--rule);padding:0 10px;display:flex;align-items:center;flex-shrink:0;" title="Market Data News">
+      <img src="/favicon.svg" alt="MDN" style="height:26px;width:26px;display:block;">
+    </a>
+    <a href="/" class="nav-item">Home</a>
+    <div class="nav-dropdown">
+      <span class="nav-item active">Intelligence &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <div class="nav-drop-group">Premium</div>
+        <a href="/intelligence" class="nav-drop-item">Intelligence Index</a>
+        <div class="nav-drop-divider"></div>
+        <div class="nav-drop-group">Trackers</div>
+        <a href="/calendar" class="nav-drop-item">FeedWatch Calendar</a>
+        <a href="/nms" class="nav-drop-item">NMS / SIP Plans</a>
+        <a href="/feed-status" class="nav-drop-item">Feed Status</a>
+        <a href="/rule-filings" class="nav-drop-item">Rule Filings</a>
+        <a href="/regulation" class="nav-drop-item">Regulation</a>
+        <a href="/prediction-markets" class="nav-drop-item">Prediction Markets</a>
+        <a href="/ai-digest" class="nav-drop-item">AI Digest</a>
+        <div class="nav-drop-divider"></div>
+        <div class="nav-drop-group">Articles</div>
+        <a href="/articles/index" class="nav-drop-item">View All Articles</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Market Structure &#9662;</span>
+      <div class="nav-dropdown-menu">
+        <a href="/market-structure" class="nav-drop-item">View All</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Tools &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="/market-data-fees" class="nav-drop-item">Fee Calculator</a>
+        <a href="/peer-groups" class="nav-drop-item">Peer Groups</a>
+        <a href="/contract-intelligence" class="nav-drop-item">Contract Intelligence</a>
+        <a href="/execution-quality" class="nav-drop-item">Execution Quality</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <span class="nav-item">Learn &#9662;</span>
+      <div class="nav-dropdown-menu nav-dropdown-right">
+        <a href="/learn" class="nav-drop-item">View All Lessons</a>
+      </div>
+    </div>
+    <a href="/subscribe" class="nav-item nav-subscribe">Subscribe →</a>
+    <div class="nav-right">
+      <div class="search-wrap">
+        <input class="search-box" type="text" placeholder="Search site…" autocomplete="off">
+      </div>
+    </div>
+  </nav>
+  <div style="display:none;align-items:center;justify-content:space-between;padding:8px 20px" id="mobileBar">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Menu</span>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="/">Home</a>
+  <div class="mob-group-label">Premium</div>
+  <a href="/intelligence">Intelligence Index</a>
+  <div class="mob-group-label">Intelligence</div>
+  <a href="/calendar">FeedWatch Calendar</a>
+  <a href="/nms">NMS / SIP Plans</a>
+  <a href="/feed-status">Feed Status</a>
+  <div class="mob-group-label">Tools</div>
+  <a href="/market-data-fees">Fee Calculator</a>
+  <div class="mob-group-label">Account</div>
+  <a href="/subscribe">Subscribe</a>
+  <a href="/account">My Account</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     All states below. Only one is shown at a time via JS.
+     The body field is NEVER present in the HTML source —
+     it is fetched from the server only after auth passes
+     and inserted into #art-body at runtime.
+     ═══════════════════════════════════════════════════════ -->
+
+<!-- STATE: Loading -->
+<div id="state-loading" class="article-outer">
+  <div class="breadcrumb">
+    <a href="/intelligence">← Intelligence</a>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <div class="skel" style="height:10px;width:20%;margin-bottom:6px;"></div>
+    <div class="skel" style="height:32px;width:85%;"></div>
+    <div class="skel" style="height:32px;width:60%;margin-bottom:12px;"></div>
+    <div class="skel" style="height:14px;width:100%;"></div>
+    <div class="skel" style="height:14px;width:100%;"></div>
+    <div class="skel" style="height:14px;width:75%;margin-bottom:16px;"></div>
+    <div class="skel" style="height:1px;width:100%;background:var(--border);"></div>
+    <div class="skel" style="height:14px;width:100%;margin-top:16px;"></div>
+    <div class="skel" style="height:14px;width:100%;"></div>
+    <div class="skel" style="height:14px;width:80%;"></div>
+  </div>
+</div>
+
+<!-- STATE: Article content (200) — no body content in source -->
+<div id="state-content" style="display:none;" class="article-outer">
+  <div class="breadcrumb">
+    <a href="/intelligence">← Intelligence</a>
+    <span>·</span>
+    <span id="art-breadcrumb-category"></span>
+  </div>
+  <div class="article-meta-row">
+    <span class="article-category-badge" id="art-category"></span>
+    <span class="article-date-badge" id="art-date"></span>
+  </div>
+  <h1 class="article-heading" id="art-title"></h1>
+  <p class="article-deck" id="art-deck"></p>
+  <!-- Body injected here by JS after server confirms auth + subscription -->
+  <div class="prose" id="art-body"></div>
+</div>
+
+<!-- STATE: 401 — Not signed in -->
+<div id="state-401" style="display:none;" class="paywall-outer">
+  <div class="paywall-breadcrumb">
+    <a href="/intelligence">← Intelligence</a>
+  </div>
+  <div class="paywall-card">
+    <div class="paywall-lock">⬡</div>
+    <div class="paywall-category" id="paywall-401-category"></div>
+    <h2 class="paywall-title" id="paywall-401-title"></h2>
+    <hr class="paywall-divider">
+    <p class="paywall-message">Sign in to continue reading. Your account is free — subscribers get access to all intelligence analyses.</p>
+    <a href="/login" id="paywall-401-login-link" class="paywall-cta-primary">Sign In →</a>
+    <a href="/intelligence" class="paywall-cta-secondary">← Back to Intelligence Index</a>
+  </div>
+</div>
+
+<!-- STATE: 403 — Signed in but not an active subscriber -->
+<div id="state-403" style="display:none;" class="paywall-outer">
+  <div class="paywall-breadcrumb">
+    <a href="/intelligence">← Intelligence</a>
+  </div>
+  <div class="paywall-card">
+    <div class="paywall-lock">⬡</div>
+    <div class="paywall-category" id="paywall-403-category"></div>
+    <h2 class="paywall-title" id="paywall-403-title"></h2>
+    <hr class="paywall-divider">
+    <p class="paywall-message">This analysis is for subscribers. Subscribe to unlock all premium intelligence on fee filings, protocol changes, and market structure.</p>
+    <ul class="paywall-feature-list">
+      <li>Full analysis of all fee filings as they emerge</li>
+      <li>Protocol change impact assessments</li>
+      <li>Market structure deep dives</li>
+      <li>FeedWatch calendar — all 130+ active entries</li>
+    </ul>
+    <a href="/subscribe" class="paywall-cta-accent">Subscribe to Pro →</a>
+    <a href="/intelligence" class="paywall-cta-secondary">← Back to Intelligence Index</a>
+  </div>
+</div>
+
+<!-- STATE: 404 / error -->
+<div id="state-404" style="display:none;" class="state-message">
+  <h3>Article not found</h3>
+  <p>This article doesn't exist or has been unpublished.</p>
+  <a href="/intelligence">← Back to Intelligence</a>
+</div>
+
+<div id="state-error" style="display:none;" class="state-message">
+  <h3>Something went wrong</h3>
+  <p>Could not load this article. Please try refreshing.</p>
+  <a href="/intelligence">← Back to Intelligence</a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Market Data <span>News</span></div>
+      <div class="footer-desc">The authoritative source for market data industry professionals. Exchange notices, feed changes, regulatory deadlines, and NMS intelligence.</div>
+    </div>
+    <div class="footer-col"><h4>Coverage</h4>
+      <a href="/exchanges">Exchanges</a>
+      <a href="/regulation">Regulation</a>
+      <a href="/nms">NMS / SIP</a>
+      <a href="/feed-status">Feed Status</a>
+      <a href="/prediction-markets">Prediction Markets</a>
+    </div>
+    <div class="footer-col"><h4>Intelligence</h4>
+      <a href="/intelligence">Intelligence Index</a>
+      <a href="/calendar">FeedWatch Calendar</a>
+      <a href="/ai-digest">AI Digest</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="/about">About</a>
+      <a href="/subscribe">Subscribe</a>
+      <a href="/account">My Account</a>
+      <a href="mailto:contact@marketdatanews.com">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 MarketDataNews.com — All rights reserved</span>
+    <span>For market data professionals</span>
+  </div>
+</footer>
+
+<script>
+(function() {
+  var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var d = new Date();
+  var el = document.getElementById('dateLine');
+  if (el) el.textContent = days[d.getDay()] + ', ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+})();
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+(function() {
+  var bar = document.getElementById('mobileBar');
+  function check() { if (bar) bar.style.display = window.innerWidth <= 900 ? 'flex' : 'none'; }
+  check();
+  window.addEventListener('resize', check);
+})();
+</script>
+
+<script type="module">
+import { supabase } from '/supabase-client.js'
+
+const STATES = ['state-loading','state-content','state-401','state-403','state-404','state-error']
+
+function showState(id) {
+  STATES.forEach(s => {
+    document.getElementById(s).style.display = s === id ? (s === 'state-content' || s === 'state-loading' ? 'block' : 'flex') : 'none'
+  })
+  // content and loading use block, paywall states use flex (column centering)
+  if (id === 'state-content' || id === 'state-loading') {
+    document.getElementById(id).style.display = 'block'
+  }
+  if (id === 'state-404' || id === 'state-error') {
+    document.getElementById(id).style.display = 'block'
+  }
+}
+
+function formatCategory(cat) {
+  if (!cat) return 'Analysis'
+  return cat.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+}
+
+function formatDate(iso) {
+  if (!iso) return ''
+  try {
+    return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  } catch (e) { return iso }
+}
+
+function setPaywallContent(prefix, titleHint, categoryHint) {
+  const titleEl = document.getElementById(`paywall-${prefix}-title`)
+  const catEl = document.getElementById(`paywall-${prefix}-category`)
+  if (titleEl) titleEl.textContent = titleHint || 'Premium Analysis'
+  if (catEl) catEl.textContent = categoryHint ? formatCategory(categoryHint) : 'Intelligence'
+}
+
+const params = new URLSearchParams(window.location.search)
+const slug = params.get('slug')
+const titleHint = params.get('title') || 'Premium Analysis'
+const categoryHint = params.get('category') || ''
+
+async function init() {
+  if (!slug) {
+    showState('state-404')
+    return
+  }
+
+  // Update page title with the hint while loading
+  document.title = titleHint + ' | Market Data Intelligence'
+
+  // Check for existing session (localStorage — no network call)
+  const { data: { session } } = await supabase.auth.getSession()
+
+  if (!session) {
+    // Not signed in — show login paywall immediately, no need to call the API
+    setPaywallContent('401', titleHint, categoryHint)
+    const returnUrl = encodeURIComponent(window.location.pathname + window.location.search)
+    document.getElementById('paywall-401-login-link').href = `/login?return=${returnUrl}`
+    showState('state-401')
+    return
+  }
+
+  // Signed in — call the gated endpoint with the access token
+  let res
+  try {
+    res = await fetch(`/.netlify/functions/get-premium-content?slug=${encodeURIComponent(slug)}`, {
+      headers: { 'Authorization': `Bearer ${session.access_token}` },
+    })
+  } catch (e) {
+    console.error('[intelligence-article] fetch error:', e)
+    showState('state-error')
+    return
+  }
+
+  if (res.status === 401) {
+    setPaywallContent('401', titleHint, categoryHint)
+    const returnUrl = encodeURIComponent(window.location.pathname + window.location.search)
+    document.getElementById('paywall-401-login-link').href = `/login?return=${returnUrl}`
+    showState('state-401')
+    return
+  }
+
+  if (res.status === 403) {
+    setPaywallContent('403', titleHint, categoryHint)
+    showState('state-403')
+    return
+  }
+
+  if (res.status === 404) {
+    showState('state-404')
+    return
+  }
+
+  if (!res.ok) {
+    showState('state-error')
+    return
+  }
+
+  const article = await res.json()
+  renderArticle(article)
+}
+
+function renderArticle(article) {
+  document.title = article.title + ' | Market Data Intelligence'
+
+  document.getElementById('art-breadcrumb-category').textContent = formatCategory(article.category)
+  document.getElementById('art-category').textContent = formatCategory(article.category)
+  document.getElementById('art-date').textContent = formatDate(article.published_at)
+  document.getElementById('art-title').textContent = article.title
+  document.getElementById('art-deck').textContent = article.summary || ''
+
+  // Render markdown body — only reaches here after server confirmed auth + active subscription
+  const bodyEl = document.getElementById('art-body')
+  if (article.body) {
+    bodyEl.innerHTML = marked.parse(article.body)
+  } else {
+    bodyEl.innerHTML = ''
+  }
+
+  showState('state-content')
+}
+
+// Handle session changes (e.g. magic link arrival on this page)
+supabase.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_IN' && session) {
+    // Re-run init so the page fetches content with the new session
+    showState('state-loading')
+    init()
+  }
+})
+
+init()
+</script>
+
+<script src="/feedwatch-bar.js"></script>
+</body>
+</html>
