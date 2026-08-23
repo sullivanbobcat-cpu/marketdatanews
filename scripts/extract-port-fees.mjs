@@ -165,19 +165,65 @@ Rules:
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
+// All major exchange venues — NYSE family, Cboe family, Nasdaq family.
+// SQLite LIKE is case-insensitive for ASCII, so NYSEARCA covers NYSEArca,
+// PHLX covers Phlx, CBOE covers Cboe-, etc.
 const TARGET_PATTERNS = [
+  // NYSE family
   "sr_number LIKE 'SR-NYSE-%'",
-  "sr_number LIKE 'SR-CboeBZX-%'",
-  "sr_number LIKE 'SR-BatsBZX-%'",
+  "sr_number LIKE 'SR-NYSEARCA-%'",   // also matches NYSEArca-
+  "sr_number LIKE 'SR-NYSEAMER-%'",
+  "sr_number LIKE 'SR-NYSENAT-%'",
+  "sr_number LIKE 'SR-NYSECHX-%'",
+  "sr_number LIKE 'SR-NYSETEX-%'",
+  // Cboe family
+  "sr_number LIKE 'SR-CBOEBZX-%'",    // also matches CboeBZX-
+  "sr_number LIKE 'SR-BATSBZX-%'",    // historical Bats name
+  "sr_number LIKE 'SR-CBOEEDGX-%'",
+  "sr_number LIKE 'SR-BATSEDGX-%'",
+  "sr_number LIKE 'SR-CBOEEDGA-%'",
+  "sr_number LIKE 'SR-BATSEDGA-%'",
+  "sr_number LIKE 'SR-CBOEBYX-%'",
+  "sr_number LIKE 'SR-BATSBYX-%'",
+  "sr_number LIKE 'SR-C2-%'",
+  "sr_number LIKE 'SR-CBOE-%'",
+  // Nasdaq family
   "sr_number LIKE 'SR-NASDAQ-%'",
+  "sr_number LIKE 'SR-PHLX-%'",       // also matches Phlx-
+  "sr_number LIKE 'SR-BX-%'",
+  "sr_number LIKE 'SR-MRX-%'",
+  "sr_number LIKE 'SR-GEMX-%'",
+  "sr_number LIKE 'SR-ISE-%'",
+  "sr_number LIKE 'SR-ISEMERCURY-%'",
+  "sr_number LIKE 'SR-ISEGEMINI-%'",
 ];
 
 const filings = db.prepare(`
   SELECT f.sr_number, f.fr_doc_number, f.filing_date, f.exchange_family,
     CASE
-      WHEN f.sr_number LIKE 'SR-NYSE-%' THEN 'NYSE'
-      WHEN f.sr_number LIKE 'SR-CboeBZX-%' OR f.sr_number LIKE 'SR-BatsBZX-%' THEN 'Cboe BZX'
-      WHEN f.sr_number LIKE 'SR-NASDAQ-%' THEN 'Nasdaq'
+      -- NYSE family
+      WHEN f.sr_number LIKE 'SR-NYSE-%'     THEN 'NYSE'
+      WHEN f.sr_number LIKE 'SR-NYSEARCA-%' THEN 'NYSE Arca'
+      WHEN f.sr_number LIKE 'SR-NYSEAMER-%' THEN 'NYSE American'
+      WHEN f.sr_number LIKE 'SR-NYSENAT-%'  THEN 'NYSE National'
+      WHEN f.sr_number LIKE 'SR-NYSECHX-%'  THEN 'NYSE Chicago'
+      WHEN f.sr_number LIKE 'SR-NYSETEX-%'  THEN 'NYSE Texas'
+      -- Cboe family
+      WHEN f.sr_number LIKE 'SR-CBOEBZX-%' OR f.sr_number LIKE 'SR-BATSBZX-%' THEN 'Cboe BZX'
+      WHEN f.sr_number LIKE 'SR-CBOEEDGX-%' OR f.sr_number LIKE 'SR-BATSEDGX-%' THEN 'Cboe EDGX'
+      WHEN f.sr_number LIKE 'SR-CBOEEDGA-%' OR f.sr_number LIKE 'SR-BATSEDGA-%' THEN 'Cboe EDGA'
+      WHEN f.sr_number LIKE 'SR-CBOEBYX-%'  OR f.sr_number LIKE 'SR-BATSBYX-%'  THEN 'Cboe BYX'
+      WHEN f.sr_number LIKE 'SR-C2-%'       THEN 'Cboe C2'
+      WHEN f.sr_number LIKE 'SR-CBOE-%'     THEN 'Cboe'
+      -- Nasdaq family
+      WHEN f.sr_number LIKE 'SR-NASDAQ-%'       THEN 'Nasdaq'
+      WHEN f.sr_number LIKE 'SR-PHLX-%'         THEN 'Nasdaq Phlx'
+      WHEN f.sr_number LIKE 'SR-BX-%'           THEN 'Nasdaq BX'
+      WHEN f.sr_number LIKE 'SR-MRX-%'          THEN 'Nasdaq MRX'
+      WHEN f.sr_number LIKE 'SR-GEMX-%'         THEN 'Nasdaq GEMX'
+      WHEN f.sr_number LIKE 'SR-ISE-%'          THEN 'Nasdaq ISE'
+      WHEN f.sr_number LIKE 'SR-ISEMERCURY-%'   THEN 'Nasdaq ISE Mercury'
+      WHEN f.sr_number LIKE 'SR-ISEGEMINI-%'    THEN 'Nasdaq ISE Gemini'
       ELSE f.exchange_family
     END as venue
   FROM filings f
