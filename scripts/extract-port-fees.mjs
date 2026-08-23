@@ -37,12 +37,15 @@ db.exec(`
     port_100gb_before REAL,
     port_100gb_after  REAL,
     is_new_tier INTEGER DEFAULT 0,
+    product_tier TEXT,
     notes TEXT,
     extraction_method TEXT DEFAULT 'claude',
     extracted_at TEXT DEFAULT (datetime('now')),
     UNIQUE(sr_number)
   )
 `);
+// Migrate: add product_tier to tables created before this column existed
+try { db.exec(`ALTER TABLE port_fee_extractions ADD COLUMN product_tier TEXT`); } catch (_) {}
 
 // ─── Fetch FR body HTML ───────────────────────────────────────────────────────
 async function fetchBodyText(frDocNumber) {
@@ -71,25 +74,40 @@ async function fetchBodyText(frDocNumber) {
 }
 
 // ─── Extract relevant snippet around port fee content ────────────────────────
-function extractRelevantSnippet(text, maxChars = 2500) {
-  // Find the best anchor point
+function extractRelevantSnippet(text, maxChars = 8000) {
   const anchors = [
     /physical port/i,
     /port fee/i,
     /connectivity fee/i,
     /\$[\d,]+ per (?:physical )?port/i,
-    /1 gigabit|10 gigabit|100 gigabit|1 Gb|10 Gb|100 Gb/i,
+    /1 gigabit|10 gigabit|100 gigabit|1[\s]?Gb|10[\s]?Gb|100[\s]?Gb/i,
   ];
+
+  // Primary anchor: earliest keyword match
   let bestIdx = -1;
   for (const pat of anchors) {
     const m = text.search(pat);
     if (m >= 0 && (bestIdx < 0 || m < bestIdx)) bestIdx = m;
   }
-  if (bestIdx < 0) {
-    // Fall back to first 2500 chars
-    return text.slice(0, maxChars);
+
+  // For long documents (> 10 000 chars): also try a dollar-amount-near-Gb anchor.
+  // The intro section often mentions "port fee" abstractly at ~1 100 chars, while
+  // the actual fee schedule table with dollar figures sits much later.
+  // Find the earliest "$X,XXX" that also has a Gb/port keyword within ±300 chars.
+  if (text.length > 10000) {
+    const dollarRe = /\$[\d,]+/g;
+    let m;
+    while ((m = dollarRe.exec(text)) !== null) {
+      const ctx = text.slice(Math.max(0, m.index - 300), m.index + 300);
+      if (/\bGb\b|gigabit|per port|per month/i.test(ctx)) {
+        if (bestIdx < 0 || m.index < bestIdx) bestIdx = m.index;
+        break; // use earliest qualifying dollar amount
+      }
+    }
   }
-  const start = Math.max(0, bestIdx - 200);
+
+  if (bestIdx < 0) return text.slice(0, maxChars);
+  const start = Math.max(0, bestIdx - 300);
   return text.slice(start, start + maxChars);
 }
 
@@ -114,6 +132,7 @@ Return ONLY valid JSON matching this schema (null if not mentioned):
   "port_100gb_before": <number or null>,
   "port_100gb_after": <number or null>,
   "is_new_tier": <true if this filing establishes a NEW port tier (not just a price change), false otherwise>,
+  "product_tier": <"Ultra" if fees explicitly labeled as Ultra/Ultra fiber/10 GB Ultra/1 GB Ultra, "Standard" if labeled as standard, null if not specified>,
   "notes": "<one sentence summary of what changed, or null>"
 }
 
@@ -121,8 +140,10 @@ Rules:
 - Only include fees explicitly stated as "per port per month" or "per physical port" monthly recurring fees
 - Do NOT include one-time/installation charges
 - Do NOT include wireless connectivity, cross-connects, or cabinet fees
+- Do NOT include logical port fees (SQF, Purge Port, order entry logical ports)
 - "before" = fee BEFORE this filing's change; "after" = fee AFTER
 - If only one fee is mentioned with no before/after distinction, put it in "after" (it's the new fee)
+- If a fee is being eliminated/deleted, set "after" to null and put the old fee in "before"
 - If no port fee data found, return all nulls
 - Return ONLY the JSON object, no other text`;
 
@@ -172,8 +193,8 @@ const insertStmt = db.prepare(`
   INSERT OR REPLACE INTO port_fee_extractions
     (sr_number, venue, exchange_family, filing_date,
      port_1gb_before, port_1gb_after, port_10gb_before, port_10gb_after,
-     port_100gb_before, port_100gb_after, is_new_tier, notes, extraction_method)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'claude')
+     port_100gb_before, port_100gb_after, is_new_tier, product_tier, notes, extraction_method)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'claude')
 `);
 
 let processed = 0;
@@ -209,7 +230,7 @@ for (const filing of filings) {
       extracted.port_1gb_before, extracted.port_1gb_after,
       extracted.port_10gb_before, extracted.port_10gb_after,
       extracted.port_100gb_before, extracted.port_100gb_after,
-      extracted.is_new_tier ? 1 : 0, extracted.notes
+      extracted.is_new_tier ? 1 : 0, extracted.product_tier ?? null, extracted.notes
     );
 
     await sleep(200); // FR rate limit buffer
@@ -220,7 +241,7 @@ for (const filing of filings) {
     // Still insert a null row so we don't re-attempt
     insertStmt.run(
       filing.sr_number, filing.venue, filing.exchange_family, filing.filing_date,
-      null, null, null, null, null, null, 0, `extraction_error: ${err.message}`
+      null, null, null, null, null, null, 0, null, `extraction_error: ${err.message}`
     );
     await sleep(500);
   }

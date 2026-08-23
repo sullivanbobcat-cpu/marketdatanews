@@ -10,3 +10,4 @@ data/*.db
 
 # Generated data exports — populated by scripts, not committed
 data/port-fee-series.json
+.env
